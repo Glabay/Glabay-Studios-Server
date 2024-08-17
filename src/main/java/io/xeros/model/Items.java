@@ -22391,4 +22391,5 @@ public class Items {
     public static final int DRAGON_DARTP_11234 = 11234;
     public static final int DRAGON_THROWNAXE_21207 = 21207;
     public static final int ACCURSED_SCEPTRE = 27665;
+    public static final int EMBERLIGHT = 29589;
 }

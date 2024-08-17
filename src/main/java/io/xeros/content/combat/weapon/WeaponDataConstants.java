@@ -28,7 +28,7 @@ public class WeaponDataConstants {
             Items.MITHRIL_LONGSWORD, Items.ADAMANT_LONGSWORD, Items.RUNE_LONGSWORD,
             Items.WOODEN_SPOON, Items.BLURITE_SWORD, Items.SILVERLIGHT, Items.DARKLIGHT, Items.EXCALIBUR, Items.FREMENNIK_BLADE, Items.SKEWER,
             Items.KATANA, Items.THIRD_AGE_LONGSWORD, Items.VESTAS_LONGSWORD,
-            Items.DECORATIVE_SWORD, Items.ARCLIGHT // ...
+            Items.DECORATIVE_SWORD, Items.ARCLIGHT, Items.EMBERLIGHT // ...
     };
 
     // [[accurate, slash], [aggressive, slash], [aggressive, crush], [defensive, slash]]

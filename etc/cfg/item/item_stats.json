@@ -83873,5 +83873,19 @@
   "29428": {
     "name": "Chef's notes",
     "weight": 0.003
+  },
+  "29589": {
+    "name": "Emberlight",
+    "weight": 0.907,
+    "equipable": true,
+    "equipment": {
+      "slot": 3,
+      "astab": 63,
+      "aslash": 70,
+      "dslash": 3,
+      "dmagic": 5,
+      "str": 13,
+      "aspeed": 4
+    }
   }
 }

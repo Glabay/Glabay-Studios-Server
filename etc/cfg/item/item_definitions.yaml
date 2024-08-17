@@ -72384,3 +72384,10 @@
       level: 30
     - skill: "MAGIC"
       level: 30
+- id: 29589
+  name: "Emberlight"
+  description: "Silver, blood and crystal smelted in tormenting flames."
+  shopValue: 800000
+  requirements:
+    - skill: "ATTACK"
+      level: 77
