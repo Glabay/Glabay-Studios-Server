@@ -1,6 +1,5 @@
 package io.xeros.net.packets;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import io.xeros.Configuration;
@@ -13,15 +12,9 @@ import io.xeros.model.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.pets.PetHandler;
 import io.xeros.model.entity.player.*;
-import io.xeros.model.entity.player.mode.group.GroupIronmanGroup;
 import io.xeros.model.entity.player.mode.group.GroupIronmanRepository;
-import io.xeros.model.entity.player.save.PlayerSave;
 import io.xeros.model.items.GameItem;
 import io.xeros.model.items.ItemCombination;
-import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
-import io.xeros.model.multiplayersession.MultiplayerSessionStage;
-import io.xeros.model.multiplayersession.MultiplayerSessionType;
-import io.xeros.model.multiplayersession.duel.DuelSession;
 import io.xeros.model.shops.ShopAssistant;
 import io.xeros.util.Misc;
 import io.xeros.util.discord.Discord;
