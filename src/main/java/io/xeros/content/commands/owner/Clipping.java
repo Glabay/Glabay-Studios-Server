@@ -395,7 +395,7 @@ public class Clipping extends Command {
          */
         public static final int IMPENETRABLE_WALL_SOUTH_WEST = 0x8000;
 
-        public static Map<String, Integer> getMASKS() {
+        public Map<String, Integer> getMASKS() {
             boolean empty = MASKS.isEmpty();
             for (Field declaredField : Flags.class.getDeclaredFields()) {
                 if (declaredField.getType() != Integer.class && declaredField.getType() != int.class)
@@ -411,7 +411,7 @@ public class Clipping extends Command {
             return MASKS;
         }
 
-        private static final Map<String,Integer> MASKS = new HashMap<>();
+        private final Map<String,Integer> MASKS = new HashMap<>();
 
     }
 }

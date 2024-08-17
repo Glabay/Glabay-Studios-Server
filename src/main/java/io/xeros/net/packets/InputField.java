@@ -7,12 +7,10 @@ import java.util.stream.Collectors;
 import io.xeros.Server;
 import io.xeros.content.help.HelpDatabase;
 import io.xeros.content.help.HelpRequest;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.entity.player.Right;
 import io.xeros.model.items.bank.BankPin;
-import org.apache.commons.lang3.text.WordUtils;
 
 public class InputField implements PacketType {
 

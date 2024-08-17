@@ -4,7 +4,6 @@ import io.xeros.Server;
 import io.xeros.content.dailyrewards.DailyRewards;
 import io.xeros.content.party.PartyInterface;
 import io.xeros.content.wildwarning.WildWarning;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.util.logging.player.ClickButtonLog;
 

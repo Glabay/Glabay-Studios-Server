@@ -2,7 +2,6 @@ package io.xeros.net.packets;
 
 import io.xeros.model.ContainerAction;
 import io.xeros.model.ContainerActionType;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 
 public class ContainerAction7 implements PacketType {

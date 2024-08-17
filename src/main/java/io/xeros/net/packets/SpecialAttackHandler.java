@@ -4,7 +4,6 @@ import io.xeros.Server;
 import io.xeros.content.combat.melee.MeleeExtras;
 import io.xeros.content.combat.specials.Special;
 import io.xeros.content.combat.specials.Specials;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.multiplayersession.MultiplayerSessionType;
 import io.xeros.model.multiplayersession.duel.DuelSession;

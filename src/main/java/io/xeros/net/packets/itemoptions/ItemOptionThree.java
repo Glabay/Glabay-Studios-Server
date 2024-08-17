@@ -1,6 +1,5 @@
 package io.xeros.net.packets.itemoptions;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
@@ -15,6 +14,7 @@ import io.xeros.content.item.lootable.impl.UltraMysteryBox;
 import io.xeros.content.items.Degrade;
 import io.xeros.content.items.Degrade.DegradableItem;
 import io.xeros.content.items.PvpWeapons;
+import io.xeros.content.items.RottenPotato;
 import io.xeros.content.items.TomeOfFire;
 import io.xeros.content.items.pouch.RunePouch;
 import io.xeros.content.lootbag.LootingBag;
@@ -22,7 +22,7 @@ import io.xeros.content.skills.crafting.BryophytaStaff;
 import io.xeros.content.teleportation.TeleportTablets;
 import io.xeros.model.Items;
 import io.xeros.model.definitions.ItemDef;
-import io.xeros.model.entity.player.PacketType;
+import io.xeros.net.packets.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Right;
 import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;

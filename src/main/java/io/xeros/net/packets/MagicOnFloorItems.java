@@ -2,7 +2,6 @@ package io.xeros.net.packets;
 
 import io.xeros.Server;
 import io.xeros.content.combat.magic.MagicRequirements;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.util.Misc;
 

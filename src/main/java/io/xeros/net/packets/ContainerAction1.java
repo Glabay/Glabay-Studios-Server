@@ -14,7 +14,6 @@ import io.xeros.content.skills.smithing.Smithing;
 import io.xeros.content.tradingpost.Listing;
 import io.xeros.model.ContainerAction;
 import io.xeros.model.ContainerActionType;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.mode.group.GroupIronmanBank;
 import io.xeros.model.items.GameItem;

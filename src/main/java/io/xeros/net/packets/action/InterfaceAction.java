@@ -1,7 +1,7 @@
 package io.xeros.net.packets.action;
 
 import io.xeros.content.party.PartyInterface;
-import io.xeros.model.entity.player.PacketType;
+import io.xeros.net.packets.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.Clan;
 import io.xeros.model.world.ClanMember;

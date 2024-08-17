@@ -3,7 +3,6 @@ package io.xeros.net.packets;
 import io.xeros.Server;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 
 public class ClickableLinkHandler implements PacketType {

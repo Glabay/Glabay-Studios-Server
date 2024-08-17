@@ -7,7 +7,6 @@ import io.xeros.content.combat.magic.MagicRequirements;
 import io.xeros.content.combat.weapon.WeaponData;
 import io.xeros.model.Spell;
 import io.xeros.model.SpellBook;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.ItemAssistant;
 

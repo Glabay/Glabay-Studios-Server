@@ -34,7 +34,6 @@ import io.xeros.content.skills.prayer.Prayer;
 import io.xeros.content.skills.runecrafting.Pouches;
 import io.xeros.content.skills.slayer.SlayerUnlock;
 import io.xeros.content.teleportation.TeleportTablets;
-import io.xeros.content.teleportation.TeleportationDevice;
 import io.xeros.content.trails.TreasureTrails;
 import io.xeros.model.Items;
 import io.xeros.model.Npcs;
@@ -44,7 +43,7 @@ import io.xeros.model.multiplayersession.duel.DuelSession;
 import io.xeros.model.multiplayersession.duel.DuelSessionRules.Rule;
 import io.xeros.model.multiplayersession.flowerpoker.FlowerData;
 import io.xeros.model.world.objects.GlobalObject;
-import io.xeros.util.Misc;
+import io.xeros.net.packets.PacketType;
 import io.xeros.util.discord.Discord;
 
 import static io.xeros.content.DiceHandler.DICING_AREA;

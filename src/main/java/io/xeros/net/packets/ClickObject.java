@@ -1,6 +1,5 @@
 package io.xeros.net.packets;
 
-import java.util.Objects;
 import java.util.Optional;
 
 import dev.openrune.cache.CacheManager;
@@ -29,10 +28,6 @@ import io.xeros.content.skills.slayer.LarrensKey;
 import io.xeros.content.tournaments.TourneyManager;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.entity.player.*;
-import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
-import io.xeros.model.multiplayersession.MultiplayerSessionStage;
-import io.xeros.model.multiplayersession.MultiplayerSessionType;
-import io.xeros.model.multiplayersession.duel.DuelSession;
 import io.xeros.model.tickable.impl.WalkToTickable;
 import io.xeros.util.Misc;
 import io.xeros.util.logging.player.ClickObjectLog;

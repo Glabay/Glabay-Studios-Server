@@ -3,7 +3,6 @@ package io.xeros.net.packets;
 import java.util.Objects;
 
 import io.xeros.model.entity.player.Boundary;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
 

@@ -13,7 +13,6 @@ import io.xeros.model.ContainerAction;
 import io.xeros.model.ContainerActionType;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Boundary;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.mode.group.GroupIronmanBank;
 import io.xeros.model.items.GameItem;

@@ -9,7 +9,6 @@ import io.xeros.model.cycleevent.CycleEventHandler;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.pets.PetHandler;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 
 /**

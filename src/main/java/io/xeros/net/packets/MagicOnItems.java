@@ -1,9 +1,5 @@
 package io.xeros.net.packets;
 
-import java.util.Objects;
-
-import io.xeros.Server;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Right;
 import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;

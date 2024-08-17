@@ -3,9 +3,7 @@ package io.xeros.net.packets;
 import java.util.Objects;
 
 import io.xeros.Server;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
-import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.multiplayersession.MultiplayerSession;
 import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
 import io.xeros.model.multiplayersession.MultiplayerSessionStage;

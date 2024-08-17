@@ -1,17 +1,13 @@
 package io.xeros.net.packets.itemoptions;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.bosspoints.JarsToPoints;
 import io.xeros.content.combat.Hitmark;
 import io.xeros.content.combat.magic.SanguinestiStaff;
 import io.xeros.content.displayname.ChangeDisplayName;
-import io.xeros.content.items.Degrade;
 import io.xeros.content.items.PvpWeapons;
+import io.xeros.content.items.RottenPotato;
 import io.xeros.content.items.item_combinations.Godswords;
 import io.xeros.content.lootbag.LootingBag;
 import io.xeros.content.skills.crafting.BryophytaStaff;
@@ -22,9 +18,8 @@ import io.xeros.model.Items;
 import io.xeros.model.Npcs;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Boundary;
-import io.xeros.model.entity.player.PacketType;
+import io.xeros.net.packets.PacketType;
 import io.xeros.model.entity.player.Player;
-import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.entity.player.Right;
 import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
 import io.xeros.model.multiplayersession.MultiplayerSessionStage;
@@ -32,7 +27,6 @@ import io.xeros.model.multiplayersession.MultiplayerSessionType;
 import io.xeros.model.multiplayersession.duel.DuelSession;
 import io.xeros.net.packets.WearItem;
 import io.xeros.util.Misc;
-import io.xeros.util.discord.Discord;
 
 /**
  * Item Click 2 Or Alternative Item Option 1

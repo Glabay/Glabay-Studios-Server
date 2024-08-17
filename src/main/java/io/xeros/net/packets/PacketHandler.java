@@ -1,6 +1,6 @@
-package io.xeros.model.entity.player;
+package io.xeros.net.packets;
 
-import io.xeros.net.packets.*;
+import io.xeros.model.entity.player.Player;
 import io.xeros.net.packets.action.EnterStringInput;
 import io.xeros.net.packets.action.InterfaceAction;
 import io.xeros.net.packets.action.KeyboardShortcutAction;

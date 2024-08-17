@@ -1,6 +1,5 @@
 package io.xeros.net.packets;
 
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 
 /**

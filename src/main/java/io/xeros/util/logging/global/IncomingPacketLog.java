@@ -1,7 +1,7 @@
 package io.xeros.util.logging.global;
 
 import io.netty.channel.Channel;
-import io.xeros.model.entity.player.PacketHandler;
+import io.xeros.net.packets.PacketHandler;
 import io.xeros.util.Misc;
 import io.xeros.util.logging.GlobalLog;
 

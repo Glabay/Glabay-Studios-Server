@@ -3,7 +3,6 @@ package io.xeros.net.packets;
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueOption;
 import io.xeros.model.entity.player.Boundary;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Position;
 import io.xeros.model.entity.player.broadcasts.Broadcast;

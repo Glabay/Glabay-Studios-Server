@@ -1,13 +1,11 @@
 package io.xeros.net.packets;
 
-import java.nio.file.Path;
 import java.util.Optional;
 
 import io.xeros.Server;
 import io.xeros.content.skills.SkillHandler;
 import io.xeros.content.tradingpost.Listing;
 import io.xeros.model.entity.player.Boundary;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.PathFinder;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;

@@ -6,7 +6,6 @@ package io.xeros.net.packets;
 
 import io.xeros.content.items.UseItem;
 import io.xeros.model.collisionmap.WorldObject;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Position;
 import io.xeros.model.tickable.impl.WalkToTickable;

@@ -2,9 +2,7 @@ package io.xeros.net.packets;
 
 import io.xeros.Server;
 import io.xeros.content.privatemessaging.FriendType;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
-import io.xeros.punishments.PunishmentType;
 import io.xeros.util.Misc;
 
 /**

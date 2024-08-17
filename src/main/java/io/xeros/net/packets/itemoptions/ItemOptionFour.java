@@ -1,15 +1,13 @@
 package io.xeros.net.packets.itemoptions;
 
-import java.util.Objects;
 import java.util.Optional;
 
-import io.xeros.Server;
 import io.xeros.content.combat.magic.SanguinestiStaff;
 import io.xeros.content.items.Degrade;
 import io.xeros.content.items.Degrade.DegradableItem;
 import io.xeros.content.items.pouch.RunePouch;
 import io.xeros.content.teleportation.TeleportTablets;
-import io.xeros.model.entity.player.PacketType;
+import io.xeros.net.packets.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Right;
 import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;

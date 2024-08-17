@@ -6,7 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.xeros.Configuration;
 import io.xeros.Server;
-import io.xeros.model.entity.player.PacketHandler;
+import io.xeros.net.packets.PacketHandler;
 import io.xeros.net.Packet;
 import io.xeros.util.ISAACCipher;
 import io.xeros.util.logging.global.IncomingPacketLog;

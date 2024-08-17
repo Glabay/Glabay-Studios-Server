@@ -192,6 +192,7 @@ import io.xeros.model.shops.ShopAssistant;
 import io.xeros.model.world.Clan;
 import io.xeros.net.Packet;
 import io.xeros.net.outgoing.UnnecessaryPacketDropper;
+import io.xeros.net.packets.PacketHandler;
 import io.xeros.sql.etc.HiscoresUpdateQuery;
 import io.xeros.sql.outlast.OutlastLeaderboardAdd;
 import io.xeros.util.Misc;
@@ -1131,11 +1132,8 @@ public class Player extends Entity {
         return getRights().isOrInherits(Right.ADMINISTRATOR, Right.OWNER);
     }
 
+    @Getter
     private boolean bot = false;
-
-    public boolean isBot() {
-        return bot;
-    }
 
     public Player(Channel channel) {
         this.session = channel;
