@@ -10,11 +10,6 @@ import io.xeros.content.teleportation.TeleportTablets;
 import io.xeros.net.packets.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Right;
-import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
-import io.xeros.model.multiplayersession.MultiplayerSessionStage;
-import io.xeros.model.multiplayersession.MultiplayerSessionType;
-import io.xeros.model.multiplayersession.duel.DuelSession;
-import io.xeros.net.packets.WearItem;
 import io.xeros.util.Misc;
 
 /**

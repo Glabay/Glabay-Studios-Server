@@ -7,7 +7,6 @@ import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.stats.NpcBonus;
 import io.xeros.model.entity.npc.stats.NpcCombatDefinition;
 import io.xeros.model.entity.npc.stats.NpcCombatSkill;
-import io.xeros.model.entity.player.PacketType;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Right;
 import io.xeros.model.shops.ShopAssistant;
