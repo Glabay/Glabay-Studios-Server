@@ -429,33 +429,28 @@ public class CollectionLog {
 			player.getViewingCollectionLog().selectCell(player, index, player.collectionLogTab);
 			return true;
 		}
-        return switch (buttonId) {
-            case 90076 -> {
+        switch (buttonId) {
+            case 90076:
                 player.getViewingCollectionLog().selectTab(player, CollectionTabType.BOSSES);
-                yield true;
-            }
-            case 90182 -> {
+                return true;
+            case 90182:
                 player.getViewingCollectionLog().selectTab(player, CollectionTabType.WILDERNESS);
-                yield true;
-            }
-            case 90184 -> {
+                return true;
+            case 90184:
                 player.getViewingCollectionLog().selectTab(player, CollectionTabType.RAIDS);
-                yield true;
-            }
-            case 90186 -> {
+                return true;
+            case 90186:
                 player.getViewingCollectionLog().selectTab(player, CollectionTabType.MINIGAMES);
-                yield true;
-            }
-            case 90188 -> {
+                return true;
+            case 90188:
                 player.getViewingCollectionLog().selectTab(player, CollectionTabType.OTHER);
-                yield true;
-            }
-            case 90073 -> {
+                return true;
+            case 90073:
                 player.getPA().closeAllWindows();
-                yield true;
-            }
-            default -> false;
-        };
+                return true;
+            default:
+                return false;
+        }
     }
 
 	/**

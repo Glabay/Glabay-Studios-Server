@@ -16,7 +16,9 @@ public class PathChecker {
                                                 final int x0, final int y0,
                                                 final int z, final int x1, final int y1) {
 
-        if (other != null && other instanceof NPC theNPC && entity instanceof Player c) {
+        if (other != null && other instanceof NPC && entity instanceof Player) {
+            Player c = (Player) entity;
+            NPC theNPC = (NPC) other;
             if (Boundary.isIn(c, Boundary.PEST_CONTROL_AREA) || theNPC.getNpcId() == Skotizo.AWAKENED_ALTAR_NORTH
                     || theNPC.getNpcId() == Skotizo.AWAKENED_ALTAR_SOUTH
                     || theNPC.getNpcId() == Skotizo.AWAKENED_ALTAR_WEST

@@ -143,37 +143,29 @@ public enum Hitmark {
 
 	public int getObservedType(int damage, Entity source, Entity target, Player observer, boolean isMaxHit) {
 		if (isMaxHit && source == observer) {
-			switch (this) {
-				case CHARGE -> {
-					return CHARGE.maxHit;
-				}
-				case SHIELD -> {
-					return SHIELD.maxHit;
-				}
-				case POISON -> {
-					return POISON.maxHit;
-				}
-				default -> {
-					return HIT.maxHit;
-				}
-			}
+            switch (this) {
+                case CHARGE:
+                    return CHARGE.maxHit;
+                case SHIELD:
+                    return SHIELD.maxHit;
+                case POISON:
+                    return POISON.maxHit;
+                default:
+                    return HIT.maxHit;
+            }
 		}
 		if (source == observer || target == observer) {
 			if (damage == 0) {
-				switch (this) {
-					case CHARGE -> {
-						return CHARGE.id;
-					}
-					case SHIELD -> {
-						return SHIELD.id;
-					}
-					case POISON -> {
-						return POISON.id;
-					}
-					default -> {
-						return MISS.id;
-					}
-				}
+                switch (this) {
+                    case CHARGE:
+                        return CHARGE.id;
+                    case SHIELD:
+                        return SHIELD.id;
+                    case POISON:
+                        return POISON.id;
+                    default:
+                        return MISS.id;
+                }
 			}
 			return id;
 		}

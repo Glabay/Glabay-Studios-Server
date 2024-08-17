@@ -54,7 +54,8 @@ public class ExaminePacketHandler implements PacketType {
                     if (!itemDefinition.isTradable()) examine.append("<col=800000>(untradeable)");
                 }
 
-                if (!examine.isEmpty()) c.sendMessage(examine.toString());
+                if (examine.length() > 0)
+                    c.sendMessage(examine.toString());
                 break;
             case EXAMINE_NPC:
                 int npcIndex = c.getInStream().readUnsignedWord();

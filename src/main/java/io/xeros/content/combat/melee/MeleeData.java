@@ -380,26 +380,63 @@ public class MeleeData { //TODO change this to load from json or txt
             return 7512;
         if (shield.contains("elder maul"))
             return 7517;
-        return switch (c.playerEquipment[Player.playerWeapon]) {
-            case Items.SCYTHE_OF_VITUR -> 435;
-            case DRAGON_HUNTER_LANCE -> 420;
-            case 1734, 411 -> 3895;
-            case 1724 -> 3921;
-            case 1709 -> 3909;
-            case 1704 -> 3916;
-            case 1699 -> 3902;
-            case 1689 -> 3890;
-            case 4755 -> 2063;
-            case 14484 -> 397;
-            case 12848, 4153, 13263 -> 1666;
-            case 13265, 13267, 13269, 13271 -> 3295;
-            case 7158 -> 410;
-            case 4151, 12773, 12774, 12006 -> 1659;
-            case 20727 -> 2614;
-            case 20368, 20370, 20374, 20372, 11802, 11806, 11808, 11804, 11838, 12809, 11730 -> 7056;
-            case -1 -> 424;
-            default -> 424;
-        };
+        switch (c.playerEquipment[Player.playerWeapon]) {
+            case Items.SCYTHE_OF_VITUR:
+                return 435;
+            case DRAGON_HUNTER_LANCE:
+                return 420;
+            case 1734:
+            case 411:
+                return 3895;
+            case 1724:
+                return 3921;
+            case 1709:
+                return 3909;
+            case 1704:
+                return 3916;
+            case 1699:
+                return 3902;
+            case 1689:
+                return 3890;
+            case 4755:
+                return 2063;
+            case 14484:
+                return 397;
+            case 12848:
+            case 4153:
+            case 13263:
+                return 1666;
+            case 13265:
+            case 13267:
+            case 13269:
+            case 13271:
+                return 3295;
+            case 7158:
+                return 410;
+            case 4151:
+            case 12773:
+            case 12774:
+            case 12006:
+                return 1659;
+            case 20727:
+                return 2614;
+            case 20368:
+            case 20370:
+            case 20374:
+            case 20372:
+            case 11802:
+            case 11806:
+            case 11808:
+            case 11804:
+            case 11838:
+            case 12809:
+            case 11730:
+                return 7056;
+            case -1:
+                return 424;
+            default:
+                return 424;
+        }
     }
 
     public static int getHitDelay(Player c) {
@@ -432,12 +469,16 @@ public class MeleeData { //TODO change this to load from json or txt
             return 4;
         }
 
-        return switch (c.playerEquipment[Player.playerWeapon]) {
-            case 6522 -> // Toktz-xil-ul
-                    3;
-            case 10887 -> 3;
-            case 10034, 10033 -> 3;
-            default -> 2;
-        };
+        switch (c.playerEquipment[Player.playerWeapon]) {// Toktz-xil-ul
+            case 6522:
+                return 3;
+            case 10887:
+                return 3;
+            case 10034:
+            case 10033:
+                return 3;
+            default:
+                return 2;
+        }
     }
 }

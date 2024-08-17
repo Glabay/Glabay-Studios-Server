@@ -34,6 +34,8 @@ sourceSets {
     }
 }
 
+
+
 val lib = rootProject.project.libs
 dependencies {
     implementation(lib.fastutil)
@@ -103,8 +105,8 @@ configurations.all {
 }
 
 tasks.compileJava {
-    sourceCompatibility = JavaVersion.VERSION_19.toString()
-    targetCompatibility = JavaVersion.VERSION_19.toString()
+    sourceCompatibility = JavaVersion.VERSION_11.toString()
+    targetCompatibility = JavaVersion.VERSION_11.toString()
 }
 
 tasks.withType<Copy> {
@@ -114,7 +116,7 @@ tasks.withType<Copy> {
 tasks.withType<KotlinCompile>().all {
     kotlinOptions {
         languageVersion = "1.9"
-        jvmTarget = "19"
+        jvmTarget = "11"
         freeCompilerArgs = listOf(
             "-Xallow-any-scripts-in-source-roots",
         )
@@ -124,7 +126,7 @@ tasks.withType<KotlinCompile>().all {
 tasks.withType<JavaExec> {
     jvmArgs(
         "-Dio.netty.leakDetection.level=advanced",
-//        "--enable-preview",
+        "--enable-preview",
         "-Xmx8g",
         "-Xms4g",
         "-XX:+UseParallelGC",
@@ -144,7 +146,7 @@ tasks.withType<JavaExec> {
 tasks.withType<JavaCompile>().all {
     options.apply {
         options.compilerArgs.addAll(listOf(
-//            "--enable-preview",
+            "--enable-preview",
             "-nowarn",
             "-Xlint:none"
         ))

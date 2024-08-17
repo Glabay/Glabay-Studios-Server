@@ -41,7 +41,7 @@ public class ShopDef {
                     _ShopDef shop = new ObjectMapper(new YAMLFactory()).readValue(file, _ShopDef.class);
                     Preconditions.checkState(!definitions.containsKey(shop.id), "Shop already present: " + shop + ", " + definitions.get(shop.id));
 
-                    List<ShopItem> shopItems = shop.items.stream().map(item -> item.toShopItem(itemConstants)).toList();
+                    List<ShopItem> shopItems = shop.items.stream().map(item -> item.toShopItem(itemConstants)).collect(Collectors.toList());
                     List<ShopItem> items = Lists.newArrayList();
 
                     shopItems.forEach(item -> {

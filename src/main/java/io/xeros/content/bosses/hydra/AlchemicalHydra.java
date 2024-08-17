@@ -305,7 +305,7 @@ public class AlchemicalHydra extends LegacySoloPlayerInstance {
         List<Location> steps = Stream
                 .of(LIGHTNING_SPAWNS)
                 .map(loc -> new Location(loc.getX(), loc.getY(), getHeight()))
-                .toList();//Create copy
+                .collect(Collectors.toList());//Create copy
         CycleEventHandler.getSingleton().addEvent(npc, new CycleEvent() {
 
             int tick;

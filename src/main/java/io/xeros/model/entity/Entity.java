@@ -249,12 +249,14 @@ public abstract class Entity {
         str.writeUShort(healthBarQueue.size());
         for (var health : healthBarQueue) {
             str.writeUShort(health.getId());
-            if (health instanceof StaticHealthBarUpdate barUpdate) {
+            if (health instanceof StaticHealthBarUpdate) {
+                StaticHealthBarUpdate barUpdate = (StaticHealthBarUpdate) health;
                 str.writeUShort(0);
                 str.writeUShort(barUpdate.getDelay());
                 str.writeUShort(barUpdate.getBarWidth());
             }
-            else if (health instanceof DynamicHealthBarUpdate barUpdate) {
+            else if (health instanceof DynamicHealthBarUpdate) {
+                DynamicHealthBarUpdate barUpdate = (DynamicHealthBarUpdate) health;
                 str.writeUShort(barUpdate.getDecreaseSpeed());
                 str.writeUShort(barUpdate.getDelay());
                 str.writeUShort(barUpdate.getStartBarWidth());
@@ -625,7 +627,9 @@ public abstract class Entity {
                 totalDamage = damage;
                 killer = tempKiller;
             }
-            if (killer instanceof Player player && this instanceof NPC npc) {
+            if (killer instanceof Player && this instanceof NPC) {
+                Player player = (Player) killer;
+                NPC npc = (NPC) this;
                 if (player.getMode().isIronmanType() && !Boundary.isIn(player, Boundary.GODWARS_BOSSROOMS) && !Boundary.isIn(player, Boundary.CORPOREAL_BEAST_LAIR) && !Boundary.isIn(player, Boundary.DAGANNOTH_KINGS) && !Boundary.isIn(player, Boundary.TEKTON) && !Boundary.isIn(player, Boundary.SKELETAL_MYSTICS) && !Boundary.isIn(player, Boundary.RAID_MAIN)) {
                     double percentile = ((double) totalDamage / (double) npc.getHealth().getMaximumHealth()) * 100.0;
                     if (percentile < 75.0) {

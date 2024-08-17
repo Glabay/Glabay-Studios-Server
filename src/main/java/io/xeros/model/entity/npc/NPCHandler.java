@@ -1804,7 +1804,8 @@ public class NPCHandler {
 
                     npc.attackTimer = getNpcDelay(npc);
 
-                    if (method instanceof CommonCombatMethod ccm) {
+                    if (method instanceof CommonCombatMethod) {
+                        CommonCombatMethod ccm = (CommonCombatMethod) method;
                         if (npc.getCombatMethod() != null) {
                             ccm.set(npc, c);
                             ccm.prepareAttack(npc, c);
@@ -1885,15 +1886,28 @@ public class NPCHandler {
     }
 
     public int offset(NPC npc) {
-        return switch (npc.getNpcId()) {
-            case 2044 -> 0;
-            case 6611, 6612 -> 3;
-            case 6610 -> 2;
-            case 239, 8031, 8030 -> 2;
-            case 2265, 2266 -> 1;
-            case 3127, 3125, InfernoWaveData.JALTOK_JAD -> 1;
-            default -> 0;
-        };
+        switch (npc.getNpcId()) {
+            case 2044:
+                return 0;
+            case 6611:
+            case 6612:
+                return 3;
+            case 6610:
+                return 2;
+            case 239:
+            case 8031:
+            case 8030:
+                return 2;
+            case 2265:
+            case 2266:
+                return 1;
+            case 3127:
+            case 3125:
+            case InfernoWaveData.JALTOK_JAD:
+                return 1;
+            default:
+                return 0;
+        }
     }
 
     public boolean retaliates(int npcType) {
@@ -1901,14 +1915,24 @@ public class NPCHandler {
     }
 
     public boolean prayerProtectionIgnored(NPC npc) {
-        return switch (npc.getNpcId()) {
-            case 1610, 1611, 1612, 8028, 3129 -> true;
-            case 1672 -> false;
-            case 6611, 6612, 6609 ->
-                    npc.getAttackType() == CombatType.MAGE || npc.getAttackType() == CombatType.SPECIAL;
-            case 465 -> npc.getAttackType() == CombatType.DRAGON_FIRE;
-            default -> false;
-        };
+        switch (npc.getNpcId()) {
+            case 1610:
+            case 1611:
+            case 1612:
+            case 8028:
+            case 3129:
+                return true;
+            case 1672:
+                return false;
+            case 6611:
+            case 6612:
+            case 6609:
+                return npc.getAttackType() == CombatType.MAGE || npc.getAttackType() == CombatType.SPECIAL;
+            case 465:
+                return npc.getAttackType() == CombatType.DRAGON_FIRE;
+            default:
+                return false;
+        }
     }
 
     public void handleSpecialEffects(Player c, NPC npc, int damage) {
