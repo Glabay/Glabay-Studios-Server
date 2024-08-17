@@ -157,6 +157,17 @@ tasks.named<Jar>("jar") {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
+val fatJar = task("fatJar", type = Jar::class) {
+    this.archiveBaseName.set("${project.name}")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes["Implementation-Title"] = "${project.name}"
+        attributes["Implementation-Version"] = version
+        attributes["Main-Class"] = "io.xeros.Server"
+    }
+    from(configurations.runtimeClasspath.get().map({ if (it.isDirectory) it else zipTree(it) }))
+    with(tasks.jar.get() as CopySpec)
+}
 tasks {
 
     register<JavaExec>("Update Rev") {
