@@ -19,6 +19,7 @@ import io.xeros.content.dwarfmulticannon.Cannon;
 import io.xeros.content.item.lootable.impl.*;
 import io.xeros.content.items.CluescrollRateIncreaseScroll;
 import io.xeros.content.items.Packs;
+import io.xeros.content.items.RottenPotato;
 import io.xeros.content.items.Starter;
 import io.xeros.content.items.pouch.RunePouch;
 import io.xeros.content.lootbag.LootingBag;
@@ -99,6 +100,9 @@ public class ItemOptionOne implements PacketType {
             return;
         }
         c.lastClickedItem = itemId;
+
+        if (itemId == Items.ROTTEN_POTATO && RottenPotato.getInstance().forPlayer(c).eat())
+            return;
 
         if (c.isFping() && itemId != 299) {
             return;

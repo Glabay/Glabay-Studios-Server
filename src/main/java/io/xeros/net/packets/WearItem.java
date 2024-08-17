@@ -31,7 +31,9 @@ public class WearItem implements PacketType {
 		c.alchDelay = System.currentTimeMillis();
 		c.nextChat = 0;
 		c.dialogueOptions = 0;
-		c.graniteMaulSpecialCharges = 0;		
+		c.graniteMaulSpecialCharges = 0;
+		if (wearId == Items.ROTTEN_POTATO && RottenPotato.getInstance().forPlayer(c).slice())
+			return;
 		if (!c.getItems().playerHasItem(wearId, 1)) return;
 		if (c.getPA().viewingOtherBank) {
 			c.getPA().resetOtherBank();

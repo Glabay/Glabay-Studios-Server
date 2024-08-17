@@ -64,6 +64,9 @@ public class ItemOptionThree implements PacketType {
             c.getBankPin().open(2);
             return;
         }
+        if (itemId == Items.ROTTEN_POTATO && RottenPotato.getInstance().forPlayer(c).mash())
+            return;
+
         if (RunePouch.isRunePouch(itemId)) {
             c.getRunePouch().emptyBagToInventory();
             return;

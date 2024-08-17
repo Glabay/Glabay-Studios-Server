@@ -56,6 +56,9 @@ public class ItemOptionTwo implements PacketType {
 			player.getBankPin().open(2);
 			return;
 		}
+
+		if (itemId == Items.ROTTEN_POTATO && RottenPotato.getInstance().forPlayer(player).peel())
+			return;
 		if (LootingBag.isLootingBag(itemId)) {
 			player.getLootingBag().openDepositMode();
 			return;
