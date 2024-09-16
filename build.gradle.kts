@@ -132,8 +132,6 @@ tasks.withType<KotlinCompile>().all {
 tasks.withType<JavaExec> {
     jvmArgs(
         "-Dio.netty.leakDetection.level=advanced",
-        "-Xmx8g",
-        "-Xms4g",
         "-Xmx10g",
         "-Xms6g",
         "-XX:+UseParallelGC",
@@ -153,7 +151,6 @@ tasks.withType<JavaExec> {
 tasks.withType<JavaCompile>().all {
     options.apply {
         options.compilerArgs.addAll(listOf(
-            "--enable-preview",
             "-nowarn",
             "-Xlint:none"
         ))
