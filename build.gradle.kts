@@ -47,6 +47,7 @@ dependencies {
     implementation(lib.cache.or)
     implementation(lib.js5.server)
     implementation(lib.logback.classic)
+    implementation(kotlin("stdlib"))
     implementation("dev.openrune:filestore-tools:1.3.6")
     implementation("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
