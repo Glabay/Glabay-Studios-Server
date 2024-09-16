@@ -162,10 +162,10 @@ tasks.named<Jar>("jar") {
 }
 
 val fatJar = task("fatJar", type = Jar::class) {
-    this.archiveBaseName.set("${project.name}")
+    this.archiveBaseName.set(project.name)
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
     manifest {
-        attributes["Implementation-Title"] = "${project.name}"
+        attributes["Implementation-Title"] = project.name
         attributes["Implementation-Version"] = version
         attributes["Main-Class"] = "io.xeros.Server"
     }
