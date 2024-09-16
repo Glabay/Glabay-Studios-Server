@@ -132,9 +132,10 @@ tasks.withType<KotlinCompile>().all {
 tasks.withType<JavaExec> {
     jvmArgs(
         "-Dio.netty.leakDetection.level=advanced",
-        "--enable-preview",
         "-Xmx8g",
         "-Xms4g",
+        "-Xmx10g",
+        "-Xms6g",
         "-XX:+UseParallelGC",
         "--add-exports", "java.base/sun.nio.ch=ALL-UNNAMED",
         "--add-exports", "jdk.unsupported/sun.misc=ALL-UNNAMED",
