@@ -11,6 +11,11 @@ application {
     mainClass.set("io.xeros.Server")
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
 repositories {
     mavenCentral()
     gradlePluginPortal()
@@ -105,8 +110,8 @@ configurations.all {
 }
 
 tasks.compileJava {
-    sourceCompatibility = JavaVersion.VERSION_11.toString()
-    targetCompatibility = JavaVersion.VERSION_11.toString()
+    sourceCompatibility = JavaVersion.VERSION_21.toString()
+    targetCompatibility = JavaVersion.VERSION_21.toString()
 }
 
 tasks.withType<Copy> {
@@ -116,7 +121,7 @@ tasks.withType<Copy> {
 tasks.withType<KotlinCompile>().all {
     kotlinOptions {
         languageVersion = "1.9"
-        jvmTarget = "11"
+        jvmTarget = "21"
         freeCompilerArgs = listOf(
             "-Xallow-any-scripts-in-source-roots",
         )
