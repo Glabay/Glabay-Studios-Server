@@ -19,6 +19,7 @@ import io.xeros.model.world.ItemHandler;
 import io.xeros.model.world.ShopHandler;
 import io.xeros.model.world.event.CyclicEventManager;
 import io.xeros.model.world.objects.GlobalObjects;
+import io.xeros.model.world.objects.actions.WorldObjectActionManager;
 import io.xeros.net.PipelineFactory;
 import io.xeros.punishments.Punishments;
 import io.xeros.sql.DatabaseCredentials;
@@ -83,6 +84,8 @@ public class Server {
     private final CyclicEventManager cyclicEventManager = new CyclicEventManager();
     @Getter
     private static final GameLogging logging = new GameLogging();
+    @Getter
+    private static final WorldObjectActionManager objectActionManager = new WorldObjectActionManager();
     /**
      * ClanChat Added by Valiant
      */
