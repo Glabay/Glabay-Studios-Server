@@ -10,66 +10,46 @@ import io.xeros.util.Misc;
  **/
 public class PrivateMessaging implements PacketType {
 
-	public final int ADD_FRIEND = 188, SEND_PM = 126, REMOVE_FRIEND = 215, CHANGE_PM_STATUS = 95, REMOVE_IGNORE = 74,
-			ADD_IGNORE = 133;
+    public final int ADD_FRIEND = 188;
+    public final int SEND_PM = 126;
+    public final int REMOVE_FRIEND = 215;
+    public final int CHANGE_PM_STATUS = 95;
+    public final int REMOVE_IGNORE = 74;
+    public final int ADD_IGNORE = 133;
 
-	@Override
-	public void processPacket(Player c, int packetType, int packetSize) {
-		switch (packetType) {
+    @Override
+    public void processPacket(Player player, int packetType, int packetSize) {
+        var friendName = Misc.convertLongToFixedName(player.getInStream().readLong());
+        switch (packetType) {
+            case ADD_FRIEND, ADD_IGNORE -> {
+                if (player.hitDatabaseRateLimit(true)) return;
+                player.getFriendsList().addNew(friendName, packetType == ADD_FRIEND ? FriendType.FRIEND : FriendType.IGNORE);
+            }
+            case REMOVE_FRIEND, REMOVE_IGNORE ->
+                player.getFriendsList().remove(friendName, packetType == REMOVE_FRIEND ? FriendType.FRIEND : FriendType.IGNORE);
+            case CHANGE_PM_STATUS -> {
+                player.getInStream().readUnsignedByte();
+                player.setPrivateChat(player.getInStream().readUnsignedByte());
+                player.getInStream().readUnsignedByte();
+                player.getFriendsList().updateOnlineStatusForOthers();
+            }
+            case SEND_PM -> {
+                if (System.currentTimeMillis() < player.muteEnd) {
+                    player.sendMessage("You are muted for breaking a rule.");
+                    return;
+                }
+                if (Server.getPunishments().isNetMuted(player)) {
+                    player.sendMessage("Your entire network has been muted. Other players cannot see your message.");
+                    return;
+                }
+                player.muteEnd = 0;
+                var recipient = player.getInStream().readLong();
+                var pmMessageSize = packetSize - 8;
+                var pmChatMessage = new byte[pmMessageSize];
+                player.getInStream().readBytes(pmChatMessage, pmMessageSize, 0);
+                player.getFriendsList().sendPrivateMessage(Misc.convertLongToFixedName(recipient), pmChatMessage);
+            }
+        }
 
-		case ADD_FRIEND:
-			String name = Misc.convertLongToFixedName(c.getInStream().readLong());
-
-			if (c.hitDatabaseRateLimit(true))
-				return;
-
-			c.getFriendsList().addNew(name, FriendType.FRIEND);
-			break;
-
-		case SEND_PM:
-			if (System.currentTimeMillis() < c.muteEnd) {
-				c.sendMessage("You are muted for breaking a rule.");
-				return;
-			}
-			if (Server.getPunishments().isNetMuted(c)) {
-				c.sendMessage("Your entire network has been muted. Other players cannot see your message.");
-				return;
-			}
-			c.muteEnd = 0;
-			final long recipient = c.getInStream().readLong();
-			int pm_message_size = packetSize - 8;
-			final byte[] pm_chat_message = new byte[pm_message_size];
-			c.getInStream().readBytes(pm_chat_message, pm_message_size, 0);
-			c.getFriendsList().sendPrivateMessage(Misc.convertLongToFixedName(recipient), pm_chat_message);
-			break;
-
-		case REMOVE_FRIEND:
-			name = Misc.convertLongToFixedName(c.getInStream().readLong());
-			c.getFriendsList().remove(name, FriendType.FRIEND);
-			break;
-
-		case REMOVE_IGNORE:
-			name = Misc.convertLongToFixedName(c.getInStream().readLong());
-			c.getFriendsList().remove(name, FriendType.IGNORE);
-			break;
-
-		case CHANGE_PM_STATUS:
-			c.getInStream().readUnsignedByte();
-			c.setPrivateChat(c.getInStream().readUnsignedByte());
-			c.getInStream().readUnsignedByte();
-			c.getFriendsList().updateOnlineStatusForOthers();
-			break;
-
-		case ADD_IGNORE:
-			name = Misc.convertLongToFixedName(c.getInStream().readLong());
-
-			if (c.hitDatabaseRateLimit(true))
-				return;
-
-			c.getFriendsList().addNew(name, FriendType.IGNORE);
-			break;
-
-		}
-
-	}
+    }
 }
