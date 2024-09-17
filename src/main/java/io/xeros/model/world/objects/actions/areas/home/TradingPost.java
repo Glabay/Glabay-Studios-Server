@@ -36,4 +36,10 @@ public class TradingPost extends WorldObjectAction {
         Listing.openPost(player, false);
         return true;
     }
+
+    @Override
+    public Boolean handleActionThree(Player player, GlobalObject object) {
+        // TODO: Collect option
+        return true;
+    }
 }
