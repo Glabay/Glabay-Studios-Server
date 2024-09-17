@@ -34,7 +34,9 @@ import java.util.OptionalInt;
  * Handles all 2nd options for objects.
  */
 
-public class ObjectOptionTwo {
+public class ObjectOptionTwo extends ObjectAction {
+
+
 
 	public static void handleOption(final Player c, int objectType, int obX, int obY) {
 		if (Server.getMultiplayerSessionListener().inAnySession(c)) {
@@ -55,6 +57,15 @@ public class ObjectOptionTwo {
 
 		if (OutlastLeaderboard.handleInteraction(c, objectType, 2))
 			return;
+
+		var objectActionManager = Server.getObjectActionManager();
+		if (objectActionManager.findHandlerById(objectType).isPresent()) {
+			var objectAction = objectActionManager.findHandlerById(objectType).get();
+			if (objectAction.performedAction(c, objectType, obX, obY, c.getHeight(), 2))
+				return;
+			else
+				logger.error("Error handling object {} ", objectAction.getClass().getSimpleName());
+		}
 
 		switch (objectType) {
 			case 11726:// Open Door @ Magic Hut
@@ -112,14 +123,6 @@ public class ObjectOptionTwo {
 		case 34553:
 		case 34554:
 			c.getDH().sendStatement("Alchemical hydra is in developement.");
-			break;
-		case 10060:
-		case 10061:
-			if (c.getMode().isIronmanType()) {
-				c.sendMessage("@red@You are not permitted to make use of this.");
-				return;
-			}
-			Listing.openPost(c, false);
 			break;
 		case 2884:
 		case 16684:

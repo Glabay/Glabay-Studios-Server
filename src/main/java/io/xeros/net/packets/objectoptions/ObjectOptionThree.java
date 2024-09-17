@@ -12,7 +12,7 @@ import io.xeros.model.entity.player.Right;
  * Handles all 3rd options for objects.
  */
 
-public class ObjectOptionThree {
+public class ObjectOptionThree extends ObjectAction {
 
 	public static void handleOption(final Player c, int objectType, int obX, int obY) {
 		if (Server.getMultiplayerSessionListener().inAnySession(c)) {
@@ -27,6 +27,15 @@ public class ObjectOptionThree {
 
 		if (OutlastLeaderboard.handleInteraction(c, objectType, 3))
 			return;
+
+		var objectActionManager = Server.getObjectActionManager();
+		if (objectActionManager.findHandlerById(objectType).isPresent()) {
+			var objectAction = objectActionManager.findHandlerById(objectType).get();
+			if (objectAction.performedAction(c, objectType, obX, obY, c.getHeight(), 3))
+				return;
+			else
+				logger.error("Error handling object {} ", objectAction.getClass().getSimpleName());
+		}
 
 		switch (objectType) {
 		case 31858:

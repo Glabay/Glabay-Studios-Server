@@ -5,7 +5,7 @@ import io.xeros.content.dialogue.impl.OutlastLeaderboard;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Right;
 
-public class ObjectOptionFour {
+public class ObjectOptionFour extends ObjectAction {
 	
 	public static void handleOption(final Player c, int objectType, int obX, int obY) {
 		if (Server.getMultiplayerSessionListener().inAnySession(c)) {
@@ -18,6 +18,15 @@ public class ObjectOptionFour {
 
 		if (OutlastLeaderboard.handleInteraction(c, objectType, 4))
 			return;
+
+		var objectActionManager = Server.getObjectActionManager();
+		if (objectActionManager.findHandlerById(objectType).isPresent()) {
+			var objectAction = objectActionManager.findHandlerById(objectType).get();
+			if (objectAction.performedAction(c, objectType, obX, obY, c.getHeight(), 4))
+				return;
+			else
+				logger.error("Error handling object {} ", objectAction.getClass().getSimpleName());
+		}
 
 		switch (objectType) {
 		case 31858:
