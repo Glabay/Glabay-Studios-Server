@@ -21,7 +21,7 @@ import io.xeros.content.achievement.Achievements;
 import io.xeros.content.combat.Hitmark;
 import io.xeros.content.combat.melee.CombatPrayer;
 import io.xeros.content.combat.melee.MeleeData;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.skills.Skill;
 import io.xeros.content.leaderboards.LeaderboardType;
 import io.xeros.content.leaderboards.LeaderboardUtils;

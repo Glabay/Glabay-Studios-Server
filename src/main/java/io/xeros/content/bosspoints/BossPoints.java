@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import io.xeros.Server;
 import io.xeros.annotate.Init;
 import io.xeros.content.bosses.hespori.Hespori;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.leaderboards.LeaderboardType;
 import io.xeros.content.leaderboards.LeaderboardUtils;
 import io.xeros.model.entity.npc.NPC;

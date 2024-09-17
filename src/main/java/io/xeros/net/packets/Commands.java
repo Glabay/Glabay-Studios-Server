@@ -22,7 +22,7 @@ import io.xeros.content.bosses.nightmare.NightmareConstants;
 import io.xeros.content.combat.Hitmark;
 import io.xeros.content.combat.weapon.WeaponData;
 import io.xeros.content.commands.CommandManager;
-import io.xeros.content.event.eventcalendar.EventCalendarHelper;
+import io.xeros.content.events.eventcalendar.EventCalendarHelper;
 import io.xeros.content.items.Starter;
 import io.xeros.content.minigames.bounty_hunter.TargetState;
 import io.xeros.content.minigames.inferno.Inferno;

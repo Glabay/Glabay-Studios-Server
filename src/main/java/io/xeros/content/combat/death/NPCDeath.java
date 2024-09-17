@@ -15,7 +15,7 @@ import io.xeros.content.bosses.nightmare.NightmareConstants;
 import io.xeros.content.bosses.wildypursuit.FragmentOfSeren;
 import io.xeros.content.bosses.wildypursuit.TheUnbearable;
 import io.xeros.content.bosspoints.BossPoints;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.events.monsterhunt.MonsterHunt;
 import io.xeros.content.minigames.warriors_guild.AnimatedArmour;
 import io.xeros.content.skills.Skill;

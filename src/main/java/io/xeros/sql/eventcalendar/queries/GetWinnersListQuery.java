@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import io.xeros.content.event.eventcalendar.ChallengeWinner;
+import io.xeros.content.events.eventcalendar.ChallengeWinner;
 import io.xeros.sql.DatabaseManager;
 import io.xeros.sql.SqlQuery;
 import io.xeros.sql.eventcalendar.tables.EventCalendarWinnersTable;

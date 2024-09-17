@@ -31,7 +31,7 @@ import io.xeros.content.dialogue.impl.CrystalCaveEntryDialogue;
 import io.xeros.content.dialogue.impl.FireOfDestructionDialogue;
 import io.xeros.content.dialogue.impl.OutlastLeaderboard;
 import io.xeros.content.dialogue.impl.SkillingPortalDialogue;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.item.lootable.impl.*;
 import io.xeros.content.leaderboards.LeaderboardInterface;
 import io.xeros.content.minigames.pest_control.PestControl;

@@ -21,7 +21,7 @@ import io.xeros.content.bosses.nightmare.totem.Totems;
 import io.xeros.content.combat.Hitmark;
 import io.xeros.content.combat.death.NPCDeath;
 import io.xeros.content.combat.formula.MeleeMaxHit;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.instances.InstancedArea;
 import io.xeros.content.leaderboards.LeaderboardType;
 import io.xeros.content.leaderboards.LeaderboardUtils;

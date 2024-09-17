@@ -1,4 +1,4 @@
-package io.xeros.content.event.eventcalendar;
+package io.xeros.content.events.eventcalendar;
 
 import java.time.LocalDate;
 import java.time.Month;

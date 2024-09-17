@@ -3,7 +3,7 @@ package io.xeros.content.commands.owner;
 import java.util.Optional;
 
 import io.xeros.content.commands.Command;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
 

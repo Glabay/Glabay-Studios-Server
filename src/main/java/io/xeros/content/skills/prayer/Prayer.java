@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Stopwatch;
 import io.xeros.Server;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.skills.Skill;
 import io.xeros.model.cycleevent.Event;
 import io.xeros.model.definitions.ItemDef;

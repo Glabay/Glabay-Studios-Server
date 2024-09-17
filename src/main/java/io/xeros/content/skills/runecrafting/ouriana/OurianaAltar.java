@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import com.google.common.collect.Lists;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.runecrafting.Runecrafting;
 import io.xeros.model.Items;

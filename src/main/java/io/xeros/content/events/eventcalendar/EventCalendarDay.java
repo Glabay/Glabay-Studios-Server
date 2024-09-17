@@ -1,4 +1,4 @@
-package io.xeros.content.event.eventcalendar;
+package io.xeros.content.events.eventcalendar;
 
 public enum EventCalendarDay {
 

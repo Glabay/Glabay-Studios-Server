@@ -7,7 +7,7 @@ import java.text.Collator;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import io.xeros.content.event.eventcalendar.ChallengeParticipant;
+import io.xeros.content.events.eventcalendar.ChallengeParticipant;
 import io.xeros.sql.DatabaseManager;
 import io.xeros.sql.SqlQuery;
 import io.xeros.sql.eventcalendar.tables.EventCalendarParticipantsTable;

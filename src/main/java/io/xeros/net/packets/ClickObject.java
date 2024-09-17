@@ -16,7 +16,7 @@ import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueOption;
 import io.xeros.content.dwarfmulticannon.Cannon;
 import io.xeros.content.minigames.tob.TobConstants;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.item.lootable.impl.SerenChest;
 import io.xeros.content.item.lootable.impl.UnbearableChest;
 import io.xeros.content.skills.Cooking;

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.xeros.Server;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.item.lootable.LootRarity;
 import io.xeros.content.item.lootable.Lootable;
 import io.xeros.model.definitions.ItemDef;

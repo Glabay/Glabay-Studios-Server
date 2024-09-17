@@ -2,14 +2,13 @@ package io.xeros.content.skills.slayer;
 
 import io.xeros.Server;
 import io.xeros.content.bosses.hespori.Hespori;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.item.lootable.impl.LarransChest;
 import io.xeros.model.Items;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;
-import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.util.Misc;
 
 public class LarrensKey {

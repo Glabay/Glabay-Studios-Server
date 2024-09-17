@@ -15,7 +15,7 @@ import io.xeros.content.achievement_diary.impl.LumbridgeDraynorDiaryEntry;
 import io.xeros.content.achievement_diary.impl.VarrockDiaryEntry;
 import io.xeros.content.achievement_diary.impl.WildernessDiaryEntry;
 import io.xeros.content.bosses.hespori.Hespori;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.firemake.Firemaking;
 import io.xeros.model.Items;

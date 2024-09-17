@@ -17,7 +17,7 @@ import io.xeros.content.combat.effects.damageeffect.impl.DragonfireShieldEffect;
 import io.xeros.content.combat.magic.CombatSpellData;
 import io.xeros.content.combat.magic.MagicRequirements;
 import io.xeros.content.combat.magic.NonCombatSpellData;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.items.Degrade;
 import io.xeros.content.items.Degrade.DegradableItem;
 import io.xeros.content.items.pouch.RunePouch;

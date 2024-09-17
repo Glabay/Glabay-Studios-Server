@@ -1,4 +1,4 @@
-package io.xeros.content.event.eventcalendar;
+package io.xeros.content.events.eventcalendar;
 
 import io.xeros.model.entity.player.Player;
 

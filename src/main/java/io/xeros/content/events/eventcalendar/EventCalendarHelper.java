@@ -1,4 +1,4 @@
-package io.xeros.content.event.eventcalendar;
+package io.xeros.content.events.eventcalendar;
 
 import java.sql.Statement;
 import java.util.Optional;

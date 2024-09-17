@@ -8,14 +8,13 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Preconditions;
-import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.QuestTab;
 import io.xeros.content.achievement.AchievementType;
 import io.xeros.content.achievement.Achievements;
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueOption;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;

@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import io.xeros.content.event.eventcalendar.ChallengeParticipant;
+import io.xeros.content.events.eventcalendar.ChallengeParticipant;
 import io.xeros.sql.DatabaseManager;
 import io.xeros.sql.DatabaseTable;
 import io.xeros.sql.SqlQuery;

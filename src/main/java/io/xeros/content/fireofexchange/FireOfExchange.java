@@ -4,7 +4,7 @@ import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.achievement.AchievementType;
 import io.xeros.content.achievement.Achievements;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.leaderboards.LeaderboardType;
 import io.xeros.content.leaderboards.LeaderboardUtils;
 import io.xeros.model.Items;

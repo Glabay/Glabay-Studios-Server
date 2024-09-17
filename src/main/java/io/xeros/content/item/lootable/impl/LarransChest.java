@@ -6,11 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import io.xeros.Server;
-import io.xeros.content.achievement.AchievementType;
-import io.xeros.content.achievement.Achievements;
 import io.xeros.content.bosses.wildypursuit.FragmentOfSeren;
 import io.xeros.content.bosses.wildypursuit.TheUnbearable;
-import io.xeros.content.event.eventcalendar.EventChallenge;
+import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.item.lootable.LootRarity;
 import io.xeros.content.item.lootable.Lootable;
 import io.xeros.model.Items;
