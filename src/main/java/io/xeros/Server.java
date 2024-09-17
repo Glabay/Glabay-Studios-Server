@@ -12,6 +12,7 @@ import io.xeros.model.AttributesSerializable;
 import io.xeros.model.cycleevent.EventHandler;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.drops.DropManager;
+import io.xeros.model.entity.npc.interactions.NpcOptionActionManager;
 import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.multiplayersession.MultiplayerSessionListener;
 import io.xeros.model.world.ClanManager;
@@ -44,8 +45,6 @@ import java.util.Calendar;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import static org.yaml.snakeyaml.nodes.Tag.STR;
 
 /**
  * The main class needed to start the server.
@@ -86,6 +85,8 @@ public class Server {
     private static final GameLogging logging = new GameLogging();
     @Getter
     private static final WorldObjectActionManager objectActionManager = new WorldObjectActionManager();
+    @Getter
+    private static final NpcOptionActionManager npcOptionActionManager = new NpcOptionActionManager();
     /**
      * ClanChat Added by Valiant
      */
