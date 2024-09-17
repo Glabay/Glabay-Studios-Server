@@ -1,7 +1,5 @@
 package io.xeros.net.packets.npcoptions;
 
-import java.util.*;
-
 import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.PetCollector;
@@ -11,15 +9,18 @@ import io.xeros.content.achievement_diary.impl.VarrockDiaryEntry;
 import io.xeros.content.bosses.nightmare.NightmareActionHandler;
 import io.xeros.content.dailyrewards.DailyRewardsDialogue;
 import io.xeros.content.dialogue.DialogueBuilder;
-import io.xeros.content.dialogue.impl.*;
+import io.xeros.content.dialogue.impl.IronmanNpcDialogue;
+import io.xeros.content.dialogue.impl.MacDialogue;
+import io.xeros.content.dialogue.impl.MonkChaosAltarDialogue;
+import io.xeros.content.dialogue.impl.PineAwayDialogue;
 import io.xeros.content.minigames.inferno.Inferno;
 import io.xeros.content.minigames.tob.TobConstants;
 import io.xeros.content.miniquests.magearenaii.dialogue.KolodionDialogue;
 import io.xeros.content.referral.EnterReferralDialogue;
-import io.xeros.content.skills.*;
+import io.xeros.content.skills.Fishing;
+import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.crafting.Tanning;
 import io.xeros.content.skills.farming.FarmingTeleport;
-import io.xeros.content.skills.herblore.PotionDecanting;
 import io.xeros.content.skills.hunter.impling.Impling;
 import io.xeros.content.skills.mining.Mineral;
 import io.xeros.content.skills.thieving.Thieving;
@@ -37,14 +38,14 @@ import io.xeros.model.entity.player.mode.group.GroupIronmanDialogue;
 import io.xeros.model.entity.player.mode.group.contest.GroupIronmanContest;
 import io.xeros.util.Location3D;
 import io.xeros.util.Misc;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/*
- * @author Matt //dogshit
- * Handles all first options on non playable characters.
- */
+import java.util.Objects;
 
 public class NpcOptionOne {
 
+	public static final Logger logger = LoggerFactory.getLogger(NpcOptionOne.class);
 	public static void handleOption(Player player, int npcType) {
 		if (Server.getMultiplayerSessionListener().inAnySession(player)) {
 			return;
@@ -53,22 +54,22 @@ public class NpcOptionOne {
 		player.clickedNpcIndex = player.npcClickIndex;
 		player.npcClickIndex = 0;
 
-		/*
-		 * if(Fishing.fishingNPC(c, npcType)) { Fishing.fishingNPC(c, 1, npcType);
-		 * return; }
-		 */
-		if (PetHandler.isPet(npcType)) {
-			if (Objects.equals(PetHandler.getOptionForNpcId(npcType), "first")) {
+		if (PetHandler.isPet(npcType))
+			if (Objects.equals(PetHandler.getOptionForNpcId(npcType), "first"))
 				if (PetHandler.pickupPet(player, npcType, true))
 					return;
-			}
-		}
 
-		if (NightmareActionHandler.clickNpc(player, npcType, 1)) {
-			return;
-		}
-
+		if (NightmareActionHandler.clickNpc(player, npcType, 1)) return;
 		NPC npc = NPCHandler.npcs[player.clickedNpcIndex];
+		var npcActionManager = Server.getNpcOptionActionManager();
+		if (npcActionManager.findHandlerById(npcType).isPresent()) {
+			var npcAction = npcActionManager.findHandlerById(npcType).get();
+			if (npcAction.performedAction(player, npc, 1))
+				return;
+			else
+				logger.error("Unhandled NPC Action 1: {} ", npcAction.getClass().getSimpleName());
+		}
+
 		switch (npcType) {
 		case 8184:
 			player.moveTo(TobConstants.LOBBY_TELEPORT_POSITION);

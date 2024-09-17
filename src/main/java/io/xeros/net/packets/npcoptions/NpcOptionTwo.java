@@ -1,15 +1,8 @@
 package io.xeros.net.packets.npcoptions;
 
-import java.util.concurrent.TimeUnit;
-
 import io.xeros.Configuration;
 import io.xeros.Server;
-import io.xeros.content.achievement_diary.impl.ArdougneDiaryEntry;
-import io.xeros.content.achievement_diary.impl.KaramjaDiaryEntry;
-import io.xeros.content.achievement_diary.impl.LumbridgeDraynorDiaryEntry;
-import io.xeros.content.achievement_diary.impl.VarrockDiaryEntry;
-import io.xeros.content.achievement_diary.impl.WesternDiaryEntry;
-import io.xeros.content.achievement_diary.impl.WildernessDiaryEntry;
+import io.xeros.content.achievement_diary.impl.*;
 import io.xeros.content.bosses.nightmare.NightmareActionHandler;
 import io.xeros.content.dailyrewards.DailyRewardsDialogue;
 import io.xeros.content.dialogue.impl.IronmanNpcDialogue;
@@ -27,9 +20,12 @@ import io.xeros.model.entity.npc.pets.Probita;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerAssistant;
-import io.xeros.model.entity.player.mode.group.GroupIronman;
-import io.xeros.model.entity.player.mode.group.GroupIronmanDialogue;
 import io.xeros.util.Misc;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /*
  * @author Matt
@@ -38,32 +34,31 @@ import io.xeros.util.Misc;
 
 public class NpcOptionTwo {
 
+	public static final Logger logger = LoggerFactory.getLogger(NpcOptionTwo.class);
 	public static void handleOption(Player player, int npcType) {
-		if (Server.getMultiplayerSessionListener().inAnySession(player)) {
+		if (Server.getMultiplayerSessionListener().inAnySession(player))
 			return;
-		}
 		player.clickNpcType = 0;
 		player.clickedNpcIndex = player.npcClickIndex;
 		player.npcClickIndex = 0;
 
-		/*
-		 * if(Fishing.fishingNPC(c, npcType)) { Fishing.fishingNPC(c, 2, npcType);
-		 * return; }
-		 */
-		// if (PetHandler.talktoPet(player, npcType))
-		// return;
-		if (PetHandler.isPet(npcType)) {
-			if (PetHandler.getOptionForNpcId(npcType) == "second") {
+		if (PetHandler.isPet(npcType))
+			if (Objects.equals(PetHandler.getOptionForNpcId(npcType), "second"))
 				if (PetHandler.pickupPet(player, npcType, true))
 					return;
-			}
-		}
 
-		if (NightmareActionHandler.clickNpc(player, npcType, 2)) {
+		if (NightmareActionHandler.clickNpc(player, npcType, 2))
 			return;
-		}
 
 		NPC npc = NPCHandler.npcs[player.clickedNpcIndex];
+		var npcActionManager = Server.getNpcOptionActionManager();
+		if (npcActionManager.findHandlerById(npcType).isPresent()) {
+			var npcAction = npcActionManager.findHandlerById(npcType).get();
+			if (npcAction.performedAction(player, npc, 2))
+				return;
+			else
+				logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
+		}
 		switch (npcType) {
 		case Npcs.DONATOR_SHOP:
 			player.getDonationRewards().openInterface();

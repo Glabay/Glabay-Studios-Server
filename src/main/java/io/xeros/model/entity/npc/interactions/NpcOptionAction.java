@@ -21,7 +21,7 @@ public abstract class NpcOptionAction   extends NpcAction
 
     public boolean performedAction(Player player, NPC npc, int npcActionId) {
         if (!isEnabled()) {
-            logger.info("{} has just tried to use a disabled NPC: {}", player.getDisplayName(), npcId);
+            logger.info("{} has just tried to use a disabled NPC: {}", player.getDisplayName(), npc.getNpcId());
             player.sendMessage("This objects is currently disabled.");
             return false;
         }
@@ -34,19 +34,19 @@ public abstract class NpcOptionAction   extends NpcAction
         };
     }
 
-    private Boolean preformedDefaultAction(Player player, int npcId) {
-        var npcDef = NpcDef.forId(npcId);
+    private Boolean preformedDefaultAction(Player player, NPC npc) {
+        var npcDef = NpcDef.forId(npc.getNpcId());
         if (npcDef == null) {
-            logger.info("{} has just tried to use an invalid NPC: {}", player.getDisplayName(), npcId);
+            logger.info("{} has just tried to use an invalid NPC: {}", player.getDisplayName(), npc.getNpcId());
             player.sendMessage("Nothing interesting happens.");
             return false;
         }
         // Safe-Check that if the NPC is not attack-able, this is a "Talk-To" option
         if (npcDef.getCombatLevel() == 0) {
-            player.getDialogueBuilder().npc(npcId, "Hello there stranger, rather nice day ain't it.");
+            player.getDialogueBuilder().npc(npc.getNpcId(), "Hello there stranger, rather nice day ain't it.");
             return true;
         }
         else
-            throw new IllegalArgumentException(String.format("Invalid NPC Action [NPC Id: %d]", npcId));
+            throw new IllegalArgumentException(String.format("Invalid NPC Action [NPC Id: %d]", npc.getNpcId()));
     }
 }
