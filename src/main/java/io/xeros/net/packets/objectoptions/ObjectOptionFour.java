@@ -25,7 +25,7 @@ public class ObjectOptionFour extends ObjectAction {
 			if (objectAction.performedAction(c, objectType, obX, obY, c.getHeight(), 4))
 				return;
 			else
-				logger.error("Error handling object {} ", objectAction.getClass().getSimpleName());
+				logger.error("Unhandled Object Action 4: {} ", objectAction.getClass().getSimpleName());
 		}
 
 		switch (objectType) {

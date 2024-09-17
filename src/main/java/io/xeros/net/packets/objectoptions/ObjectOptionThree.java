@@ -34,7 +34,7 @@ public class ObjectOptionThree extends ObjectAction {
 			if (objectAction.performedAction(c, objectType, obX, obY, c.getHeight(), 3))
 				return;
 			else
-				logger.error("Error handling object {} ", objectAction.getClass().getSimpleName());
+				logger.error("Unhandled Object Action 3: {} ", objectAction.getClass().getSimpleName());
 		}
 
 		switch (objectType) {

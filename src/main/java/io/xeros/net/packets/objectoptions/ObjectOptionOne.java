@@ -152,7 +152,7 @@ public class ObjectOptionOne extends ObjectAction {
             if (objectAction.performedAction(c, objectType, obX, obY, c.getHeight(), 1))
                 return;
             else
-                logger.error("Error handling object {} ", objectAction.getClass().getSimpleName());
+                logger.error("Unhandled Object Action 1: {} ", objectAction.getClass().getSimpleName());
         }
 
         switch (objectType) {
