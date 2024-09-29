@@ -26,7 +26,7 @@ public class Home extends Command {
 			c.sendMessage("You can't use this command in the wilderness.");
 			return;
 		}
-		c.getPA().spellTeleport(3091, 3490, 0, false);
+		c.getPA().spellTeleport(3734, 3806, 0, false);
 	}
 
 	@Override
