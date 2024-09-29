@@ -68,23 +68,6 @@ public class ObjectOptionTwo extends ObjectAction {
 		}
 
 		switch (objectType) {
-			case 11726:// Open Door @ Magic Hut
-				if (c.getItems().hasItemOnOrInventory(Items.LOCKPICK)) {
-					int pX = c.getX();
-					int pY = c.getY();
-					int yOffset = pY >= obY ? -1 : 1;
-					if (obX == 3190 && obY == 3957 || obX == 3191 && obY == 3963) {
-						c.sendMessage("You attempt to pick the lock...");
-						boolean isLucky = Misc.isLucky(50);
-						if (isLucky)
-							c.moveTo(c.getPosition().translate(0, yOffset));
-						else
-							c.sendMessage("You fail to pick the lock!");
-					}
-				} else {
-					c.sendMessage("You need a lockpick to pick this lock.");
-				}
-				break;
 			case 33320:
 				FireOfExchangeBurnPrice.openExchangeRateShop(c);
 				break;
