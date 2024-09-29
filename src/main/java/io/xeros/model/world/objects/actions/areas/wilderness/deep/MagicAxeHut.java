@@ -16,7 +16,7 @@ import io.xeros.util.Misc;
 public class MagicAxeHut extends WorldObjectAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[]{11726};
+        return new Integer[]{ 11726 };
     }
 
     @Override
