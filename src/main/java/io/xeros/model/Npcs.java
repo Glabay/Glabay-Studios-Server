@@ -1018,7 +1018,7 @@ public class Npcs {
     public static final int CAVE_HORROR_4 = 1_050;
     public static final int CAVE_HORROR_5 = 1_051;
     public static final int CAVEY_DAVEY = 1_052;
-    public static final int PATCHY = 1_053;
+    public static final int MAC = 1_053;
     public static final int LAUNA = 1_054;
     public static final int LAUNA_2 = 1_055;
     public static final int BRANA = 1_056;
@@ -5917,7 +5917,7 @@ public class Npcs {
     public static final int TARN_2 = 6_476;
     public static final int MUTANT_TARN = 6_477;
     public static final int RUFUS_2 = 6_478;
-    public static final int MAC = 6_481;
+    public static final int PATCHY = 6_481;
     public static final int BOULDER_7 = 6_482;
     public static final int MONKEY_9 = 6_483;
     public static final int GELIN = 6_484;
