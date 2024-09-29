@@ -1,4 +1,4 @@
-package io.xeros.model.world.objects.actions.areas.varrack.market;
+package io.xeros.model.world.objects.actions.areas.varrock.market;
 
 import io.xeros.content.tradingpost.Listing;
 import io.xeros.model.entity.player.Player;
