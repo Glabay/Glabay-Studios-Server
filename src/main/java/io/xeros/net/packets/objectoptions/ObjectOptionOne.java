@@ -164,12 +164,6 @@ public class ObjectOptionOne extends ObjectAction {
             case 29064:
                 LeaderboardInterface.openInterface(c);
                 break;
-            case 16666:
-                c.getPA().movePlayer(3045, 10323, 0);
-                break;
-            case 16665:
-                c.getPA().movePlayer(3044, 3927, 0);
-                break;
 
             case 28686:
                 c.objectDistance = 3;
