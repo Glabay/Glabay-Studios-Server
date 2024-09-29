@@ -81,7 +81,7 @@ public class GroupIronmanBank {
     }
 
 
-    public static final int OBJECT_ID = 32572;
+    public static final int OBJECT_ID = 43488; //32572 was the old ID
 
     public static final int INTERFACE_ID = 48_670;
     public static final int INTERFACE_ITEM_CONTAINER_ID = 48_675;
