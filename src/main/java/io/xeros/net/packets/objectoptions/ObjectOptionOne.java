@@ -814,7 +814,7 @@ public class ObjectOptionOne extends ObjectAction {
             case 21597:
             case 21598:
             case 21599:
-                c.getPA().movePlayer(2834, 5075, 0);
+                c.getPA().movePlayer(2523, 3739, 0);
                 break;
 
             case 11470:
