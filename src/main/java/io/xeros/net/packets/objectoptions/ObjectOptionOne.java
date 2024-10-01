@@ -156,16 +156,6 @@ public class ObjectOptionOne extends ObjectAction {
         }
 
         switch (objectType) {
-            case 21306:
-                c.getPA().movePlayer(2317, 3824, 0);
-                break;
-            case 21307:
-                c.getPA().movePlayer(2317, 3831, 0);
-                break;
-            case 21308:
-                c.getPA().movePlayer(2343, 3828, 0);
-                break;
-
             case 8880:
                 if (c.getItems().freeSlots() < 3) c.sendMessage("You need at least three free slots for these tools.");
                 else {
@@ -174,16 +164,12 @@ public class ObjectOptionOne extends ObjectAction {
                     c.getItems().addItem(1351, 1);
                 }
                 break;
-
             case 7674:
                 if (c.getItems().freeSlots() < 1) c.sendMessage("You need at least one free slot to pick these berries.");
                 else {
                     c.getDiaryManager().getFaladorDiary().progress(FaladorDiaryEntry.PICK_POSION_BERRY);
                     c.getItems().addItem(6018, 1);
                 }
-                break;
-            case 21309:
-                c.getPA().movePlayer(2343, 3821, 0);
                 break;
             case 14843:
                 c.getRooftopCanafis().execute(c, objectType);
