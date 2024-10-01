@@ -37,39 +37,7 @@ public class NpcOptionFour {
 			var npcAction = npcActionManager.findHandlerById(npcType).get();
 			if (npcAction.performedAction(player, npc, 4))
 				return;
-			else
-				logger.error("Unhandled NPC Action 4: {} ", npcAction.getClass().getSimpleName());
-		}
-
-		switch (npcType) {
-		case 17: //Rug merchant - Sophanem
-			player.startAnimation(2262);
-			AgilityHandler.delayFade(player, "NONE", 3285, 2815, 0, "You step on the carpet and take off...", "at last you end up in sophanem.", 3);
-			break;
-
-		case 2580:
-			player.getPA().startTeleport(3039, 4788, 0, "modern", false);
-			player.teleAction = -1;
-			break;
-
-		case 402:
-		case 401:
-		case 405:
-		case 6797:
-		case 7663:
-		case 8761:
-		case 5870:
-			SlayerRewardsInterface.open(player, SlayerRewardsInterfaceData.Tab.TASK);
-			//player.getSlayer().handleInterface("buy");
-			break;
-			
-		case 1501:
-			player.getShops().openShop(23);
-			break;
-
-		case 308:
-			player.getDH().sendDialogues(545, npcType);
-			break;
+			logger.error("Unhandled NPC Action 4: {} ", npcAction.getClass().getSimpleName());
 		}
 	}
 
