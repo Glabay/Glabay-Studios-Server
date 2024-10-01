@@ -156,10 +156,6 @@ public class ObjectOptionOne extends ObjectAction {
         }
 
         switch (objectType) {
-            case 29064:
-                LeaderboardInterface.openInterface(c);
-                break;
-
             case 28686:
                 c.objectDistance = 3;
                 AgilityHandler.delayEmote(c, "CRAWL", 3808, 9744, 1, 2);
