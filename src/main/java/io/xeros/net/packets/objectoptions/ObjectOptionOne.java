@@ -156,10 +156,6 @@ public class ObjectOptionOne extends ObjectAction {
         }
 
         switch (objectType) {
-            case 34359:
-                c.objectDistance = 3;
-                AgilityHandler.delayEmote(c, "CRAWL", 1312, 10188, 0, 2);
-                break;
             case 8929:
                 AgilityHandler.delayEmote(c, "CRAWL", 2394, 10300, 1, 2);
                 //c.getDH().sendDialogues(792, 1158);
