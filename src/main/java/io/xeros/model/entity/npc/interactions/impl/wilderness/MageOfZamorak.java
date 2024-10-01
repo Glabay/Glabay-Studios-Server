@@ -1,7 +1,11 @@
 package io.xeros.model.entity.npc.interactions.impl.wilderness;
 
+import io.xeros.content.achievement_diary.impl.ArdougneDiaryEntry;
+import io.xeros.content.achievement_diary.impl.FaladorDiaryEntry;
+import io.xeros.content.achievement_diary.impl.VarrockDiaryEntry;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
+import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Npcs.MAGE_OF_ZAMORAK;
@@ -16,6 +20,18 @@ public class MageOfZamorak extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
         return new Integer[] { MAGE_OF_ZAMORAK };
+    }
+
+    @Override
+    public Boolean handleActionThree(Player player, NPC npc) {
+        if (Boundary.isIn(player, Boundary.VARROCK_BOUNDARY))
+            player.getDiaryManager().getVarrockDiary().progress(VarrockDiaryEntry.TELEPORT_ESSENCE_VAR);
+        if (Boundary.isIn(player, Boundary.ARDOUGNE_BOUNDARY))
+            player.getDiaryManager().getArdougneDiary().progress(ArdougneDiaryEntry.TELEPORT_ESSENCE_ARD);
+        if (Boundary.isIn(player, Boundary.FALADOR_BOUNDARY))
+            player.getDiaryManager().getFaladorDiary().progress(FaladorDiaryEntry.TELEPORT_ESSENCE_FAL);
+        player.getPA().startTeleport(2929, 4813, 0, "modern", false);
+        return true;
     }
 
     @Override
