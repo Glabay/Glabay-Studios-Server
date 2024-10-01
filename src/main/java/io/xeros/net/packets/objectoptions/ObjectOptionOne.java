@@ -156,10 +156,6 @@ public class ObjectOptionOne extends ObjectAction {
         }
 
         switch (objectType) {
-            case 8929:
-                AgilityHandler.delayEmote(c, "CRAWL", 2394, 10300, 1, 2);
-                //c.getDH().sendDialogues(792, 1158);
-                break;
             case 21306:
                 c.getPA().movePlayer(2317, 3824, 0);
                 break;
