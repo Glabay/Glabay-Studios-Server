@@ -156,11 +156,6 @@ public class ObjectOptionOne extends ObjectAction {
         }
 
         switch (objectType) {
-            case GroupIronmanBank.OBJECT_ID:
-                Optional<GroupIronmanGroup> group = GroupIronmanRepository.getGroupForOnline(c);
-                group.ifPresentOrElse(it -> it.getBank().open(c),
-                    () -> c.sendMessage("This chest is only for group ironmen!"));
-                break;
             case 29064:
                 LeaderboardInterface.openInterface(c);
                 break;
@@ -176,11 +171,6 @@ public class ObjectOptionOne extends ObjectAction {
             case 34359:
                 c.objectDistance = 3;
                 AgilityHandler.delayEmote(c, "CRAWL", 1312, 10188, 0, 2);
-                break;
-            case 4874:
-            case 11730:
-                c.getThieving().steal(Stall.Crafting, location);
-                c.objectDistance = 1;
                 break;
             case 8929:
                 AgilityHandler.delayEmote(c, "CRAWL", 2394, 10300, 1, 2);
