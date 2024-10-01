@@ -1,4 +1,4 @@
-package io.xeros.model.world.objects.actions.areas.karuulmdungeon;
+package io.xeros.model.world.objects.actions.areas.mountkaruulm.karuulmdungeon;
 
 import io.xeros.content.skills.agility.AgilityHandler;
 import io.xeros.model.entity.player.Player;

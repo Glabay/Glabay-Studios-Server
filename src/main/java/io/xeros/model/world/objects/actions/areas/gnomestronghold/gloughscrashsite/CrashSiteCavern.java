@@ -1,4 +1,4 @@
-package io.xeros.model.world.objects.actions.areas.gloughscrashsite;
+package io.xeros.model.world.objects.actions.areas.gnomestronghold.gloughscrashsite;
 
 import io.xeros.content.leaderboards.LeaderboardInterface;
 import io.xeros.content.skills.agility.AgilityHandler;

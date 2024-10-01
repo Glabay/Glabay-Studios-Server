@@ -1,6 +1,5 @@
 package io.xeros.model.world.objects.actions.areas.waterbithisland;
 
-import io.xeros.content.skills.agility.AgilityHandler;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
@@ -16,7 +15,7 @@ public class WaterbirthIslandDungeon extends WorldObjectAction {
 
     @Override
     protected Integer[] getIds() {
-        return new Integer[]{ 21598, 21599 };
+        return new Integer[]{ 21597, 21598, 21599 };
     }
 
     @Override
