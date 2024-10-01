@@ -5,6 +5,7 @@ import io.xeros.content.skills.slayer.SlayerRewardsInterfaceData;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
+import io.xeros.util.Misc;
 
 import static io.xeros.model.Npcs.*;
 
@@ -31,6 +32,12 @@ public class SlayerMaster extends NpcOptionAction {
         };
     }
 
+    @Override
+    public Boolean handleActionThree(Player player, NPC npc) {
+        player.getShops().openShop(10);
+        player.sendMessage("You currently have <col=a30027>%s</col> slayer points.".formatted(Misc.insertCommas(player.getSlayer().getPoints())));
+        return true;
+    }
 
     @Override
     public Boolean handleActionFour(Player player, NPC npc) {
