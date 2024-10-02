@@ -70,19 +70,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 2111:
-                player.getShops().openShop(176);
-                break;
-            case 7240:
-                player.getShops().openShop(91);
-                break;
-            case 2850:
-                GroupIronmanContest.openInterface(player);
-                player.sendMessage("Find out more info about the contest at ::topic 281");
-                break;
-            case 8686:
-                player.getShops().openShop(90);
-                break;
             case 5513:
                 player.getDH().sendDialogues(80, 5513);
                 break;

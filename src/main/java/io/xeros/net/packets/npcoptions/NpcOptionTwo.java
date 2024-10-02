@@ -79,9 +79,6 @@ public class NpcOptionTwo {
 		case 7240:
 			player.getShops().openShop(91);
 			break;
-		case 8686:
-			player.getShops().openShop(90);
-			break;
 		case 1011: //infernal gambler
 		    if (player.getItems().playerHasItem(6570, 10)) {
 		    	int InfernalChance = Misc.random(1000);
