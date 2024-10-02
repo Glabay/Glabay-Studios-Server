@@ -25,6 +25,9 @@ import io.xeros.content.skills.herblore.PoisonedWeapon;
 import io.xeros.content.tournaments.TourneyManager;
 import io.xeros.model.*;
 import io.xeros.model.collisionmap.PathChecker;
+import io.xeros.model.cycleevent.CycleEvent;
+import io.xeros.model.cycleevent.CycleEventContainer;
+import io.xeros.model.cycleevent.CycleEventHandler;
 import io.xeros.model.definitions.AnimationLength;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.definitions.ItemStats;
@@ -41,6 +44,8 @@ import io.xeros.model.multiplayersession.duel.DuelSessionRules;
 import io.xeros.model.projectile.ProjectileEntity;
 import io.xeros.util.Misc;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -50,6 +55,7 @@ import static io.xeros.content.combat.Hitmark.HIT;
 
 public class AttackEntity {
 
+    private static final Logger log = LoggerFactory.getLogger(AttackEntity.class);
     private final Player attacker;
     private Position src;
     private Position dest;
@@ -445,9 +451,19 @@ public class AttackEntity {
                 sendMagicProjectileEntity(targetEntity);
             } else {
                 int animationId = MeleeData.getWepAnim(attacker);
-                int animationDelay = AnimationLength.getFrameLength(animationId) + 1;
+                int animationDelay = AnimationLength.getFrameLength(animationId);
                 attacker.getAnimationTimer().setDuration(animationDelay);
                 attacker.startAnimation(new Animation(animationId, 0, AnimationPriority.HIGH));
+                // BandAid TODO: Fix Client side, new Animation system seems to continuously repeat itself with some animations
+                CycleEventHandler.getSingleton().addEvent(attacker, new CycleEvent() {
+                    @Override
+                    public void execute(CycleEventContainer container) {
+                        if (container.getTotalTicks() == animationDelay -1) {
+                            attacker.startAnimation(Animation.RESET_ANIMATION);
+                            container.stop();
+                        }
+                    }
+                }, 1);
 
                 if (getCombatType() == CombatType.RANGE) {
                     if (attacker.usingOtherRangeWeapons || attacker.usingBow || attacker.usingCross || attacker.usingBallista) {
