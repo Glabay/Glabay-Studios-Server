@@ -12,15 +12,12 @@ import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.impl.IronmanNpcDialogue;
 import io.xeros.content.dialogue.impl.MacDialogue;
 import io.xeros.content.dialogue.impl.MonkChaosAltarDialogue;
-import io.xeros.content.dialogue.impl.PineAwayDialogue;
 import io.xeros.content.minigames.inferno.Inferno;
-import io.xeros.content.minigames.tob.TobConstants;
 import io.xeros.content.miniquests.magearenaii.dialogue.KolodionDialogue;
 import io.xeros.content.referral.EnterReferralDialogue;
 import io.xeros.content.skills.Fishing;
 import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.crafting.Tanning;
-import io.xeros.content.skills.farming.FarmingTeleport;
 import io.xeros.content.skills.hunter.impling.Impling;
 import io.xeros.content.skills.mining.Mineral;
 import io.xeros.content.skills.thieving.Thieving;
@@ -73,25 +70,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 8184:
-                player.moveTo(TobConstants.LOBBY_TELEPORT_POSITION);
-                break;
-            case Npcs.JAMES:
-                player.start(new PineAwayDialogue(player, npc));
-                break;
-            case FarmingTeleport.NPC:
-                player.start(new FarmingTeleport(player, npc));
-                break;
-            case DailyRewardsDialogue.DAILY_REWARDS_NPC:
-                int totalReq = (player.getMode().is5x() ? 100 : 500);
-                if (player.totalLevel > totalReq) {
-                    player.start(new DailyRewardsDialogue(player));
-                }
-                else {
-                    player.sendMessage("@red@ You need a total level of 500 to start collecting your daily reward!");
-                }
-                break;
-
             case 3400:
                 player.getEventCalendar().openCalendar();
                 break;

@@ -63,15 +63,6 @@ public class NpcOptionTwo {
 		case Npcs.DONATOR_SHOP:
 			player.getDonationRewards().openInterface();
 			break;
-		case DailyRewardsDialogue.DAILY_REWARDS_NPC:
-			int totalReq = (player.getMode().is5x() ? 100 : 500);
-			if (player.totalLevel > totalReq) {
-				player.getDailyRewards().openInterface();
-				player.sendMessage("@red@[Reminder] @bla@Prizes are reset every month, log in everyday to reach the best prizes!");
-			} else {
-				player.sendMessage("@red@ You need a total level of 500 to start collecting your daily reward!");
-			}
-			break;
 		case 326:
 		case 327:
 			   player.gfx100(1028);
