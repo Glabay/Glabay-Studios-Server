@@ -56,7 +56,7 @@ public class MeleeData { //TODO change this to load from json or txt
             return;
         }
 
-        if (player.isWearingWeapon(27275)) {
+        if (player.isWearingWeapon(TUMEKENS_SHADOW)) {
             player.playerStandIndex = 1713;
             player.playerWalkIndex = 1703;
             player.playerRunIndex = 1707; //1707
@@ -67,7 +67,7 @@ public class MeleeData { //TODO change this to load from json or txt
             return;
         }
 
-        if (player.isWearingWeapon(22324)) {
+        if (player.isWearingWeapon(GHRAZU_RAPIER)) {
             player.playerStandIndex = 809;
             player.playerWalkIndex = 823;
             player.playerRunIndex = 824;
@@ -108,7 +108,11 @@ public class MeleeData { //TODO change this to load from json or txt
             player.playerRunIndex = 7274;
             return;
         }
-        if (weaponName.contains("halberd") || weaponName.contains("hasta") || weaponName.contains("spear") || weaponName.contains("guthan") || weaponName.contains("sceptre")) {
+        if (weaponName.contains("halberd") ||
+            weaponName.contains("hasta") ||
+            weaponName.contains("spear") ||
+            weaponName.contains("guthan") ||
+            weaponName.contains("sceptre")) {
             player.playerStandIndex = 809;
             player.playerWalkIndex = 1146;
             player.playerRunIndex = 1210;
@@ -157,7 +161,9 @@ public class MeleeData { //TODO change this to load from json or txt
             player.playerRunIndex = 1831;
             return;
         }
-        if (weaponName.contains("wand") || weaponName.contains("staff") || weaponName.contains("trident")) {
+        if (weaponName.contains("wand") ||
+            weaponName.contains("staff") ||
+            weaponName.contains("trident")) {
             player.playerStandIndex = 809;
             player.playerRunIndex = 1210;
             player.playerWalkIndex = 1146;
@@ -169,8 +175,12 @@ public class MeleeData { //TODO change this to load from json or txt
             player.playerRunIndex = 2077;
             return;
         }
-        if (weaponName.contains("2h sword") || weaponName.contains("godsword") || weaponName.contains("saradomin sw") || weaponName.contains("saradomin's bless") || weaponName.contains("large spade"))
-            if (weaponId != 7158) {
+        if (weaponName.contains("2h sword") ||
+            weaponName.contains("godsword") ||
+            weaponName.contains("saradomin sw") ||
+            weaponName.contains("saradomin's bless") ||
+            weaponName.contains("large spade"))
+            if (weaponId != DRAGON_2H_SWORD) {
                 player.playerStandIndex = 7053;
                 player.playerWalkIndex = 7052;
                 player.playerRunIndex = 7043;
@@ -294,15 +304,16 @@ public class MeleeData { //TODO change this to load from json or txt
         else if (weapon == DRAGON_THROWNAXE || weapon == DRAGON_THROWNAXE_21207) return 7617;
         else if (weapon == THAMMARONS_SCEPTRE || weapon == THAMMARONS_SCEPTRE_U || weapon == ACCURSED_SCEPTRE_AU || weapon == ACCURSED_SCEPTRE || weapon == ACCURSED_SCEPTRE_A)
             return 1058;
-        if (weaponName.contains("2h sword") || weaponName.contains("aradomin sword")) switch (c.getCombatConfigs().getWeaponMode().getIndex()) {
-            case 0:// stab
-            case 1:// str
-                return 7045;
-            case 2:// str
-                return 7054;
-            case 3:// def
-                return 7055;
-        }
+        if (weaponName.contains("2h sword") || weaponName.contains("aradomin sword"))
+            switch (c.getCombatConfigs().getWeaponMode().getIndex()) {
+                case 0:// stab
+                case 1:// str
+                    return 7045;
+                case 2:// str
+                    return 7054;
+                case 3:// def
+                    return 7055;
+            }
         if (weaponName.contains("sword") && !weaponName.contains("training")) return 451;
         if (weaponName.contains("karil")) return 2075;
         if (weaponName.contains("bow") && !weaponName.contains("'bow") && !weaponName.contains("karil")) return 426;
