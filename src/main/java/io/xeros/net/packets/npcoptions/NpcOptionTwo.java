@@ -168,16 +168,6 @@ public class NpcOptionTwo {
 			player.getDH().sendNpcChat1("You've been playing " + Configuration.SERVER_NAME + " for " + time, 3105, "Hans");
 			player.getDiaryManager().getLumbridgeDraynorDiary().progress(LumbridgeDraynorDiaryEntry.HANS);
 			break;
-			case 2149:
-			case 2150:
-			case 2151:
-			case 2148:
-				if (player.getMode().isIronmanType()) {
-					player.sendMessage("@red@You are not permitted to make use of this.");
-					return;
-				}
-				Listing.openPost(player, false);
-				break;
 		case 3680:
 			AgilityHandler.delayFade(player, "NONE", 2674, 3274, 0, "The sailor brings you onto the ship.",
 					"and you end up in ardougne.", 3);

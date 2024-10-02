@@ -77,12 +77,6 @@ public class NpcOptionOne {
                 }
                 player.getDH().sendDialogues(832, 954);
                 break;
-            case 2149:
-            case 2150:
-            case 2151:
-            case 2148:
-                player.getPA().c.itemAssistant.openUpBank();
-                break;
             case 5293:
                 player.getShops().openShop(175);
                 break;
