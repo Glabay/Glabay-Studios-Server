@@ -233,8 +233,7 @@ public abstract class Entity {
     /**
      * Creates a new {@link Entity}.
      */
-    public Entity() {
-    }
+    public Entity() {}
 
 
     public void updateHealthBar(HealthBarUpdate update) {
@@ -249,14 +248,12 @@ public abstract class Entity {
         str.writeUShort(healthBarQueue.size());
         for (var health : healthBarQueue) {
             str.writeUShort(health.getId());
-            if (health instanceof StaticHealthBarUpdate) {
-                StaticHealthBarUpdate barUpdate = (StaticHealthBarUpdate) health;
+            if (health instanceof StaticHealthBarUpdate barUpdate) {
                 str.writeUShort(0);
                 str.writeUShort(barUpdate.getDelay());
                 str.writeUShort(barUpdate.getBarWidth());
             }
-            else if (health instanceof DynamicHealthBarUpdate) {
-                DynamicHealthBarUpdate barUpdate = (DynamicHealthBarUpdate) health;
+            else if (health instanceof DynamicHealthBarUpdate barUpdate) {
                 str.writeUShort(barUpdate.getDecreaseSpeed());
                 str.writeUShort(barUpdate.getDelay());
                 str.writeUShort(barUpdate.getStartBarWidth());
@@ -271,23 +268,14 @@ public abstract class Entity {
         str.writeByte(hitmarks);
 
         for (var hit : hitMarkQueue) {
-
-            /*
-             * Inform the client of how many hitmarkers to decode.
-             */
-
-            if (hitmarks == 1) {
-                str.writeByte(0);
-            } else if (hitmarks > 1) {
-                str.writeByte(1);
-            }
+            if (hitmarks == 1) str.writeByte(0);
+            else if (hitmarks > 1) str.writeByte(1);
 
             for (int i = 0; i < hitmarks; i++) {
                 str.writeByte(hit.getType().getId());
                 str.writeByte(hit.getDamage());
                 str.writeByte(hit.getDamageType());
             }
-
             str.writeByte(0);
         }
 
@@ -338,9 +326,7 @@ public abstract class Entity {
         if (insideOf(x, y)) return 0;
         for (Position p : getBorder(source)) {
             double dist = Misc.distance(x, y, p.getX(), p.getY());
-            if (dist < low) {
-                low = dist;
-            }
+            if (dist < low) low = dist;
         }
         return low;
     }
@@ -354,9 +340,7 @@ public abstract class Entity {
         if (insideOf(x, y)) return 0;
         for (Position p : getBorder()) {
             double dist = Misc.distance(x, y, p.getX(), p.getY());
-            if (dist < low) {
-                low = dist;
-            }
+            if (dist < low) low = dist;
         }
         return low;
     }
@@ -366,9 +350,7 @@ public abstract class Entity {
         if (insideOf(position)) return 0;
         for (Position p : getBorder()) {
             double dist = Misc.distance(position.getX(), position.getY(), p.getX(), p.getY());
-            if (dist < low) {
-                low = dist;
-            }
+            if (dist < low) low = dist;
         }
         return low;
     }
@@ -388,14 +370,13 @@ public abstract class Entity {
     public Position[] getTiles(Position position, int size) {
         Position[] tiles = new Position[getEntitySize() == 1 ? 1 : (int) Math.pow(size, 2)];
         int index = 0;
-        for (int i = 1; i < size + 1; i++) {
+        for (int i = 1; i < size + 1; i++)
             for (int k = 0; k < NPCClipping.SIZES[i].length; k++) {
                 int x3 = position.getX() + NPCClipping.SIZES[i][k][0];
                 int y3 = position.getY() + NPCClipping.SIZES[i][k][1];
                 tiles[index] = new Position(x3, y3, getHeight());
                 index++;
             }
-        }
         return tiles;
     }
 
@@ -414,41 +395,33 @@ public abstract class Entity {
         int x = source.getX();
         int y = source.getY();
         int size = getEntitySize();
-        if (size <= 1) {
-            return new Position[]{new Position(source.getX(), source.getY())};
-        }
+        if (size <= 1) return new Position[] {new Position(source.getX(), source.getY())};
         Position[] border = new Position[(size) + (size - 1) + (size - 1) + (size - 2)];
         int j = 0;
         border[0] = new Position(x, y);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++)
             for (int k = 0; k < (i < 3 ? (i == 0 || i == 2 ? size : size) - 1 : (i == 0 || i == 2 ? size : size) - 2); k++) {
                 if (i == 0) x++;
                 else if (i == 1) y++;
                 else if (i == 2) x--;
-                else if (i == 3) {
-                    y--;
-                }
+                else if (i == 3) y--;
                 border[(++j)] = new Position(x, y);
             }
-        }
         return border;
     }
 
     public Position getAdjacentPosition() {
-        for (int index = 0; index < DIR.length; index++) {
-            if (getRegionProvider().canMove(getX(), getY(), getHeight(), index, this.isNPC())) {
+        for (int index = 0; index < DIR.length; index++)
+            if (getRegionProvider().canMove(getX(), getY(), getHeight(), index, this.isNPC()))
                 return new Position(getX() + DIR[index][0], getY() + DIR[index][1], getHeight());
-            }
-        }
         return null;
     }
 
     public Position getAdjacentPosition(Position... except) {
         for (int index = 0; index < DIR.length; index++) {
             Position position = new Position(getX() + DIR[index][0], getY() + DIR[index][1], getHeight());
-            if (getRegionProvider().canMove(getX(), getY(), getHeight(), index, this.isNPC()) && Arrays.stream(except).noneMatch(position::equals)) {
+            if (getRegionProvider().canMove(getX(), getY(), getHeight(), index, this.isNPC()) && Arrays.stream(except).noneMatch(position::equals))
                 return position;
-            }
         }
         return null;
     }
@@ -481,27 +454,25 @@ public abstract class Entity {
 
         int creatorSize = projectileEntity.getCreatorSize() == -1 ? this.getEntitySize() : projectileEntity.getCreatorSize();
 
-        if (source.getX() <= 64 && source.getY() <= 64) {
-            for (var p : PlayerHandler.players) {
-                if (p == null) continue;
-                if (!source.isViewableFrom(p.getCenterPosition())) continue;
-                if (p.getHeight() != source.getHeight()) continue;
-                p.getPA().sendProjectile(
-                        projectileEntity.getStart().getX(),
-                        projectileEntity.getStart().getY(),
-                        projectileEntity.getOffset().getX(),
-                        projectileEntity.getOffset().getY(),
-                        0,
-                        projectileEntity.getSpeed(),
-                        projectileEntity.getProjectileId(),
-                        projectileEntity.getStartHeight(),
-                        projectileEntity.getEndHeight(),
-                        projectileEntity.getLockon(),
-                        projectileEntity.getDelay(),
-                        projectileEntity.getSlope(),
-                        creatorSize,
-                        projectileEntity.getStartDistanceOffset());
-            }
+        if (source.getX() <= 64 && source.getY() <= 64) for (var p : PlayerHandler.players) {
+            if (p == null) continue;
+            if (!source.isViewableFrom(p.getCenterPosition())) continue;
+            if (p.getHeight() != source.getHeight()) continue;
+            p.getPA().sendProjectile(
+                projectileEntity.getStart().getX(),
+                projectileEntity.getStart().getY(),
+                projectileEntity.getOffset().getX(),
+                projectileEntity.getOffset().getY(),
+                0,
+                projectileEntity.getSpeed(),
+                projectileEntity.getProjectileId(),
+                projectileEntity.getStartHeight(),
+                projectileEntity.getEndHeight(),
+                projectileEntity.getLockon(),
+                projectileEntity.getDelay(),
+                projectileEntity.getSlope(),
+                creatorSize,
+                projectileEntity.getStartDistanceOffset());
         }
 
         return projectileEntity.getTime(projectileEntity.getStart(), projectileEntity.getTarget());
@@ -527,11 +498,8 @@ public abstract class Entity {
 
 
     public boolean sameInstance(Entity other) {
-        if (this.instance == null) {
-            return other.instance == null;
-        } else if (other.instance != null) {
-            return other.instance == this.instance;
-        }
+        if (this.instance == null) return other.instance == null;
+        else if (other.instance != null) return other.instance == this.instance;
         return false;
     }
 
@@ -555,24 +523,15 @@ public abstract class Entity {
             Entity tempKiller = entry.getKey();
             List<Damage> damageList = entry.getValue();
             int damage = 0;
-            if (tempKiller == null) {
-                continue;
-            }
+            if (tempKiller == null) continue;
             if (tempKiller instanceof Player) {
-                if (!TourneyManager.getSingleton().isInArena((Player) tempKiller)) {
-                    continue;
-                }
-                for (Damage d : damageList) {
-                    if (System.currentTimeMillis() - d.getTimestamp() < VALID_TIMEFRAME) {
-                        damage += d.getAmount();
-                    }
-                }
+                if (!TourneyManager.getSingleton().isInArena((Player) tempKiller)) continue;
+                for (Damage d : damageList) if (System.currentTimeMillis() - d.getTimestamp() < VALID_TIMEFRAME) damage += d.getAmount();
                 if (tempKiller.isPlayer()) {
                     Player p = tempKiller.asPlayer();
                     if (p.isDisconnected() || p.getSession() == null || !p.getSession().isActive()) continue;
-                    if (this.getRaidsInstance() != null) {
+                    if (this.getRaidsInstance() != null)
                         if (p.getRaidsInstance() == null || p.getRaidsInstance() != this.getRaidsInstance()) continue;
-                    }
                 }
                 if (totalDamage == 0 || damage > totalDamage) {
                     totalDamage = damage;
@@ -590,15 +549,10 @@ public abstract class Entity {
      * @param damage the total damage taken
      */
     public void addDamageTaken(Entity entity, int damage) {
-        if (entity == null || damage <= 0) {
-            return;
-        }
+        if (entity == null || damage <= 0) return;
         Damage combatDamage = new Damage(damage);
-        if (damageTaken.containsKey(entity)) {
-            damageTaken.get(entity).add(new Damage(damage));
-        } else {
-            damageTaken.put(entity, new ArrayList<>(List.of(combatDamage)));
-        }
+        if (damageTaken.containsKey(entity)) damageTaken.get(entity).add(new Damage(damage));
+        else damageTaken.put(entity, new ArrayList<>(List.of(combatDamage)));
     }
 
     /**
@@ -615,14 +569,8 @@ public abstract class Entity {
             Entity tempKiller = entry.getKey();
             List<Damage> damageList = entry.getValue();
             int damage = 0;
-            if (tempKiller == null) {
-                continue;
-            }
-            for (Damage d : damageList) {
-                if (System.currentTimeMillis() - d.getTimestamp() < VALID_TIMEFRAME) {
-                    damage += d.getAmount();
-                }
-            }
+            if (tempKiller == null) continue;
+            for (Damage d : damageList) if (System.currentTimeMillis() - d.getTimestamp() < VALID_TIMEFRAME) damage += d.getAmount();
             if (totalDamage == 0 || damage > totalDamage || killer == null) {
                 totalDamage = damage;
                 killer = tempKiller;
@@ -632,9 +580,7 @@ public abstract class Entity {
                 NPC npc = (NPC) this;
                 if (player.getMode().isIronmanType() && !Boundary.isIn(player, Boundary.GODWARS_BOSSROOMS) && !Boundary.isIn(player, Boundary.CORPOREAL_BEAST_LAIR) && !Boundary.isIn(player, Boundary.DAGANNOTH_KINGS) && !Boundary.isIn(player, Boundary.TEKTON) && !Boundary.isIn(player, Boundary.SKELETAL_MYSTICS) && !Boundary.isIn(player, Boundary.RAID_MAIN)) {
                     double percentile = ((double) totalDamage / (double) npc.getHealth().getMaximumHealth()) * 100.0;
-                    if (percentile < 75.0) {
-                        killer = null;
-                    }
+                    if (percentile < 75.0) killer = null;
                 }
             }
         }
@@ -662,9 +608,7 @@ public abstract class Entity {
      * @return the status of the entities health
      */
     public Health getHealth() {
-        if (health == null) {
-            health = new Health(this);
-        }
+        if (health == null) health = new Health(this);
         return health;
     }
 
@@ -703,11 +647,8 @@ public abstract class Entity {
     }
 
     public RegionProvider getRegionProvider() {
-        if (instance != null) {
-            return instance;
-        } else {
-            return RegionProvider.getGlobal();
-        }
+        if (instance != null) return instance;
+        else return RegionProvider.getGlobal();
     }
 
     public Location getLocation() {

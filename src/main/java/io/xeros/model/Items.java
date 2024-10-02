@@ -22374,6 +22374,7 @@ public class Items {
     public static final int HOLY_SCYTHE_OF_VITUR = 25736;
     public static final int CORRUPTED_SCYTHE_OF_VITUR = 28543;
     public static final int LEAFBLADED_BATTLEAXE = 20727;
+    public static final int GHRAZU_RAPIER = 22324;
     public static final int TUMEKENS_SHADOW = 27275;
     public static final int CORRUPTED_TUMEKENS_SHADOW = 28547;
     public static final int OSMUMTENS_FANG = 26219;

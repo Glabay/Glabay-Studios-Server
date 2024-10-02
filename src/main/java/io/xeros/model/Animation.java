@@ -1,8 +1,11 @@
 package io.xeros.model;
 
+import lombok.Getter;
+
+@Getter
 public class Animation {
 
-    public static final Animation RESET_ANIMATION = new Animation(65_535);
+    public static final Animation RESET_ANIMATION = new Animation(65_535, 0, AnimationPriority.HIGH);
 
     private final int id;
     private final int delay;
@@ -22,15 +25,4 @@ public class Animation {
         this.animationPriority = animationPriority;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public AnimationPriority getAnimationPriority() {
-        return animationPriority;
-    }
 }
