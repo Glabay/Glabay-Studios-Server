@@ -1,9 +1,14 @@
 package io.xeros.model.entity;
 
 import io.xeros.content.combat.Hitmark;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class HitMark {
 
+    // Getters and Setters
     private Hitmark type;
     private int damage;
     private int delay;
@@ -20,39 +25,6 @@ public class HitMark {
     // Overloaded constructor for default 'delay'
     public HitMark(Hitmark type, int damage, int damageType) {
         this(type, damage, 0, damageType); // Calling the main constructor with 'delay' as 0
-    }
-
-    // Getters and Setters
-    public Hitmark getType() {
-        return type;
-    }
-
-    public void setType(Hitmark type) {
-        this.type = type;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public void setDamage(int damage) {
-        this.damage = damage;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
-    }
-
-    public int getDamageType() {
-        return damageType;
-    }
-
-    public void setDamageType(int damageType) {
-        this.damageType = damageType;
     }
 
     // Optionally, toString method for easy printing
