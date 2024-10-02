@@ -6,6 +6,8 @@ import io.xeros.Server;
 import io.xeros.content.commands.Command;
 import io.xeros.model.entity.player.Player;
 
+import static io.xeros.Configuration.START_POSITION;
+
 /**
  * Teleport the player to home.
  * 
@@ -14,24 +16,23 @@ import io.xeros.model.entity.player.Player;
 public class Home extends Command {
 
 	@Override
-	public void execute(Player c, String commandName, String input) {
-		if (Server.getMultiplayerSessionListener().inAnySession(c)) {
+	public void execute(Player player, String commandName, String input) {
+		if (Server.getMultiplayerSessionListener().inAnySession(player)) return;
+
+		if (player.getPosition().inClanWars() || player.getPosition().inClanWarsSafe()) {
+			player.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
 			return;
 		}
-		if (c.getPosition().inClanWars() || c.getPosition().inClanWarsSafe()) {
-			c.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
+		if (player.getPosition().inWild()) {
+			player.sendMessage("You can't use this command in the wilderness.");
 			return;
 		}
-		if (c.getPosition().inWild()) {
-			c.sendMessage("You can't use this command in the wilderness.");
-			return;
-		}
-		c.getPA().spellTeleport(3734, 3806, 0, false);
+		player.getPlayerAssistant().startTeleport(START_POSITION, "modern",  true);
 	}
 
 	@Override
 	public Optional<String> getDescription() {
-		return Optional.of("Teleports you to home area");
+		return Optional.of("Teleports you to home");
 	}
 
 }
