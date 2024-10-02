@@ -70,10 +70,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 3400:
-                player.getEventCalendar().openCalendar();
-                break;
-
             case 2111:
                 player.getShops().openShop(176);
                 break;
