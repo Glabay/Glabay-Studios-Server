@@ -71,9 +71,6 @@ public class NpcOptionOne {
 
         switch (npcType) {
 
-            case 6999:
-                player.getDH().sendDialogues(55870, 6999);
-                break;
             case 6904:
                 player.getDH().sendDialogues(55864, 6904);
                 break;
