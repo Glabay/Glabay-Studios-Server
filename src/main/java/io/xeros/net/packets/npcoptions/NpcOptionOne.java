@@ -60,13 +60,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 9400:
-                player.getDH().sendDialogues(3454, 9400);
-                break;
-            case 6586:
-                player.getDH().sendNpcChat1("No shirt, Sherlock", 6586, "Sherlock");
-                player.getDiaryManager().getKandarinDiary().progress(KandarinDiaryEntry.SHERLOCK);
-                break;
             case 5036:
                 if (player.getItems().playerHasItem(225) || player.getItems().playerHasItem(223)) {
                     player.sendMessage("The Apothecary takes your ingredients and creates a strength potion.");
