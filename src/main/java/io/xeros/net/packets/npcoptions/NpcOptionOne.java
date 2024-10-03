@@ -1,17 +1,14 @@
 package io.xeros.net.packets.npcoptions;
 
 import io.xeros.Server;
-import io.xeros.content.achievement_diary.impl.KandarinDiaryEntry;
 import io.xeros.content.achievement_diary.impl.LumbridgeDraynorDiaryEntry;
 import io.xeros.content.achievement_diary.impl.VarrockDiaryEntry;
 import io.xeros.content.bosses.nightmare.NightmareActionHandler;
-import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.impl.IronmanNpcDialogue;
 import io.xeros.content.dialogue.impl.MacDialogue;
 import io.xeros.content.dialogue.impl.MonkChaosAltarDialogue;
 import io.xeros.content.skills.Fishing;
 import io.xeros.content.skills.crafting.Tanning;
-import io.xeros.content.skills.hunter.impling.Impling;
 import io.xeros.content.skills.mining.Mineral;
 import io.xeros.content.skills.thieving.Thieving;
 import io.xeros.model.Npcs;
@@ -60,19 +57,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 5036:
-                if (player.getItems().playerHasItem(225) || player.getItems().playerHasItem(223)) {
-                    player.sendMessage("The Apothecary takes your ingredients and creates a strength potion.");
-                    player.getItems().deleteItem(225, 1);
-                    player.getItems().deleteItem(223, 1);
-                    player.getItems().addItem(115, 1);
-                    player.getDiaryManager().getVarrockDiary().progress(VarrockDiaryEntry.APOTHECARY_STRENGTH);
-                }
-                else {
-                    player.sendMessage("You must have limpwurt root and red spiders' eggs to do this.");
-                    return;
-                }
-                break;
             case 3500:
                 player.getDH().sendDialogues(64, npcType);
                 break;
