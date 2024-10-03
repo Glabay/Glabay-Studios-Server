@@ -61,11 +61,6 @@ public class NpcOptionOne {
 
         switch (npcType) {
 
-            case 2914:
-                player.getDH().sendNpcChat2("Use Zammy Spear on me to get Hasta, cost 10m", "Use Hasta on me get Zammy Spear, cost 5m", 2914,
-                    "Otto Godblessed");
-                break;
-
             case 1635:
             case 1636:
             case 1637:
