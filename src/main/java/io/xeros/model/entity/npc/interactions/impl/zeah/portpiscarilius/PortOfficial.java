@@ -4,6 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
+import static io.xeros.model.Dialogues.PORT_OFFICIAL_DIALOGUE;
 import static io.xeros.model.Npcs.PORT_OFFICIAL;
 
 /**
@@ -21,7 +22,7 @@ public class PortOfficial extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendDialogues(55870, 6999);
+        player.getDH().sendDialogues(PORT_OFFICIAL_DIALOGUE, PORT_OFFICIAL);
         return true;
     }
 }

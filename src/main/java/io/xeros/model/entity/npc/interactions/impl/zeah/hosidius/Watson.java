@@ -22,7 +22,7 @@ public class Watson extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.start(new DialogueBuilder(player).npc(7303,
+        player.start(new DialogueBuilder(player).npc(WATSON,
                 "I will trade a full set of clue scrolls for a master one.",
                 "Just hand them over."));
         return true;

@@ -22,7 +22,7 @@ public class Sherlock extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendNpcChat1("No shirt, Sherlock", 6586, "Sherlock");
+        player.getDH().sendNpcChat1("No shirt, Sherlock", SHERLOCK, "Sherlock");
         player.getDiaryManager().getKandarinDiary().progress(KandarinDiaryEntry.SHERLOCK);
         return true;
     }

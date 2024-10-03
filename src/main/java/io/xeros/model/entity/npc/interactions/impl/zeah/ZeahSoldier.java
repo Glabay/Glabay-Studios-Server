@@ -4,6 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
+import static io.xeros.model.Dialogues.ZEAH_SOLDIER_DIALOGUE;
 import static io.xeros.model.Npcs.*;
 
 /**
@@ -21,7 +22,7 @@ public class ZeahSoldier extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendDialogues(55877, 6877);
+        player.getDH().sendDialogues(ZEAH_SOLDIER_DIALOGUE, SOLDIER_13);
         return true;
     }
 }
