@@ -85,9 +85,6 @@ public class NpcOptionTwo {
         			player.sendMessage("@red@You dont have 10 firecapes to gamble.");	
 		    }
 		    	break;
-		case 7690:
-			Inferno.gamble(player);
-			break;
 		case Npcs.PERDU:
 			player.getPerduLostPropertyShop().open(player);
 			break;

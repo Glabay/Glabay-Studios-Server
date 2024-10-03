@@ -71,38 +71,6 @@ public class NpcOptionOne {
 
         switch (npcType) {
 
-            case 555:
-                player.getShops().openShop(122);
-                player.sendMessage("@red@ You can sell me anything you want!");
-                break;
-            case 9011:
-                player.getShops().openShop(77);
-                player.sendMessage("@red@ Please type in ::vote to go to the site. And do ::voted to receive them!");
-                player.sendMessage("@red@ Thank you for supporting " + Configuration.SERVER_NAME + "!");
-                break;
-            case 1011:
-                player.getDH().sendNpcChat1(
-                    "@or2@Gamble 10 firecapes at a chance of an infernal cape.", 1011,
-                    "Item Gambler");
-                break;
-            case 9168:
-                player.getShops().openShop(123);
-                break;
-            case 4921:
-                player.getShops().openShop(124);
-                break;
-            case 9120:
-                player.getShops().openShop(9);
-                player.sendMessage("Use @red@::mbox @bla@to see possible rewards from the mystery boxes!");
-                player.sendMessage("Use @red@::donationrewards @bla@to see donation bonuses!");
-                break;
-
-            case 1035:
-                player.getDH().sendDialogues(300, npcType);
-                break;
-            case 7690:
-                Inferno.startInferno(player, Inferno.getDefaultWave());
-                break;
             case 4407:
                 player.getShops().openShop(124);
                 break;
