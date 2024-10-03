@@ -70,22 +70,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 954:
-                if (player.getItems().playerHasItem(4207)) {
-                    player.getDH().sendDialogues(66, 954);
-                    return;
-                }
-                player.getDH().sendDialogues(832, 954);
-                break;
-            case 5293:
-                player.getShops().openShop(175);
-                break;
-            case 386:
-                player.getDH().sendDialogues(782, 386);
-                break;
-            case 8208:
-                PetCollector.petCollectorDialogue(player);
-                break;
             case 2662:
                 player.getShops().openShop(131);
                 player.sendMessage("You currently have @red@" + player.tournamentPoints + " @bla@Tournament Points!");
@@ -407,10 +391,6 @@ public class NpcOptionOne {
                     player.sendMessage("You must have limpwurt root and red spiders' eggs to do this.");
                     return;
                 }
-                break;
-
-            case 5906:
-                Probita.hasInvalidPet(player);
                 break;
 
             case 3500:
