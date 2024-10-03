@@ -60,9 +60,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 3936:
-                player.getDH().sendNpcChat1("Right click on me and i will take you on-board.", 3936, "Sailor");
-                break;
             case 1896:
                 if (player.getItems().playerHasItem(995, 30)) {
                     player.getItems().deleteItem(995, 30);
