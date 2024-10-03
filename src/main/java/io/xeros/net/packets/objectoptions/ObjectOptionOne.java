@@ -156,21 +156,6 @@ public class ObjectOptionOne extends ObjectAction {
         }
 
         switch (objectType) {
-            case 8880:
-                if (c.getItems().freeSlots() < 3) c.sendMessage("You need at least three free slots for these tools.");
-                else {
-                    c.getItems().addItem(1755, 1);
-                    c.getItems().addItem(1265, 1);
-                    c.getItems().addItem(1351, 1);
-                }
-                break;
-            case 7674:
-                if (c.getItems().freeSlots() < 1) c.sendMessage("You need at least one free slot to pick these berries.");
-                else {
-                    c.getDiaryManager().getFaladorDiary().progress(FaladorDiaryEntry.PICK_POSION_BERRY);
-                    c.getItems().addItem(6018, 1);
-                }
-                break;
             case 14843:
                 c.getRooftopCanafis().execute(c, objectType);
                 break;
