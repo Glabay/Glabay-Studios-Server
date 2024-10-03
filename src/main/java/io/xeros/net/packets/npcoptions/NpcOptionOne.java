@@ -71,33 +71,6 @@ public class NpcOptionOne {
 
         switch (npcType) {
 
-            // Zeah Throw Aways
-            case 2200:
-                player.getDH().sendDialogues(55873, 2200);
-                break;
-            case 3189:
-                player.getDH().sendDialogues(11929, 3189);
-                break;
-            case 5998:
-                if (player.amDonated <= 1) {
-                    player.getDH().sendDialogues(5998, 5998);
-                }
-                else {
-                    player.getDH().sendDialogues(5999, 5998);
-                }
-                break;
-            case 4062:
-                player.getDH().sendDialogues(55875, 4062);
-                break;
-            case 4321:
-                player.getDH().sendDialogues(145, 4321);
-                break;
-            case 7041:
-                player.getDH().sendDialogues(500, 7041);
-                break;
-            case 6877:
-                player.getDH().sendDialogues(55877, 6877);
-                break;
             case 4409:
                 player.getDH().sendDialogues(55876, 4409);
                 break;
