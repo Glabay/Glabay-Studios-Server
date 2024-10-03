@@ -9,7 +9,7 @@ import io.xeros.model.world.objects.actions.WorldObjectAction;
  * @project Glabay-Studios-Server
  * @social Discord: Skryllz
  * @social Github: <a href="https://github.com/Skryllzz">Skryllzz</a>
- * @since 10/1/2024
+ * @since 10/2/2024
  */
 public class TallTree extends WorldObjectAction {
 

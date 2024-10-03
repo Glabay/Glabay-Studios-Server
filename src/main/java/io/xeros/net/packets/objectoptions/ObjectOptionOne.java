@@ -156,15 +156,6 @@ public class ObjectOptionOne extends ObjectAction {
         }
 
         switch (objectType) {
-            case 14845:
-            case 14848:
-            case 14846:
-            case 14894:
-            case 14847:
-            case 14897:
-            case 14844:
-                c.getRooftopCanafis().execute(c, objectType);
-                break;
             case 23555:
             case 23554:
                 c.getWildernessAgility().wildernessCourse(c, objectType);
