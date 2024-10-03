@@ -167,39 +167,6 @@ public class ObjectOptionOne extends ObjectAction {
                 }
                 Listing.openPost(c, false);
                 break;
-            case 20391:
-                c.getPA().movePlayer(3284, 2808, 0);
-                break;
-            case 15477:
-                c.sendMessage("The Construction skill is coming Soon.");
-                break;
-            case 33320:
-                if (Boundary.isIn(c, Boundary.EDGEVILLE_PERIMETER)) {
-                    c.sendMessage("@bla@[@red@FoE@bla@]@blu@ Remember, any exchanges are @red@final@blu@, items will not be returned.");
-                    c.sendMessage("@bla@[@red@FoE@bla@] @blu@Click an item in your inventory to offer. Use the green arrow to confirm.");
-                    c.getItems().sendItemContainer(33403, Lists.newArrayList(new GameItem(4653, 1)));
-                    c.getPA().sendInterfaceSet(33400, 33404);
-                    c.getItems().sendInventoryInterface(33405);
-                    c.getPA().sendFrame126("@gre@" + c.exchangePoints, 33410);
-                    c.getPA().sendFrame126("@red@0", 33409);
-                }
-                else c.sendMessage("You must be in edgeville to use this.");
-                break;
-            case 29778:
-                c.getPA().movePlayer(3034, 6067, 0);
-                c.setRaidsInstance(null);
-                break;
-            case 31623: //making forocious gloves
-                if (c.getItems().playerHasItem(995, 15_000_000) && c.getItems().playerHasItem(22983) && c.getItems().playerHasItem(2347)) {
-                    c.startAnimation(898);
-                    c.getItems().deleteItem(22983, 1); //leather
-                    c.getItems().deleteItem(995, 15_000_000); //coins
-                    c.getItems().addItem(22981, 1); //ads forocious gloves
-                    c.sendMessage("@red@You have succesfully created forocious gloves.");
-                    return;
-                }
-                c.sendMessage("@red@You need a hammer, Hydra Leather, 15 million coins to do this.");
-                break;
             case 30107:
                 if (c.getItems().freeSlots() < 3) {
                     c.getDH().sendStatement("@red@You need at least 3 free slots for safety");
