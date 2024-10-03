@@ -184,29 +184,6 @@ public class NpcOptionTwo {
 				player.getDH().sendDialogues(10955, npcType);
 			}
 			break;
-		case 5870: 
-			if (player.getSlayer().getTask().isPresent()) {
-				player.getDH().sendDialogues(3305, 8761);
-			} else {
-				if (player.getLevel(Skill.SLAYER) < 91) {
-					player.getDH().sendStatement("You need a Slayer level of 91 to kill these.");
-					return;
-				}
-				if (player.getSlayer().getTask().isPresent()) {
-					player.getDH().sendStatement("Please finish your current task first.");		
-					return;
-				}
-				if (!player.getItems().playerHasItem(995, 3_000_000)) {
-					player.getDH().sendStatement("Come back when you've got the 3m ready.");
-					return;
-				}
-					player.getItems().deleteItem2(995, 3_000_000);
-					player.getSlayer().createNewTask(5870, true);
-					player.getDH().sendNpcChat("You have been assigned "+ player.getSlayer().getTaskAmount() + " " + player.getSlayer().getTask().get().getPrimaryName());
-					player.nextChat = -1;
-			}
-			break;
-
 		case 5919: // Grace
 			player.getShops().openShop(18);
 			break;
