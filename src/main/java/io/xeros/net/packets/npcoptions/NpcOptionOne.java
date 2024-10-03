@@ -71,54 +71,6 @@ public class NpcOptionOne {
 
         switch (npcType) {
 
-            case 6904:
-                player.getDH().sendDialogues(55864, 6904);
-                break;
-            case 6906:
-                player.getDH().sendDialogues(55865, 6904);
-                break;
-            case 6908:
-                player.getDH().sendDialogues(55866, 6904);
-                break;
-            case 6910:
-                player.getDH().sendDialogues(55867, 6904);
-                break;
-            // End Zeah Throw Aways
-            case 1503:
-                player.getDH().sendDialogues(88393, 1503);
-                break;
-            case 1504:
-                player.getDH().sendDialogues(88394, 1504);
-                break;
-
-            case 6774:
-                player.getDH().sendDialogues(800, 6773);
-                break;
-
-
-            case 822:
-                if (player.getDiaryManager().getWildernessDiary().hasDoneEasy()) {
-                    player.getDH().sendDialogues(702, 822);
-                }
-                else {
-                    if (player.getItems().playerHasItem(11286) && player.getItems().playerHasItem(1540)
-                        && player.getItems().playerHasItem(995, 5_000_000)) {
-                        player.getItems().deleteItem(11286, 1);
-                        player.getItems().deleteItem(1540, 1);
-                        player.getItems().deleteItem(995, 500_000);
-                        player.getItems().addItem(11283, 1);
-                        player.votePoints -= 5;
-                        player.getQuestTab().updateInformationTab();
-                        player.getDH().sendItemStatement("Oziach successfully bound your dragonfire shield.", 11283);
-                    }
-                    else {
-                        player.getDH().sendNpcChat("Come back with a shield, visage and 5M Gold!");
-                    }
-                }
-                break;
-            case 306:
-                player.getDH().sendDialogues(710, 306);
-                break;
             case 2897:
                 if (player.getMode().isIronmanType()) {
                     player.sendMessage("@red@You are not permitted to make use of this.");
