@@ -75,15 +75,6 @@ public class NpcOptionThree {
 		case 2200:
 			player.getPA().c.itemAssistant.openUpBank();
 			break;
-		case 1306:
-			if (player.getItems().isWearingItems()) {
-				player.sendMessage("You must remove your equipment before changing your appearance.");
-				player.canChangeAppearance = false;
-			} else {
-				player.getPA().showInterface(3559);
-				player.canChangeAppearance = true;
-			}
-			break;
 		case 3936:
 			AgilityHandler.delayFade(player, "NONE", 2310, 3782, 0, "You board the boat...", "And end up in Neitiznot", 3);
 			player.getDiaryManager().getFremennikDiary().progress(FremennikDiaryEntry.TRAVEL_NEITIZNOT);

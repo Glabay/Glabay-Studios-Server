@@ -70,29 +70,7 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 2662:
-                player.getShops().openShop(131);
-                player.sendMessage("You currently have @red@" + player.tournamentPoints + " @bla@Tournament Points!");
-                break;
-            case 3510:
-                if (Boundary.isIn(player, Boundary.OUTLAST_AREA) || Boundary.isIn(player, Boundary.LUMBRIDGE_OUTLAST_LOBBY)) ;
-            {
-                player.getShops().openShop(147);
-            }
-            break;
-            case 1013:
-                player.getShops().openShop(130);
-                break;
-            case 1306:
-                if (player.getItems().isWearingItems()) {
-                    player.sendMessage("You must remove your equipment before changing your appearance.");
-                    player.canChangeAppearance = false;
-                }
-                else {
-                    player.getPA().showInterface(3559);
-                    player.canChangeAppearance = true;
-                }
-                break;
+
             case 5082:
                 player.getDH().sendNpcChat("Enter the portal at your own risk!");
                 break;
