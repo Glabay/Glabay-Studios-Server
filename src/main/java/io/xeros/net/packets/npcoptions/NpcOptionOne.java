@@ -60,9 +60,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 5514:
-                player.getDiaryManager().getWildernessDiary().claimReward();
-                break;
             case 5517:
                 player.getDiaryManager().getKandarinDiary().claimReward();
                 break;
