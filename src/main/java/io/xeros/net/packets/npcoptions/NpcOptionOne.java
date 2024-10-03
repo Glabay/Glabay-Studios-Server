@@ -71,12 +71,6 @@ public class NpcOptionOne {
 
         switch (npcType) {
 
-            case 5082:
-                player.getDH().sendNpcChat("Enter the portal at your own risk!");
-                break;
-            case 13: // Referral npc
-                player.start(new EnterReferralDialogue(player));
-                break;
             case 1603:
                 player.start(new KolodionDialogue(player));
                 break;
