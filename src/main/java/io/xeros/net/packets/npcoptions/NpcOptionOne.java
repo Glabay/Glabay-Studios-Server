@@ -1,38 +1,28 @@
 package io.xeros.net.packets.npcoptions;
 
-import io.xeros.Configuration;
 import io.xeros.Server;
-import io.xeros.content.PetCollector;
 import io.xeros.content.achievement_diary.impl.KandarinDiaryEntry;
 import io.xeros.content.achievement_diary.impl.LumbridgeDraynorDiaryEntry;
 import io.xeros.content.achievement_diary.impl.VarrockDiaryEntry;
 import io.xeros.content.bosses.nightmare.NightmareActionHandler;
-import io.xeros.content.dailyrewards.DailyRewardsDialogue;
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.impl.IronmanNpcDialogue;
 import io.xeros.content.dialogue.impl.MacDialogue;
 import io.xeros.content.dialogue.impl.MonkChaosAltarDialogue;
-import io.xeros.content.minigames.inferno.Inferno;
-import io.xeros.content.miniquests.magearenaii.dialogue.KolodionDialogue;
-import io.xeros.content.referral.EnterReferralDialogue;
 import io.xeros.content.skills.Fishing;
-import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.crafting.Tanning;
 import io.xeros.content.skills.hunter.impling.Impling;
 import io.xeros.content.skills.mining.Mineral;
 import io.xeros.content.skills.thieving.Thieving;
-import io.xeros.content.tradingpost.Listing;
 import io.xeros.model.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.pets.PetHandler;
-import io.xeros.model.entity.npc.pets.Probita;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Right;
 import io.xeros.model.entity.player.mode.group.GroupIronman;
 import io.xeros.model.entity.player.mode.group.GroupIronmanDialogue;
-import io.xeros.model.entity.player.mode.group.contest.GroupIronmanContest;
 import io.xeros.util.Location3D;
 import io.xeros.util.Misc;
 import org.slf4j.Logger;
@@ -70,34 +60,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-
-            case 3226:
-                if (player.playerLevel[Skill.WOODCUTTING.getId()] >= 90) {
-                    player.getPA().startTeleport(1589, 3483, 0, "modern", false);
-                    player.sendMessage("@blu@Welcome to the Woodcutting Guild.");
-                    return;
-                }
-                player.sendMessage("@red@You need a woodcutting level of 90 to teleport to WC Guild.");
-
-                break;
-            case 7716:
-                if (player.playerLevel[Skill.MINING.getId()] >= 92) {
-                    player.getPA().startTeleport(3021, 9716, 0, "modern", false);
-                    player.sendMessage("@blu@Welcome to the Amethyst Mine.");
-                    return;
-                }
-                player.sendMessage("@red@You need a mining level of 92 to teleport to the Amethyst Mine.");
-                break;
-            case 9014:
-                player.getPA().startTeleport(3272, 6052, 0, "modern", false);
-                player.sendMessage("@blu@Welcome to crystal slayer, use ::crystal for details.");
-                break;
-            case 7303:
-                player.start(new DialogueBuilder(player).npc(npcType,
-                    "I will trade a full set of clue scrolls for a master one.",
-                    "Just hand them over."));
-                //player.sendMessage("I will trade a full set of clue scrolls with a master one.");
-                break;
 
             case 2914:
                 player.getDH().sendNpcChat2("Use Zammy Spear on me to get Hasta, cost 10m", "Use Hasta on me get Zammy Spear, cost 5m", 2914,
