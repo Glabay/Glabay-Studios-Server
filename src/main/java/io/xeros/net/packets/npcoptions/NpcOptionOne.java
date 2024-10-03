@@ -55,9 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 3307: // Combat instructor
-                player.getDH().sendDialogues(1390, npcType);
-                break;
             case 394:
                 player.getDH().sendDialogues(669, npcType);
                 break;

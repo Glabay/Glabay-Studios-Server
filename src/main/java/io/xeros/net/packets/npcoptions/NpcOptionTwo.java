@@ -95,12 +95,6 @@ public class NpcOptionTwo {
 		case 2989:
 			player.getPrestige().openPrestige();
 			break;
-
-		case 3307:
-			player.getPA().showInterface(37700);
-			player.sendMessage("Set different colors for specific items for easier looting!");
-			break;
-
 		case 4321:
 			int totalBlood = player.getItems().getItemAmount(13307);
 			if (totalBlood >= 1) {
