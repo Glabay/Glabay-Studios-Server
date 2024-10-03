@@ -13,4 +13,6 @@ public class Dialogues {
     public static final Integer PORT_WORKER_DIALOGUE = 55869;
     public static final Integer ZEAH_SOLDIER_DIALOGUE = 55877;
     public static final Integer GERTRUDE_DIALOGUE = 64;
+    public static final Integer KEY_MASTER_DIALOGUE = 105;
+    public static final Integer KEY_MASTER_DIALOGUE_2 = 3305;
 }
