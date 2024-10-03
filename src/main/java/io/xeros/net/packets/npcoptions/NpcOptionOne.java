@@ -60,21 +60,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-
-            case 1635:
-            case 1636:
-            case 1637:
-            case 1638:
-            case 1639:
-            case 1640:
-            case 1641:
-            case 1642:
-            case 1643:
-            case 1654:
-            case 7302:
-                Impling.catchImpling(player, npc);
-                break;
-
             case 17: // Rug merchant
                 player.getDH().sendDialogues(837, 17);
                 break;
