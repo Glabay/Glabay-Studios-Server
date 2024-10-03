@@ -167,14 +167,6 @@ public class ObjectOptionOne extends ObjectAction {
                 }
                 Listing.openPost(c, false);
                 break;
-            case 12202:
-                if (!c.getItems().playerHasItem(952)) {
-                    c.sendMessage("You need a spade to dig the whole.");
-                    return;
-                }
-                c.getPA().movePlayer(1761, 5186, 0);
-                c.sendMessage("You digged a whole and landed underground.");
-                break;
 
             case 3840:
                 if (Boundary.isIn(c, Boundary.FALADOR_BOUNDARY)) if (c.getItems().playerHasItem(1925)) {
