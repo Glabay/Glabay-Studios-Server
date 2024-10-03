@@ -60,14 +60,9 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 5518:
-                player.getDiaryManager().getWesternDiary().claimReward();
-                break;
-
             case 3936:
                 player.getDH().sendNpcChat1("Right click on me and i will take you on-board.", 3936, "Sailor");
                 break;
-
             case 1896:
                 if (player.getItems().playerHasItem(995, 30)) {
                     player.getItems().deleteItem(995, 30);
@@ -86,7 +81,6 @@ public class NpcOptionOne {
                 player.getDH().sendNpcChat1("No shirt, Sherlock", 6586, "Sherlock");
                 player.getDiaryManager().getKandarinDiary().progress(KandarinDiaryEntry.SHERLOCK);
                 break;
-
             case 5036:
                 if (player.getItems().playerHasItem(225) || player.getItems().playerHasItem(223)) {
                     player.sendMessage("The Apothecary takes your ingredients and creates a strength potion.");
@@ -100,27 +94,21 @@ public class NpcOptionOne {
                     return;
                 }
                 break;
-
             case 3500:
                 player.getDH().sendDialogues(64, npcType);
                 break;
-
             case 5870:
                 player.getDH().sendDialogues(105, npcType);
                 break;
-
             case 7283:
                 player.getDH().sendDialogues(105, npcType);
                 break;
-
             case Npcs.MAC:
                 player.start(new MacDialogue(player, true));
                 break;
-
             case 3307: // Combat instructor
                 player.getDH().sendDialogues(1390, npcType);
                 break;
-
             case 394:
                 player.getDH().sendDialogues(669, npcType);
                 break;
@@ -141,16 +129,13 @@ public class NpcOptionOne {
                     "Use any resource item obtained in this area on me.");
                 player.nextChat = -1;
                 break;
-
             case 2040:
                 player.getDH().sendDialogues(637, npcType);
                 break;
-
             case 6866:
                 player.getShops().openShop(82);
                 player.sendMessage("You currently have @red@" + player.getShayPoints() + " @bla@Assault Points!");
                 break;
-
             case 6601:
                 NPC golem = npc;
                 if (golem != null) {
@@ -230,7 +215,6 @@ public class NpcOptionOne {
                 }
                 player.getDH().sendDialogues(3300, npcType);
                 break;
-
             case 405:
                 if (player.combatLevel < 100) {
                     player.getDH().sendNpcChat2("Do not waste my time peasent.", "You need a Combat level of at least 100.", 402, "Duradel");
@@ -335,7 +319,6 @@ public class NpcOptionOne {
             case 331:
                 Fishing.attemptdata(player, 9);
                 break;
-
             case 944:
                 player.getDH().sendOption5("Hill Giants", "Hellhounds", "Lesser Demons", "Chaos Dwarf", "-- Next Page --");
                 player.teleAction = 7;
@@ -347,7 +330,6 @@ public class NpcOptionOne {
             case 5809:
                 Tanning.sendTanningInterface(player);
                 break;
-
             case 2913:
                 player.getShops().openShop(22);
                 break;
@@ -356,7 +338,6 @@ public class NpcOptionOne {
                 break;
             case 1599:
                 break;
-
             case 953: // Banker
             case 2574: // Banker
             case 166: // Gnome Banker
@@ -392,7 +373,6 @@ public class NpcOptionOne {
             case 1578:
                 player.getShops().openShop(6);
                 break;
-
             case 6747:
                 player.getShops().openShop(77);
                 break;
@@ -403,7 +383,6 @@ public class NpcOptionOne {
             case 1860:
                 player.getShops().openShop(47);
                 break;
-
             case 519:
                 player.getShops().openShop(48);
                 break;
@@ -416,12 +395,9 @@ public class NpcOptionOne {
                 player.getDH().sendOption2("Teleport me to Runecrafting Abyss.", "I want to stay here, thanks.");
                 player.dialogueAction = 2258;
                 break;
-
             case 532:
                 player.getShops().openShop(47);
                 break;
-
-
             case 7913:
                 if (player.getMode().isIronmanType()
                     || player.getRights().contains(Right.OWNER) || player.getRights().contains(Right.ADMINISTRATOR)) {
@@ -434,18 +410,6 @@ public class NpcOptionOne {
             case 7769:
                 player.getShops().openShop(2);
                 break;
-
-
-
-            /*
-             * case 198: c.getShops().openSkillCape(); break;
-             */
-
-            /**
-             * Make over mage.
-             */
-
         }
     }
-
 }
