@@ -55,9 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case Npcs.ADAM:
-                player.start(new IronmanNpcDialogue(player, npc));
-                break;
             case 1159:
                 player.start(new MonkChaosAltarDialogue(player, npc));
                 break;

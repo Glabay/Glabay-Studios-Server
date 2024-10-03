@@ -181,9 +181,6 @@ public class NpcOptionTwo {
 		case 5919: // Grace
 			player.getShops().openShop(18);
 			break;
-		case Npcs.ADAM:
-			IronmanNpcDialogue.giveIronmanArmour(player, npc);
-			break;
 		case 6747:
 			player.getShops().openShop(77);
 			break;
