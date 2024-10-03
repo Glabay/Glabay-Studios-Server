@@ -2,10 +2,8 @@ package io.xeros.net.packets.npcoptions;
 
 import io.xeros.Server;
 import io.xeros.content.achievement_diary.impl.LumbridgeDraynorDiaryEntry;
-import io.xeros.content.achievement_diary.impl.VarrockDiaryEntry;
 import io.xeros.content.bosses.nightmare.NightmareActionHandler;
 import io.xeros.content.dialogue.impl.IronmanNpcDialogue;
-import io.xeros.content.dialogue.impl.MacDialogue;
 import io.xeros.content.dialogue.impl.MonkChaosAltarDialogue;
 import io.xeros.content.skills.Fishing;
 import io.xeros.content.skills.crafting.Tanning;
@@ -57,9 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case Npcs.MAC:
-                player.start(new MacDialogue(player, true));
-                break;
             case 3307: // Combat instructor
                 player.getDH().sendDialogues(1390, npcType);
                 break;
