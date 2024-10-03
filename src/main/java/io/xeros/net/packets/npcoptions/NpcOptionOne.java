@@ -71,42 +71,6 @@ public class NpcOptionOne {
 
         switch (npcType) {
 
-            case 4407:
-                player.getShops().openShop(124);
-                break;
-
-            case 5314:
-                player.getTeleportInterface().openInterface();
-                break;
-            case 3248:
-                player.getTeleportInterface().openInterface();
-                break;
-            case 1143:
-                player.getShops().openShop(83);
-                break;
-
-            case 1909:
-                player.getDH().sendDialogues(900, 1909);
-                break;
-            case 2989:
-                player.getDH().sendDialogues(1427, 2989);
-                break;
-            case 3306:
-                player.getDH().sendDialogues(1577, -1);
-                break;
-            case 7520:
-                player.getDH().sendDialogues(850, 7520);
-                break;
-            /**
-             * Doomsayer
-             */
-            case 6773:
-                if (!player.pkDistrict) {
-                    player.sendMessage("You cannot do this right now.");
-                    return;
-                }
-                player.getDH().sendDialogues(800, 6773);
-                break;
             // Zeah Throw Aways
             case 2200:
                 player.getDH().sendDialogues(55873, 2200);

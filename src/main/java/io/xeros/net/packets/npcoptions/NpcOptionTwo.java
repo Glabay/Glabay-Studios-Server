@@ -119,12 +119,6 @@ public class NpcOptionTwo {
 		case 6774:
 			player.getShops().openShop(117);
 			break;
-		case 6773:
-			if (!player.pkDistrict) {
-				player.sendMessage("You cannot do this right now.");
-				return;
-			}
-			break;
 
 		case 4407:
 			player.getShops().openShop(19);

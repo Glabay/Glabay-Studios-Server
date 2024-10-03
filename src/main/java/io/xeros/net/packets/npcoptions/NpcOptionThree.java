@@ -64,14 +64,6 @@ public class NpcOptionThree {
 			player.getShops().openShop(119);
 			player.sendMessage("You currently have @red@"+player.bloodPoints+" @bla@Blood Money Points!");
 			break;
-
-		case 6773:
-			player.isSkulled = true;
-			player.skullTimer = Configuration.EXTENDED_SKULL_TIMER;
-			player.headIconPk = 0;
-			player.getPA().requestUpdates();
-			player.sendMessage("@cr10@@blu@You are now skulled.");
-			break;
 		case 2200:
 			player.getPA().c.itemAssistant.openUpBank();
 			break;
