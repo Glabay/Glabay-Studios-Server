@@ -21663,6 +21663,7 @@ public class Items {
     public static final int SCRAWLED_NOTES = 23_773;
     public static final int SCRAWLED_NOTES_2 = 23_774;
     public static final int HAND_MIRROR_2 = 23_775;
+    public static final int HUNLLEFS_KEY = 23_776;
     public static final int YELLOW_CRYSTAL_2 = 23_777;
     public static final int GREEN_CRYSTAL_3 = 23_778;
     public static final int CYAN_CRYSTAL_3 = 23_779;

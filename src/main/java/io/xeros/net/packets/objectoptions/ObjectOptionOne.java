@@ -182,24 +182,6 @@ public class ObjectOptionOne extends ObjectAction {
                 }
                 c.getDH().sendStatement("@red@You need either a rare or common key.");
                 break;
-            case 32508:
-                c.objectDistance = 13;
-                if (!(System.currentTimeMillis() - c.chestDelay > 2000)) {
-                    c.getDH().sendStatement("Please wait before doing this again.");
-                    return;
-                }
-
-                if (c.getItems().freeSlots() < 3) {
-                    c.getDH().sendStatement("@red@You need at least 3 free slots for safety");
-                    return;
-                }
-                if (c.getItems().playerHasItem(23776, 1)) {
-                    new HunllefChest().roll(c);
-                    c.chestDelay = System.currentTimeMillis();
-                    return;
-                }
-                c.getDH().sendStatement("@red@You need Hunllef's key to unlock this chest.");
-                break;
             case 12202:
                 if (!c.getItems().playerHasItem(952)) {
                     c.sendMessage("You need a spade to dig the whole.");
