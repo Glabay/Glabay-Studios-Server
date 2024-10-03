@@ -71,9 +71,6 @@ public class NpcOptionOne {
 
         switch (npcType) {
 
-            case 1603:
-                player.start(new KolodionDialogue(player));
-                break;
             case 555:
                 player.getShops().openShop(122);
                 player.sendMessage("@red@ You can sell me anything you want!");
