@@ -156,9 +156,6 @@ public class ObjectOptionOne extends ObjectAction {
         }
 
         switch (objectType) {
-            case 14843:
-                c.getRooftopCanafis().execute(c, objectType);
-                break;
             case 14845:
             case 14848:
             case 14846:
