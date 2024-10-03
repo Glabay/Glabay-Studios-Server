@@ -55,20 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 1159:
-                player.start(new MonkChaosAltarDialogue(player, npc));
-                break;
-            // Noting Npc At Skill Area
-            case 905:
-                player.talkingNpc = 905;
-                player.getDH().sendNpcChat("Hello there, I can note your resources.",
-                    "I charge @red@25%@bla@ of the yield, this @red@does not apply to donators@bla@.",
-                    "Use any resource item obtained in this area on me.");
-                player.nextChat = -1;
-                break;
-            case 2040:
-                player.getDH().sendDialogues(637, npcType);
-                break;
             case 6866:
                 player.getShops().openShop(82);
                 player.sendMessage("You currently have @red@" + player.getShayPoints() + " @bla@Assault Points!");

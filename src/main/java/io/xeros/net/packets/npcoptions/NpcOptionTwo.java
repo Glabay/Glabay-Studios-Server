@@ -117,16 +117,6 @@ public class NpcOptionTwo {
 		case 4407:
 			player.getShops().openShop(19);
 			break;
-
-		case 2040:
-			if (player.getZulrahEvent().isActive()) {
-				player.getDH().sendStatement("It seems that a zulrah instance for you is already created.",
-						"If you think this is wrong then please re-log.");
-				player.nextChat = -1;
-				return;
-			}
-			player.getZulrahEvent().initialize();
-			break;
 		case 3105:
 			long milliseconds = (long) player.playTime * 600;
 			long days = TimeUnit.MILLISECONDS.toDays(milliseconds);
