@@ -60,17 +60,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 1896:
-                if (player.getItems().playerHasItem(995, 30)) {
-                    player.getItems().deleteItem(995, 30);
-                    player.getItems().addItem(36, 1);
-                    player.getDiaryManager().getKandarinDiary().progress(KandarinDiaryEntry.BUY_CANDLE);
-                }
-                else {
-                    player.sendMessage("You need 30 coins to purchase a candle.");
-                    return;
-                }
-                break;
             case 9400:
                 player.getDH().sendDialogues(3454, 9400);
                 break;
