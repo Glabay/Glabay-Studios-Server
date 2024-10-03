@@ -133,10 +133,6 @@ public class NpcOptionTwo {
 			}
 			player.getZulrahEvent().initialize();
 			break;
-
-		case 17: // Rug merchant 
-			player.getDH().sendDialogues(838, 17);
-			break;
 		case 3105:
 			long milliseconds = (long) player.playTime * 600;
 			long days = TimeUnit.MILLISECONDS.toDays(milliseconds);

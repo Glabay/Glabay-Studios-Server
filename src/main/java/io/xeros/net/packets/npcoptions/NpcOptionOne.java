@@ -60,9 +60,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 17: // Rug merchant
-                player.getDH().sendDialogues(837, 17);
-                break;
             case 5520:
                 player.getDiaryManager().getDesertDiary().claimReward();
                 break;
