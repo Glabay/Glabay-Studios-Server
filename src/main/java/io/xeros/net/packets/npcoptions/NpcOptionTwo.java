@@ -315,7 +315,6 @@ public class NpcOptionTwo {
 		case 497: // Banker
 		case 498: // Banker
 		case 499: // Banker
-		case 394:
 		case 567: // Banker
 		case 766:
 		case 1036: // Banker

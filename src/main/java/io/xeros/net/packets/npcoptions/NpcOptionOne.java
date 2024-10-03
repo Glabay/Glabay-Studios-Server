@@ -55,12 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 394:
-                player.getDH().sendDialogues(669, npcType);
-                break;
-            case GroupIronman.GROUP_FORM_NPC:
-                player.start(new GroupIronmanDialogue(player));
-                break;
             case Npcs.ADAM:
                 player.start(new IronmanNpcDialogue(player, npc));
                 break;
