@@ -168,14 +168,6 @@ public class ObjectOptionOne extends ObjectAction {
                 Listing.openPost(c, false);
                 break;
 
-            case 3840:
-                if (Boundary.isIn(c, Boundary.FALADOR_BOUNDARY)) if (c.getItems().playerHasItem(1925)) {
-                    int amount = c.getItems().getItemAmount(1925);
-                    c.getItems().deleteItem2(1925, amount);
-                    c.getItems().addItem(6032, amount);
-                    c.getDiaryManager().getFaladorDiary().progress(FaladorDiaryEntry.COMPOST_BUCKET, true, amount);
-                }
-                break;
             case 1524:
                 if (c.absX == 2958) c.getPA().movePlayer(2957, 3821, 0);
                 else if (c.absX == 2957) c.getPA().movePlayer(2958, 3821, 0);
