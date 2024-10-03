@@ -167,21 +167,6 @@ public class ObjectOptionOne extends ObjectAction {
                 }
                 Listing.openPost(c, false);
                 break;
-            case 30107:
-                if (c.getItems().freeSlots() < 3) {
-                    c.getDH().sendStatement("@red@You need at least 3 free slots for safety");
-                    return;
-                }
-                if (c.getItems().playerHasItem(Raids.COMMON_KEY, 1)) {
-                    new RaidsChestCommon().roll(c);
-                    return;
-                }
-                if (c.getItems().playerHasItem(Raids.RARE_KEY, 1)) {
-                    new RaidsChestRare().roll(c);
-                    return;
-                }
-                c.getDH().sendStatement("@red@You need either a rare or common key.");
-                break;
             case 12202:
                 if (!c.getItems().playerHasItem(952)) {
                     c.sendMessage("You need a spade to dig the whole.");
