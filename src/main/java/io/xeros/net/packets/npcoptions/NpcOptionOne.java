@@ -71,13 +71,6 @@ public class NpcOptionOne {
 
         switch (npcType) {
 
-            case 2897:
-                if (player.getMode().isIronmanType()) {
-                    player.sendMessage("@red@You are not permitted to make use of this.");
-                    return;
-                }
-                Listing.openPost(player, false);
-                break;
             case 3226:
                 if (player.playerLevel[Skill.WOODCUTTING.getId()] >= 90) {
                     player.getPA().startTeleport(1589, 3483, 0, "modern", false);

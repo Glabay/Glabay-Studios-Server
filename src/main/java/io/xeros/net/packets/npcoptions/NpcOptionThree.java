@@ -54,9 +54,6 @@ public class NpcOptionThree {
 		case 1909:
 			player.getDH().sendDialogues(903, 1909);
 			break;
-		case 2897:
-			player.getPA().c.itemAssistant.openUpBank();
-			break;
 		case 2989:
 			player.getPrestige().openShop();
 			break;

@@ -137,11 +137,6 @@ public class NpcOptionTwo {
 		case 17: // Rug merchant 
 			player.getDH().sendDialogues(838, 17);
 			break;
-		case 2897:
-			if (player.getMode().isIronmanType()) {
-				player.sendMessage("@red@You are not permitted to make use of this.");			}
-			Listing.collectMoney(player);
-			break;
 		case 3105:
 			long milliseconds = (long) player.playTime * 600;
 			long days = TimeUnit.MILLISECONDS.toDays(milliseconds);
