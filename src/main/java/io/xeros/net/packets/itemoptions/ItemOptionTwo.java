@@ -66,20 +66,10 @@ public class ItemOptionTwo implements PacketType {
 		if (itemId == Items.ROTTEN_POTATO && RottenPotato.getInstance().forPlayer(player).peel())
 			return;
 		if (Misc.isInDuelSession(player)) return;
-
-		if (JarsToPoints.open(player, itemId)) {
-			return;
-		}
-
-		if (BryophytaStaff.handleItemOption(player, itemId, 2))
-			return;
-
-		if (SanguinestiStaff.clickItem(player, itemId, 2)) {
-			return;
-		}
-
-		if (ChangeDisplayName.clickChangeNameItem(player, itemId))
-			return;
+		if (JarsToPoints.open(player, itemId)) return;
+		if (BryophytaStaff.handleItemOption(player, itemId, 2)) return;
+		if (SanguinestiStaff.clickItem(player, itemId, 2)) return;
+		if (ChangeDisplayName.clickChangeNameItem(player, itemId)) return;
 
 		TeleportTablets.operate(player, itemId);
 		ItemDef def = ItemDef.forId(itemId);

@@ -108,6 +108,7 @@ public class ItemOptionOne implements PacketType {
                 return;
             logger.error("Unhandled Item Action 1: {} ", npcAction.getClass().getSimpleName());
         }
+
         if (itemId == Items.ROTTEN_POTATO && RottenPotato.getInstance().forPlayer(c).eat())
             return;
 
@@ -677,9 +678,13 @@ public class ItemOptionOne implements PacketType {
             c.getDH().sendDialogues(657, -1);
             return;
         }
-        if (itemId == 8015 || itemId == 8014) NonCombatSpellData.attemptDate(c, itemId);
-        if (itemId == 9553) c.getPotions().eatChoc(itemSlot);
-        if (itemId == 12846) c.getDH().sendDialogues(578, -1);
+        if (itemId == 8015 || itemId == 8014)
+            NonCombatSpellData.attemptDate(c, itemId);
+        if (itemId == 9553)
+            c.getPotions().eatChoc(itemSlot);
+        if (itemId == 12846)
+            c.getDH().sendDialogues(578, -1);
+
         if (itemId == 12938) {
             c.getItems().deleteItem(12938, 1);
             c.getPA().startTeleport(2205, 3056, 0, "modern", false);
