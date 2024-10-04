@@ -65,10 +65,6 @@ public class ItemOptionTwo implements PacketType {
 		}
 		if (itemId == Items.ROTTEN_POTATO && RottenPotato.getInstance().forPlayer(player).peel())
 			return;
-		if (LootingBag.isLootingBag(itemId)) {
-			player.getLootingBag().openDepositMode();
-			return;
-		}
 		if (Misc.isInDuelSession(player)) return;
 
 		if (JarsToPoints.open(player, itemId)) {

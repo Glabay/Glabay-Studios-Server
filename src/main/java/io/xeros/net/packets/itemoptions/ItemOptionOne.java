@@ -130,10 +130,6 @@ public class ItemOptionOne implements PacketType {
         }
         TeleportTablets.operate(c, itemId);
         Packs.openPack(c, itemId);
-        if (LootingBag.isLootingBag(itemId)) {
-            c.getLootingBag().toggleOpen();
-            return;
-        }
         if (RunePouch.isRunePouch(itemId)) {
             c.getRunePouch().openRunePouch();
             return;

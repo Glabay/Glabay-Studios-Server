@@ -92,11 +92,6 @@ public class ItemOptionThree implements PacketType {
             logger.error("Unhandled Item Action 3: {} ", npcAction.getClass().getSimpleName());
         }
         switch (itemId) {
-            case LootingBag.LOOTING_BAG:
-            case LootingBag.LOOTING_BAG_OPEN:
-                c.getDH().sendDialogues(LootingBag.OPTIONS_DIALOGUE_ID, 0);
-                break;
-
             case 21183:
                 if (c.getItems().freeSlots() < 1) {
                     c.sendMessage("@blu@You need at least 1 free slot to do this.");
