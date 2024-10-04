@@ -174,12 +174,6 @@ public class NpcOptionTwo {
 		case 6747:
 			player.getShops().openShop(77);
 			break;
-		case 2580:
-			player.getPA().startTeleport(3039, 4835, 0, "modern", false);
-			player.getDiaryManager().getWildernessDiary().progress(WildernessDiaryEntry.ABYSS_TELEPORT);
-			player.dialogueAction = -1;
-			player.teleAction = -1;
-			break;
 		case 3936:
 			player.getDH().sendDialogues(459, -1);
 			break;

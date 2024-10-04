@@ -55,23 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 6866:
-                player.getShops().openShop(82);
-                player.sendMessage("You currently have @red@" + player.getShayPoints() + " @bla@Assault Points!");
-                break;
-            case 6601:
-                NPC golem = npc;
-                if (golem != null) {
-                    player.getMining().mine(golem, Mineral.RUNE,
-                        new Location3D(golem.getX(), golem.getY(), golem.heightLevel));
-                }
-                break;
-            case 1850:
-                player.getShops().openShop(112);
-                break;
-            case 2580:
-                player.getDH().sendDialogues(629, npcType);
-                break;
             case 4305:
                 player.getThieving().steal(Thieving.Pickpocket.DRUNKEN_DWARF, npc);
                 break;
