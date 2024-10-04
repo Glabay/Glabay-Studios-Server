@@ -1,6 +1,7 @@
 package io.xeros.model.world.objects.actions.skilling.farming;
 
 import io.xeros.content.achievement_diary.impl.FaladorDiaryEntry;
+import io.xeros.model.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
@@ -24,7 +25,7 @@ public class PoisionIvyBush extends WorldObjectAction {
             player.sendMessage("You need at least one free slot to pick these berries.");
         }
             player.getDiaryManager().getFaladorDiary().progress(FaladorDiaryEntry.PICK_POSION_BERRY);
-            player.getItems().addItem(6018, 1);
+            player.getItems().addItem(Items.POISON_IVY_BERRIES, 1);
             return true;
     }
 
