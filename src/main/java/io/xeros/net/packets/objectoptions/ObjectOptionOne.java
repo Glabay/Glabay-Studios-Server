@@ -225,12 +225,6 @@ public class ObjectOptionOne extends ObjectAction {
                     return;
                 }
                 break;
-            case 2884:
-            case 16684:
-            case 16683:
-                if (c.absY == 3494 || c.absY == 3495 || c.absY == 3496)
-                    AgilityHandler.delayEmote(c, "CLIMB_UP", c.getX(), c.getY(), c.getHeight() + 1, 2);
-                break;
             case 16679:
                 if (c.absY == 3494 || c.absY == 3495 || c.absY == 3496)
                     AgilityHandler.delayEmote(c, "CLIMB_DOWN", c.getX(), c.getY(), c.getHeight() - 1, 2);
