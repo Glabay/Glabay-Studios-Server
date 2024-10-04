@@ -197,40 +197,40 @@ public class ItemOptionOne implements PacketType {
                     c.sendMessage("@red@Bonus XP Weekend is @gre@active@red@, no need to use that now!");
                     return;
                 }
-                else if (c.xpScroll == false && c.getItems().playerHasItem(2841)) {
+                else if (!c.xpScroll && c.getItems().playerHasItem(2841)) {
                     c.getItems().deleteItem(2841, 1);
                     DoubleExpScroll.openScroll(c);
                     c.sendMessage("@red@You have activated 1 hour of bonus experience.");
                     c.getPA().sendGameTimer(ClientGameTimer.BONUS_XP, TimeUnit.MINUTES, 60);
                     c.getQuestTab().updateInformationTab();
                 }
-                else if (c.xpScroll == true) c.sendMessage("@red@You already used this up.");
+                else if (c.xpScroll) c.sendMessage("@red@You already used this up.");
                 break;
             case 7968:
                 if (!c.getItems().playerHasItem(7968)) {
                     c.sendMessage("You need an Bonus Pet Scroll to do this!");
                     return;
                 }
-                if (c.skillingPetRateScroll == false && c.getItems().playerHasItem(7968)) {
+                if (!c.skillingPetRateScroll && c.getItems().playerHasItem(7968)) {
                     c.getItems().deleteItem(7968, 1);
                     SkillPetRateIncreaseScroll.openScroll(c);
                     c.sendMessage("@red@You have activated 30 minutes of bonus skilling pet rate increase.");
                     c.getPA().sendGameTimer(ClientGameTimer.BONUS_SKILLING_PET_RATE, TimeUnit.MINUTES, 30);
                 }
-                else if (c.skillingPetRateScroll == true) c.sendMessage("@red@You already have a pet bonus going.");
+                else if (c.skillingPetRateScroll) c.sendMessage("@red@You already have a pet bonus going.");
                 break;
             case 24460:
                 if (!c.getItems().playerHasItem(24460)) {
                     c.sendMessage("You need a Faster clues scroll to do this!");
                     return;
                 }
-                if (c.fasterCluesScroll == false && c.getItems().playerHasItem(24460)) {
+                if (!c.fasterCluesScroll && c.getItems().playerHasItem(24460)) {
                     c.getItems().deleteItem(24460, 1);
                     CluescrollRateIncreaseScroll.openScroll(c);
                     c.sendMessage("@red@You have activated 30 minutes of bonus clues for pvm and skilling.");
                     c.getPA().sendGameTimer(ClientGameTimer.BONUS_CLUES, TimeUnit.MINUTES, 30);
                 }
-                else if (c.fasterCluesScroll == true) c.sendMessage("@red@You already have a faster clue rate going.");
+                else if (c.fasterCluesScroll) c.sendMessage("@red@You already have a faster clue rate going.");
                 break;
 
             case 12885:
@@ -332,14 +332,14 @@ public class ItemOptionOne implements PacketType {
                 }
                 break;
             case 6121:
-                if (c.barbarian == false && c.getItems().playerHasItem(6121)) {
+                if (!c.barbarian && c.getItems().playerHasItem(6121)) {
                     c.getItems().deleteItem(6121, 1);
                     c.barbarian = true;
                     c.breakVials = true;
                     c.getDH().sendStatement("You may now use ::vials to turn off and on vial smashing!", "It is now set to on.");
 
                 }
-                else if (c.barbarian == true) c.sendMessage("You already learned how to do this");
+                else if (c.barbarian) c.sendMessage("You already learned how to do this");
                 break;
             case 299:
                 if (Boundary.isIn(c, Boundary.FLOWER_POKER_AREA)) {
