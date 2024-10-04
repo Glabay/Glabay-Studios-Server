@@ -20599,7 +20599,7 @@ public class Items {
     public static final int AMULET_OF_AVARICE = 22_557;
     public static final int AMULET_OF_AVARICE_NOTED = 22_558;
     public static final int AMULET_OF_AVARICE_2 = 22_559;
-    public static final int LOOTING_BAG_3 = 22_586;
+    public static final int LOOTING_BAG_OPEN = 22_586;
     public static final int LOOTING_BAG_4 = 22_587;
     public static final int OLD_MANS_COFFIN = 22_588;
     public static final int REDUCED_CADAVA_POTION = 22_589;
