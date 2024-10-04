@@ -146,17 +146,6 @@ public class ItemOptionOne implements PacketType {
             case Items.MIMIC:
                 MimicCasket.open(c);
                 break;
-            case 21730:
-                c.sendMessage("Fallen from the centre of a Grotesque Guardian. This could be attached");
-                c.sendMessage("to a pair of Bandos boots...");
-                break;
-            case 23517:
-                if (c.getItems().playerHasItem(946)) {
-                    c.getItems().deleteItem(23517, 1);
-                    c.getItems().addItem(224, 100);
-                }
-                else c.sendMessage("You need a knife to open this.");
-                break;
             case ResourceBoxSmall.BOX_ITEM:
                 new ResourceBoxSmall().roll(c);
                 break;
