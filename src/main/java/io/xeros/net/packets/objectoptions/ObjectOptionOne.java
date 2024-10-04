@@ -167,7 +167,6 @@ public class ObjectOptionOne extends ObjectAction {
                 }
                 Listing.openPost(c, false);
                 break;
-
             case 190:
                 c.canEnterHespori = true;
                 c.objectDistance = 3;
@@ -225,11 +224,6 @@ public class ObjectOptionOne extends ObjectAction {
                     c.getPA().movePlayer(3070, 3499);
                     return;
                 }
-                break;
-            case 1967:
-            case 1968:
-                if (c.absY == 3493) c.getPA().movePlayer(2466, 3491, 0);
-                else if (c.absY == 3491) c.getPA().movePlayer(2466, 3493, 0);
                 break;
             case 2884:
             case 16684:
