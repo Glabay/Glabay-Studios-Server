@@ -156,33 +156,6 @@ public class ObjectOptionOne extends ObjectAction {
         }
 
         switch (objectType) {
-            case 8880:
-                if (c.getItems().freeSlots() < 3) c.sendMessage("You need at least three free slots for these tools.");
-                else {
-                    c.getItems().addItem(1755, 1);
-                    c.getItems().addItem(1265, 1);
-                    c.getItems().addItem(1351, 1);
-                }
-                break;
-            case 7674:
-                if (c.getItems().freeSlots() < 1) c.sendMessage("You need at least one free slot to pick these berries.");
-                else {
-                    c.getDiaryManager().getFaladorDiary().progress(FaladorDiaryEntry.PICK_POSION_BERRY);
-                    c.getItems().addItem(6018, 1);
-                }
-                break;
-            case 14843:
-                c.getRooftopCanafis().execute(c, objectType);
-                break;
-            case 14845:
-            case 14848:
-            case 14846:
-            case 14894:
-            case 14847:
-            case 14897:
-            case 14844:
-                c.getRooftopCanafis().execute(c, objectType);
-                break;
             case 23555:
             case 23554:
                 c.getWildernessAgility().wildernessCourse(c, objectType);
@@ -193,94 +166,6 @@ public class ObjectOptionOne extends ObjectAction {
                     return;
                 }
                 Listing.openPost(c, false);
-                break;
-            case 20391:
-                c.getPA().movePlayer(3284, 2808, 0);
-                break;
-            case 15477:
-                c.sendMessage("The Construction skill is coming Soon.");
-                break;
-            case 33320:
-                if (Boundary.isIn(c, Boundary.EDGEVILLE_PERIMETER)) {
-                    c.sendMessage("@bla@[@red@FoE@bla@]@blu@ Remember, any exchanges are @red@final@blu@, items will not be returned.");
-                    c.sendMessage("@bla@[@red@FoE@bla@] @blu@Click an item in your inventory to offer. Use the green arrow to confirm.");
-                    c.getItems().sendItemContainer(33403, Lists.newArrayList(new GameItem(4653, 1)));
-                    c.getPA().sendInterfaceSet(33400, 33404);
-                    c.getItems().sendInventoryInterface(33405);
-                    c.getPA().sendFrame126("@gre@" + c.exchangePoints, 33410);
-                    c.getPA().sendFrame126("@red@0", 33409);
-                }
-                else c.sendMessage("You must be in edgeville to use this.");
-                break;
-            case 29778:
-                c.getPA().movePlayer(3034, 6067, 0);
-                c.setRaidsInstance(null);
-                break;
-            case 31623: //making forocious gloves
-                if (c.getItems().playerHasItem(995, 15_000_000) && c.getItems().playerHasItem(22983) && c.getItems().playerHasItem(2347)) {
-                    c.startAnimation(898);
-                    c.getItems().deleteItem(22983, 1); //leather
-                    c.getItems().deleteItem(995, 15_000_000); //coins
-                    c.getItems().addItem(22981, 1); //ads forocious gloves
-                    c.sendMessage("@red@You have succesfully created forocious gloves.");
-                    return;
-                }
-                c.sendMessage("@red@You need a hammer, Hydra Leather, 15 million coins to do this.");
-                break;
-            case 30107:
-                if (c.getItems().freeSlots() < 3) {
-                    c.getDH().sendStatement("@red@You need at least 3 free slots for safety");
-                    return;
-                }
-                if (c.getItems().playerHasItem(Raids.COMMON_KEY, 1)) {
-                    new RaidsChestCommon().roll(c);
-                    return;
-                }
-                if (c.getItems().playerHasItem(Raids.RARE_KEY, 1)) {
-                    new RaidsChestRare().roll(c);
-                    return;
-                }
-                c.getDH().sendStatement("@red@You need either a rare or common key.");
-                break;
-            case 32508:
-                c.objectDistance = 13;
-                if (!(System.currentTimeMillis() - c.chestDelay > 2000)) {
-                    c.getDH().sendStatement("Please wait before doing this again.");
-                    return;
-                }
-
-                if (c.getItems().freeSlots() < 3) {
-                    c.getDH().sendStatement("@red@You need at least 3 free slots for safety");
-                    return;
-                }
-                if (c.getItems().playerHasItem(23776, 1)) {
-                    new HunllefChest().roll(c);
-                    c.chestDelay = System.currentTimeMillis();
-                    return;
-                }
-                c.getDH().sendStatement("@red@You need Hunllef's key to unlock this chest.");
-                break;
-            case 12202:
-                if (!c.getItems().playerHasItem(952)) {
-                    c.sendMessage("You need a spade to dig the whole.");
-                    return;
-                }
-                c.getPA().movePlayer(1761, 5186, 0);
-                c.sendMessage("You digged a whole and landed underground.");
-                break;
-
-            case 3840:
-                if (Boundary.isIn(c, Boundary.FALADOR_BOUNDARY)) if (c.getItems().playerHasItem(1925)) {
-                    int amount = c.getItems().getItemAmount(1925);
-                    c.getItems().deleteItem2(1925, amount);
-                    c.getItems().addItem(6032, amount);
-                    c.getDiaryManager().getFaladorDiary().progress(FaladorDiaryEntry.COMPOST_BUCKET, true, amount);
-                }
-                break;
-            case 1524:
-                if (c.absX == 2958) c.getPA().movePlayer(2957, 3821, 0);
-                else if (c.absX == 2957) c.getPA().movePlayer(2958, 3821, 0);
-                else if (c.absX == 2907) c.getPA().movePlayer(2958, 9679, 0);
                 break;
             case 190:
                 c.canEnterHespori = true;
@@ -339,11 +224,6 @@ public class ObjectOptionOne extends ObjectAction {
                     c.getPA().movePlayer(3070, 3499);
                     return;
                 }
-                break;
-            case 1967:
-            case 1968:
-                if (c.absY == 3493) c.getPA().movePlayer(2466, 3491, 0);
-                else if (c.absY == 3491) c.getPA().movePlayer(2466, 3493, 0);
                 break;
             case 2884:
             case 16684:
