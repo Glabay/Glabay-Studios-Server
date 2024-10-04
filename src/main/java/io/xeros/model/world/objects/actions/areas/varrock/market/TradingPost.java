@@ -5,6 +5,9 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
+import static io.xeros.model.Objects.GRAND_EXCHANGE_BOOTH;
+import static io.xeros.model.Objects.GRAND_EXCHANGE_BOOTH_10061;
+
 /**
  * @author Glabay | Glabay-Studios
  * @project Glabay-Studios-Server
@@ -14,7 +17,7 @@ import io.xeros.model.world.objects.actions.WorldObjectAction;
 public class TradingPost extends WorldObjectAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { 10060, 10061 };
+        return new Integer[] { GRAND_EXCHANGE_BOOTH, GRAND_EXCHANGE_BOOTH_10061 };
     }
 
     @Override

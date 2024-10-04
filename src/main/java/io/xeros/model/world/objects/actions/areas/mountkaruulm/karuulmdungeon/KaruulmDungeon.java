@@ -5,6 +5,8 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
+import static io.xeros.model.Objects.CAVE_EXIT_34514;
+
 /**
  * @author Zei | Glabay-Studios
  * @project Glabay-Studios-Server
@@ -16,7 +18,7 @@ public class KaruulmDungeon extends WorldObjectAction {
 
     @Override
     protected Integer[] getIds() {
-        return new Integer[]{ 34514 };
+        return new Integer[]{ CAVE_EXIT_34514 };
     }
 
     @Override

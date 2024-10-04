@@ -4,6 +4,8 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
+import static io.xeros.model.Objects.ROPE_BRIDGE_21311;
+
 /**
  * @author Zei | Glabay-Studios
  * @project Glabay-Studios-Server
@@ -15,7 +17,7 @@ public class FremIslesWestBridgeNorthEntrance extends WorldObjectAction {
 
     @Override
     protected Integer[] getIds() {
-        return new Integer[]{ 21311 };
+        return new Integer[]{ ROPE_BRIDGE_21311 };
     }
 
     @Override
