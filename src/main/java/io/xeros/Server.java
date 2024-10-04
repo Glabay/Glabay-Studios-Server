@@ -14,6 +14,7 @@ import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.drops.DropManager;
 import io.xeros.model.entity.npc.interactions.NpcOptionActionManager;
 import io.xeros.model.entity.player.PlayerHandler;
+import io.xeros.model.items.interactions.WorldItemActionManager;
 import io.xeros.model.multiplayersession.MultiplayerSessionListener;
 import io.xeros.model.world.ClanManager;
 import io.xeros.model.world.ItemHandler;
@@ -87,6 +88,8 @@ public class Server {
     private static final WorldObjectActionManager objectActionManager = new WorldObjectActionManager();
     @Getter
     private static final NpcOptionActionManager npcOptionActionManager = new NpcOptionActionManager();
+    @Getter
+    private static final WorldItemActionManager itemOptionActionManager = new WorldItemActionManager();
     /**
      * ClanChat Added by Valiant
      */

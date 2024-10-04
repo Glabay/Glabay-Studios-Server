@@ -40,9 +40,8 @@ public class ItemOptionTwo implements PacketType {
 		player.interruptActions();
 		int itemId = player.getInStream().readUnsignedWord();
 
-		if (player.debugMessage) {
+		if (player.debugMessage)
 			player.sendMessage(String.format("ItemClick[item=%d, option=%d, interface=%d, slot=%d]", itemId, 2, -1, -1));
-		}
 
 		if (player.getLock().cannotClickItem(player, itemId))
 			return;
@@ -57,6 +56,13 @@ public class ItemOptionTwo implements PacketType {
 			return;
 		}
 
+		var itemActionManager = Server.getItemOptionActionManager();
+		if (itemActionManager.findHandlerById(itemId).isPresent()) {
+			var npcAction = itemActionManager.findHandlerById(itemId).get();
+			if (npcAction.performedAction(player, itemId, -1, -1, 2))
+				return;
+			logger.error("Unhandled Item Action 2: {} ", npcAction.getClass().getSimpleName());
+		}
 		if (itemId == Items.ROTTEN_POTATO && RottenPotato.getInstance().forPlayer(player).peel())
 			return;
 		if (LootingBag.isLootingBag(itemId)) {

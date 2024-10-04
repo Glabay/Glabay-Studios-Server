@@ -1,16 +1,15 @@
 package io.xeros.net.packets.itemoptions;
 
-import java.util.Optional;
-
+import io.xeros.Server;
 import io.xeros.content.combat.magic.SanguinestiStaff;
-import io.xeros.content.items.Degrade;
 import io.xeros.content.items.Degrade.DegradableItem;
 import io.xeros.content.items.pouch.RunePouch;
 import io.xeros.content.teleportation.TeleportTablets;
 import io.xeros.net.packets.PacketType;
 import io.xeros.model.entity.player.Player;
-import io.xeros.model.entity.player.Right;
 import io.xeros.util.Misc;
+
+import static io.xeros.content.items.Degrade.checkPercentage;
 
 /**
  * Item Click 3 Or Alternative Item Option 1
@@ -22,25 +21,18 @@ import io.xeros.util.Misc;
 
 public class ItemOptionFour implements PacketType {
 
-
 	@Override
 	public void processPacket(Player c, int packetType, int packetSize) {
-		if (c.getMovementState().isLocked())
-			return;
+		if (c.getMovementState().isLocked()) return;
 		c.interruptActions();
 		int itemId11 = c.getInStream().readSignedWordBigEndianA();
 		int itemId1 = c.getInStream().readSignedWordA();
 		int itemId = c.getInStream().readSignedWordA();
 
-		if (c.debugMessage) {
-			c.sendMessage(String.format("ItemClick[item=%d, option=%d, interface=%d, slot=%d]", itemId, 4, -1, -1));
-		}
+		if (c.debugMessage) c.sendMessage(String.format("ItemClick[item=%d, option=%d, interface=%d, slot=%d]", itemId, 4, -1, -1));
 
-		if (c.getLock().cannotClickItem(c, itemId))
-			return;
-		if (!c.getItems().playerHasItem(itemId, 1)) {
-			return;
-		}
+		if (c.getLock().cannotClickItem(c, itemId)) return;
+		if (!c.getItems().playerHasItem(itemId, 1)) return;
 		if (c.getInterfaceEvent().isActive()) {
 			c.sendMessage("Please finish what you're doing.");
 			return;
@@ -54,24 +46,16 @@ public class ItemOptionFour implements PacketType {
 			return;
 		}
 		TeleportTablets.operate(c, itemId);
+		SanguinestiStaff.clickItem(c, itemId, 4);
+		DegradableItem.forId(itemId).ifPresent(degradableItem -> checkPercentage(c, itemId));
 		if (Misc.isInDuelSession(c)) return;
-		Optional<DegradableItem> d = DegradableItem.forId(itemId);
-		if (d.isPresent()) {
-			Degrade.checkPercentage(c, itemId);
-			return;
-		}
-		if (SanguinestiStaff.clickItem(c, itemId, 4)) {
-			return;
-		}
-		switch (itemId) {
 
-		default:
-			if (c.getRights().isOrInherits(Right.OWNER)) {
-				Misc.println("[DEBUG] Item Option #4-> Item id: " + itemId);
-			}
-			break;
+		var itemActionManager = Server.getItemOptionActionManager();
+		if (itemActionManager.findHandlerById(itemId).isPresent()) {
+			var npcAction = itemActionManager.findHandlerById(itemId).get();
+			if (npcAction.performedAction(c, itemId, itemId1, itemId11, 4))
+				return;
+			logger.error("Unhandled Item Action 4: {} ", npcAction.getClass().getSimpleName());
 		}
-
 	}
-
 }
