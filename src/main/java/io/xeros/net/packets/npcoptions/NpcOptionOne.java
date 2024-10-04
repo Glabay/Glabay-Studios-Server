@@ -1,38 +1,28 @@
 package io.xeros.net.packets.npcoptions;
 
-import io.xeros.Configuration;
 import io.xeros.Server;
-import io.xeros.content.PetCollector;
 import io.xeros.content.achievement_diary.impl.KandarinDiaryEntry;
 import io.xeros.content.achievement_diary.impl.LumbridgeDraynorDiaryEntry;
 import io.xeros.content.achievement_diary.impl.VarrockDiaryEntry;
 import io.xeros.content.bosses.nightmare.NightmareActionHandler;
-import io.xeros.content.dailyrewards.DailyRewardsDialogue;
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.impl.IronmanNpcDialogue;
 import io.xeros.content.dialogue.impl.MacDialogue;
 import io.xeros.content.dialogue.impl.MonkChaosAltarDialogue;
-import io.xeros.content.minigames.inferno.Inferno;
-import io.xeros.content.miniquests.magearenaii.dialogue.KolodionDialogue;
-import io.xeros.content.referral.EnterReferralDialogue;
 import io.xeros.content.skills.Fishing;
-import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.crafting.Tanning;
 import io.xeros.content.skills.hunter.impling.Impling;
 import io.xeros.content.skills.mining.Mineral;
 import io.xeros.content.skills.thieving.Thieving;
-import io.xeros.content.tradingpost.Listing;
 import io.xeros.model.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.pets.PetHandler;
-import io.xeros.model.entity.npc.pets.Probita;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Right;
 import io.xeros.model.entity.player.mode.group.GroupIronman;
 import io.xeros.model.entity.player.mode.group.GroupIronmanDialogue;
-import io.xeros.model.entity.player.mode.group.contest.GroupIronmanContest;
 import io.xeros.util.Location3D;
 import io.xeros.util.Misc;
 import org.slf4j.Logger;
@@ -70,337 +60,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 954:
-                if (player.getItems().playerHasItem(4207)) {
-                    player.getDH().sendDialogues(66, 954);
-                    return;
-                }
-                player.getDH().sendDialogues(832, 954);
-                break;
-            case 2149:
-            case 2150:
-            case 2151:
-            case 2148:
-                player.getPA().c.itemAssistant.openUpBank();
-                break;
-            case 5293:
-                player.getShops().openShop(175);
-                break;
-            case 386:
-                player.getDH().sendDialogues(782, 386);
-                break;
-            case 8208:
-                PetCollector.petCollectorDialogue(player);
-                break;
-            case 2662:
-                player.getShops().openShop(131);
-                player.sendMessage("You currently have @red@" + player.tournamentPoints + " @bla@Tournament Points!");
-                break;
-            case 3510:
-                if (Boundary.isIn(player, Boundary.OUTLAST_AREA) || Boundary.isIn(player, Boundary.LUMBRIDGE_OUTLAST_LOBBY)) ;
-            {
-                player.getShops().openShop(147);
-            }
-            break;
-            case 1013:
-                player.getShops().openShop(130);
-                break;
-            case 1306:
-                if (player.getItems().isWearingItems()) {
-                    player.sendMessage("You must remove your equipment before changing your appearance.");
-                    player.canChangeAppearance = false;
-                }
-                else {
-                    player.getPA().showInterface(3559);
-                    player.canChangeAppearance = true;
-                }
-                break;
-            case 5082:
-                player.getDH().sendNpcChat("Enter the portal at your own risk!");
-                break;
-            case 13: // Referral npc
-                player.start(new EnterReferralDialogue(player));
-                break;
-            case 1603:
-                player.start(new KolodionDialogue(player));
-                break;
-            case 555:
-                player.getShops().openShop(122);
-                player.sendMessage("@red@ You can sell me anything you want!");
-                break;
-            case 9011:
-                player.getShops().openShop(77);
-                player.sendMessage("@red@ Please type in ::vote to go to the site. And do ::voted to receive them!");
-                player.sendMessage("@red@ Thank you for supporting " + Configuration.SERVER_NAME + "!");
-                break;
-            case 1011:
-                player.getDH().sendNpcChat1(
-                    "@or2@Gamble 10 firecapes at a chance of an infernal cape.", 1011,
-                    "Item Gambler");
-                break;
-            case 9168:
-                player.getShops().openShop(123);
-                break;
-            case 4921:
-                player.getShops().openShop(124);
-                break;
-            case 9120:
-                player.getShops().openShop(9);
-                player.sendMessage("Use @red@::mbox @bla@to see possible rewards from the mystery boxes!");
-                player.sendMessage("Use @red@::donationrewards @bla@to see donation bonuses!");
-                break;
-
-            case 1035:
-                player.getDH().sendDialogues(300, npcType);
-                break;
-            case 7690:
-                Inferno.startInferno(player, Inferno.getDefaultWave());
-                break;
-            case 4407:
-                player.getShops().openShop(124);
-                break;
-
-            case 5314:
-                player.getTeleportInterface().openInterface();
-                break;
-            case 3248:
-                player.getTeleportInterface().openInterface();
-                break;
-            case 1143:
-                player.getShops().openShop(83);
-                break;
-
-            case 1909:
-                player.getDH().sendDialogues(900, 1909);
-                break;
-            case 2989:
-                player.getDH().sendDialogues(1427, 2989);
-                break;
-            case 3306:
-                player.getDH().sendDialogues(1577, -1);
-                break;
-            case 7520:
-                player.getDH().sendDialogues(850, 7520);
-                break;
-            /**
-             * Doomsayer
-             */
-            case 6773:
-                if (!player.pkDistrict) {
-                    player.sendMessage("You cannot do this right now.");
-                    return;
-                }
-                player.getDH().sendDialogues(800, 6773);
-                break;
-            // Zeah Throw Aways
-            case 2200:
-                player.getDH().sendDialogues(55873, 2200);
-                break;
-            case 3189:
-                player.getDH().sendDialogues(11929, 3189);
-                break;
-            case 5998:
-                if (player.amDonated <= 1) {
-                    player.getDH().sendDialogues(5998, 5998);
-                }
-                else {
-                    player.getDH().sendDialogues(5999, 5998);
-                }
-                break;
-            case 4062:
-                player.getDH().sendDialogues(55875, 4062);
-                break;
-            case 4321:
-                player.getDH().sendDialogues(145, 4321);
-                break;
-            case 7041:
-                player.getDH().sendDialogues(500, 7041);
-                break;
-            case 6877:
-                player.getDH().sendDialogues(55877, 6877);
-                break;
-            case 4409:
-                player.getDH().sendDialogues(55876, 4409);
-                break;
-            case 6982:
-                player.getDH().sendDialogues(55868, 6982);
-                break;
-            case 6947:
-            case 6948:
-            case 6949:
-                player.getDH().sendDialogues(55872, 6947);
-                break;
-            case 6998:
-                player.getDH().sendDialogues(55871, 6998);
-                break;
-            case 7001:
-                player.getDH().sendDialogues(55869, 7001);
-                break;
-            case 6999:
-                player.getDH().sendDialogues(55870, 6999);
-                break;
-            case 6904:
-                player.getDH().sendDialogues(55864, 6904);
-                break;
-            case 6906:
-                player.getDH().sendDialogues(55865, 6904);
-                break;
-            case 6908:
-                player.getDH().sendDialogues(55866, 6904);
-                break;
-            case 6910:
-                player.getDH().sendDialogues(55867, 6904);
-                break;
-            // End Zeah Throw Aways
-            case 1503:
-                player.getDH().sendDialogues(88393, 1503);
-                break;
-            case 1504:
-                player.getDH().sendDialogues(88394, 1504);
-                break;
-
-            case 6774:
-                player.getDH().sendDialogues(800, 6773);
-                break;
-
-
-            case 822:
-                if (player.getDiaryManager().getWildernessDiary().hasDoneEasy()) {
-                    player.getDH().sendDialogues(702, 822);
-                }
-                else {
-                    if (player.getItems().playerHasItem(11286) && player.getItems().playerHasItem(1540)
-                        && player.getItems().playerHasItem(995, 5_000_000)) {
-                        player.getItems().deleteItem(11286, 1);
-                        player.getItems().deleteItem(1540, 1);
-                        player.getItems().deleteItem(995, 500_000);
-                        player.getItems().addItem(11283, 1);
-                        player.votePoints -= 5;
-                        player.getQuestTab().updateInformationTab();
-                        player.getDH().sendItemStatement("Oziach successfully bound your dragonfire shield.", 11283);
-                    }
-                    else {
-                        player.getDH().sendNpcChat("Come back with a shield, visage and 5M Gold!");
-                    }
-                }
-                break;
-            case 306:
-                player.getDH().sendDialogues(710, 306);
-                break;
-            case 2897:
-                if (player.getMode().isIronmanType()) {
-                    player.sendMessage("@red@You are not permitted to make use of this.");
-                    return;
-                }
-                Listing.openPost(player, false);
-                break;
-            case 3226:
-                if (player.playerLevel[Skill.WOODCUTTING.getId()] >= 90) {
-                    player.getPA().startTeleport(1589, 3483, 0, "modern", false);
-                    player.sendMessage("@blu@Welcome to the Woodcutting Guild.");
-                    return;
-                }
-                player.sendMessage("@red@You need a woodcutting level of 90 to teleport to WC Guild.");
-
-                break;
-            case 7716:
-                if (player.playerLevel[Skill.MINING.getId()] >= 92) {
-                    player.getPA().startTeleport(3021, 9716, 0, "modern", false);
-                    player.sendMessage("@blu@Welcome to the Amethyst Mine.");
-                    return;
-                }
-                player.sendMessage("@red@You need a mining level of 92 to teleport to the Amethyst Mine.");
-                break;
-            case 9014:
-                player.getPA().startTeleport(3272, 6052, 0, "modern", false);
-                player.sendMessage("@blu@Welcome to crystal slayer, use ::crystal for details.");
-                break;
-            case 7303:
-                player.start(new DialogueBuilder(player).npc(npcType,
-                    "I will trade a full set of clue scrolls for a master one.",
-                    "Just hand them over."));
-                //player.sendMessage("I will trade a full set of clue scrolls with a master one.");
-                break;
-
-            case 2914:
-                player.getDH().sendNpcChat2("Use Zammy Spear on me to get Hasta, cost 10m", "Use Hasta on me get Zammy Spear, cost 5m", 2914,
-                    "Otto Godblessed");
-                break;
-
-            case 1635:
-            case 1636:
-            case 1637:
-            case 1638:
-            case 1639:
-            case 1640:
-            case 1641:
-            case 1642:
-            case 1643:
-            case 1654:
-            case 7302:
-                Impling.catchImpling(player, npc);
-                break;
-
-            case 17: // Rug merchant
-                player.getDH().sendDialogues(837, 17);
-                break;
-            case 5520:
-                player.getDiaryManager().getDesertDiary().claimReward();
-                break;
-            case 5519:
-                player.getDiaryManager().getArdougneDiary().claimReward();
-                break;
-            case 5790:
-                player.getDiaryManager().getKaramjaDiary().claimReward();
-                break;
-            case 5525:
-                player.getDiaryManager().getVarrockDiary().claimReward();
-                break;
-            case 5523:
-                player.getDiaryManager().getLumbridgeDraynorDiary().claimReward();
-                break;
-            case 5524:
-                player.getDiaryManager().getFaladorDiary().claimReward();
-                break;
-            case 5521:
-                player.getDiaryManager().getMorytaniaDiary().claimReward();
-                break;
-            case 5514:
-                player.getDiaryManager().getWildernessDiary().claimReward();
-                break;
-            case 5517:
-                player.getDiaryManager().getKandarinDiary().claimReward();
-                break;
-            case 5526:
-                player.getDiaryManager().getFremennikDiary().claimReward();
-                break;
-            case 5518:
-                player.getDiaryManager().getWesternDiary().claimReward();
-                break;
-
-            case 3936:
-                player.getDH().sendNpcChat1("Right click on me and i will take you on-board.", 3936, "Sailor");
-                break;
-
-            case 1896:
-                if (player.getItems().playerHasItem(995, 30)) {
-                    player.getItems().deleteItem(995, 30);
-                    player.getItems().addItem(36, 1);
-                    player.getDiaryManager().getKandarinDiary().progress(KandarinDiaryEntry.BUY_CANDLE);
-                }
-                else {
-                    player.sendMessage("You need 30 coins to purchase a candle.");
-                    return;
-                }
-                break;
-            case 9400:
-                player.getDH().sendDialogues(3454, 9400);
-                break;
-            case 6586:
-                player.getDH().sendNpcChat1("No shirt, Sherlock", 6586, "Sherlock");
-                player.getDiaryManager().getKandarinDiary().progress(KandarinDiaryEntry.SHERLOCK);
-                break;
-
             case 5036:
                 if (player.getItems().playerHasItem(225) || player.getItems().playerHasItem(223)) {
                     player.sendMessage("The Apothecary takes your ingredients and creates a strength potion.");
@@ -414,31 +73,21 @@ public class NpcOptionOne {
                     return;
                 }
                 break;
-
-            case 5906:
-                Probita.hasInvalidPet(player);
-                break;
-
             case 3500:
                 player.getDH().sendDialogues(64, npcType);
                 break;
-
             case 5870:
                 player.getDH().sendDialogues(105, npcType);
                 break;
-
             case 7283:
                 player.getDH().sendDialogues(105, npcType);
                 break;
-
             case Npcs.MAC:
                 player.start(new MacDialogue(player, true));
                 break;
-
             case 3307: // Combat instructor
                 player.getDH().sendDialogues(1390, npcType);
                 break;
-
             case 394:
                 player.getDH().sendDialogues(669, npcType);
                 break;
@@ -459,16 +108,13 @@ public class NpcOptionOne {
                     "Use any resource item obtained in this area on me.");
                 player.nextChat = -1;
                 break;
-
             case 2040:
                 player.getDH().sendDialogues(637, npcType);
                 break;
-
             case 6866:
                 player.getShops().openShop(82);
                 player.sendMessage("You currently have @red@" + player.getShayPoints() + " @bla@Assault Points!");
                 break;
-
             case 6601:
                 NPC golem = npc;
                 if (golem != null) {
@@ -548,7 +194,6 @@ public class NpcOptionOne {
                 }
                 player.getDH().sendDialogues(3300, npcType);
                 break;
-
             case 405:
                 if (player.combatLevel < 100) {
                     player.getDH().sendNpcChat2("Do not waste my time peasent.", "You need a Combat level of at least 100.", 402, "Duradel");
@@ -653,7 +298,6 @@ public class NpcOptionOne {
             case 331:
                 Fishing.attemptdata(player, 9);
                 break;
-
             case 944:
                 player.getDH().sendOption5("Hill Giants", "Hellhounds", "Lesser Demons", "Chaos Dwarf", "-- Next Page --");
                 player.teleAction = 7;
@@ -665,7 +309,6 @@ public class NpcOptionOne {
             case 5809:
                 Tanning.sendTanningInterface(player);
                 break;
-
             case 2913:
                 player.getShops().openShop(22);
                 break;
@@ -674,7 +317,6 @@ public class NpcOptionOne {
                 break;
             case 1599:
                 break;
-
             case 953: // Banker
             case 2574: // Banker
             case 166: // Gnome Banker
@@ -710,7 +352,6 @@ public class NpcOptionOne {
             case 1578:
                 player.getShops().openShop(6);
                 break;
-
             case 6747:
                 player.getShops().openShop(77);
                 break;
@@ -721,7 +362,6 @@ public class NpcOptionOne {
             case 1860:
                 player.getShops().openShop(47);
                 break;
-
             case 519:
                 player.getShops().openShop(48);
                 break;
@@ -734,12 +374,9 @@ public class NpcOptionOne {
                 player.getDH().sendOption2("Teleport me to Runecrafting Abyss.", "I want to stay here, thanks.");
                 player.dialogueAction = 2258;
                 break;
-
             case 532:
                 player.getShops().openShop(47);
                 break;
-
-
             case 7913:
                 if (player.getMode().isIronmanType()
                     || player.getRights().contains(Right.OWNER) || player.getRights().contains(Right.ADMINISTRATOR)) {
@@ -752,18 +389,6 @@ public class NpcOptionOne {
             case 7769:
                 player.getShops().openShop(2);
                 break;
-
-
-
-            /*
-             * case 198: c.getShops().openSkillCape(); break;
-             */
-
-            /**
-             * Make over mage.
-             */
-
         }
     }
-
 }

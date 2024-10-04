@@ -10,7 +10,7 @@ import io.xeros.util.discord.Discord;
 public class PetCollector {
 
 
-    public static final int NPC_ID = 8208;
+    public static final int NPC_ID = 5_906;
 
     public static void exchangePetForGp(Player c, int item) {
         if (Configuration.DISABLE_FOE) {

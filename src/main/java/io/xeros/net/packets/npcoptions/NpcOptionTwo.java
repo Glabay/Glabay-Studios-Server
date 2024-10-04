@@ -67,15 +67,6 @@ public class NpcOptionTwo {
 		case 327:
 			   player.gfx100(1028);
 			break;
-		case 1306:
-			if (player.getItems().isWearingItems()) {
-				player.sendMessage("You must remove your equipment before changing your appearance.");
-				player.canChangeAppearance = false;
-			} else {
-				player.getPA().showInterface(3559);
-				player.canChangeAppearance = true;
-			}
-			break;
 		case 7240:
 			player.getShops().openShop(91);
 			break;
@@ -94,9 +85,6 @@ public class NpcOptionTwo {
         			player.sendMessage("@red@You dont have 10 firecapes to gamble.");	
 		    }
 		    	break;
-		case 7690:
-			Inferno.gamble(player);
-			break;
 		case Npcs.PERDU:
 			player.getPerduLostPropertyShop().open(player);
 			break;
@@ -131,12 +119,6 @@ public class NpcOptionTwo {
 		case 6774:
 			player.getShops().openShop(117);
 			break;
-		case 6773:
-			if (!player.pkDistrict) {
-				player.sendMessage("You cannot do this right now.");
-				return;
-			}
-			break;
 
 		case 4407:
 			player.getShops().openShop(19);
@@ -151,15 +133,6 @@ public class NpcOptionTwo {
 			}
 			player.getZulrahEvent().initialize();
 			break;
-
-		case 17: // Rug merchant 
-			player.getDH().sendDialogues(838, 17);
-			break;
-		case 2897:
-			if (player.getMode().isIronmanType()) {
-				player.sendMessage("@red@You are not permitted to make use of this.");			}
-			Listing.collectMoney(player);
-			break;
 		case 3105:
 			long milliseconds = (long) player.playTime * 600;
 			long days = TimeUnit.MILLISECONDS.toDays(milliseconds);
@@ -168,16 +141,6 @@ public class NpcOptionTwo {
 			player.getDH().sendNpcChat1("You've been playing " + Configuration.SERVER_NAME + " for " + time, 3105, "Hans");
 			player.getDiaryManager().getLumbridgeDraynorDiary().progress(LumbridgeDraynorDiaryEntry.HANS);
 			break;
-			case 2149:
-			case 2150:
-			case 2151:
-			case 2148:
-				if (player.getMode().isIronmanType()) {
-					player.sendMessage("@red@You are not permitted to make use of this.");
-					return;
-				}
-				Listing.openPost(player, false);
-				break;
 		case 3680:
 			AgilityHandler.delayFade(player, "NONE", 2674, 3274, 0, "The sailor brings you onto the ship.",
 					"and you end up in ardougne.", 3);
