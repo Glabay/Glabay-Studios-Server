@@ -6,6 +6,8 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
+import static io.xeros.model.Objects.CAVERN_ENTRANCE_28686;
+
 /**
  * @author Zei | Glabay-Studios
  * @project Glabay-Studios-Server
@@ -17,7 +19,7 @@ public class CrashSiteCavern extends WorldObjectAction {
 
     @Override
     protected Integer[] getIds() {
-        return new Integer[]{ 28686 };
+        return new Integer[]{ CAVERN_ENTRANCE_28686 };
     }
 
     @Override

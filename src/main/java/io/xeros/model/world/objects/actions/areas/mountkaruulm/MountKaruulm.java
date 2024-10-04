@@ -5,6 +5,8 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
+import static io.xeros.model.Objects.ELEVATOR;
+
 /**
  * @author Zei | Glabay-Studios
  * @project Glabay-Studios-Server
@@ -16,7 +18,7 @@ public class MountKaruulm extends WorldObjectAction {
 
     @Override
     protected Integer[] getIds() {
-        return new Integer[]{ 34359 };
+        return new Integer[]{ ELEVATOR };
     }
 
     @Override

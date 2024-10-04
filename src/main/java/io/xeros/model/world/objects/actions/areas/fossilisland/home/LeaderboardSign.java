@@ -5,6 +5,9 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
+import static io.xeros.model.Objects.NOTICE_BOARD_31846;
+import static io.xeros.model.Objects.SCOREBOARD_29064;
+
 /**
  * @author Zei | Glabay-Studios
  * @project Glabay-Studios-Server
@@ -15,7 +18,7 @@ import io.xeros.model.world.objects.actions.WorldObjectAction;
 public class LeaderboardSign extends WorldObjectAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[]{ 29064, 31846 };
+        return new Integer[]{ SCOREBOARD_29064, NOTICE_BOARD_31846 };
     }
 
     @Override
