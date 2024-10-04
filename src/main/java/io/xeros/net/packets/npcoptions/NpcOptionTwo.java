@@ -192,21 +192,6 @@ public class NpcOptionTwo {
 		case 3894:
 			player.getShops().openShop(26);
 			break;
-		case 5730:
-			if(player.getMode().isIronmanType()){
-				player.getThieving().steal(Thieving.Pickpocket.FARMER, npc);
-				if (Boundary.isIn(player, Boundary.FALADOR_BOUNDARY)) {
-					player.getThieving().steal(Thieving.Pickpocket.FARMER, npc);
-				}
-				if (Boundary.isIn(player, Boundary.DRAYNOR_BOUNDARY)) {
-					player.getThieving().steal(Thieving.Pickpocket.FARMER, npc);
-					player.getDiaryManager().getLumbridgeDraynorDiary().progress(LumbridgeDraynorDiaryEntry.PICKPOCKET_FARMER_DRAY);
-				}
-				player.sendMessage("@red@Restricted accounts can only steal from this npc.");
-			}else{
-				player.getShops().openShop(16);
-			}
-			break;
 		case 6987:
 			player.getThieving().steal(Thieving.Pickpocket.MAN, npc);
 			break;

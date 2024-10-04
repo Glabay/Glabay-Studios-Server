@@ -55,22 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 4305:
-                player.getThieving().steal(Thieving.Pickpocket.DRUNKEN_DWARF, npc);
-                break;
-            case 5730:
-                if (Boundary.isIn(player, Boundary.FALADOR_BOUNDARY)) {
-                    player.getThieving().steal(Thieving.Pickpocket.FARMER, npc);
-                    break;
-                }
-                if (Boundary.isIn(player, Boundary.DRAYNOR_BOUNDARY)) {
-                    player.getThieving().steal(Thieving.Pickpocket.FARMER, npc);
-                    player.getDiaryManager().getLumbridgeDraynorDiary().progress(LumbridgeDraynorDiaryEntry.PICKPOCKET_FARMER_DRAY);
-                    break;
-                }
-                player.getThieving().steal(Thieving.Pickpocket.FARMER, npc);
-                player.getDiaryManager().getLumbridgeDraynorDiary().progress(LumbridgeDraynorDiaryEntry.PICKPOCKET_FARMER_DRAY);
-                break;
             case 3894:
                 player.getShops().openShop(26);
                 break;
