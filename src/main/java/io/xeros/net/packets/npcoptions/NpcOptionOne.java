@@ -55,24 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 3220:
-                player.getShops().openShop(25);
-                break;
-            case 637:
-                player.getShops().openShop(6);
-                break;
-            case 6875:
-                player.specRestore = 120;
-                player.specAmount = 10.0;
-                player.setRunEnergy(100, true);
-                player.getItems().addSpecialBar(player.playerEquipment[Player.playerWeapon]);
-                player.playerLevel[5] = player.getPA().getLevelForXP(player.playerXP[5]);
-                player.getHealth().removeAllStatuses();
-                player.getHealth().reset();
-                player.getPA().refreshSkill(5);
-                player.getDH().sendItemStatement("Restored your HP, Prayer, Run Energy, and Spec", 4049);
-                player.nextChat = -1;
-                break;
             case 732:
                 player.getShops().openShop(16);
                 break;
