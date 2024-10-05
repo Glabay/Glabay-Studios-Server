@@ -189,9 +189,6 @@ public class NpcOptionTwo {
 				player.getDiaryManager().getArdougneDiary().progress(ArdougneDiaryEntry.PICKPOCKET_HERO);
 			}
 			break;
-		case 3894:
-			player.getShops().openShop(26);
-			break;
 		case 6987:
 			player.getThieving().steal(Thieving.Pickpocket.MAN, npc);
 			break;

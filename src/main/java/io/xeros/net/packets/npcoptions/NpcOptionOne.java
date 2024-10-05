@@ -55,9 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 3894:
-                player.getShops().openShop(26);
-                break;
             case 3220:
                 player.getShops().openShop(25);
                 break;
