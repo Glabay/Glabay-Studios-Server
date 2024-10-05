@@ -75,7 +75,7 @@ public class NpcOptionOne {
                     return;
                 }
                 if (player.playerLevel[18] < 50) {
-                    player.getDH().sendNpcChat1("You must have a slayer level of at least 50 weakling.", 490, "Duradel");
+                    player.getDH().sendNpcChat1("You must have a Slayer level of at least 50.", 490, "Duradel");
                     return;
                 }
                 player.getDH().sendDialogues(3300, npcType);
