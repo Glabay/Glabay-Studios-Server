@@ -148,9 +148,6 @@ public class NpcOptionTwo {
 		case 401:
 		case 402:
 		case 405:
-		case 7663:
-			player.getDH().sendDialogues(3304, npcType);
-			break;
 		case 6797: // Nieve
 			if (player.fullVoidMelee()) {
 				player.getDiaryManager().getWesternDiary().progress(WesternDiaryEntry.FULL_VOID);

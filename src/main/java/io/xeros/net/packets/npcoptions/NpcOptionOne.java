@@ -55,9 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 7663:
-                player.getDH().sendDialogues(3299, npcType);
-                break;
             case 402:// slayer
                 if (player.combatLevel < 20) {
                     player.getDH().sendNpcChat2("Do not waste my time peasent.", "You need a Combat level of 20.", 402, "Mazchna");
