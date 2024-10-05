@@ -55,9 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 2461:
-                player.getWarriorsGuild().handleDoor();
-                break;
             case 7663:
                 player.getDH().sendDialogues(3299, npcType);
                 break;
