@@ -563,6 +563,14 @@ public class Boundary {
 
 	public static final Boundary GROUP_IRONMAN_FORMING = new Boundary(new Position(3059, 3032, 0), new Position(3179, 3134, 0));
 
+	/**
+	 * Guilds and Specialty
+	 */
+
+	public static final Boundary GRAND_TREE_1 = new Boundary(new Position(2461, 3491, 1), new Position(2470, 3500, 1));
+	public static final Boundary GRAND_TREE_2 = new Boundary(new Position(2461, 3491, 2), new Position(2470, 3500, 2));
+
+
 	public static Location centerAsLocation(Boundary boundary) {
 		int x = (boundary.minX + boundary.highX) / 2;
 		int y = (boundary.minY + boundary.highY) / 2;

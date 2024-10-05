@@ -33,7 +33,7 @@ public class WorldObjectActionManager {
 
     private void loadHandlersFromDirectory() {
         try {
-            for (Class<?> clazz : PackageLoader.load("io.xeros.model.world.objects.actions.areas", WorldObjectAction.class))
+            for (Class<?> clazz : PackageLoader.load("io.xeros.model.world.objects.actions.handlers", WorldObjectAction.class))
                 registerHandler((WorldObjectAction) clazz.getDeclaredConstructor().newInstance());
             logger.info("Loaded: {} WorldObjectAction Handlers", handlers.size());
         }
