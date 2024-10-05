@@ -21,7 +21,7 @@ public class Sailor extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendNpcChat1("Right click on me and i will take you on-board.", 3936, "Sailor");
+        player.getDH().sendNpcChat1("Right click on me and i will take you on-board.", SAILOR_2, "Sailor");
         return true;
     }
 }

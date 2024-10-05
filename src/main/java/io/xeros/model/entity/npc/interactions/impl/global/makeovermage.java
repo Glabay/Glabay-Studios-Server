@@ -4,6 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
+import static io.xeros.model.Interfaces.MAKEOVER_MAGE_INTERFACE;
 import static io.xeros.model.Npcs.*;
 
 /**
@@ -26,7 +27,7 @@ public class makeovermage extends NpcOptionAction {
             player.canChangeAppearance = false;
         }
         else {
-            player.getPA().showInterface(3559);
+            player.getPA().showInterface(MAKEOVER_MAGE_INTERFACE);
             player.canChangeAppearance = true;
         }
         return true;
@@ -38,7 +39,7 @@ public class makeovermage extends NpcOptionAction {
             player.sendMessage("You must remove your equipment before changing your appearance.");
             player.canChangeAppearance = false;
         } else {
-            player.getPA().showInterface(3559);
+            player.getPA().showInterface(MAKEOVER_MAGE_INTERFACE);
             player.canChangeAppearance = true;
         }
         return true;
@@ -50,7 +51,7 @@ public class makeovermage extends NpcOptionAction {
             player.sendMessage("You must remove your equipment before changing your appearance.");
             player.canChangeAppearance = false;
         } else {
-            player.getPA().showInterface(3559);
+            player.getPA().showInterface(MAKEOVER_MAGE_INTERFACE);
             player.canChangeAppearance = true;
         }
         return true;

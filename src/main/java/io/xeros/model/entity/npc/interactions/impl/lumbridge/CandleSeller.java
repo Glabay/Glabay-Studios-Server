@@ -5,6 +5,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
+import static io.xeros.model.Items.CANDLE;
+import static io.xeros.model.Items.COINS;
 import static io.xeros.model.Npcs.*;
 
 /**
@@ -22,9 +24,9 @@ public class CandleSeller extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        if (player.getItems().playerHasItem(995, 30)) {
-            player.getItems().deleteItem(995, 30);
-            player.getItems().addItem(36, 1);
+        if (player.getItems().playerHasItem(COINS, 30)) {
+            player.getItems().deleteItem(COINS, 30);
+            player.getItems().addItem(CANDLE, 1);
             player.getDiaryManager().getKandarinDiary().progress(KandarinDiaryEntry.BUY_CANDLE);
         }
         else {

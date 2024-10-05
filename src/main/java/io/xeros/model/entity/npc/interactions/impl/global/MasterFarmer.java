@@ -9,6 +9,7 @@ import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Npcs.*;
+import static io.xeros.model.Shops.MASTER_FARMER_SHOP;
 
 /**
  * @author Zei | Glabay-Studios
@@ -52,7 +53,7 @@ public class MasterFarmer extends NpcOptionAction {
             }
             player.sendMessage("@red@Restricted accounts can only steal from this npc.");
         } else {
-            player.getShops().openShop(16);
+            player.getShops().openShop(MASTER_FARMER_SHOP);
         }
         return true;
     }

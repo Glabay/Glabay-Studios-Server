@@ -5,6 +5,7 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Npcs.HUNTER_STORE;
+import static io.xeros.model.Shops.HUNTER_SHOP;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -20,7 +21,7 @@ public class Aleck extends NpcOptionAction {
 
     @Override
     public Boolean handleActionFour(Player player, NPC npc) {
-        player.getShops().openShop(23);
+        player.getShops().openShop(HUNTER_SHOP);
         return true;
     }
 }

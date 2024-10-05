@@ -5,6 +5,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
+import static io.xeros.model.Items.BANDAGES;
 import static io.xeros.model.Npcs.SIGMUND_THE_MERCHANT;
 import static io.xeros.model.Npcs.SURGEON_GENERAL_TAFANI;
 
@@ -24,7 +25,7 @@ public class SurgeonGeneralTafani extends NpcOptionAction {
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
         PestControl.refreshPlayer(player);
-        player.getDH().sendItemStatement("Restored your HP, Prayer, Run Energy, and Spec", 4049);
+        player.getDH().sendItemStatement("Restored your HP, Prayer, Run Energy, and Spec", BANDAGES);
         player.nextChat = -1;
         return true;
     }

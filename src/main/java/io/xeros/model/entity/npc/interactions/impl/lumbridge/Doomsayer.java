@@ -6,6 +6,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
+import static io.xeros.model.Dialogues.DOOMSAYER_DIALOGUE;
 import static io.xeros.model.Npcs.*;
 
 /**
@@ -27,7 +28,7 @@ public class Doomsayer extends NpcOptionAction {
             player.sendMessage("You cannot do this right now.");
             return false;
         }
-        player.getDH().sendDialogues(800, 6773);
+        player.getDH().sendDialogues(DOOMSAYER_DIALOGUE, DOOMSAYER);
         return true;
     }
 
@@ -37,7 +38,7 @@ public class Doomsayer extends NpcOptionAction {
             player.sendMessage("You cannot do this right now.");
             return false;
         }
-        player.getDH().sendDialogues(800, 6773);
+        player.getDH().sendDialogues(DOOMSAYER_DIALOGUE, DOOMSAYER);
         return true;
     }
 

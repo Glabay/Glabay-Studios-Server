@@ -5,6 +5,7 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Npcs.*;
+import static io.xeros.model.Shops.SIGMUND_THE_MERCHANT_SHOP;
 
 /**
  * @author Zei | Glabay-Studios
@@ -21,13 +22,13 @@ public class SigmundTheMerchant extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getShops().openShop(26);
+        player.getShops().openShop(SIGMUND_THE_MERCHANT_SHOP);
         return true;
     }
 
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
-        player.getShops().openShop(26);
+        player.getShops().openShop(SIGMUND_THE_MERCHANT_SHOP);
         return true;
     }
 }
