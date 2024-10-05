@@ -1,19 +1,13 @@
 package io.xeros.model.world.objects.actions;
 
-import io.xeros.model.entity.player.Player;
 import io.xeros.util.PackageLoader;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
-import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -39,7 +33,7 @@ public class WorldObjectActionManager {
 
     private void loadHandlersFromDirectory() {
         try {
-            for (Class<?> clazz : PackageLoader.load("io.xeros.model.world.objects.actions.areas", WorldObjectAction.class))
+            for (Class<?> clazz : PackageLoader.load("io.xeros.model.world.objects.actions.handlers", WorldObjectAction.class))
                 registerHandler((WorldObjectAction) clazz.getDeclaredConstructor().newInstance());
             logger.info("Loaded: {} WorldObjectAction Handlers", handlers.size());
         }

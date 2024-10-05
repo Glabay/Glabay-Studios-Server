@@ -20599,7 +20599,7 @@ public class Items {
     public static final int AMULET_OF_AVARICE = 22_557;
     public static final int AMULET_OF_AVARICE_NOTED = 22_558;
     public static final int AMULET_OF_AVARICE_2 = 22_559;
-    public static final int LOOTING_BAG_3 = 22_586;
+    public static final int LOOTING_BAG_OPEN = 22_586;
     public static final int LOOTING_BAG_4 = 22_587;
     public static final int OLD_MANS_COFFIN = 22_588;
     public static final int REDUCED_CADAVA_POTION = 22_589;
@@ -21663,6 +21663,7 @@ public class Items {
     public static final int SCRAWLED_NOTES = 23_773;
     public static final int SCRAWLED_NOTES_2 = 23_774;
     public static final int HAND_MIRROR_2 = 23_775;
+    public static final int HUNLLEFS_KEY = 23_776;
     public static final int YELLOW_CRYSTAL_2 = 23_777;
     public static final int GREEN_CRYSTAL_3 = 23_778;
     public static final int CYAN_CRYSTAL_3 = 23_779;

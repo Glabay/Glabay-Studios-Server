@@ -71,25 +71,27 @@ public class ItemOptionThree implements PacketType {
             c.getRunePouch().emptyBagToInventory();
             return;
         }
-        TeleportTablets.operate(c, itemId);
-        if (Misc.isInDuelSession(c)) return;
-        Optional<DegradableItem> d = DegradableItem.forId(itemId);
-        if (d.isPresent()) {
+        if (DegradableItem.forId(itemId).isPresent()) {
             Degrade.checkPercentage(c, itemId);
             return;
         }
-        if (SanguinestiStaff.clickItem(c, itemId, 3)) {
-            return;
-        }
+        if (Misc.isInDuelSession(c)) return;
 
+        TeleportTablets.operate(c, itemId);
+
+        if (SanguinestiStaff.clickItem(c, itemId, 3))
+            return;
         if (BryophytaStaff.handleItemOption(c, itemId, 3))
             return;
-        switch (itemId) {
-            case LootingBag.LOOTING_BAG:
-            case LootingBag.LOOTING_BAG_OPEN:
-                c.getDH().sendDialogues(LootingBag.OPTIONS_DIALOGUE_ID, 0);
-                break;
 
+        var itemActionManager = Server.getItemOptionActionManager();
+        if (itemActionManager.findHandlerById(itemId).isPresent()) {
+            var npcAction = itemActionManager.findHandlerById(itemId).get();
+            if (npcAction.performedAction(c, itemId, itemId1, itemId11, 3))
+                return;
+            logger.error("Unhandled Item Action 3: {} ", npcAction.getClass().getSimpleName());
+        }
+        switch (itemId) {
             case 21183:
                 if (c.getItems().freeSlots() < 1) {
                     c.sendMessage("@blu@You need at least 1 free slot to do this.");

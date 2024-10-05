@@ -52,13 +52,6 @@ public class ObjectOptionThree extends ObjectAction {
 			c.objectDistance = 4;
 
 			break;
-		case 2884:
-		case 16684:
-		case 16683:
-			if (c.absY == 3494 || c.absY == 3495 || c.absY == 3496) {
-				AgilityHandler.delayEmote(c, "CLIMB_DOWN", c.getX(), c.getY(), c.getHeight() - 1, 2);
-			}
-			break;
 		case 29333:
 			if (c.getMode().isIronmanType()) {
 				c.sendMessage("@red@You are not permitted to make use of this.");			}
