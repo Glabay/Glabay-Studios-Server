@@ -55,15 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 732:
-                player.getShops().openShop(16);
-                break;
-            case 8688:
-                player.getShops().openShop(113);
-                break;
-            case 2949:
-                player.getPestControlRewards().showInterface();
-                break;
             case 2461:
                 player.getWarriorsGuild().handleDoor();
                 break;
