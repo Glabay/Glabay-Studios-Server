@@ -4,9 +4,7 @@ import io.xeros.model.Npcs;
 import io.xeros.model.entity.player.Position;
 import io.xeros.util.Misc;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.concurrent.TimeUnit;
 
 public class Configuration {
@@ -29,10 +27,6 @@ public class Configuration {
 	public static final String GUIDES_LINK = "https://www.xeros.io/index.php?/forum/11-guides/";
 	public static final String DONATOR_BENEFITS_LINK = "https://www.xeros.io/index.php?/topic/14-donator-benefits-guide/";
 	public static final String PRICE_GUIDE = "https://www.xeros.io/index.php?/topic/238-updated-price-guide-10242020/";
-
-	public static final LocalDate XEROS_V1_LAUNCH_DATE = LocalDate.of(2020, Month.MARCH, 13);
-	public static final LocalDate XEROS_V2_LAUNCH_DATE = LocalDate.of(2021, Month.MAY, 1);
-	public static final LocalDate RECLAIM_DONATIONS_START_DATE = LocalDate.of(2021, Month.JULY, 12);
 
 	/**
 	 * Hours between backup of player files for current {@link ServerState}.
