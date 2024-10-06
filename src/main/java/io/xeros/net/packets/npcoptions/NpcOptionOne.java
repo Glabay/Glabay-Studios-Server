@@ -55,17 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 405:
-                if (player.combatLevel < 100) {
-                    player.getDH().sendNpcChat2("Do not waste my time peasent.", "You need a Combat level of at least 100.", 402, "Duradel");
-                    return;
-                }
-                if (player.playerLevel[18] < 50) {
-                    player.getDH().sendNpcChat1("You must have a Slayer level of at least 50.", 490, "Duradel");
-                    return;
-                }
-                player.getDH().sendDialogues(3300, npcType);
-                break;
             case 8623:
             case 6797: // Nieve
                 player.getDH().sendDialogues(3300, npcType);
