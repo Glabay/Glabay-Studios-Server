@@ -21,7 +21,7 @@ public class Dialogues {
     public static final Integer MAGE_OF_ZAMORAK_DIALOGUE = 629;
     public static final Integer KRYSTILIA_DIALOGUE = 3299;
     public static final Integer KRYSTILIA_2_DIALOGUE = 3304;
-    public static final Integer MAZCHNA_DIALOGUE = 3300;
+    public static final Integer SLAYER_MASTER_IMPOSSIBLE_TASK_DIALOGUE = 3300;
     public static final Integer SLAYER_MASTER_TASK_RESET_DIALOGUE = 3305;
     public static final Integer SLAYER_MASTER_TASK_CHOICE_DIALOGUE = 180;
     public static final Integer RUG_MERCHANT_DIALOGUE = 837;

@@ -1,4 +1,4 @@
-package io.xeros.model.entity.npc.interactions.impl.canifis;
+package io.xeros.model.entity.npc.interactions.impl.burthorpe;
 
 import io.xeros.content.achievement_diary.impl.WesternDiaryEntry;
 import io.xeros.model.entity.npc.NPC;
@@ -7,6 +7,7 @@ import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Dialogues.*;
 import static io.xeros.model.Npcs.MAZCHNA;
+import static io.xeros.model.Npcs.TURAEL;
 
 /**
  * @author Zei | Glabay-Studios
@@ -15,19 +16,19 @@ import static io.xeros.model.Npcs.MAZCHNA;
  * @social Github: <a href="https://github.com/Zeighe">Zeighe</a>
  * @since 10/2/2024
  */
-public class Mazchna extends NpcOptionAction {
+public class Turael extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { MAZCHNA };
+        return new Integer[] { TURAEL };
     }
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
         if (player.combatLevel < 20) {
-            player.getDH().sendNpcChat2("Do not waste my time peasent.", "You need a Combat level of 20.", MAZCHNA, "Mazchna");
+            player.getDH().sendNpcChat2("Do not waste my time peasent.", "You need a Combat level of 20.", TURAEL, "Turael");
             return false;
         }
-        player.getDH().sendDialogues(SLAYER_MASTER_IMPOSSIBLE_TASK_DIALOGUE, MAZCHNA);
+        player.getDH().sendDialogues(SLAYER_MASTER_IMPOSSIBLE_TASK_DIALOGUE, TURAEL);
         return true;
     }
 
@@ -37,9 +38,9 @@ public class Mazchna extends NpcOptionAction {
             player.getDiaryManager().getWesternDiary().progress(WesternDiaryEntry.FULL_VOID);
         }
         if (player.getSlayer().getTask().isPresent()) {
-            player.getDH().sendDialogues(SLAYER_MASTER_TASK_RESET_DIALOGUE, MAZCHNA);
+            player.getDH().sendDialogues(SLAYER_MASTER_TASK_RESET_DIALOGUE, TURAEL);
         } else {
-            player.getDH().sendDialogues(SLAYER_MASTER_TASK_CHOICE_DIALOGUE, MAZCHNA);
+            player.getDH().sendDialogues(SLAYER_MASTER_TASK_CHOICE_DIALOGUE, TURAEL);
         }
         return true;
 }

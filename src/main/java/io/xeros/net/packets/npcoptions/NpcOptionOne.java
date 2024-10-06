@@ -55,20 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 402:// slayer
-                if (player.combatLevel < 20) {
-                    player.getDH().sendNpcChat2("Do not waste my time peasent.", "You need a Combat level of 20.", 402, "Mazchna");
-                    return;
-                }
-                player.getDH().sendDialogues(3300, npcType);
-                break;
-            case 401:
-                if (player.combatLevel < 20) {
-                    player.getDH().sendNpcChat2("Do not waste my time peasent.", "You need a Combat level of 20.", 402, "Mazchna");
-                    return;
-                }
-                player.getDH().sendDialogues(3300, npcType);
-                break;
             case 405:
                 if (player.combatLevel < 100) {
                     player.getDH().sendNpcChat2("Do not waste my time peasent.", "You need a Combat level of at least 100.", 402, "Duradel");
