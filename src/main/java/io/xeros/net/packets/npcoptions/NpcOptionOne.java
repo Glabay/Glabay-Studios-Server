@@ -55,9 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 1308:
-                player.getDH().sendDialogues(538, npcType);
-                break;
             case Npcs.BOSS_POINT_SHOP:
                 player.getShops().openShop(121);
                 player.sendMessage("You currently have " + Misc.insertCommas(player.bossPoints) + " Boss points.");

@@ -31,4 +31,5 @@ public class Dialogues {
     public static final Integer DOOMSAYER_DIALOGUE = 800;
     public static final Integer LUMBRIDGE_GUIDE_DIALOGUE = 710;
     public static final Integer ELITE_VOID_KNIGHT_DIALOGUE = 80;
+    public static final Integer DIANGO_DIALOGUE = 538;
 }
