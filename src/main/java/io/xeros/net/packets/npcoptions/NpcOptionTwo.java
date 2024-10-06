@@ -189,17 +189,11 @@ public class NpcOptionTwo {
 		case 5809:
 			player.getShops().openShop(20);
 			break;
-		case 6599:
-			player.getShops().openShop(79);
-			break;
 		case 403:
 			player.getDH().sendDialogues(12001, -1);
 			break;
 		case 3216:
 			player.getShops().openShop(8);
-			break;
-		case 2578:
-			player.getDH().sendDialogues(2400, -1);
 			break;
 		case 3913: // BAIT + NET
 			Fishing.attemptdata(player, 2);

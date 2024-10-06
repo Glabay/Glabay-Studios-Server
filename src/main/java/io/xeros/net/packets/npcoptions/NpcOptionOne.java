@@ -55,12 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 6599:
-                player.getShops().openShop(12);
-                break;
-            case 2578:
-                player.getDH().sendDialogues(2401, npcType);
-                break;
             case 3789:
                 player.getShops().openShop(75);
                 break;
