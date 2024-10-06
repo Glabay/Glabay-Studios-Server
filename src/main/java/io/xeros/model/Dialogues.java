@@ -9,6 +9,8 @@ package io.xeros.model;
 public class Dialogues {
 
     public static final Integer EMBLEM_TRADER_DIALOGUE = 545;
+    public static final Integer EMBLEM_TRADER_DIALOGUE_2 = 548;
+    public static final Integer EMBLEM_TRADER_DIALOGUE_3 = 550;
     public static final Integer LOOTING_BAG_OPTIONS_DIALOGUE_ID = 1235;
     public static final Integer PORT_OFFICIAL_DIALOGUE = 55870;
     public static final Integer PORT_WORKER_DIALOGUE = 55869;
