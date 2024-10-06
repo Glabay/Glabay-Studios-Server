@@ -55,9 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 1933:
-                player.getShops().openMillCape();
-                break;
             case 3341:
                 player.getDH().sendDialogues(2603, npcType);
                 break;
@@ -145,29 +142,6 @@ public class NpcOptionOne {
                 player.getDH().sendDialogues(2300, npcType);
                 break;
             case 1599:
-                break;
-            case 953: // Banker
-            case 2574: // Banker
-            case 166: // Gnome Banker
-            case 1702: // Ghost Banker
-            case 494: // Banker
-            case 495: // Banker
-            case 496: // Banker
-            case 497: // Banker
-            case 498: // Banker
-            case 499: // Banker
-            case 567: // Banker
-            case 766: // Banker
-            case 1036: // Banker
-            case 1360: // Banker
-            case 2163: // Banker
-            case 2164: // Banker
-            case 2354: // Banker
-            case 2355: // Banker
-            case 2568: // Banker
-            case 2569: // Banker
-            case 2570: // Banker
-                player.getPA().c.itemAssistant.openUpBank();
                 break;
             case 1986:
                 player.getDH().sendDialogues(2244, player.npcType);

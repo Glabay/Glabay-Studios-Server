@@ -246,31 +246,6 @@ public class NpcOptionTwo {
 			player.getShops().openShop(10);
 			player.sendMessage("You currently have <col=a30027>" + Misc.insertCommas(player.getSlayer().getPoints()) + " </col>slayer points.");
 			break;
-		case 953: // Banker
-		case 2574: // Banker
-		case 166: // Gnome Banker
-		case 1702: // Ghost Banker
-		case 494: // Banker
-		case 495: // Banker
-		case 496: // Banker
-		case 497: // Banker
-		case 498: // Banker
-		case 499: // Banker
-		case 567: // Banker
-		case 766:
-		case 1036: // Banker
-		case 1360: // Banker
-		case 2163: // Banker
-		case 2164: // Banker
-		case 2354: // Banker
-		case 2355: // Banker
-		case 2568: // Banker
-		case 2569: // Banker
-		case 2570: // Banker
-		case 2200:
-			player.getPA().c.itemAssistant.openUpBank();
-			break;
-
 		case 1785:
 			player.getShops().openShop(8);
 			break;
