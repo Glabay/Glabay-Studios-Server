@@ -55,9 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 4306:
-                player.getShops().openSkillCape();
-                break;
             case 1933:
                 player.getShops().openMillCape();
                 break;
