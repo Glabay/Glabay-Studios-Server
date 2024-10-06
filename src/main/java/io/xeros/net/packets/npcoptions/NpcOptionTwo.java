@@ -145,16 +145,6 @@ public class NpcOptionTwo {
 			player.getDH().sendDialogues(70, 2180);
 			break;
 
-		case 6797: // Nieve
-			if (player.fullVoidMelee()) {
-				player.getDiaryManager().getWesternDiary().progress(WesternDiaryEntry.FULL_VOID);
-			}
-			if (player.getSlayer().getTask().isPresent()) {
-				player.getDH().sendDialogues(3305, 6797);
-			} else {
-				player.getDH().sendDialogues(180, 6797);
-			}
-			break;
 		case 8761: 
 			if (player.getSlayer().getTask().isPresent()) {
 				player.getDH().sendDialogues(3305, 8761);
