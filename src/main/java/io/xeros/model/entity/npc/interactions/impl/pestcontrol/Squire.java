@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.ELITE_VOID_KNIGHT;
 import static io.xeros.model.Npcs.SQUIRE_12;
+import static io.xeros.model.Shops.PEST_CONTROL_SHOP;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -22,6 +22,12 @@ public class Squire extends NpcOptionAction {
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
         player.getPestControlRewards().showInterface();
+        return true;
+    }
+
+    @Override
+    public Boolean handleActionTwo(Player player, NPC npc) {
+        player.getShops().openShop(PEST_CONTROL_SHOP);
         return true;
     }
 }

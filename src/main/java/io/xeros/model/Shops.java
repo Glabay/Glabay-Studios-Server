@@ -15,4 +15,5 @@ public class Shops {
     public static final Integer HUNTER_SHOP = 23;
     public static final Integer EMBLEM_TRADER_SHOP = 80;
     public static final Integer GRACE_SHOP = 18;
+    public static final Integer PEST_CONTROL_SHOP = 75;
 }
