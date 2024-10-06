@@ -47,7 +47,7 @@ public class KeyMaster extends NpcOptionAction {
                 return false;
             }
             player.getItems().deleteItem2(COINS, 3_000_000);
-            player.getSlayer().createNewTask(5870, true);
+            player.getSlayer().createNewTask(KEY_MASTER, true);
             player.getDH().sendNpcChat("You have been assigned " + player.getSlayer().getTaskAmount() + " " + player.getSlayer().getTask().get().getPrimaryName());
             player.nextChat = -1;
         }
