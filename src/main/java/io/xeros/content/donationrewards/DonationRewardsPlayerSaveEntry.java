@@ -19,32 +19,29 @@ public class DonationRewardsPlayerSaveEntry implements PlayerSaveEntry {
 
     @Override
     public boolean decode(Player player, String key, String value) {
-        switch (key) {
-            case AMOUNT:
+        return switch (key) {
+            case AMOUNT -> {
                 player.getDonationRewards().setAmountDonatedThisWeek(Integer.parseInt(value));
-                return true;
-            case RESET:
-                if (value.length() > 1) {
+                yield true;
+            }
+            case RESET -> {
+                if (value.length() > 1)
                     player.getDonationRewards().setSundayReset(new SundayReset(Misc.convertStringToLocalDateTime(value)));
-                }
-                return true;
-        }
-        return false;
+                yield true;
+            }
+            default -> false;
+        };
     }
 
     @Override
     public String encode(Player player, String key) {
-        switch (key) {
-            case AMOUNT:
-                return "" + player.getDonationRewards().getAmountDonatedThisWeek();
-            case RESET:
-                return Misc.convertLocalDateTimeToString(player.getDonationRewards().getSundayReset().getReset());
-        }
-        return null;
+        return switch (key) {
+            case AMOUNT -> "" + player.getDonationRewards().getAmountDonatedThisWeek();
+            case RESET -> Misc.convertLocalDateTimeToString(player.getDonationRewards().getSundayReset().getReset());
+            default -> null;
+        };
     }
 
     @Override
-    public void login(Player player) {
-
-    }
+    public void login(Player player) {}
 }

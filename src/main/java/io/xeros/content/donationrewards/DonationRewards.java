@@ -1,6 +1,5 @@
 package io.xeros.content.donationrewards;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 import io.xeros.model.definitions.ItemDef;
@@ -8,6 +7,8 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;
 import io.xeros.model.items.ImmutableItem;
 import io.xeros.util.SundayReset;
+import lombok.Getter;
+import lombok.Setter;
 
 public class DonationRewards {
 
@@ -21,7 +22,11 @@ public class DonationRewards {
     private static final String TEXT_COLOUR = "<col=205209><img=1>";
 
     private final Player player;
+    @Setter
+    @Getter
     private SundayReset sundayReset = new SundayReset();
+    @Setter
+    @Getter
     private int amountDonatedThisWeek;
 
     public DonationRewards(Player player) {
@@ -39,7 +44,7 @@ public class DonationRewards {
     }
 
     public void openInterface() {
-        List<DonationReward> rewards = DonationReward.getRewardList();
+        var rewards = DonationReward.getRewardList();
         int lastItemPrice = rewards.get(5).getPrice();
 
 
@@ -61,39 +66,21 @@ public class DonationRewards {
 
     public void increaseDonationAmount(int amount) {
         if (amount > 0) {
-            boolean gainedItem = false;
-            for (DonationReward reward : DonationReward.getRewardList()) {
+            var gainedItem = false;
+            for (var reward : DonationReward.getRewardList()) {
                 if (reward.getPrice() > amountDonatedThisWeek && reward.getPrice() <= amountDonatedThisWeek + amount) {
                     player.getInventory().addAnywhere(new ImmutableItem(reward.getItem().getId(), reward.getItem().getAmount()));
                     player.sendMessage(TEXT_COLOUR + "You have received x" + reward.getItem().getAmount() + " " + ItemDef.forId(reward.getItem().getId()).getName() + " from donation rewards!");
                     gainedItem = true;
 
-                    if (reward.getPrice() == DonationReward.getRewardList().get(5).getPrice()) {
+                    if (reward.getPrice() == DonationReward.getRewardList().get(5).getPrice())
                         player.sendMessage(TEXT_COLOUR + "You have completed the donation reward track for this week, thanks for donating!");
-                    }
                 }
             }
-
             amountDonatedThisWeek += amount;
-            if (gainedItem || player.getOpenInterface() == INTERFACE_ID) {
+            if (gainedItem || player.getOpenInterface() == INTERFACE_ID)
                 player.getDonationRewards().openInterface();
-            }
         }
     }
 
-    public SundayReset getSundayReset() {
-        return sundayReset;
-    }
-
-    public void setSundayReset(SundayReset sundayReset) {
-        this.sundayReset = sundayReset;
-    }
-
-    public int getAmountDonatedThisWeek() {
-        return amountDonatedThisWeek;
-    }
-
-    public void setAmountDonatedThisWeek(int amountDonatedThisWeek) {
-        this.amountDonatedThisWeek = amountDonatedThisWeek;
-    }
 }
