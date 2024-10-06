@@ -1358,11 +1358,6 @@ public class DialogueHandler {
 					"Close");
 			c.dialogueAction = 135;
 			break;
-		case 2603:
-			c.getDH().sendNpcChat2("Hello. I can restore your HP if you", "are a donator or higher!", c.talkingNpc,
-					"A'abla");
-			c.nextChat = 0;
-			break;
 		case 9994:
 			sendPlayerChat1("Enter a minimum amount:");
 			c.nextChat = 9995;

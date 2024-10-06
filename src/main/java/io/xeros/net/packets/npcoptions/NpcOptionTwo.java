@@ -152,9 +152,6 @@ public class NpcOptionTwo {
 				player.getDH().sendDialogues(10955, npcType);
 			}
 			break;
-		case 5919: // Grace
-			player.getShops().openShop(18);
-			break;
 		case 6747:
 			player.getShops().openShop(77);
 			break;
@@ -202,9 +199,6 @@ public class NpcOptionTwo {
 			break;
 		case 6599:
 			player.getShops().openShop(79);
-			break;
-		case 3341:
-			PlayerAssistant.refreshSpecialAndHealth(player);
 			break;
 		case 403:
 			player.getDH().sendDialogues(12001, -1);
