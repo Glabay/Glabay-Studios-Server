@@ -1,5 +1,8 @@
 package io.xeros;
 
+import lombok.Getter;
+
+@Getter
 public enum ServerState {
 	PUBLIC(Configuration.PORT_DEFAULT, false, true),
 	TEST_PUBLIC(Configuration.PORT_DEFAULT, false, true),
@@ -8,7 +11,7 @@ public enum ServerState {
 	 * Same as public but no sql and allows item spawning.
 	 */
 	PUBLIC_BETA(Configuration.PORT_DEFAULT, true, false,
-			"Thank you for testing the " + Configuration.SERVER_NAME + " beta.",
+        "Thank you for testing the %s beta.".formatted(Configuration.SERVER_NAME),
 			"Please report any bugs in the discord."),
 
 	/**
@@ -29,7 +32,6 @@ public enum ServerState {
 	private final int port;
 	private final boolean openSpawning;
 	private final boolean sqlEnabled;
-
 	private final String[] loginMessages;
 
 	ServerState(int port, boolean openSpawning, boolean sqlEnabled, String... loginMessages) {
@@ -37,21 +39,5 @@ public enum ServerState {
 		this.loginMessages = loginMessages;
 		this.openSpawning = openSpawning;
 		this.sqlEnabled = sqlEnabled;
-	}
-
-	public int getPort() {
-		return port;
-	}
-
-	public String[] getLoginMessages() {
-		return loginMessages;
-	}
-
-	public boolean isOpenSpawning() {
-		return openSpawning;
-	}
-
-	public boolean isSqlEnabled() {
-		return false;
 	}
 }
