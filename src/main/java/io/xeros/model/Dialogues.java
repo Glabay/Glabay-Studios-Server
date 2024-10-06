@@ -34,4 +34,5 @@ public class Dialogues {
     public static final Integer DIANGO_DIALOGUE = 538;
     public static final Integer PERDU_DIALOGUE = 619;
     public static final Integer GRACE_DIALOGUE = 14400;
+    public static final Integer TARFOL_QUO_MATEN_DIALOGUE = 11155;
 }

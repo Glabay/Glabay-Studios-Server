@@ -144,14 +144,6 @@ public class NpcOptionTwo {
 		case 2180:
 			player.getDH().sendDialogues(70, 2180);
 			break;
-
-		case 8761: 
-			if (player.getSlayer().getTask().isPresent()) {
-				player.getDH().sendDialogues(3305, 8761);
-			} else {
-				player.getDH().sendDialogues(10955, npcType);
-			}
-			break;
 		case 6747:
 			player.getShops().openShop(77);
 			break;

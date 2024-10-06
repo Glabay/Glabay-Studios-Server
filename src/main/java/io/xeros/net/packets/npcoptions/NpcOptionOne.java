@@ -55,19 +55,6 @@ public class NpcOptionOne {
         }
 
         switch (npcType) {
-            case 603:
-                player.getDH().sendDialogues(11955, npcType);
-                break;
-            case 8761:
-                player.getDH().sendDialogues(10955, npcType);
-                break;
-            case 8605:
-                if (player.playerLevel[18] >= 95) {
-                    player.getDH().sendDialogues(11155, npcType);
-                    break;
-                }
-                player.sendMessage("You need a slayer level of 95 to get a task from me.");
-                break;
             case 6599:
                 player.getShops().openShop(12);
                 break;
