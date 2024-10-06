@@ -35,16 +35,20 @@ import io.xeros.content.trails.MasterClue;
 import io.xeros.content.wogw.Wogw;
 import io.xeros.model.Animation;
 import io.xeros.model.Items;
+import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerAssistant;
+import io.xeros.net.packets.ClickObject;
 import io.xeros.net.packets.objectoptions.impl.DarkAltar;
 import io.xeros.model.items.GameItem;
 import io.xeros.model.items.ItemCombination;
 import io.xeros.util.Misc;
 import io.xeros.util.logging.player.ItemOnItemLog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Sanity
@@ -53,6 +57,8 @@ import io.xeros.util.logging.player.ItemOnItemLog;
  */
 
 public class UseItem {
+
+	private static final Logger logger = LoggerFactory.getLogger(UseItem.class);
 
 	public static void unNoteItems(Player c, int itemId, int amount) {
 		String name = CacheManager.INSTANCE.getItem(itemId).getName();
@@ -152,24 +158,26 @@ public class UseItem {
 	 * @param itemId
 	 */
 	public static void ItemonObject(Player c, int objectID, int objectX, int objectY, int itemId) {
-		if (!c.getItems().playerHasItem(itemId, 1))
-			return;
+		if (!c.getItems().playerHasItem(itemId, 1)) return;
 		c.clickObjectType = 0;
 		var def = CacheManager.INSTANCE.getObject(objectID);
+		var object = ClickObject.getObject(c, objectID, objectX, objectY);
 
-		if (def != null) {
-			
-			if (def.getName() != null && def.getName().toLowerCase().contains("bank")) {
-					//ItemDefinition definition = ItemDefinition.forId(itemId);
-					boolean stackable = ItemDef.forId(itemId).isStackable();
-					if (stackable) {
-						c.getPA().sendEnterAmount(0);
-						c.unNoteItemId = itemId;
-						c.settingUnnoteAmount = true;
-					} else {
-						PlayerAssistant.noteItems(c, itemId);
-				}
-			}
+        if (def.getName().toLowerCase().contains("bank")) {
+            if (ItemDef.forId(itemId).isStackable()) {
+                c.getPA().sendEnterAmount(0);
+                c.unNoteItemId = itemId;
+                c.settingUnnoteAmount = true;
+            }
+            else
+                PlayerAssistant.noteItems(c, itemId);
+        }
+
+        var itemActionManager = Server.getItemOptionActionManager();
+		if (itemActionManager.findHandlerById(itemId).isPresent()) {
+			var itemAction = itemActionManager.findHandlerById(itemId).get();
+			if (itemAction.performActionOnObject(c, object, itemId))
+				return;
 		}
 		switch (objectID) {
 			case 33311:
@@ -397,7 +405,6 @@ public class UseItem {
 				c.sendMessage("Player At Object id: " + objectID + " with Item id: " + itemId);
 			break;
 		}
-
 	}
 
 	/**
@@ -412,21 +419,29 @@ public class UseItem {
 		GameItem gameItemUsedWith = new GameItem(useWith, c.playerItemsN[itemUsedSlot], usedWithSlot);
 		Server.getLogging().write(new ItemOnItemLog(c, gameItemUsed, gameItemUsedWith, c.getPosition()));
 		c.getPA().resetVariables();
-		List<ItemCombinations> itemCombinations = ItemCombinations.getCombinations(new GameItem(itemUsed), new GameItem(useWith));
-		if (itemCombinations.size() > 0) {
+		var itemCombinations = ItemCombinations.getCombinations(new GameItem(itemUsed), new GameItem(useWith));
+		if (!itemCombinations.isEmpty()) {
 			for (ItemCombinations combinations : itemCombinations) {
-				ItemCombination combination = combinations.getItemCombination();
+				var combination = combinations.getItemCombination();
 				if (combination.isCombinable(c)) {
 					c.setCurrentCombination(Optional.of(combination));
 					c.dialogueAction = -1;
 					c.nextChat = -1;
 					combination.showDialogue(c);
 					return;
-				} else if (itemCombinations.size() == 1) {
+				}
+				else if (itemCombinations.size() == 1) {
 					c.getDH().sendStatement("You don't have all of the items required for this combination.");
 					return;
 				}
 			}
+		}
+
+		var itemActionManager = Server.getItemOptionActionManager();
+		if (itemActionManager.findHandlerById(gameItemUsed.getId()).isPresent()) {
+			var itemAction = itemActionManager.findHandlerById(gameItemUsed.getId()).get();
+			if (itemAction.performActionOnItem(c, gameItemUsed, gameItemUsedWith))
+				return;
 		}
 
 		// Handles Pvp weapon item on item interaction

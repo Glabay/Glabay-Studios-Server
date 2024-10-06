@@ -9,6 +9,9 @@ import io.xeros.model.entity.player.Right;
 import io.xeros.model.items.ItemAssistant;
 import io.xeros.util.Misc;
 
+import static io.xeros.model.Items.ROTTEN_POTATO;
+import static io.xeros.model.Items.WRENCH;
+
 public class ItemOnPlayer implements PacketType {
 
 	@Override
@@ -66,12 +69,21 @@ public class ItemOnPlayer implements PacketType {
 		}
 		if (Misc.isInDuelSession(c)) return;
 		c.setItemOnPlayer(other);
-		if (c.getRights().isOrInherits(Right.ADMINISTRATOR) && itemId != 5733 && itemId != 6713) {
+
+		if (c.getRights().isOrInherits(Right.OWNER) && itemId != ROTTEN_POTATO && itemId != WRENCH) {
 			c.sendMessage("You gave " + other.getDisplayName() + " some " + ItemAssistant.getItemName(itemId) + ".");
 			other.sendMessage("You were given some " + ItemAssistant.getItemName(itemId) + " from " + c.getDisplayName() + ".");
 			other.getItems().addItem(itemId, c.getItems().isStackable(itemId) ? c.getItems().getItemAmount(itemId) : 1);
 			c.getItems().deleteItem(itemId, c.getItems().isStackable(itemId) ? c.getItems().getItemAmount(itemId) : 1);
 		}
+
+		var itemActionManager = Server.getItemOptionActionManager();
+		if (itemActionManager.findHandlerById(itemId).isPresent()) {
+			var itemAction = itemActionManager.findHandlerById(itemId).get();
+			if (itemAction.performActionOnEntity(c, other, itemId, slotId))
+				return;
+		}
+
 		switch (itemId) {
 			case 6769://5 scroll
 				if (c.getPosition().inWild() || c.getPosition().inDuelArena() || Server.getMultiplayerSessionListener().inAnySession(c)) {

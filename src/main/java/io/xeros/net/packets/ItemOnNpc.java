@@ -1,5 +1,6 @@
 package io.xeros.net.packets;
 
+import io.xeros.Server;
 import io.xeros.content.items.UseItem;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
@@ -46,6 +47,13 @@ public class ItemOnNpc implements PacketType {
 		}
 
 		if (Misc.isInDuelSession(c)) return;
+
+		var itemActionManager = Server.getItemOptionActionManager();
+		if (itemActionManager.findHandlerById(itemId).isPresent()) {
+			var itemAction = itemActionManager.findHandlerById(itemId).get();
+			if (itemAction.performActionOnEntity(c, npc, itemId, slot))
+				return;
+		}
 
 		if (npc.distance(c.getPosition()) <= 1) {
 			completeItemOnNpc(c, npc, itemId, slot);

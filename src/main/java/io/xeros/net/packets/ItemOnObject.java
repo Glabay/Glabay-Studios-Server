@@ -17,12 +17,10 @@ public class ItemOnObject implements PacketType {
 	public void processPacket(Player c, int packetType, int packetSize) {
 		if (c.getMovementState().isLocked() || c.getLock().cannotInteract(c))
 			return;
-		if (c.isFping()) {
-			/**
-			 * Cannot do action while fping
-			 */
-			return;
-		}
+        /**
+         * Cannot do action while fping
+         */
+        if (c.isFping()) return;
 		c.interruptActions();
 
 		int a = c.getInStream().readUnsignedWord();
@@ -39,13 +37,9 @@ public class ItemOnObject implements PacketType {
 
 		WorldObject object = ClickObject.getObject(c, objectId, objectX, objectY);
 
-		if (object == null) {
-			return;
-		}
+		if (object == null) return;
 
-		if (!c.getItems().playerHasItem(itemId, 1)) {
-			return;
-		}
+		if (!c.getItems().playerHasItem(itemId, 1)) return;
 		if (c.getInterfaceEvent().isActive()) {
 			c.sendMessage("Please finish what you're doing.");
 			return;
@@ -61,7 +55,6 @@ public class ItemOnObject implements PacketType {
 
 			c.getFarming().handleItemOnObject(itemId, objectId, objectX, objectY);
 			switch (c.objectId) {
-
 				case 2030: //Allows for items to be used from both sides of the furnace
 					c.objectDistance = 4;
 					c.objectXOffset = 3;
@@ -89,16 +82,12 @@ public class ItemOnObject implements PacketType {
 				case 28900:
 					c.objectDistance = 3;
 					break;
-
-
 				default:
 					c.objectDistance = 1;
 					c.objectXOffset = 0;
 					c.objectYOffset = 0;
 					break;
-
 			}
-
 			c.facePosition(objectX, objectY);
 			UseItem.ItemonObject(c, objectId, objectX, objectY, itemId);
 		}));

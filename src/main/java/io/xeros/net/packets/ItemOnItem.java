@@ -48,6 +48,7 @@ public class ItemOnItem implements PacketType {
 		}
 		c.getPA().stopSkilling();
 		if (Misc.isInDuelSession(c)) return;
+
 		UseItem.ItemonItem(c, itemUsed, useWith, itemUsedSlot, usedWithSlot);
 	}
 
