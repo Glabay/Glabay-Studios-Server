@@ -24,7 +24,6 @@ import io.xeros.content.bosspoints.BossPoints;
 import io.xeros.content.combat.effects.damageeffect.impl.amuletofthedamned.impl.ToragsEffect;
 import io.xeros.content.combat.melee.MeleeExtras;
 import io.xeros.content.combat.weapon.WeaponMode;
-import io.xeros.content.commands.all.Reclaim;
 import io.xeros.content.compromised.CompromisedAccounts;
 import io.xeros.content.dailyrewards.DailyRewards;
 import io.xeros.content.dialogue.DialogueBuilder;

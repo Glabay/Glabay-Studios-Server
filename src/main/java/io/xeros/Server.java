@@ -33,12 +33,15 @@ import io.xeros.util.discord.Discord;
 import io.xeros.util.logging.GameLogging;
 import lombok.Getter;
 import org.flywaydb.core.Flyway;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.misc.Unsafe;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
@@ -57,7 +60,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Server {
 
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(Server.class);
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
     private static final Server singleton = new Server();
     @Getter
@@ -130,6 +133,8 @@ public class Server {
     private static final ScheduledExecutorService ioExecutorService = Executors.newSingleThreadScheduledExecutor(new ThreadFactoryBuilder().setNameFormat("io-worker-%d").build());
     private static boolean loaded = false;
 
+    private static final String LOGGER_FIELD_NAME = "logger";
+    private static final String ILLEGAL_ACCESS_LOGGER = "jdk.internal.module.IllegalAccessLogger";
     private static void enableExceptionLogging() throws IOException {
         if (!new File(Configuration.ERROR_LOG_DIRECTORY).exists()) {
             Preconditions.checkState(new File(Configuration.ERROR_LOG_DIRECTORY).mkdirs());
@@ -217,14 +222,14 @@ public class Server {
 
     public static void disableWarning() {
         try {
-            Field theUnsafe = Unsafe.class.getDeclaredField("theUnsafe");
-            theUnsafe.setAccessible(true);
-            Unsafe u = (Unsafe) theUnsafe.get(null);
-            Class<?> cls = Class.forName("jdk.internal.module.IllegalAccessLogger");
-            Field logger = cls.getDeclaredField("logger");
-            u.putObjectVolatile(cls, u.staticFieldOffset(logger), null);
-        } catch (Exception ignored) {
+            Class<?> loggerClass = Class.forName(ILLEGAL_ACCESS_LOGGER);
+            var loggerField = loggerClass.getDeclaredField(LOGGER_FIELD_NAME);
+                loggerField.setAccessible(true);
+
+            var varHandle = MethodHandles.privateLookupIn(loggerClass, MethodHandles.lookup()).unreflectVarHandle(loggerField);
+                varHandle.set(null, null);
         }
+        catch (Exception ignored) {}
     }
 
     public static boolean isPublic() {
@@ -252,7 +257,7 @@ public class Server {
         if (!configurationFile.exists()) {
             configuration = ServerConfiguration.getDefault();
             JsonUtil.toYaml(configuration, configurationFile.getPath());
-            logger.warn("No configuration present, wrote default configuration file to " + configurationFile.getAbsolutePath());
+            logger.warn("No configuration present, wrote default configuration file to {}", configurationFile.getAbsolutePath());
         } else {
             configuration = JsonUtil.fromYaml(configurationFile, ServerConfiguration.class);
         }
