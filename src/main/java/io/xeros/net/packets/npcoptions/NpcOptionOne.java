@@ -56,10 +56,6 @@ public class NpcOptionOne {
 
         switch (npcType) {
             // FISHING
-            case 4712:
-                player.clickNpcType = 1;
-                Fishing.attemptdata(player, 15);
-                break;
             case 1524:
                 player.clickNpcType = 1;
                 Fishing.attemptdata(player, 11);
