@@ -26,4 +26,10 @@ public class Perdu extends NpcOptionAction {
         player.getDH().sendDialogues(PERDU_DIALOGUE, PERDU);
         return true;
     }
+
+    @Override
+    public Boolean handleActionTwo(Player player, NPC npc) {
+        player.getDonationRewards().openInterface();
+        return true;
+    }
 }

@@ -55,9 +55,6 @@ public class NpcOptionTwo {
 				logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
 		}
 		switch (npcType) {
-		case Npcs.DONATOR_SHOP:
-			player.getDonationRewards().openInterface();
-			break;
 		case 326:
 		case 327:
 			   player.gfx100(1028);
