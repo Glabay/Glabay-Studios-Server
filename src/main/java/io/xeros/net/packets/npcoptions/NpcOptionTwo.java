@@ -22,6 +22,9 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import static io.xeros.model.Items.FIRE_CAPE;
+import static io.xeros.model.Items.TZREK_JAD;
+
 /*
  * @author Matt
  * Handles all 2nd options on non playable characters.
@@ -55,21 +58,6 @@ public class NpcOptionTwo {
 				logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
 		}
 		switch (npcType) {
-		case 1011: //infernal gambler
-		    if (player.getItems().playerHasItem(6570, 10)) {
-		    	int InfernalChance = Misc.random(1000);
-                if (InfernalChance == 975) {
-                	player.getItems().deleteItem(6570, 10);
-                    player.getItems().addItem(21295, 1);
-                    player.sendMessage("@red@Congratulations! you have won a infernal cape."); 
-                } else {
-                	player.getItems().deleteItem(6570, 10);
-        			player.sendMessage("@red@Unlucky! better luck next time.");	
-        			return;
-                }
-        			player.sendMessage("@red@You dont have 10 firecapes to gamble.");	
-		    }
-		    	break;
 		case 1909:
 			player.getDH().sendDialogues(901, 1909);
 			break;
