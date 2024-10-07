@@ -62,17 +62,6 @@ public class NpcOptionTwo {
                 logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
         }
         switch (npcType) {
-            case 4407:
-                player.getShops().openShop(19);
-                break;
-            case 3105:
-                long milliseconds = (long) player.playTime * 600;
-                long days = TimeUnit.MILLISECONDS.toDays(milliseconds);
-                long hours = TimeUnit.MILLISECONDS.toHours(milliseconds - TimeUnit.DAYS.toMillis(days));
-                String time = days + " days and " + hours + " hours.";
-                player.getDH().sendNpcChat1("You've been playing " + Configuration.SERVER_NAME + " for " + time, 3105, "Hans");
-                player.getDiaryManager().getLumbridgeDraynorDiary().progress(LumbridgeDraynorDiaryEntry.HANS);
-                break;
             case 3680:
                 AgilityHandler.delayFade(player, "NONE", 2674, 3274, 0, "The sailor brings you onto the ship.",
                         "and you end up in ardougne.", 3);
