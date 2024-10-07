@@ -4,7 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.LILLIA_DIALOGUE;
+import static io.xeros.model.Dialogues.YOU_NEED_TO_LEAVE_DIALOGUE;
 import static io.xeros.model.Npcs.LILLIA;
 
 /**
@@ -22,7 +22,7 @@ public class Lillia extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendDialogues(LILLIA_DIALOGUE, LILLIA);
+        player.getDH().sendDialogues(YOU_NEED_TO_LEAVE_DIALOGUE, LILLIA);
         return true;
     }
 }
