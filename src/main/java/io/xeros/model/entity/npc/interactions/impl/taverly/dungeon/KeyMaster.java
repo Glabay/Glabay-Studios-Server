@@ -5,8 +5,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.KEY_MASTER_DIALOGUE;
-import static io.xeros.model.Dialogues.KEY_MASTER_DIALOGUE_2;
+import static io.xeros.model.Dialogues.*;
 import static io.xeros.model.Items.COINS;
 import static io.xeros.model.Npcs.KEY_MASTER;
 
@@ -25,14 +24,14 @@ public class KeyMaster extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendDialogues(KEY_MASTER_DIALOGUE, KEY_MASTER);
+        player.getDH().sendDialogues(YOU_NEED_TO_LEAVE_DIALOGUE, KEY_MASTER);
         return true;
     }
 
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
         if (player.getSlayer().getTask().isPresent()) {
-            player.getDH().sendDialogues(KEY_MASTER_DIALOGUE_2, KEY_MASTER);
+            player.getDH().sendDialogues(SLAYER_MASTER_TASK_RESET_DIALOGUE, KEY_MASTER);
         } else {
             if (player.getLevel(Skill.SLAYER) < 91) {
                 player.getDH().sendStatement("You need a Slayer level of 91 to kill these.");
