@@ -24,7 +24,7 @@ import io.xeros.util.Misc;
 
 public class Fishing extends SkillHandler {
 	
-	public static int[] anglerOuftit = { 13258, 13259, 13260, 13261 };
+	public static int[] anglerOutfit = { ANGLER_HAT, ANGLER_TOP, ANGLER_WADERS, ANGLER_BOOTS };
 
 	/**
 	 * Fishing data
