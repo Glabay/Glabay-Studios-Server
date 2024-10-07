@@ -69,9 +69,6 @@ public class NpcOptionThree {
 			player.getDiaryManager().getFremennikDiary().progress(FremennikDiaryEntry.TRAVEL_NEITIZNOT);
 			break;
 
-		case 403:
-			player.getDH().sendDialogues(12001, -1);
-			break;
 		case 836:
 			player.getShops().openShop(103);
 			break;

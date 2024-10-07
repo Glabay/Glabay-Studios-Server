@@ -35,4 +35,7 @@ public class Dialogues {
     public static final Integer PERDU_DIALOGUE = 619;
     public static final Integer GRACE_DIALOGUE = 14400;
     public static final Integer TARFOL_QUO_MATEN_DIALOGUE = 11155;
+    public static final Integer BROTHER_JERED_DIALOGUE = 2401;
+    public static final Integer BROTHER_JERED_DIALOGUE_2 = 2400;
+    public static final Integer CHANGE_TASK_DIALOGUE = 12001;
 }

@@ -4,6 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
+import static io.xeros.model.Dialogues.BROTHER_JERED_DIALOGUE;
+import static io.xeros.model.Dialogues.BROTHER_JERED_DIALOGUE_2;
 import static io.xeros.model.Npcs.BROTHER_JERED;
 
 /**
@@ -21,13 +23,13 @@ public class BrotherJered extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendDialogues(2401, BROTHER_JERED);
+        player.getDH().sendDialogues(BROTHER_JERED_DIALOGUE, BROTHER_JERED);
         return true;
     }
 
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
-        player.getDH().sendDialogues(2400, BROTHER_JERED);
+        player.getDH().sendDialogues(BROTHER_JERED_DIALOGUE_2, BROTHER_JERED);
         return true;
     }
 }

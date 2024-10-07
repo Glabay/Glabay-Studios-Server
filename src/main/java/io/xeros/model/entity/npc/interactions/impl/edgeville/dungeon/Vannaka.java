@@ -34,11 +34,13 @@ public class Vannaka extends NpcOptionAction {
 
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
-        if (player.getSlayer().getTask().isPresent()) {
-            player.getDH().sendDialogues(SLAYER_MASTER_TASK_RESET_DIALOGUE, VANNAKA);
-        } else {
-            player.getDH().sendDialogues(SLAYER_MASTER_TASK_CHOICE_DIALOGUE, VANNAKA);
-        }
+        player.getDH().sendDialogues(CHANGE_TASK_DIALOGUE, VANNAKA);
         return true;
-}
+    }
+
+    @Override
+    public Boolean handleActionThree(Player player, NPC npc) {
+        player.getDH().sendDialogues(CHANGE_TASK_DIALOGUE, VANNAKA);
+        return true;
+    }
 }
