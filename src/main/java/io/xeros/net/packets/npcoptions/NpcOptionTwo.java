@@ -234,21 +234,13 @@ public class NpcOptionTwo {
 		case 1860:
 			player.getShops().openShop(6);
 			break;
-
 		case 519:
 			player.getShops().openShop(7);
-			break;
-
-		case 548:
-			player.getDH().sendDialogues(69, player.npcType);
 			break;
 
 		case 2258:
 
 			break;
-
-
-
 		case 506:
 			if (player.getMode().isIronmanType()) {
 				player.getShops().openShop(41);
