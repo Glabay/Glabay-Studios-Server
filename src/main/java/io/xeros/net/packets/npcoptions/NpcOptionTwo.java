@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import static io.xeros.model.Dialogues.INFORMATION_CLERK_DIALOGUE;
+import static io.xeros.model.Dialogues.TELE_TO_COX_DIALOGUE;
 import static io.xeros.model.Items.FIRE_CAPE;
 import static io.xeros.model.Items.TZREK_JAD;
 import static io.xeros.model.Shops.OZIACH_SHOP;
@@ -61,14 +62,6 @@ public class NpcOptionTwo {
                 logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
         }
         switch (npcType) {
-            case 7520:
-                player.getDH().sendDialogues(855, 7520);
-                break;
-
-            case 6774:
-                player.getShops().openShop(117);
-                break;
-
             case 4407:
                 player.getShops().openShop(19);
                 break;

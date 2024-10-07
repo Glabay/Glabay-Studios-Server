@@ -8,6 +8,7 @@ import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Dialogues.DOOMSAYER_DIALOGUE;
 import static io.xeros.model.Npcs.*;
+import static io.xeros.model.Shops.DOOMSAYER_SHOP;
 
 /**
  * @author Zei | Glabay-Studios
@@ -19,7 +20,7 @@ import static io.xeros.model.Npcs.*;
 public class Doomsayer extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { DOOMSAYER, DOOMSAYER_2 };
+        return new Integer[]{DOOMSAYER, DOOMSAYER_2};
     }
 
     @Override
@@ -34,12 +35,9 @@ public class Doomsayer extends NpcOptionAction {
 
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
-        if (!player.pkDistrict) {
-            player.sendMessage("You cannot do this right now.");
-            return false;
-        }
-        player.getDH().sendDialogues(DOOMSAYER_DIALOGUE, DOOMSAYER);
+        player.getShops().openShop(DOOMSAYER_SHOP);
         return true;
+
     }
 
     @Override
