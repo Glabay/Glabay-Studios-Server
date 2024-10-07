@@ -22,11 +22,11 @@ public class GameThread extends Thread {
 
     public static final String THREAD_NAME = "GameThread";
     public static final int PRIORITY = 9;
+    private static final int MAX_TICK_TIME = 600;
     private static final Logger logger = LoggerFactory.getLogger(GameThread.class);
     private final List<Consumer<GameThread>> tickables = new ArrayList<>();
     private final Runnable startup;
     private long totalCycleTime = 0;
-
     public GameThread(Runnable startup) {
         setName(THREAD_NAME);
         setPriority(PRIORITY);
@@ -58,21 +58,21 @@ public class GameThread extends Thread {
 
         // Report
         if (Server.getTickCount() % 50 == 0) {
-            StringJoiner joiner = new StringJoiner(", ");
-            joiner.add("runtime=" + Misc.cyclesToTime(Server.getTickCount()));
-            joiner.add("connections=" + ChannelHandler.getActiveConnections());
-            joiner.add("players=" + PlayerHandler.getPlayers().size());
-            joiner.add("uniques=" + PlayerHandler.getUniquePlayerCount());
-            joiner.add("npcs=" + (int) NPCHandler.nonNullStream().count());
-            joiner.add("reserved-heights=" + InstanceHeight.getReservedCount());
-            joiner.add("average-cycle-time=" + (totalCycleTime / Server.getTickCount()) + "ms");
-            joiner.add("handshakes-per-tick=" + (RS2LoginProtocol.getHandshakeRequests() / Server.getTickCount()));
+            var joiner = new StringJoiner(", ");
+                joiner.add("runtime=" + Misc.cyclesToTime(Server.getTickCount()));
+                joiner.add("connections=" + ChannelHandler.getActiveConnections());
+                joiner.add("players=" + PlayerHandler.getPlayers().size());
+                joiner.add("uniques=" + PlayerHandler.getUniquePlayerCount());
+                joiner.add("npcs=" + (int) NPCHandler.nonNullStream().count());
+                joiner.add("reserved-heights=" + InstanceHeight.getReservedCount());
+                joiner.add("average-cycle-time=" + (totalCycleTime / Server.getTickCount()) + "ms");
+                joiner.add("handshakes-per-tick=" + (RS2LoginProtocol.getHandshakeRequests() / Server.getTickCount()));
 
             long totalMemory = Runtime.getRuntime().totalMemory();
             long usedMemory = totalMemory - Runtime.getRuntime().freeMemory();
             joiner.add("memory=" + Misc.formatMemory(usedMemory) + "/" + Misc.formatMemory(totalMemory));
 
-            logger.info("Status [" + joiner.toString() + "]");
+            logger.info("Status [{}]", joiner);
         }
     }
 
@@ -80,24 +80,23 @@ public class GameThread extends Thread {
     public void run() {
         startup.run();
         while (!Thread.interrupted()) {
-            long time = System.currentTimeMillis();
+            long startTime = System.currentTimeMillis();
+            tick();
+            long elapsedTime = System.currentTimeMillis() - startTime;
+            totalCycleTime += elapsedTime;
+            sleepThreadIfNeeded(elapsedTime);
+        }
+    }
+    private void sleepThreadIfNeeded(long elapsedTime) {
+        if (elapsedTime < MAX_TICK_TIME) {
             try {
-                tick();
-            } catch (Exception e) {
-                logger.error("An error occurred while running the game thread tickables.", e);
+                Thread.sleep(MAX_TICK_TIME - elapsedTime);
+            }
+            catch (InterruptedException e) {
                 e.printStackTrace(System.err);
             }
-            long pastTime = System.currentTimeMillis() - time;
-            totalCycleTime += pastTime;
-            if (pastTime < 600) {
-                try {
-                    Thread.sleep(600 - pastTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace(System.err);
-                }
-            } else {
-                logger.error("Game thread took " + Misc.insertCommas(pastTime + "") + "ms to process!");
-            }
         }
+        else
+            logger.error("Game thread took {}ms to process!", Misc.insertCommas(String.valueOf(elapsedTime)));
     }
 }

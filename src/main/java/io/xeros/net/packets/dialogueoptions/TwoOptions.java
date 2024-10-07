@@ -15,7 +15,6 @@ import io.xeros.content.achievement_diary.impl.WesternDiaryEntry;
 import io.xeros.content.achievement_diary.impl.WildernessDiaryEntry;
 import io.xeros.content.bosses.Hunllef;
 import io.xeros.content.bosses.Skotizo;
-import io.xeros.content.commands.all.Claim;
 import io.xeros.content.items.Degrade;
 import io.xeros.content.lootbag.LootingBag;
 import io.xeros.content.minigames.barrows.RoomLocation;
@@ -212,19 +211,6 @@ public class TwoOptions {
 	            break;
 			}
 			c.destroyingItemId = 0;
-			break;
-		case 977:
-			 if (c.getItems().freeSlots() < 1) {
-                 c.sendMessage("You need at least one free slots to use this command.");
-                 c.getPA().closeAllWindows();
-                 return;
-             }
-			if (c.hitDatabaseRateLimit(true))
-				return;
-			 Claim.claimDonations(c);
-			 c.sendMessage("@red@Checking your reward...");
-			 c.sendMessage("@red@We have succesfully scanned your named through the database.");
-             c.getPA().closeAllWindows();
 			break;
 		case 943:
     		c.getPA().startTeleport(3080, 3495, 0, "modern", false);

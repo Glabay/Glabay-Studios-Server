@@ -52,10 +52,10 @@ public class ItemOptionFour implements PacketType {
 
 		var itemActionManager = Server.getItemOptionActionManager();
 		if (itemActionManager.findHandlerById(itemId).isPresent()) {
-			var npcAction = itemActionManager.findHandlerById(itemId).get();
-			if (npcAction.performedAction(c, itemId, itemId1, itemId11, 4))
+			var itemAction = itemActionManager.findHandlerById(itemId).get();
+			if (itemAction.performedAction(c, itemId, itemId1, itemId11, 4))
 				return;
-			logger.error("Unhandled Item Action 4: {} ", npcAction.getClass().getSimpleName());
+			logger.error("Unhandled Item Action 4: {} ", itemAction.getClass().getSimpleName());
 		}
 	}
 }

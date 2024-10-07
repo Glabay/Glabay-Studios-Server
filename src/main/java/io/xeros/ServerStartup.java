@@ -68,7 +68,8 @@ public class ServerStartup {
         Reflection.getMethodsAnnotatedWith(Init.class).forEach(method -> {
             try {
                 method.invoke(null);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 logger.error("Error loading @Init annotated method[{}] inside class[{}]", method, method.getClass(), e);
                 e.printStackTrace(System.err);
                 System.exit(1);
@@ -89,10 +90,9 @@ public class ServerStartup {
         NpcStats.load();
         for (var npc : NpcStats.npcStatsMap.int2ObjectEntrySet()) {
             if (npc == null) continue;
-            NpcStats data = NpcStats.forId(npc.getIntKey());
-            if (data.scripts != null) {
+            var data = NpcStats.forId(npc.getIntKey());
+            if (data.scripts != null)
                 data.scripts.resolve();
-            }
         }
         ItemStats.load();
         NpcDef.load();
@@ -142,14 +142,14 @@ public class ServerStartup {
         ZamorakGuardian.spawn();
         new SarachnisNpc(Npcs.SARACHNIS, SarachnisNpc.SPAWN_POSITION);
 
-        if (Server.isPublic()) {
+        if (Server.isPublic())
             PlayerSaveBackup.start(Configuration.PLAYER_SAVE_TIMER_MILLIS, Configuration.PLAYER_SAVE_BACKUP_EVERY_X_SAVE_TICKS);
-        }
 
         Reflection.getMethodsAnnotatedWith(PostInit.class).forEach(method -> {
             try {
                 method.invoke(null);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 logger.error("Error loading @PostInit annotated method[{}] inside class[{}]", method, method.getClass(), e);
                 e.printStackTrace(System.err);
                 System.exit(1);

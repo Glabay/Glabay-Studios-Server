@@ -86,6 +86,13 @@ public class OperateItem implements PacketType {
         if (BryophytaStaff.handleItemOption(player, itemId, 2))
             return;
 
+        var itemActionManager = Server.getItemOptionActionManager();
+        if (itemActionManager.findHandlerById(itemId).isPresent()) {
+            var itemAction = itemActionManager.findHandlerById(itemId).get();
+            if (itemAction.performActionItemOperation(player, itemId))
+                return;
+            logger.error("Unhandled Item Action 4: {} ", itemAction.getClass().getSimpleName());
+        }
         switch (itemId) {
             case Items.SANGUINESTI_STAFF:
                 SanguinestiStaff.checkChargesRemaining(player);
