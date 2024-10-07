@@ -24,6 +24,7 @@ public class Dialogues {
     public static final Integer DOOMSAYER_DIALOGUE = 800;
     public static final Integer RUG_MERCHANT_DIALOGUE = 837;
     public static final Integer RUG_MERCHANT_DIALOGUE_2 = 838;
+    public static final Integer INFORMATION_CLERK_DIALOGUE = 901;
     public static final Integer LOOTING_BAG_OPTIONS_DIALOGUE_ID = 1235;
     public static final Integer BROTHER_JERED_DIALOGUE_2 = 2400;
     public static final Integer BROTHER_JERED_DIALOGUE = 2401;

@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import static io.xeros.model.Dialogues.INFORMATION_CLERK_DIALOGUE;
 import static io.xeros.model.Items.FIRE_CAPE;
 import static io.xeros.model.Items.TZREK_JAD;
 
@@ -58,10 +59,6 @@ public class NpcOptionTwo {
 				logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
 		}
 		switch (npcType) {
-		case 1909:
-			player.getDH().sendDialogues(901, 1909);
-			break;
-
 		case 2989:
 			player.getPrestige().openPrestige();
 			break;
