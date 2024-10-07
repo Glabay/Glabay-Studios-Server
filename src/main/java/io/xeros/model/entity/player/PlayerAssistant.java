@@ -1,6 +1,7 @@
 package io.xeros.model.entity.player;
 
 import java.util.*;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -42,14 +43,7 @@ import io.xeros.content.skills.smithing.Smelting.Bars;
 import io.xeros.content.skills.woodcutting.Tree;
 import io.xeros.content.tournaments.TourneyManager;
 import io.xeros.content.wildwarning.WildWarning;
-import io.xeros.model.AmountInput;
-import io.xeros.model.Animation;
-import io.xeros.model.CombatType;
-import io.xeros.model.Items;
-import io.xeros.model.Projectile;
-import io.xeros.model.SkillLevel;
-import io.xeros.model.SoundType;
-import io.xeros.model.StringInput;
+import io.xeros.model.*;
 import io.xeros.model.collisionmap.PathChecker;
 import io.xeros.model.cycleevent.CycleEventHandler;
 import io.xeros.model.cycleevent.impl.WheatPortalEvent;
@@ -4127,10 +4121,12 @@ public class PlayerAssistant {
             if (t.getWood() == item)
                 return true;
         }
-        for (int[] fish : Fishing.data) {
-            if (fish[4] == item)
-                return true;
-        }
+        for (var fish : FishingSpotTypes.values())
+            if (fish.getRawFishId() == item) return true;
+
+//        for (int[] fish : Fishing.data)
+//            if (fish[4] == item) return true;
+
         for (int cookFish : Cooking.fishIds) {
             if (cookFish == item)
                 return true;

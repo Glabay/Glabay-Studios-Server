@@ -4,14 +4,9 @@ import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.achievement_diary.impl.*;
 import io.xeros.content.bosses.nightmare.NightmareActionHandler;
-import io.xeros.content.dailyrewards.DailyRewardsDialogue;
-import io.xeros.content.dialogue.impl.IronmanNpcDialogue;
-import io.xeros.content.minigames.inferno.Inferno;
 import io.xeros.content.skills.Fishing;
-import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.agility.AgilityHandler;
 import io.xeros.content.skills.thieving.Thieving;
-import io.xeros.content.tradingpost.Listing;
 import io.xeros.model.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
@@ -188,27 +183,6 @@ public class NpcOptionTwo {
 			break;
 		case 3216:
 			player.getShops().openShop(8);
-			break;
-		case 310:
-		case 314:
-		case 317:
-		case 318:
-		case 328:
-		case 329:
-		case 331:
-		case 3417:
-		case 6825:// BAIT + LURE
-			Fishing.attemptdata(player, 6);
-			break;
-		case 3657:
-		case 321:
-		case 324:// SWORDIES+TUNA-CAGE+HARPOON
-			Fishing.attemptdata(player, 7);
-			break;
-		case 1520:
-		case 322:
-		case 334: // NET+HARPOON
-			Fishing.attemptdata(player, 10);
 			break;
 		case 532:
 			player.getShops().openShop(47);

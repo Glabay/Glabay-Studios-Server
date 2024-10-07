@@ -1,25 +1,11 @@
 package io.xeros.net.packets.npcoptions;
 
 import io.xeros.Server;
-import io.xeros.content.achievement_diary.impl.LumbridgeDraynorDiaryEntry;
 import io.xeros.content.bosses.nightmare.NightmareActionHandler;
-import io.xeros.content.dialogue.impl.IronmanNpcDialogue;
-import io.xeros.content.dialogue.impl.MonkChaosAltarDialogue;
-import io.xeros.content.skills.Fishing;
-import io.xeros.content.skills.crafting.Tanning;
-import io.xeros.content.skills.mining.Mineral;
-import io.xeros.content.skills.thieving.Thieving;
-import io.xeros.model.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.pets.PetHandler;
-import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
-import io.xeros.model.entity.player.Right;
-import io.xeros.model.entity.player.mode.group.GroupIronman;
-import io.xeros.model.entity.player.mode.group.GroupIronmanDialogue;
-import io.xeros.util.Location3D;
-import io.xeros.util.Misc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

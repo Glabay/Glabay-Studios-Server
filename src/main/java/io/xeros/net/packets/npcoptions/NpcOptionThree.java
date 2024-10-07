@@ -1,6 +1,5 @@
 package io.xeros.net.packets.npcoptions;
 
-import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.achievement_diary.impl.*;
 import io.xeros.content.skills.agility.AgilityHandler;
@@ -9,9 +8,7 @@ import io.xeros.model.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.pets.PetHandler;
-import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
-import io.xeros.util.Misc;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
