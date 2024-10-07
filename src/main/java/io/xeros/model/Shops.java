@@ -9,6 +9,7 @@ package io.xeros.model;
  */
 public class Shops {
 
+    public static final Integer GENERAL_SHOP = 4;
     public static final Integer RANGE_SHOP = 4;
     public static final Integer MAGE_SHOP = 6;
     public static final Integer MELEE_SHOP = 8;
@@ -18,6 +19,7 @@ public class Shops {
     public static final Integer FISHING_SHOP = 22;
     public static final Integer HUNTER_SHOP = 23;
     public static final Integer SIGMUND_THE_MERCHANT_SHOP = 26;
+    public static final Integer IRONMAN_SHOP = 41;
     public static final Integer ZAFFS_MAGIC_SHOP = 47;
     public static final Integer RANGE_SUPPLIES_SHOP = 48;
     public static final Integer PEST_CONTROL_SHOP = 75;

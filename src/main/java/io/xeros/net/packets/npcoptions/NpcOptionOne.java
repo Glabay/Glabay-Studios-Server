@@ -50,30 +50,7 @@ public class NpcOptionOne {
             var npcAction = npcActionManager.findHandlerById(npcType).get();
             if (npcAction.performedAction(player, npc, 1))
                 return;
-            else
-                logger.error("Unhandled NPC Action 1: {} ", npcAction.getClass().getSimpleName());
-        }
-
-        switch (npcType) {
-            case 2258:
-                player.getDH().sendOption2("Teleport me to Runecrafting Abyss.", "I want to stay here, thanks.");
-                player.dialogueAction = 2258;
-                break;
-            case 532:
-                player.getShops().openShop(47);
-                break;
-            case 7913:
-                if (player.getMode().isIronmanType()
-                    || player.getRights().contains(Right.OWNER) || player.getRights().contains(Right.ADMINISTRATOR)) {
-                    player.getShops().openShop(41);
-                }
-                else {
-                    player.sendMessage("You must be an Iron Man to access this shop.");
-                }
-                break;
-            case 7769:
-                player.getShops().openShop(2);
-                break;
+            logger.error("Unhandled NPC Action 1: {} ", npcAction.getClass().getSimpleName());
         }
     }
 }
