@@ -55,13 +55,6 @@ public class NpcOptionTwo {
 				logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
 		}
 		switch (npcType) {
-		case 326:
-		case 327:
-			   player.gfx100(1028);
-			break;
-		case 7240:
-			player.getShops().openShop(91);
-			break;
 		case 1011: //infernal gambler
 		    if (player.getItems().playerHasItem(6570, 10)) {
 		    	int InfernalChance = Misc.random(1000);
@@ -77,9 +70,6 @@ public class NpcOptionTwo {
         			player.sendMessage("@red@You dont have 10 firecapes to gamble.");	
 		    }
 		    	break;
-		case Npcs.PERDU:
-			player.getPerduLostPropertyShop().open(player);
-			break;
 		case 1909:
 			player.getDH().sendDialogues(901, 1909);
 			break;

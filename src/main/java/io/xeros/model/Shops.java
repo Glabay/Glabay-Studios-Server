@@ -26,4 +26,5 @@ public class Shops {
     public static final Integer VOTE_SHOP = 77;
     public static final Integer EMBLEM_TRADER_SHOP = 80;
     public static final Integer NURMOF_SHOP = 90;
+    public static final Integer BOB_BRILLIANT_AXES_SHOP = 91;
 }

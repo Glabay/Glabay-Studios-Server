@@ -8411,6 +8411,6 @@ public class Npcs {
     public static final int SLEEPWALKER_15 = 9_470;
     public static final int SISTER_SENGA = 9_471;
     public static final int SISTER_SENGA_2 = 9_472;
-
+    public static final int BOB_15 = 10619;
 
 }

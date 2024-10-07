@@ -29,7 +29,7 @@ public class Perdu extends NpcOptionAction {
 
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
-        player.getDonationRewards().openInterface();
+        player.getPerduLostPropertyShop().open(player);
         return true;
     }
 }
