@@ -59,9 +59,6 @@ public class NpcOptionTwo {
 				logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
 		}
 		switch (npcType) {
-		case 2989:
-			player.getPrestige().openPrestige();
-			break;
 		case 4321:
 			int totalBlood = player.getItems().getItemAmount(13307);
 			if (totalBlood >= 1) {
