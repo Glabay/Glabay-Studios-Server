@@ -826,15 +826,6 @@ public class DialogueHandler {
 			c.dialogueAction = 947;
 			c.nextChat = -1;
 			break;
-		case 10955:
-			sendNpcChat("I can get you a Crystalline task but",
-					"it will cost you 1m.");
-			c.nextChat = 10956;
-			break;
-		case 10956:
-			sendOption2("I would like a Crystalline task for 1m please.","Nevermind");
-			c.dialogueAction = 10956;
-			break;
 		case 3299:
 			sendNpcChat("Before I assign you anything, I want to make",
 					"something clear. My tasks have to be done in the",
@@ -870,15 +861,6 @@ public class DialogueHandler {
 			sendOption2("I would like a Hydra task for 15m please.","Nevermind");
 			c.dialogueAction = 11156;
 			break;//hydra npc
-		case 11955:
-			sendNpcChat("I can get you a kraken task but",
-					"it will cost you 5m.");
-			c.nextChat = 11966;
-			break;
-		case 11966:
-			sendOption2("I would like a Kraken task for 5m please.","Nevermind");
-			c.dialogueAction = 11966;
-			break;
 		case 149:
 			sendOption2("Claim rewards", "Open shop");
 			c.dialogueAction = 149;
@@ -1357,11 +1339,6 @@ public class DialogueHandler {
 			sendOption5("Imbue Treasonous Ring @red@250 PKP", "Imbue Tyrannical Ring @red@250 PKP", "", "Previous",
 					"Close");
 			c.dialogueAction = 135;
-			break;
-		case 2603:
-			c.getDH().sendNpcChat2("Hello. I can restore your HP if you", "are a donator or higher!", c.talkingNpc,
-					"A'abla");
-			c.nextChat = 0;
 			break;
 		case 9994:
 			sendPlayerChat1("Enter a minimum amount:");

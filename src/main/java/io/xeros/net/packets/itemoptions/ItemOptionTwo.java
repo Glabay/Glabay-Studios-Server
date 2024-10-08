@@ -82,7 +82,7 @@ public class ItemOptionTwo implements PacketType {
 			case 22106:
 			case 12936:
 			case 24495:
-			player.getDH().sendDialogues(361, Npcs.BOSS_POINT_SHOP);
+			player.getDH().sendDialogues(361, Npcs.ISLWYN_8819);
 			break;
 		case 21183:
 			player.sendMessage("Your bracelet of slaughter has @red@"+ player.slaughterCharge +"@bla@ charges left.");

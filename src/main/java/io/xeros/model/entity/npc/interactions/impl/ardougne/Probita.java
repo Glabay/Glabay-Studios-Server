@@ -25,4 +25,10 @@ public class Probita extends NpcOptionAction {
         return true;
     }
 
+    @Override
+    public Boolean handleActionTwo(Player player, NPC npc) {
+        io.xeros.model.entity.npc.pets.Probita.cancellationOfPreviousPet(player);
+        return true;
+    }
+
 }

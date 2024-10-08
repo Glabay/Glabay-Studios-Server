@@ -1,10 +1,11 @@
-package io.xeros.model.entity.npc.interactions.impl;
+package io.xeros.model.entity.npc.interactions.impl.varrock;
 
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.HUNTER_STORE;
+import static io.xeros.model.Npcs.LOWE;
+import static io.xeros.model.Shops.RANGE_SHOP;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -12,15 +13,15 @@ import static io.xeros.model.Npcs.HUNTER_STORE;
  * @social Discord: Glabay
  * @since 2024-10-01
  */
-public class Aleck extends NpcOptionAction {
+public class Lowe extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { HUNTER_STORE };
+        return new Integer[] { LOWE };
     }
 
     @Override
-    public Boolean handleActionFour(Player player, NPC npc) {
-        player.getShops().openShop(23);
+    public Boolean handleActionOne(Player player, NPC npc) {
+        player.getShops().openShop(RANGE_SHOP);
         return true;
     }
 }

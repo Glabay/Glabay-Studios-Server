@@ -1,11 +1,11 @@
-package io.xeros.model.entity.npc.interactions.impl.morytania;
+package io.xeros.model.entity.npc.interactions.impl.tutorialisland;
 
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
+import io.xeros.model.entity.player.mode.group.GroupIronmanDialogue;
 
-import static io.xeros.model.Npcs.LE_SABR;
-import static io.xeros.model.Npcs.TOBY;
+import static io.xeros.model.Npcs.*;
 
 /**
  * @author Zei | Glabay-Studios
@@ -14,15 +14,15 @@ import static io.xeros.model.Npcs.TOBY;
  * @social Github: <a href="https://github.com/Zeighe">Zeighe</a>
  * @since 10/2/2024
  */
-public class LeSabre extends NpcOptionAction {
+public class Recruiter extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { LE_SABR };
+        return new Integer[] { RECRUITER, RECRUITER_8973 };
     }
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDiaryManager().getMorytaniaDiary().claimReward();
+        player.start(new GroupIronmanDialogue(player));
         return true;
     }
 }

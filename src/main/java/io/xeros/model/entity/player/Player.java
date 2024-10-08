@@ -1779,10 +1779,6 @@ public class Player extends Entity {
             sendMessage("@bla@Welcome to " + Configuration.SERVER_NAME + ", don't forget to join the <col=255>::discord</col>!");
         }
 
-        if (Reclaim.isReclaimPeriod() && Server.isPublic()) {
-            sendMessage("The donation reclaim period is open, use ::reclaim to reclaim old donations.");
-        }
-
         if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
             sendMessage("@bla@Bonus XP Weekend is currently [@gre@ACTIVE@bla@]");
         } else if (bonusXpTime > 0) {

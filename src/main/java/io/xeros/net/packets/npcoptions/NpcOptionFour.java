@@ -1,9 +1,6 @@
 package io.xeros.net.packets.npcoptions;
 
 import io.xeros.Server;
-import io.xeros.content.skills.agility.AgilityHandler;
-import io.xeros.content.skills.slayer.SlayerRewardsInterface;
-import io.xeros.content.skills.slayer.SlayerRewardsInterfaceData;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.pets.PetHandler;

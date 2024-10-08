@@ -284,7 +284,7 @@ public class DropManager {
 
             if (name.equals(t.getPrimaryName()) || ArrayUtils.contains(t.getNames(), name)) {
                 myMaster.ifPresent(m -> {
-                    if (npc.getNpcId() == Npcs.GARGOYLE_3 && (!player.gargoyleStairsUnlocked && Misc.random(120) == 1 || Server.isDebug())) {
+                    if (npc.getNpcId() == Npcs.GARGOYLE_1543 && (!player.gargoyleStairsUnlocked && Misc.random(120) == 1 || Server.isDebug())) {
                         Server.itemHandler.createGroundItem(player, new GameItem(GrotesqueInstance.GROTESQUE_GUARDIANS_KEY), location.toPosition());
                         player.sendMessage("@red@You receive a brittle key.");
                         logger.debug("Grotesque guardians key received because server is on debug mode.");
@@ -532,7 +532,7 @@ public class DropManager {
     }
 
     public void create(Player player, NPC npc, Location3D location, int repeats, int npcId) {
-        if (npcId == Npcs.THE_MIMIC_2) {
+        if (npcId == Npcs.THE_MIMIC_8633) {
             if (player.getItems().playerHasItem(Items.MIMIC)) {
                 Achievements.increase(player, AchievementType.MIMIC, 1);
                 player.getItems().deleteItem(Items.MIMIC, 1);

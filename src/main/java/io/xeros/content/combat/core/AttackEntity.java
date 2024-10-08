@@ -349,7 +349,7 @@ public class AttackEntity {
         if (attacker.getTargeted() == null || !attacker.getTargeted().equals(targetEntity)) {
             boolean addOverlay = true;
             if (targetEntity.isNPC()) {
-                if (targetEntity.asNPC().getNpcId() == Npcs.MAX_DUMMY) {
+                if (targetEntity.asNPC().getNpcId() == Npcs.UNDEAD_COMBAT_DUMMY) {
                     addOverlay = false;
                 }
             }

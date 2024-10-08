@@ -37,8 +37,8 @@ public class GrotesqueInstance extends InstancedArea {
     public void enter(Player plr) {
         try {
             add(plr);
-            GrotesqueGuardianNpc dawn = new GrotesqueGuardianNpc(Npcs.DAWN_2, new Position(1700, 4576, getHeight()), this);
-            GrotesqueGuardianNpc dusk = new GrotesqueGuardianNpc(Npcs.DUSK_2, new Position(1692, 4576, getHeight()), this);
+            GrotesqueGuardianNpc dawn = new GrotesqueGuardianNpc(Npcs.DAWN_7852, new Position(1700, 4576, getHeight()), this);
+            GrotesqueGuardianNpc dusk = new GrotesqueGuardianNpc(Npcs.DUSK_7851, new Position(1692, 4576, getHeight()), this);
             dawn.setCounterpart(dusk);
             dusk.setCounterpart(dawn);
 

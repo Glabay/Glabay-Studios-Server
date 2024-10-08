@@ -18,11 +18,11 @@ public class DeathAnimation extends NPCHandler {
             return 836;
         }
         switch (npcId) {
-            case Npcs.THE_MIMIC_2:
+            case Npcs.THE_MIMIC_8633:
                 return 8310;
             case Npcs.SARACHNIS:
             case Npcs.SPAWN_OF_SARACHNIS:
-            case Npcs.SPAWN_OF_SARACHNIS_2:
+            case Npcs.SPAWN_OF_SARACHNIS_8715:
                 return 8318;
             case Npcs.REVENANT_CYCLOPS:
                 return 4653;

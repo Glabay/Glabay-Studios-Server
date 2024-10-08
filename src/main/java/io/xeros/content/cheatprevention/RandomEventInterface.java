@@ -128,8 +128,8 @@ public class RandomEventInterface extends CycleEvent {
 			GameItem item = combination.items[slot];
 			if (item.getId() != correctItem.getId()) {
 				player.getPA().stopSkilling();
-				player.sendMessage("Incorrect, you have been sent home.");
-				player.getPA().movePlayer(Configuration.HOME_X, Configuration.HOME_Y, 0);
+				player.sendMessage("Incorrect."); //, you have been sent to Home.
+				//player.getPA().movePlayer(Configuration.HOME_X, Configuration.HOME_Y, 0);
 			}
 			if (item.getId() == correctItem.getId()) {
 				player.getItems().addItemToBankOrDrop(995, 100000);
@@ -147,10 +147,12 @@ public class RandomEventInterface extends CycleEvent {
 	 * Draws the information on the interface
 	 */
 	public void draw() {
+		System.out.println("Correct item: " + correctItem.getId() + " - ");
 		ItemDef definition = ItemDef.forId(correctItem.getId());
 		player.getPA().sendFrame126("Click the '" + definition.getName() + "'", 33302);
 		int frame = 33311;
 		for (GameItem item : combination.items) {
+			System.out.println("Sending item: " + item.getId() + " - " + ItemDef.forId(item.getId()).getName());
 			player.getPA().sendFrame34a(frame, item.getId(), 0, 1);
 			frame += 3;
 		}
@@ -174,8 +176,8 @@ public class RandomEventInterface extends CycleEvent {
 		if (time <= 0) {
 			active = false;
 			player.getPA().stopSkilling();
-			player.sendMessage("Incorrect, you have been sent to Home.");
-			player.getPA().movePlayer(Configuration.HOME_X, Configuration.HOME_Y, 0);
+			player.sendMessage("Incorrect. I suck at coding."); //, you have been sent to Home.
+			//player.getPA().movePlayer(Configuration.HOME_X, Configuration.HOME_Y, 0);
 			container.stop();
 		}
 	}

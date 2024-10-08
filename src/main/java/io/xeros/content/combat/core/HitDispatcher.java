@@ -103,7 +103,7 @@ public abstract class HitDispatcher {
 
         boolean isMaxHitDummy = false;
         if (defender.isNPC()) {
-            isMaxHitDummy = defender.asNPC().getNpcId() == Npcs.MAX_DUMMY;
+            isMaxHitDummy = defender.asNPC().getNpcId() == Npcs.UNDEAD_COMBAT_DUMMY;
         }
 
         /**
@@ -277,7 +277,7 @@ public abstract class HitDispatcher {
             boolean isAccurate = isMaxHitDummy || attacker.rubyBoltSpecial || maximumAccuracy >= roll;
 
             if (defender.isNPC()) {
-                if (defender.asNPC().getNpcId() == Npcs.MAX_DUMMY)
+                if (defender.asNPC().getNpcId() == Npcs.UNDEAD_COMBAT_DUMMY)
                     isAccurate = true;
             }
 

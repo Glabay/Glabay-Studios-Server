@@ -4,6 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
+import static io.xeros.model.Dialogues.LUMBRIDGE_GUIDE_DIALOGUE;
 import static io.xeros.model.Npcs.*;
 
 /**
@@ -16,7 +17,7 @@ import static io.xeros.model.Npcs.*;
 public class LumbridgeGuide extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { LUMBRIDGE_GUIDE, LUMBRIDGE_GUIDE_2, LUMBRIDGE_GUIDE_3, LUMBRIDGE_GUIDE_4 };
+        return new Integer[] { LUMBRIDGE_GUIDE, LUMBRIDGE_GUIDE_1179, LUMBRIDGE_GUIDE_1181, LUMBRIDGE_GUIDE_3393 };
     }
 
     @Override
@@ -25,7 +26,7 @@ public class LumbridgeGuide extends NpcOptionAction {
             player.sendMessage("You cannot do this right now.");
             return false;
         }
-        player.getDH().sendDialogues(710, 306);
+        player.getDH().sendDialogues(LUMBRIDGE_GUIDE_DIALOGUE, LUMBRIDGE_GUIDE);
         return true;
     }
 }

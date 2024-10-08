@@ -4,6 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
+import static io.xeros.model.Dialogues.ELITE_VOID_KNIGHT_DIALOGUE;
 import static io.xeros.model.Npcs.ELITE_VOID_KNIGHT;
 import static io.xeros.model.Npcs.NURMOF;
 
@@ -21,13 +22,13 @@ public class EliteVoidKnight extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendDialogues(80, 5513);
+        player.getDH().sendDialogues(ELITE_VOID_KNIGHT_DIALOGUE, ELITE_VOID_KNIGHT);
         return true;
     }
 
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
-        player.getDH().sendDialogues(80, 5513);
+        player.getDH().sendDialogues(ELITE_VOID_KNIGHT_DIALOGUE, ELITE_VOID_KNIGHT);
         return true;
     }
 }

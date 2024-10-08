@@ -22,7 +22,7 @@ public class Nylocas extends TobBoss {
     private long lastTransform;
 
     public Nylocas(InstancedArea instancedArea) {
-        super(Npcs.NYLOCAS_VASILIAS_2, new Position(3294, 4247, instancedArea.getHeight()), instancedArea);
+        super(Npcs.NYLOCAS_VASILIAS_8355, new Position(3294, 4247, instancedArea.getHeight()), instancedArea);
         updateAutoAttack(CombatType.MELEE);
     }
 

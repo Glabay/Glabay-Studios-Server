@@ -5,6 +5,7 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Npcs.NURMOF;
+import static io.xeros.model.Shops.NURMOF_SHOP;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -20,13 +21,13 @@ public class Nurmof extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getShops().openShop(90);
+        player.getShops().openShop(NURMOF_SHOP);
         return true;
     }
 
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
-        player.getShops().openShop(90);
+        player.getShops().openShop(NURMOF_SHOP);
         return true;
     }
 }

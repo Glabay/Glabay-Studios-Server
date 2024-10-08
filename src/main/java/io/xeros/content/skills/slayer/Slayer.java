@@ -216,7 +216,7 @@ public class Slayer {
 	}
 
 	public boolean hasSlayerHelmBoost(NPC npc, CombatType combatType) {
-		if (npc != null && (isTaskNpc(npc) || npc.getNpcId() == Npcs.MAX_DUMMY)) {
+		if (npc != null && (isTaskNpc(npc) || npc.getNpcId() == Npcs.UNDEAD_COMBAT_DUMMY)) {
 			if ((player.getItems().isWearingItem(Items.SALVE_AMULET) && combatType == CombatType.MELEE
 					|| player.getItems().isWearingItem(Items.SALVE_AMULET_E) || player.getItems().isWearingItem(Items.SALVE_AMULETI))
 					&& Misc.linearSearch(Configuration.UNDEAD_NPCS, npc.getNpcId()) != -1) {

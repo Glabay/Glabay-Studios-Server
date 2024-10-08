@@ -112,10 +112,10 @@ public class NPCDeath {
             }
         }
 
-        if (npcId == Npcs.DUSK_9) {
+        if (npcId == Npcs.DUSK_7888) {
             Achievements.increase(c, AchievementType.GROTESQUES, 1);
         }
-        if (npcId == Npcs.ALCHEMICAL_HYDRA_7) {
+        if (npcId == Npcs.ALCHEMICAL_HYDRA_8621) {
             Achievements.increase(c, AchievementType.HYDRA, 1);
         }
 

@@ -27,7 +27,7 @@ public class AttackAnimation extends NPCHandler {
 		switch (npc.getNpcId()) {
 			case 3254: // Guard
 			case Npcs.ZAMORAK_WARRIOR:
-			case Npcs.ZAMORAK_WARRIOR_2:
+			case Npcs.ZAMORAK_WARRIOR_7419:
 				return 451;
 			case 2837: // unicorn
 			case 2849:

@@ -17,7 +17,7 @@ import static io.xeros.model.Npcs.*;
 public class TradingPostManager extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { TRADING_POST_MANAGER };
+        return new Integer[] { BANKER_2897 };
     }
 
     @Override

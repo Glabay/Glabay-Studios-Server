@@ -17,12 +17,12 @@ import static io.xeros.model.Npcs.*;
 public class ZeahSoldier extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { SOLDIER_13 };
+        return new Integer[] { WOUNDED_SOLDIER_6838 };
     }
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendDialogues(ZEAH_SOLDIER_DIALOGUE, SOLDIER_13);
+        player.getDH().sendDialogues(ZEAH_SOLDIER_DIALOGUE, WOUNDED_SOLDIER_6838);
         return true;
     }
 }

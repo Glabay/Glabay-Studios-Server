@@ -71,8 +71,8 @@ public class HitDispatcherNpc extends HitDispatcher {
 
         // Demonic gorilla
         if (type == CombatType.MELEE && npcId == Npcs.DEMONIC_GORILLA
-                || type == CombatType.RANGE && npcId == Npcs.DEMONIC_GORILLA_2
-                || type == CombatType.MAGE && npcId == Npcs.DEMONIC_GORILLA_3) {
+                || type == CombatType.RANGE && npcId == Npcs.DEMONIC_GORILLA_7145
+                || type == CombatType.MAGE && npcId == Npcs.DEMONIC_GORILLA_7146) {
             maximumDamage = 0;
             maximumAccuracy = 0;
         }

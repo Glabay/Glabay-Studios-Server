@@ -16,7 +16,7 @@ import static io.xeros.model.Npcs.*;
 public class Thorodin extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { THORODIN, THORODIN_2 };
+        return new Integer[] { THORODIN, THORODIN_5526 };
     }
 
     @Override

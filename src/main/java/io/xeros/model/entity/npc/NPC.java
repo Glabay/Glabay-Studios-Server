@@ -795,7 +795,7 @@ public class NPC extends Entity {
 	}
 
 	public void facePlayer(int player) {
-		if (getNpcId() == Npcs.MAX_DUMMY) {
+		if (getNpcId() == Npcs.UNDEAD_COMBAT_DUMMY) {
 			return;
 		}
 
@@ -1086,7 +1086,7 @@ public class NPC extends Entity {
 		if (getHealth().getCurrentHealth() - damage < 0) {
 			damage = getHealth().getCurrentHealth();
 		}
-		if (getNpcId() != Npcs.MAX_DUMMY) {
+		if (getNpcId() != Npcs.UNDEAD_COMBAT_DUMMY) {
 			getHealth().reduce(damage);
 			if (getHealth().getCurrentHealth() <= 0) {
 				setDead(true);

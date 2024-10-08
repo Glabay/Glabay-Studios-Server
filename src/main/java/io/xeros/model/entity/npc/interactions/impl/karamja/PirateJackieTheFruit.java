@@ -16,7 +16,7 @@ import static io.xeros.model.Npcs.*;
 public class PirateJackieTheFruit extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { PIRATE_JACKIE_THE_FRUIT, PIRATE_JACKIE_THE_FRUIT_2 };
+        return new Integer[] { PIRATE_JACKIE_THE_FRUIT, PIRATE_JACKIE_THE_FRUIT_7651 };
     }
 
     @Override
