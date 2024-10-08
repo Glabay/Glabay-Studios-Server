@@ -16,7 +16,7 @@ import static io.xeros.model.Npcs.*;
 public class OttoGodblessed extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { OTTO_GODBLESSED, OTTO_GODBLESSED_2 };
+        return new Integer[] { OTTO_GODBLESSED, OTTO_GODBLESSED_2915 };
     }
 
     @Override

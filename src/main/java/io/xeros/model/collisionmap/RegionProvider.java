@@ -29,7 +29,7 @@ public class RegionProvider {
      * An array of fully blocked NPCs that block movement and projectiles
      */
     public static final int[] FULL_BLOCKED_NPCS = {
-            Npcs.GORILLA, Npcs.BEARDED_GORILLA, Npcs.ELDER_GUARD, Npcs.ELDER_GUARD_2,
+            Npcs.GORILLA, Npcs.BEARDED_GORILLA, Npcs.ELDER_GUARD, Npcs.ELDER_GUARD_5278,
             7710,// ROCKY SUPPORT
     };
 
@@ -38,12 +38,12 @@ public class RegionProvider {
      */
     public static int[] EXCLUDED_NPCS = {
             // Misc
-            Npcs.SKOTIZO, Npcs.SMOKE_DEVIL, Npcs.SMOKE_DEVIL_2,
-            Npcs.SMOKE_DEVIL_3, Npcs.SMOKE_DEVIL_4, Npcs.SMOKE_DEVIL_5,
-            Npcs.JAL_NIB,
+            Npcs.SKOTIZO, Npcs.SMOKE_DEVIL, Npcs.SMOKE_DEVIL_6639,
+            Npcs.SMOKE_DEVIL_6655, Npcs.SMOKE_DEVIL_8482, Npcs.SMOKE_DEVIL_8483,
+            Npcs.JALNIB,
 
             // Mimic
-            Npcs.THE_MIMIC, Npcs.ETHEREAL_MIMIC, Npcs.THE_MIMIC_2,
+            Npcs.THE_MIMIC, Npcs.ETHEREAL_MIMIC, Npcs.THE_MIMIC_8633,
             // End of Mimic
 
             // Dagannoths
@@ -51,75 +51,75 @@ public class RegionProvider {
             // End of Dagannoths
 
             // Grotesque Guardians
-            Npcs.DUSK_2, Npcs.DAWN_2,
+            Npcs.DUSK_7851, Npcs.DAWN_7852,
             // End of Grotesque Guardians
 
             // Mage Arena 2 boosses
-            Npcs.PORAZDIR, Npcs.PORAZDIR_2,
-            Npcs.JUSTICIAR_ZACHARIAH, Npcs.JUSTICIAR_ZACHARIAH_2,
-            Npcs.DERWEN, Npcs.DERWEN_2, Npcs.DERWEN_3,
+            Npcs.PORAZDIR, Npcs.PORAZDIR_7860,
+            Npcs.JUSTICIAR_ZACHARIAH, Npcs.JUSTICIAR_ZACHARIAH_7858,
+            Npcs.DERWEN, Npcs.DERWEN_7859, Npcs.DERWEN_9154,
             // End of Mage Arena 2 bosses
 
             // COX
-            Npcs.ICE_DEMON, Npcs.ICE_DEMON_2,
-            Npcs.LIZARDMAN_SHAMAN, Npcs.LIZARDMAN_SHAMAN_2, Npcs.LIZARDMAN_SHAMAN_3,
-            Npcs.LIZARDMAN_SHAMAN_4, Npcs.LIZARDMAN_SHAMAN_5, Npcs.LIZARDMAN_SHAMAN_6, Npcs.LIZARDMAN_SHAMAN_7,
-            Npcs.MUTTADILE, Npcs.MUTTADILE_2, Npcs.MUTTADILE_3,
-            Npcs.SKELETAL_MYSTIC, Npcs.SKELETAL_MYSTIC_2, Npcs.SKELETAL_MYSTIC_3,
-            Npcs.TEKTON, Npcs.TEKTON_2, Npcs.TEKTON_3,
-            Npcs.TEKTON_4, Npcs.TEKTON_ENRAGED, Npcs.TEKTON_ENRAGED_2,
-            Npcs.VANGUARD, Npcs.VANGUARD_2, Npcs.VANGUARD_3,
-            Npcs.VANGUARD_4, Npcs.VANGUARD_5, Npcs.VANGUARD_6, Npcs.VANGUARD_7,
-            Npcs.VASA_NISTIRIO, Npcs.VASA_NISTIRIO_2,
-            Npcs.VESPULA, Npcs.VESPULA_2, Npcs.VESPULA_3,
-            Npcs.GREAT_OLM, Npcs.GREAT_OLM_2, Npcs.GREAT_OLM_LEFT_CLAW,
-            Npcs.GREAT_OLM_RIGHT_CLAW, Npcs.GREAT_OLM_LEFT_CLAW_2, Npcs.GREAT_OLM_RIGHT_CLAW_2,
+            Npcs.ICE_DEMON, Npcs.ICE_DEMON_7585,
+            Npcs.LIZARDMAN_SHAMAN, Npcs.LIZARDMAN_SHAMAN_6767, Npcs.LIZARDMAN_SHAMAN_7573,
+            Npcs.LIZARDMAN_SHAMAN_7574, Npcs.LIZARDMAN_SHAMAN_7744, Npcs.LIZARDMAN_SHAMAN_7745, Npcs.LIZARDMAN_SHAMAN_8565,
+            Npcs.MUTTADILE, Npcs.MUTTADILE_7562, Npcs.MUTTADILE_7563,
+            Npcs.SKELETAL_MYSTIC, Npcs.SKELETAL_MYSTIC_7605, Npcs.SKELETAL_MYSTIC_7606,
+            Npcs.TEKTON, Npcs.TEKTON_7541, Npcs.TEKTON_7542,
+            Npcs.TEKTON_7545, Npcs.TEKTON_ENRAGED, Npcs.TEKTON_ENRAGED_7544,
+            Npcs.VANGUARD, Npcs.VANGUARD_7526, Npcs.VANGUARD_7527,
+            Npcs.VANGUARD_7528, Npcs.VANGUARD_7529, Npcs.VANGUARD_8198, Npcs.VANGUARD_8203,
+            Npcs.VASA_NISTIRIO, Npcs.VASA_NISTIRIO_7567,
+            Npcs.VESPULA, Npcs.VESPULA_7531, Npcs.VESPULA_7532,
+            Npcs.GREAT_OLM, Npcs.GREAT_OLM_7554, Npcs.GREAT_OLM_LEFT_CLAW,
+            Npcs.GREAT_OLM_RIGHT_CLAW, Npcs.GREAT_OLM_LEFT_CLAW_7555, Npcs.GREAT_OLM_RIGHT_CLAW_7553,
             // END OF COX
 
             // GWD
             // Bandos
-            Npcs.GENERAL_GRAARDOR, Npcs.GENERAL_GRAARDOR_2,
+            Npcs.GENERAL_GRAARDOR, Npcs.GENERAL_GRAARDOR_6494,
             Npcs.SERGEANT_STRONGSTACK, Npcs.SERGEANT_STEELWILL, Npcs.SERGEANT_GRIMSPIKE,
             // Zamorak
-            Npcs.KRIL_TSUTSAROTH, Npcs.KRIL_TSUTSAROTH_2,
+            Npcs.KRIL_TSUTSAROTH, Npcs.KRIL_TSUTSAROTH_6495,
             Npcs.TSTANON_KARLAK, Npcs.ZAKLN_GRITCH, Npcs.BALFRUG_KREEYATH,
             // Saradomin
-            Npcs.COMMANDER_ZILYANA, Npcs.COMMANDER_ZILYANA_2,
+            Npcs.COMMANDER_ZILYANA, Npcs.COMMANDER_ZILYANA_6493,
             Npcs.GROWLER, Npcs.STARLIGHT, Npcs.BREE,
             // Armadyl
-            Npcs.KREEARRA, Npcs.KREEARRA_2,
+            Npcs.KREEARRA, Npcs.KREEARRA_6492,
             Npcs.WINGMAN_SKREE, Npcs.FLOCKLEADER_GEERIN, Npcs.FLIGHT_KILISA,
             // END OF GWD
 
             // Pest Control
-            Npcs.RAVAGER, Npcs.RAVAGER_2, Npcs.RAVAGER_3,
-            Npcs.RAVAGER_4, Npcs.RAVAGER_5,
-            Npcs.SPINNER, Npcs.SPINNER_2, Npcs.SPINNER_3,
-            Npcs.SPINNER_4, Npcs.SPINNER_5,
-            Npcs.SPLATTER, Npcs.SPLATTER_2, Npcs.SPLATTER_3,
-            Npcs.SPLATTER_4, Npcs.SPLATTER_5,
+            Npcs.RAVAGER, Npcs.RAVAGER_1705, Npcs.RAVAGER_1706,
+            Npcs.RAVAGER_1707, Npcs.RAVAGER_1708,
+            Npcs.SPINNER, Npcs.SPINNER_1710, Npcs.SPINNER_1711,
+            Npcs.SPINNER_1712, Npcs.SPINNER_1713,
+            Npcs.SPLATTER, Npcs.SPLATTER_1690, Npcs.SPLATTER_1691,
+            Npcs.SPLATTER_1692, Npcs.SPLATTER_1693,
             // End of Pest Control
 
             // Warriors Guild
             Npcs.ANIMATED_IRON_ARMOUR, Npcs.ANIMATED_STEEL_ARMOUR,
-            Npcs.ANIMATED_STEEL_ARMOUR_2, Npcs.ANIMATED_BLACK_ARMOUR,
+            Npcs.ANIMATED_STEEL_ARMOUR_6438, Npcs.ANIMATED_BLACK_ARMOUR,
             Npcs.ANIMATED_MITHRIL_ARMOUR, Npcs.ANIMATED_ADAMANT_ARMOUR,
             Npcs.ANIMATED_RUNE_ARMOUR,
             // End of Warriors Guild
 
             // KQueen
-            Npcs.KALPHITE_QUEEN, Npcs.KALPHITE_QUEEN_2, Npcs.KALPHITE_QUEEN_3,
-            Npcs.KALPHITE_QUEEN_4, Npcs.KALPHITE_QUEEN_5, Npcs.KALPHITE_QUEEN_6,
-            Npcs.KALPHITE_QUEEN_7,
+            Npcs.KALPHITE_QUEEN, Npcs.KALPHITE_QUEEN_963, Npcs.KALPHITE_QUEEN_965,
+            Npcs.KALPHITE_QUEEN_4303, Npcs.KALPHITE_QUEEN_4304, Npcs.KALPHITE_QUEEN_6500,
+            Npcs.KALPHITE_QUEEN_6501,
             // End of KQueen
 
             // Wilderness Bosses
-            Npcs.CALLISTO, Npcs.CALLISTO_2,
-            Npcs.CHAOS_ELEMENTAL, Npcs.CHAOS_ELEMENTAL_2,
+            Npcs.CALLISTO, Npcs.CALLISTO_6609,
+            Npcs.CHAOS_ELEMENTAL, Npcs.CHAOS_ELEMENTAL_6505,
             Npcs.CHAOS_FANATIC, Npcs.CRAZY_ARCHAEOLOGIST,
-            Npcs.KING_BLACK_DRAGON, Npcs.KING_BLACK_DRAGON_2, Npcs.KING_BLACK_DRAGON_3,
+            Npcs.KING_BLACK_DRAGON, Npcs.KING_BLACK_DRAGON_2642, Npcs.KING_BLACK_DRAGON_6502,
             Npcs.SCORPIA, Npcs.VENENATIS,
-            Npcs.VETION, Npcs.VETION_REBORN,
+            Npcs.VETION, Npcs.VETION_6612,
             // End oof Wilderness Bosses
 
             // Barrows Brothers

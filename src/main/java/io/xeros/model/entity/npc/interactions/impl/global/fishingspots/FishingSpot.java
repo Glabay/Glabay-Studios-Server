@@ -6,6 +6,7 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Npcs.*;
+import static io.xeros.model.Objects.FISHING_SPOT_46;
 
 /**
  * @author Zei | Glabay-Studios
@@ -22,24 +23,24 @@ public class FishingSpot extends NpcOptionAction {
                 324,
 
                 AYESHA,
-                DR_JEKYLL_2,
+                DR_JEKYLL_314,
                 DARK_CORE,
-                REACHER_3,
-                REACHER_4,
-                REACHER_5,
+                REACHER_328,
+                REACHER_329,
+                REACHER_331,
                 MIME,
                 DRUNKEN_DWARF,
-                STRANGE_WATCHER_3,
+                STRANGE_WATCHER_334,
 
-                FISHING_SPOT_12,
-                FISHING_SPOT_16,
-                FISHING_SPOT_31,
-                FISHING_SPOT_33,
-                FISHING_SPOT_34,
-                FISHING_SPOT_46,
+                FISHING_SPOT_1520,
+                FISHING_SPOT_1524,
+                FISHING_SPOT_3317,
+                FISHING_SPOT_3657,
+                FISHING_SPOT_3913,
+                FISHING_SPOT_4712,
 
-                ROD_FISHING_SPOT_14,
-                ROD_FISHING_SPOT_16,
+                ROD_FISHING_SPOT_3417,
+                ROD_FISHING_SPOT_6825,
         };
     }
 
@@ -47,21 +48,21 @@ public class FishingSpot extends NpcOptionAction {
     public Boolean handleActionOne(Player player, NPC npc) {
         player.clickNpcType = 1;
         switch (npc.getNpcId()) {
-            case FISHING_SPOT_34 -> Fishing.attemptdata(player, 1);
-            case ROD_FISHING_SPOT_14 -> Fishing.attemptdata(player, 4);
-            case FISHING_SPOT_33 -> Fishing.attemptdata(player, 8);
-            case FISHING_SPOT_12,
+            case FISHING_SPOT_3913 -> Fishing.attemptdata(player, 1);
+            case FISHING_SPOT_1522 -> Fishing.attemptdata(player, 4);
+            case FISHING_SPOT_3657 -> Fishing.attemptdata(player, 8);
+            case FISHING_SPOT_1520,
                  AYESHA,
-                 DR_JEKYLL_2,
+                 DR_JEKYLL_314,
                  317,
                  DARK_CORE,
-                 REACHER_3,
-                 REACHER_5 -> Fishing.attemptdata(player, 9);
-            case FISHING_SPOT_16 -> Fishing.attemptdata(player, 11);
+                 REACHER_328,
+                 REACHER_331 -> Fishing.attemptdata(player, 9);
+            case FISHING_SPOT_1524 -> Fishing.attemptdata(player, 11);
             case FISHING_SPOT -> Fishing.attemptdata(player, 13);
-            case FISHING_SPOT_31 -> Fishing.attemptdata(player, 14);
+            case FISHING_SPOT_3317 -> Fishing.attemptdata(player, 14);
             case FISHING_SPOT_46 -> Fishing.attemptdata(player, 15);
-            case ROD_FISHING_SPOT_16 -> Fishing.attemptdata(player, 16);
+            case ROD_FISHING_SPOT_6825 -> Fishing.attemptdata(player, 16);
         }
         return true;
     }
@@ -70,24 +71,24 @@ public class FishingSpot extends NpcOptionAction {
     public Boolean handleActionTwo(Player player, NPC npc) {
         player.clickNpcType = 1;
         switch (npc.getNpcId()) {
-            case FISHING_SPOT_34 -> Fishing.attemptdata(player, 2);
+            case FISHING_SPOT_3913 -> Fishing.attemptdata(player, 2);
             case AYESHA,
-                 DR_JEKYLL_2,
+                 DR_JEKYLL_314,
                  317,
                  DARK_CORE,
-                 REACHER_3,
-                 REACHER_4,
-                 REACHER_5,
-                 ROD_FISHING_SPOT_14,
-                 ROD_FISHING_SPOT_16 -> Fishing.attemptdata(player, 6);
+                 REACHER_328,
+                 REACHER_329,
+                 REACHER_331,
+                 ROD_FISHING_SPOT_3417,
+                 ROD_FISHING_SPOT_6825 -> Fishing.attemptdata(player, 6);
 
-            case FISHING_SPOT_33,
+            case FISHING_SPOT_3657,
                  MIME,
                  324 -> Fishing.attemptdata(player, 7);
 
-            case FISHING_SPOT_12,
+            case FISHING_SPOT_1520,
                  DRUNKEN_DWARF,
-                 STRANGE_WATCHER_3 -> Fishing.attemptdata(player, 10);
+                 STRANGE_WATCHER_334 -> Fishing.attemptdata(player, 10);
         }
         return true;
     }

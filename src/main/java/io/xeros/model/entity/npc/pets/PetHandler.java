@@ -200,7 +200,7 @@ public class PetHandler {
         HOLY_DEATH_SPAWN(30019, 6716, "Holy Death Spawn", -1, "second"),
         CORRUPT_BEAST(30020, 8709, "Corrupt Beast", -1, "second"),
 
-        LIL_ZIK(Items.LIL_ZIK, Npcs.LIL_ZIK_2, "Theatre of Blood", 600, "second"),
+        LIL_ZIK(Items.LIL_ZIK, Npcs.LIL_ZIK_8337, "Theatre of Blood", 600, "second"),
         ROC(30021, 763, "Roc", -1, "second"),
         BABY_ROC(30021, 762, "Baby Roc", -1, "second"),
         KRATOS(30022, 7668, "Kratos", -1, "second"),

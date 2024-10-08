@@ -5,7 +5,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.GNOME_9;
+import static io.xeros.model.Npcs.*;
 
 /**
  * @author Zei | Glabay-Studios
@@ -17,7 +17,7 @@ import static io.xeros.model.Npcs.GNOME_9;
 public class Gnome extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { GNOME_9 };
+        return new Integer[] { GNOME_6094 };
     }
 
     @Override

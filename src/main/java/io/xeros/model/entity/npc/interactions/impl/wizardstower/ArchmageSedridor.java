@@ -17,7 +17,7 @@ import static io.xeros.model.Npcs.*;
 public class ArchmageSedridor extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { SEDRIDOR };
+        return new Integer[] { ARCHMAGE_SEDRIDOR };
     }
 
     @Override

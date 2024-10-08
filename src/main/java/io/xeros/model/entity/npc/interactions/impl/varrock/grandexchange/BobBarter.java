@@ -1,14 +1,11 @@
 package io.xeros.model.entity.npc.interactions.impl.varrock.grandexchange;
 
-import io.xeros.content.achievement_diary.impl.FremennikDiaryEntry;
 import io.xeros.content.achievement_diary.impl.VarrockDiaryEntry;
-import io.xeros.content.skills.agility.AgilityHandler;
 import io.xeros.content.skills.herblore.PotionDecanting;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.SAILOR_2_DIALOGUE;
 import static io.xeros.model.Npcs.*;
 
 /**

@@ -17,7 +17,7 @@ import static io.xeros.model.Npcs.*;
 public class Gertrude extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { GERTRUDE, GERTRUDE_2  };
+        return new Integer[] { GERTRUDE, GERTRUDE_7723  };
     }
 
     @Override

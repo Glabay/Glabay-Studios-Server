@@ -4,7 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.LE_SABR;
+import static io.xeros.model.Npcs.LESABR;
 
 /**
  * @author Zei | Glabay-Studios
@@ -16,7 +16,7 @@ import static io.xeros.model.Npcs.LE_SABR;
 public class LeSabre extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { LE_SABR };
+        return new Integer[] { LESABR };
     }
 
     @Override

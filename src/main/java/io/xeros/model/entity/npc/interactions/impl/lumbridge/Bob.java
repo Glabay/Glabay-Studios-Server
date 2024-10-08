@@ -18,7 +18,7 @@ import static io.xeros.model.Shops.BOB_BRILLIANT_AXES_SHOP;
 public class Bob extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { BOB_15 };
+        return new Integer[] { BOB_10619 };
     }
 
     @Override

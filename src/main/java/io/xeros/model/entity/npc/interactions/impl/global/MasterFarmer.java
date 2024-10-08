@@ -21,7 +21,7 @@ import static io.xeros.model.Shops.MASTER_FARMER_SHOP;
 public class MasterFarmer extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[]{MASTER_FARMER, MASTER_FARMER_2};
+        return new Integer[]{MASTER_FARMER, MASTER_FARMER_5731};
     }
 
     @Override

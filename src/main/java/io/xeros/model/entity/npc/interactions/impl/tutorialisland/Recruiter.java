@@ -17,7 +17,7 @@ import static io.xeros.model.Npcs.*;
 public class Recruiter extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { RECRUITER, RECRUITER_2 };
+        return new Integer[] { RECRUITER, RECRUITER_8973 };
     }
 
     @Override

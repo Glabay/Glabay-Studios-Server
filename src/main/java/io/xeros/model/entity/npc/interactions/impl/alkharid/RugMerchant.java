@@ -21,7 +21,7 @@ import static io.xeros.model.Npcs.*;
 public class RugMerchant extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { RUG_MERCHANT, RUG_MERCHANT_2, RUG_MERCHANT_3, RUG_MERCHANT_4, RUG_MERCHANT_5 };
+        return new Integer[] { RUG_MERCHANT, RUG_MERCHANT_18, RUG_MERCHANT_19, RUG_MERCHANT_20, RUG_MERCHANT_22 };
     }
 
     @Override

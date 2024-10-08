@@ -47,11 +47,11 @@ public class GrotesqueGuardianNpc extends NPC {
         super(id, pos);
         getBehaviour().setAggressive(true);
         getBehaviour().setRespawn(false);
-        if (id == Npcs.DUSK_2) {
+        if (id == Npcs.DUSK_7851) {
             setNpcAutoAttacks(Lists.newArrayList(
                     new DuskMelee().apply(this)
             ));
-        } else if (id == Npcs.DAWN_2) {
+        } else if (id == Npcs.DAWN_7852) {
             setNpcAutoAttacks(Lists.newArrayList(
                     new DawnMelee().apply(this),
                     new DawnRanged().apply(this)
@@ -130,7 +130,7 @@ public class GrotesqueGuardianNpc extends NPC {
                 p.sendMessage("Dusk is defending himself with his wing! He absorbs the attack.");
             }
         }
-        if (getNpcId() == Npcs.DAWN_3 || getNpcId() == Npcs.DUSK_4)
+        if (getNpcId() == Npcs.DAWN_7853 || getNpcId() == Npcs.DUSK_7854)
             return false;
         if (getName().equalsIgnoreCase("dawn")) {
             if (instance.dawnFlownAway)
@@ -194,9 +194,9 @@ public class GrotesqueGuardianNpc extends NPC {
                     counterpart.setInvisible(false);
                     counterpart.teleport(1701, 4573,getHeight());
                     counterpart.startAnimation(7774);
-                    counterpart.requestTransform(Npcs.DAWN_3);
+                    counterpart.requestTransform(Npcs.DAWN_7853);
                     //stop dusk
-                    requestTransform(Npcs.DUSK_4);
+                    requestTransform(Npcs.DUSK_7854);
                     toggleLightning(true);
                     toggleAttacking(false);
                     startAnimation(2851);
@@ -306,14 +306,14 @@ public class GrotesqueGuardianNpc extends NPC {
                 public void execute(CycleEventContainer container) {
                     if (container.getTotalTicks() >= 5) {
                         container.stop();
-                        counterpart.requestTransform(Npcs.DUSK_8);
+                        counterpart.requestTransform(Npcs.DUSK_7887);
                         counterpart.startAnimation(7796);
                         CycleEventHandler.getSingleton().addEvent(new Object(), new CycleEvent() {
                             @Override
                             public void execute(CycleEventContainer container) {
                                 if (container.getTotalTicks() >= 12) {
                                     container.stop();
-                                    counterpart.requestTransform(Npcs.DUSK_9);
+                                    counterpart.requestTransform(Npcs.DUSK_7888);
                                     counterpart.setNpcAutoAttacks(Lists.newArrayList(
                                             new DuskMelee().apply(counterpart),
                                             new DuskRanged().apply(counterpart)
@@ -347,9 +347,9 @@ public class GrotesqueGuardianNpc extends NPC {
                     container.stop();
                     toggleLightning(false);
                     counterpart.toggleLightning(false);
-                    requestTransform(Npcs.DUSK_6);
+                    requestTransform(Npcs.DUSK_7883);
                     toggleAttacking(true);
-                    counterpart.requestTransform(Npcs.DAWN_4);
+                    counterpart.requestTransform(Npcs.DAWN_7884);
                     counterpart.toggleAttacking(true);
                 }
             }
@@ -779,7 +779,7 @@ public class GrotesqueGuardianNpc extends NPC {
     public int getDeathAnimation() {
         if (getName().equalsIgnoreCase("dawn")) {
             if (inPhase(3)) {
-                requestTransform(Npcs.DAWN_5);
+                requestTransform(Npcs.DAWN_7885);
                 return 7777;
             }
             return 7776;

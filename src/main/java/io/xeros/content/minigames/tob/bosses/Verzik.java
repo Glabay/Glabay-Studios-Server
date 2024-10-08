@@ -28,8 +28,8 @@ import io.xeros.util.logging.player.CompletedTobLog;
 
 public class Verzik extends TobBoss {
 
-    private static final int VERZIK_SUSPENDED_ID = Npcs.VERZIK_VITUR_5;
-    private static final int VERZIK_SPIDER_ID = Npcs.VERZIK_VITUR_7;
+    private static final int VERZIK_SUSPENDED_ID = Npcs.VERZIK_VITUR_8372;
+    private static final int VERZIK_SPIDER_ID = Npcs.VERZIK_VITUR_8374;
     private static final Boundary ROOM_BOUNDARY = new Boundary(3155, 4303, 3180, 4322);
 
     private boolean transforming = false;

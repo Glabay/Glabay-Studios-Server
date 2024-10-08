@@ -17,7 +17,7 @@ import static io.xeros.model.Npcs.*;
 public class makeovermage extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { MAKE_OVER_MAGE, MAKE_OVER_MAGE_2, MAKE_OVER_MAGE_3 };
+        return new Integer[] { MAKEOVER_MAGE, MAKEOVER_MAGE_1307, MAKEOVER_MAGE_8487 };
     }
 
     @Override

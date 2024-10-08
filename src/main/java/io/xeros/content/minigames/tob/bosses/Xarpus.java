@@ -23,7 +23,7 @@ public class Xarpus extends TobBoss {
     private static final int[] GREEN_SPLAT_STILL_GFX = {1654, 1655, 1656, 1657, 1658, 1659, 1660, 1661};
 
     public Xarpus(InstancedArea instancedArea) {
-        super(Npcs.XARPUS_3, new Position(3168, 4385, instancedArea.getHeight() + 1), instancedArea);
+        super(Npcs.XARPUS_8340, new Position(3168, 4385, instancedArea.getHeight() + 1), instancedArea);
         setNpcAutoAttacks(Lists.newArrayList(
             new NPCAutoAttackBuilder()
                     .setAnimation(new Animation(8059))

@@ -8,7 +8,7 @@ import io.xeros.util.Misc;
 
 import static io.xeros.model.Items.FIRE_CAPE;
 import static io.xeros.model.Items.TZREK_JAD;
-import static io.xeros.model.Npcs.TZHAAR_KET_KEH;
+import static io.xeros.model.Npcs.TZAHAARKETKEH;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -19,7 +19,7 @@ import static io.xeros.model.Npcs.TZHAAR_KET_KEH;
 public class TzhaarKetKeh extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { TZHAAR_KET_KEH };
+        return new Integer[] { TZAHAARKETKEH };
     }
 
     @Override

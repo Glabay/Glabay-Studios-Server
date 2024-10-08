@@ -17,7 +17,7 @@ import static io.xeros.model.Npcs.*;
 public class Watson extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { WATSON, WATSON_2 };
+        return new Integer[] { WATSON, WATSON_7304 };
     }
 
     @Override

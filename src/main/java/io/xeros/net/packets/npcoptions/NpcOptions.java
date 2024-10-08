@@ -40,7 +40,7 @@ public class NpcOptions {
         }
 
         switch(npc.getNpcId()) {
-            case Npcs.BOSS_POINT_SHOP:
+            case Npcs.ISLWYN_8819:
                 if (option == 2) {
                     player.getShops().openShop(121);
                     player.sendMessage("You currently have " + Misc.insertCommas(player.bossPoints) + " Boss points.");

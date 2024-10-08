@@ -36,7 +36,7 @@ public class MimicNpc extends NPC {
 
     public MimicNpc(int id, Position pos) {
         super(id, pos);
-        if (id != Npcs.THE_MIMIC_2) {
+        if (id != Npcs.THE_MIMIC_8633) {
             getBehaviour().setAggressive(true);
             if (id == WARRIOR) {
                 setNpcAutoAttacks(Lists.newArrayList(
@@ -82,7 +82,7 @@ public class MimicNpc extends NPC {
 
     @Override
     public boolean isAutoRetaliate() {
-        if (getNpcId() != Npcs.THE_MIMIC_2)
+        if (getNpcId() != Npcs.THE_MIMIC_8633)
             return true;
         return !movingUnder;
     }
@@ -90,7 +90,7 @@ public class MimicNpc extends NPC {
     @Override
     public void process() {
         try {
-            if (getNpcId() == Npcs.THE_MIMIC_2) {
+            if (getNpcId() == Npcs.THE_MIMIC_8633) {
                 if (attackTimer <= 1 && freezeTimer <= 0) {
                     if (walkTo != null) {
                         boolean noReach = !NPCDumbPathFinder.canMoveTo(asNPC(), Direction.fromDeltas(getPosition(), walkTo).toInteger());

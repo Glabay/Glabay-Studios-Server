@@ -4,7 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.SQUIRE_12;
+import static io.xeros.model.Npcs.SQUIRE_2949;
 import static io.xeros.model.Shops.PEST_CONTROL_SHOP;
 
 /**
@@ -16,7 +16,7 @@ import static io.xeros.model.Shops.PEST_CONTROL_SHOP;
 public class Squire extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { SQUIRE_12 };
+        return new Integer[] { SQUIRE_2949 };
     }
 
     @Override

@@ -5,7 +5,7 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Dialogues.TZHAAR_MEJ_JAL_DIALOGUE;
-import static io.xeros.model.Npcs.TZHAAR_MEJ_JAL;
+import static io.xeros.model.Npcs.TZHAARMEJJAL;
 
 /**
  * @author Zeighe | Glabay-Studios
@@ -16,17 +16,17 @@ import static io.xeros.model.Npcs.TZHAAR_MEJ_JAL;
 public class TzhaarMejJal extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { TZHAAR_MEJ_JAL };
+        return new Integer[] { TZHAARMEJJAL };
     }
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendDialogues(TZHAAR_MEJ_JAL_DIALOGUE, TZHAAR_MEJ_JAL);
+        player.getDH().sendDialogues(TZHAAR_MEJ_JAL_DIALOGUE, TZHAARMEJJAL);
         return true;
     }
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
-        player.getDH().sendDialogues(TZHAAR_MEJ_JAL_DIALOGUE, TZHAAR_MEJ_JAL);
+        player.getDH().sendDialogues(TZHAAR_MEJ_JAL_DIALOGUE, TZHAARMEJJAL);
         return true;
     }
 }

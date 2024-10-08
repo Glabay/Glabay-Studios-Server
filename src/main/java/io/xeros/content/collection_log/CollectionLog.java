@@ -171,7 +171,7 @@ public class CollectionLog {
 							String name = (type == CollectionTabType.OTHER ? Misc.optimizeText(RewardLevel.VALUES.get(npcs.get(i)).name().toLowerCase()) : Misc.optimizeText(NpcDef.forId(npcs.get(i)).getName()));
 							if (npcs.get(i) == Npcs.THE_MAIDEN_OF_SUGADINTI) {
 								name = "Theatre of Blood";
-							} else if (npcs.get(i) == Npcs.DUSK_9) {
+							} else if (npcs.get(i) == Npcs.DUSK_7888) {
 								name = "Grotesque Guardians";
 							}
 							player.getPA().sendFrame126("@gre@" + name, 23123 + (i * 2));
@@ -186,7 +186,7 @@ public class CollectionLog {
 								: Misc.optimizeText(NpcDef.forId(npcs.get(i)).getName());
 						if (npcs.get(i) == Npcs.THE_MAIDEN_OF_SUGADINTI) {
 							name = "Theatre of Blood";
-						} else if (npcs.get(i) == Npcs.DUSK_9) {
+						} else if (npcs.get(i) == Npcs.DUSK_7888) {
 							name = "Grotesque Guardians";
 						}
 						player.getPA().sendFrame126(name, 23123 + (i * 2));
@@ -259,7 +259,7 @@ public class CollectionLog {
 		if (npcId == Npcs.THE_MAIDEN_OF_SUGADINTI) {
 			npcName = "Theatre of Blood";
 		}
-		if (npcId == Npcs.DUSK_9) {
+		if (npcId == Npcs.DUSK_7888) {
 			npcName = "Grotesque Guardians";
 		}
 
