@@ -62,10 +62,6 @@ public class NpcOptionTwo {
                 logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
         }
         switch (npcType) {
-            case 5906:
-                Probita.cancellationOfPreviousPet(player);
-                break;
-
             case 2180:
                 player.getDH().sendDialogues(70, 2180);
                 break;
