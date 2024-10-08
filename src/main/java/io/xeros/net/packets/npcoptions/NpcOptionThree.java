@@ -1,10 +1,6 @@
 package io.xeros.net.packets.npcoptions;
 
 import io.xeros.Server;
-import io.xeros.content.achievement_diary.impl.*;
-import io.xeros.content.skills.agility.AgilityHandler;
-import io.xeros.content.skills.herblore.PotionDecanting;
-import io.xeros.model.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.pets.PetHandler;
@@ -41,39 +37,5 @@ public class NpcOptionThree {
 			else
 				logger.error("Unhandled NPC Action 3: {} ", npcAction.getClass().getSimpleName());
 		}
-		switch (npcType) {
-		case 8781:
-			Server.getDropManager().search(player, "Donator Boss");
-			break;
-		case 1428:
-			player.getPrestige().openShop();
-			break;
-		case 1909:
-			player.getDH().sendDialogues(903, 1909);
-			break;
-		case 2989:
-			player.getPrestige().openShop();
-			break;
-		case 4321:
-			player.getShops().openShop(119);
-			player.sendMessage("You currently have @red@"+player.bloodPoints+" @bla@Blood Money Points!");
-			break;
-		case 2200:
-			player.getPA().c.itemAssistant.openUpBank();
-			break;
-		case 3936:
-			AgilityHandler.delayFade(player, "NONE", 2310, 3782, 0, "You board the boat...", "And end up in Neitiznot", 3);
-			player.getDiaryManager().getFremennikDiary().progress(FremennikDiaryEntry.TRAVEL_NEITIZNOT);
-			break;
-
-		case 836:
-			player.getShops().openShop(103);
-			break;
-		case Npcs.BOB_BARTER_HERBS:
-			PotionDecanting.decantInventory(player);
-			player.getDiaryManager().getVarrockDiary().progress(VarrockDiaryEntry.POTION_DECANT);
-			break;
-		}
-	}
-
+    }
 }
