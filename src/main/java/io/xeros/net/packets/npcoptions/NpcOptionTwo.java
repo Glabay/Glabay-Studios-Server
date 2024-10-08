@@ -62,9 +62,6 @@ public class NpcOptionTwo {
                 logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
         }
         switch (npcType) {
-            case 3550:
-                player.getThieving().steal(Thieving.Pickpocket.MENAPHITE_THUG, npc);
-                break;
             case 6094:
                 player.getThieving().steal(Thieving.Pickpocket.GNOME, npc);
                 break;
