@@ -23,12 +23,11 @@ public class Hero extends NpcOptionAction {
 
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
+        player.getThieving().steal(Thieving.Pickpocket.HERO, npc);
         if (Boundary.isIn(player, Boundary.ARDOUGNE)) {
-            player.getThieving().steal(Thieving.Pickpocket.HERO, npc);
             player.getDiaryManager().getArdougneDiary().progress(ArdougneDiaryEntry.PICKPOCKET_ARD);
             player.getDiaryManager().getArdougneDiary().progress(ArdougneDiaryEntry.PICKPOCKET_HERO);
         }
         return true;
     }
-
 }
