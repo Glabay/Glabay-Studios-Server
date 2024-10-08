@@ -1,8 +1,6 @@
 package io.xeros.model.entity.npc.interactions.impl.wizardstower;
 
-import io.xeros.content.achievement_diary.impl.KaramjaDiaryEntry;
 import io.xeros.content.achievement_diary.impl.LumbridgeDraynorDiaryEntry;
-import io.xeros.content.skills.agility.AgilityHandler;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
@@ -26,7 +24,8 @@ public class ArchmageSedridor extends NpcOptionAction {
     public Boolean handleActionOne(Player player, NPC npc) {
         player.getPA().startTeleport(2929, 4813, 0, "modern", false);
         player.getDiaryManager().getLumbridgeDraynorDiary()
-                .progress(LumbridgeDraynorDiaryEntry.TELEPORT_ESSENCE_LUM);        return true;
+                .progress(LumbridgeDraynorDiaryEntry.TELEPORT_ESSENCE_LUM);
+        return true;
     }
 
     @Override
