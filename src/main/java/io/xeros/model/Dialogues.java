@@ -14,6 +14,7 @@ public class Dialogues {
     public static final Integer ELITE_VOID_KNIGHT_DIALOGUE = 80;
     public static final Integer YOU_NEED_TO_LEAVE_DIALOGUE = 105;
     public static final Integer SLAYER_MASTER_TASK_CHOICE_DIALOGUE = 180;
+    public static final Integer SAILOR_2_DIALOGUE = 459;
     public static final Integer DIANGO_DIALOGUE = 538;
     public static final Integer EMBLEM_TRADER_DIALOGUE = 545;
     public static final Integer EMBLEM_TRADER_DIALOGUE_2 = 548;

@@ -62,12 +62,6 @@ public class NpcOptionTwo {
                 logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
         }
         switch (npcType) {
-            case 6747:
-                player.getShops().openShop(77);
-                break;
-            case 3936:
-                player.getDH().sendDialogues(459, -1);
-                break;
             case 6970:
                 player.getDiaryManager().getWesternDiary().progress(WesternDiaryEntry.PICKPOCKET_GNOME);
                 player.getThieving().steal(Thieving.Pickpocket.MAN, npc);
