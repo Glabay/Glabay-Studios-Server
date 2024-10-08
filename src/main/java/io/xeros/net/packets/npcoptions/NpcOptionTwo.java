@@ -62,18 +62,6 @@ public class NpcOptionTwo {
                 logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
         }
         switch (npcType) {
-            case 637:
-                player.getShops().openShop(6);
-                break;
-            case 3219:
-                player.getShops().openShop(113);
-                break;
-            case 534:
-                if (Boundary.isIn(player, Boundary.VARROCK_BOUNDARY)) {
-                    player.getDiaryManager().getVarrockDiary().progress(VarrockDiaryEntry.DRESS_FOR_SUCESS);
-                }
-                player.getShops().openShop(114);
-                break;
             case 3216:
                 player.getShops().openShop(8);
                 break;

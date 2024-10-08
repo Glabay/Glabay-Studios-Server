@@ -29,5 +29,7 @@ public class Shops {
     public static final Integer OZIACH_SHOP = 81;
     public static final Integer NURMOF_SHOP = 90;
     public static final Integer BOB_BRILLIANT_AXES_SHOP = 91;
+    public static final Integer CONSUMABLES_SHOP = 113;
+    public static final Integer FANCY_SHOP = 114;
     public static final Integer DOOMSAYER_SHOP = 117;
 }
