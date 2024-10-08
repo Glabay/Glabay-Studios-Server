@@ -62,12 +62,6 @@ public class NpcOptionTwo {
                 logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
         }
         switch (npcType) {
-            case 5034:
-                player.getPA().startTeleport(2929, 4813, 0, "modern", false);
-                player.getDiaryManager().getLumbridgeDraynorDiary()
-                        .progress(LumbridgeDraynorDiaryEntry.TELEPORT_ESSENCE_LUM);
-                break;
-
             case 5906:
                 Probita.cancellationOfPreviousPet(player);
                 break;
