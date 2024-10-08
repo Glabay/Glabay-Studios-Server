@@ -62,18 +62,6 @@ public class NpcOptionTwo {
                 logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
         }
         switch (npcType) {
-            case 6970:
-                player.getDiaryManager().getWesternDiary().progress(WesternDiaryEntry.PICKPOCKET_GNOME);
-                player.getThieving().steal(Thieving.Pickpocket.MAN, npc);
-                break;
-            case 3295: //for diary
-
-                if (Boundary.isIn(player, Boundary.ARDOUGNE)) {
-                    player.getThieving().steal(Thieving.Pickpocket.HERO, npc);
-                    player.getDiaryManager().getArdougneDiary().progress(ArdougneDiaryEntry.PICKPOCKET_ARD);
-                    player.getDiaryManager().getArdougneDiary().progress(ArdougneDiaryEntry.PICKPOCKET_HERO);
-                }
-                break;
             case 6987:
                 player.getThieving().steal(Thieving.Pickpocket.MAN, npc);
                 break;
