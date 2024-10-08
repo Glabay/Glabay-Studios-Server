@@ -10,6 +10,7 @@ public class Dialogues {
 
     public static final Integer GERTRUDE_DIALOGUE = 64;
     public static final Integer THESSALIA_DIALOGUE = 69;
+    public static final Integer TZHAAR_MEJ_JAL_DIALOGUE = 70;
     public static final Integer ELITE_VOID_KNIGHT_DIALOGUE = 80;
     public static final Integer YOU_NEED_TO_LEAVE_DIALOGUE = 105;
     public static final Integer SLAYER_MASTER_TASK_CHOICE_DIALOGUE = 180;
