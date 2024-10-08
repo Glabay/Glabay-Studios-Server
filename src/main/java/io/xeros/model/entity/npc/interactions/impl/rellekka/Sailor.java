@@ -1,5 +1,7 @@
 package io.xeros.model.entity.npc.interactions.impl.rellekka;
 
+import io.xeros.content.achievement_diary.impl.KaramjaDiaryEntry;
+import io.xeros.content.skills.agility.AgilityHandler;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
@@ -22,6 +24,13 @@ public class Sailor extends NpcOptionAction {
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
         player.getDH().sendNpcChat1("Right click on me and i will take you on-board.", SAILOR_2, "Sailor");
+        return true;
+    }
+    @Override
+    public Boolean handleActionTwo(Player player, NPC npc) {
+        AgilityHandler.delayFade(player, "NONE", 2674, 3274, 0, "The sailor brings you onto the ship.",
+                "and you end up in ardougne.", 3);
+        player.getDiaryManager().getKaramjaDiary().progress(KaramjaDiaryEntry.SAIL_TO_ARDOUGNE);
         return true;
     }
 }

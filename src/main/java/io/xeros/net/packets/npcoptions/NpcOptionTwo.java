@@ -62,12 +62,6 @@ public class NpcOptionTwo {
                 logger.error("Unhandled NPC Action 2: {} ", npcAction.getClass().getSimpleName());
         }
         switch (npcType) {
-            case 3680:
-                AgilityHandler.delayFade(player, "NONE", 2674, 3274, 0, "The sailor brings you onto the ship.",
-                        "and you end up in ardougne.", 3);
-                player.getDiaryManager().getKaramjaDiary().progress(KaramjaDiaryEntry.SAIL_TO_ARDOUGNE);
-                break;
-
             case 5034:
                 player.getPA().startTeleport(2929, 4813, 0, "modern", false);
                 player.getDiaryManager().getLumbridgeDraynorDiary()
