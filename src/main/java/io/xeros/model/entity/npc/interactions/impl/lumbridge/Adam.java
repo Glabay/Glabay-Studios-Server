@@ -17,7 +17,7 @@ import static io.xeros.model.Npcs.*;
 public class Adam extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { ADAM };
+        return new Integer[] { IRON_MAN_TUTOR };
     }
 
     @Override

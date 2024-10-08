@@ -17,7 +17,7 @@ import static io.xeros.model.Npcs.*;
 public class MenaphiteThug extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { MENAPHITE_THUG, MENAPHITE_THUG_2 };
+        return new Integer[] { MENAPHITE_THUG, MENAPHITE_THUG_3550 };
     }
 
     @Override

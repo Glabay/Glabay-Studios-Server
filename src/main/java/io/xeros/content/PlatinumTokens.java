@@ -16,7 +16,7 @@ public class PlatinumTokens {
     private static final int MAX_TOKENS = MAX_COINS_FROM_TOKENS / TOKEN_VALUE;
 
     public static boolean itemOnNpc(Player player, NPC npc, int itemId, int itemSlot) {
-        if (npc.getNpcId() != Npcs.GAMBLER_SHOP)
+        if (npc.getNpcId() != Npcs.BARMAN)
             return false;
         convert(player, itemId, itemSlot);
         return true;

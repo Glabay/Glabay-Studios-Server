@@ -4,7 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.WISE_OLD_MAN_7;
+import static io.xeros.model.Npcs.WISE_OLD_MAN_4306;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -15,7 +15,7 @@ import static io.xeros.model.Npcs.WISE_OLD_MAN_7;
 public class WiseOldMan extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { WISE_OLD_MAN_7 };
+        return new Integer[] { WISE_OLD_MAN_4306 };
     }
 
     @Override

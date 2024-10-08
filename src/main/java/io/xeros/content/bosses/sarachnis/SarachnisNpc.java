@@ -43,7 +43,7 @@ public class SarachnisNpc extends NPC {
             setNpcAutoAttacks(Lists.newArrayList(
                     new SarachnisMinionMelee().apply(this)
             ));
-        } else if (getNpcId() == Npcs.SPAWN_OF_SARACHNIS_2) {
+        } else if (getNpcId() == Npcs.SPAWN_OF_SARACHNIS_8715) {
             setNpcAutoAttacks(Lists.newArrayList(
                     new SarachnisMinionMage().apply(this)
             ));
@@ -143,16 +143,16 @@ public class SarachnisNpc extends NPC {
     private void spawnMinions() {
         if (minionSpawn) {
             new SarachnisNpc(Npcs.SPAWN_OF_SARACHNIS, SPAWN_POSITION);
-            new SarachnisNpc(Npcs.SPAWN_OF_SARACHNIS_2, SPAWN_POSITION);
+            new SarachnisNpc(Npcs.SPAWN_OF_SARACHNIS_8715, SPAWN_POSITION);
         }
     }
 
     private void despawnMinions() {
         NPCHandler.despawn(Npcs.SPAWN_OF_SARACHNIS, getHeight());
-        NPCHandler.despawn(Npcs.SPAWN_OF_SARACHNIS_2, getHeight());
+        NPCHandler.despawn(Npcs.SPAWN_OF_SARACHNIS_8715, getHeight());
     }
 
     private boolean minionsDead() {
-        return NPCHandler.getNpc(Npcs.SPAWN_OF_SARACHNIS, getHeight()) == null || NPCHandler.getNpc(Npcs.SPAWN_OF_SARACHNIS_2, getHeight()) == null;
+        return NPCHandler.getNpc(Npcs.SPAWN_OF_SARACHNIS, getHeight()) == null || NPCHandler.getNpc(Npcs.SPAWN_OF_SARACHNIS_8715, getHeight()) == null;
     }
 }

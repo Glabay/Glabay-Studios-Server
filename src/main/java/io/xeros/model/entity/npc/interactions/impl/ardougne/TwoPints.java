@@ -4,8 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.JARR;
-import static io.xeros.model.Npcs.TWO_PINTS;
+import static io.xeros.model.Npcs.*;
 
 /**
  * @author Zei | Glabay-Studios
@@ -17,7 +16,7 @@ import static io.xeros.model.Npcs.TWO_PINTS;
 public class TwoPints extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { TWO_PINTS };
+        return new Integer[] { TWOPINTS };
     }
 
     @Override

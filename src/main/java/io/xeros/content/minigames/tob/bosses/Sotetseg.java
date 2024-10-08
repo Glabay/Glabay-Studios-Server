@@ -17,7 +17,7 @@ public class Sotetseg extends TobBoss {
     private final Animation ATTACK_ANIMATION = new Animation(8139);
 
     public Sotetseg(InstancedArea instancedArea) {
-        super(Npcs.SOTETSEG_2, new Position(3278, 4326, instancedArea.getHeight()), instancedArea);
+        super(Npcs.SOTETSEG_8388, new Position(3278, 4326, instancedArea.getHeight()), instancedArea);
 
         setNpcAutoAttacks(Lists.newArrayList(
                 new NPCAutoAttackBuilder()

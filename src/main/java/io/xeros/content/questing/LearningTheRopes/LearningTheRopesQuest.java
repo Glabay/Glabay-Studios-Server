@@ -322,7 +322,7 @@ public class LearningTheRopesQuest extends Quest {
 
     @Override
     public void handleNpcKilled(NPC npc) {
-        if (Boundary.SKILLING_ISLAND.in(player) && npc.getNpcId() == Npcs.HOBGOBLIN_2) {
+        if (Boundary.SKILLING_ISLAND.in(player) && npc.getNpcId() == Npcs.HOBGOBLIN_2241) {
             if (getStage() >= 7 && getStage() <=9){
                 Server.itemHandler.createGroundItem(player, 22316, npc.getX(), npc.getY(), player.getHeight(), 1, player.getIndex());
                  if (getStage() == 7) {

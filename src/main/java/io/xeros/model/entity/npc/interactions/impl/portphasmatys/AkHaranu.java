@@ -4,7 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.AK_HARANU;
+import static io.xeros.model.Npcs.AKHARANU;
 
 /**
  * @author Zei | Glabay-Studios
@@ -16,7 +16,7 @@ import static io.xeros.model.Npcs.AK_HARANU;
 public class AkHaranu extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { AK_HARANU  };
+        return new Integer[] { AKHARANU  };
     }
 
     @Override

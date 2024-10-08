@@ -22,7 +22,7 @@ public class EnterReferralDialogue extends DialogueBuilder {
     public EnterReferralDialogue(Player player) {
         super(player);
         int totalReq = (player.getMode().is5x() ? 100 : 500);
-        setNpcId(Npcs.REFERRAL_TUTOR);
+        setNpcId(Npcs.PILES);
         npc(PHRASE);
         if (!Server.isDebug() && (!ReferralRegister.canGetReward(player) || player.usedReferral)) {
             npc("You've already used your one referral!");

@@ -5,7 +5,7 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Dialogues.ZUL_ARETH_DIALOGUE;
-import static io.xeros.model.Npcs.ZUL_ARETH;
+import static io.xeros.model.Npcs.ZULARETH;
 
 /**
  * @author Zei | Glabay-Studios
@@ -17,12 +17,12 @@ import static io.xeros.model.Npcs.ZUL_ARETH;
 public class ZulAreth extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { ZUL_ARETH };
+        return new Integer[] { ZULARETH };
     }
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getDH().sendDialogues(ZUL_ARETH_DIALOGUE, ZUL_ARETH);
+        player.getDH().sendDialogues(ZUL_ARETH_DIALOGUE, ZULARETH);
         return true;
     }
 

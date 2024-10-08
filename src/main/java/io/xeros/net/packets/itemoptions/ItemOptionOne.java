@@ -241,7 +241,7 @@ public class ItemOptionOne implements PacketType {
             case 22106:
             case 12936:
             case 24495:
-                c.getDH().sendDialogues(361, Npcs.BOSS_POINT_SHOP);
+                c.getDH().sendDialogues(361, Npcs.ISLWYN_8819);
                 break;
 
             case 6830:

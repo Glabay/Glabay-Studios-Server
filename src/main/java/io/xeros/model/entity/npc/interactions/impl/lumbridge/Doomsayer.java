@@ -20,7 +20,7 @@ import static io.xeros.model.Shops.DOOMSAYER_SHOP;
 public class Doomsayer extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[]{DOOMSAYER, DOOMSAYER_2};
+        return new Integer[]{DOOMSAYER, DOOMSAYER_6774};
     }
 
     @Override

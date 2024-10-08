@@ -6,7 +6,6 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
 import static io.xeros.model.Npcs.*;
-import static io.xeros.model.Npcs.GRAND_EXCHANGE_CLERK_4;
 
 /**
  * @author Zei | Glabay-Studios
@@ -18,7 +17,7 @@ import static io.xeros.model.Npcs.GRAND_EXCHANGE_CLERK_4;
 public class GrandExchangeClerk extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { GRAND_EXCHANGE_CLERK, GRAND_EXCHANGE_CLERK_2, GRAND_EXCHANGE_CLERK_3, GRAND_EXCHANGE_CLERK_4 };
+        return new Integer[] { GRAND_EXCHANGE_CLERK, GRAND_EXCHANGE_CLERK_2149, GRAND_EXCHANGE_CLERK_2150, GRAND_EXCHANGE_CLERK_2151 };
     }
 
     @Override

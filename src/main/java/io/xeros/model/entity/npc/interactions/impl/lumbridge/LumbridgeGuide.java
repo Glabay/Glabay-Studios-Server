@@ -17,7 +17,7 @@ import static io.xeros.model.Npcs.*;
 public class LumbridgeGuide extends NpcOptionAction {
     @Override
     protected Integer[] getIds() {
-        return new Integer[] { LUMBRIDGE_GUIDE, LUMBRIDGE_GUIDE_2, LUMBRIDGE_GUIDE_3, LUMBRIDGE_GUIDE_4 };
+        return new Integer[] { LUMBRIDGE_GUIDE, LUMBRIDGE_GUIDE_1179, LUMBRIDGE_GUIDE_1181, LUMBRIDGE_GUIDE_3393 };
     }
 
     @Override
