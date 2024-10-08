@@ -4,10 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.PERDU_DIALOGUE;
-import static io.xeros.model.Npcs.PERDU;
 import static io.xeros.model.Npcs.SHOP_KEEPER;
-import static io.xeros.model.Shops.GENERAL_SHOP;
+import static io.xeros.model.Shops.GENERAL_SHOP_2;
 
 /**
  * @author Glabay | Glabay-Studios
@@ -23,7 +21,7 @@ public class ShopKeeper extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getShops().openShop(GENERAL_SHOP);
+        player.getShops().openShop(GENERAL_SHOP_2);
         return true;
     }
 }
