@@ -71,7 +71,7 @@ dependencies {
     implementation("com.github.cage:cage:1.0")
     implementation("ch.qos.logback:logback-classic:1.5.3")
     implementation("com.mysql:mysql-connector-j:8.3.0")
-    implementation("net.dv8tion:JDA:5.0.0-alpha.22")
+    implementation("net.dv8tion:JDA:5.1.2")
     implementation("org.flywaydb:flyway-core:7.11.0")
     implementation("commons-net:commons-net:3.10.0")
     implementation("com.zaxxer:HikariCP:3.4.5")
@@ -91,7 +91,7 @@ dependencies {
     implementation("org.itadaki:bzip2:0.9.1")
     implementation("io.github.classgraph:classgraph:4.8.165")
 
-    implementation("org.apache.derby:derby:10.15.2.0")
+    implementation("org.apache.derby:derby:10.17.1.0")
     implementation("org.apache.derby:derbytools:10.15.2.0")
     implementation("com.googlecode.json-simple:json-simple:1.1.1")
 
