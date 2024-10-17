@@ -136,9 +136,6 @@ public class ItemOptionOne implements PacketType {
         if (TreasureTrails.firstClickItem(c, itemId)) return;
 
         switch (itemId) {
-            case 21079:
-                c.getDH().sendDialogues(347, 9120);
-                break;
             case 22477:
                 c.sendMessage("Attach it onto a dragon defender to make avernic defender.");
                 break;
