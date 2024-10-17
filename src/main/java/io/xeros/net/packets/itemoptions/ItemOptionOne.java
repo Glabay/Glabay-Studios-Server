@@ -136,9 +136,6 @@ public class ItemOptionOne implements PacketType {
         if (TreasureTrails.firstClickItem(c, itemId)) return;
 
         switch (itemId) {
-            case 21034:
-                c.getDH().sendDialogues(345, 9120);
-                break;
             case 21079:
                 c.getDH().sendDialogues(347, 9120);
                 break;
