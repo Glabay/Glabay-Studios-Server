@@ -141,9 +141,6 @@ public class ItemOptionOne implements PacketType {
         if (TreasureTrails.firstClickItem(c, itemId)) return;
 
         switch (itemId) {
-            case MageArenaII.SYMBOL_ID:
-                MageArenaII.handleEnchantedSymbol(c);
-                return;
             case Items.MIMIC:
                 MimicCasket.open(c);
                 break;
