@@ -136,9 +136,6 @@ public class ItemOptionOne implements PacketType {
         if (TreasureTrails.firstClickItem(c, itemId)) return;
 
         switch (itemId) {
-            case ResourceBoxMedium.BOX_ITEM:
-                new ResourceBoxMedium().roll(c);
-                break;
             case ResourceBoxLarge.BOX_ITEM:
                 new ResourceBoxLarge().roll(c);
                 break;
