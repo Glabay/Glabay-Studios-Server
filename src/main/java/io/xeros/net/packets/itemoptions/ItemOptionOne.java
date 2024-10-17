@@ -4,7 +4,6 @@ import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.DiceHandler;
 import io.xeros.content.bosses.Cerberus;
-import io.xeros.content.bosses.mimic.MimicCasket;
 import io.xeros.content.combat.Hitmark;
 import io.xeros.content.combat.magic.NonCombatSpellData;
 import io.xeros.content.combat.magic.SanguinestiStaff;
@@ -17,8 +16,6 @@ import io.xeros.content.items.Packs;
 import io.xeros.content.items.RottenPotato;
 import io.xeros.content.items.Starter;
 import io.xeros.content.items.pouch.RunePouch;
-import io.xeros.content.lootbag.LootingBag;
-import io.xeros.content.miniquests.magearenaii.MageArenaII;
 import io.xeros.content.skills.DoubleExpScroll;
 import io.xeros.content.skills.SkillHandler;
 import io.xeros.content.skills.SkillPetRateIncreaseScroll;
@@ -44,8 +41,6 @@ import io.xeros.model.multiplayersession.flowerpoker.FlowerData;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.net.packets.PacketType;
 import io.xeros.util.discord.Discord;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -141,9 +136,6 @@ public class ItemOptionOne implements PacketType {
         if (TreasureTrails.firstClickItem(c, itemId)) return;
 
         switch (itemId) {
-            case Items.MIMIC:
-                MimicCasket.open(c);
-                break;
             case ResourceBoxSmall.BOX_ITEM:
                 new ResourceBoxSmall().roll(c);
                 break;

@@ -1,4 +1,4 @@
-package io.xeros.model.items.interactions.impl;
+package io.xeros.model.items.interactions.impl.wilderness;
 
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.interactions.WorldItemAction;
