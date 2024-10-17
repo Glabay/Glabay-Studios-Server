@@ -135,12 +135,7 @@ public class ItemOptionOne implements PacketType {
         if (SanguinestiStaff.clickItem(c, itemId, 1)) return;
         if (TreasureTrails.firstClickItem(c, itemId)) return;
 
-        switch (itemId) {
-            case 22477:
-                c.sendMessage("Attach it onto a dragon defender to make avernic defender.");
-                break;
-
-            case 23185:
+        switch (itemId) {case 23185:
                 if (!c.getPA().morphPermissions()) return;
                 for (int i = 0; i <= 12; i++) c.setSidebarInterface(i, 6014);
                 c.npcId2 = 9415;
