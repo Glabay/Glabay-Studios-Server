@@ -1,6 +1,5 @@
 package io.xeros.net.packets.itemoptions;
 
-import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.DiceHandler;
 import io.xeros.content.bosses.Cerberus;
@@ -10,7 +9,8 @@ import io.xeros.content.combat.magic.SanguinestiStaff;
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.impl.ClaimDonatorScrollDialogue;
 import io.xeros.content.dwarfmulticannon.Cannon;
-import io.xeros.content.item.lootable.impl.*;
+import io.xeros.content.item.lootable.impl.PvmCasket;
+import io.xeros.content.item.lootable.impl.SlayerMysteryBox;
 import io.xeros.content.items.CluescrollRateIncreaseScroll;
 import io.xeros.content.items.Packs;
 import io.xeros.content.items.RottenPotato;
@@ -136,13 +136,6 @@ public class ItemOptionOne implements PacketType {
         if (TreasureTrails.firstClickItem(c, itemId)) return;
 
         switch (itemId) {
-            case 19564:
-                if (c.wildLevel > 30) {
-                    c.sendMessage("You can't teleport above level 30 in the wilderness.");
-                    return;
-                }
-                c.getPA().startTeleport(Configuration.START_LOCATION_X, Configuration.START_LOCATION_Y, 0, "pod", false);
-                break;
             case 13188:
                 c.startAnimation(7514);
                 c.gfx0(1282);

@@ -312,6 +312,11 @@ public class Configuration {
 	public static final int DRAYNOR_X = 3079;
 	public static final int DRAYNOR_Y = 3250;
 
+	/**
+	 * Royal Seed Pod Location
+	 */
+	public static final int GRAND_TREE_X = 2465;
+	public static final int GRAND_TREE_Y = 3495;
 
 	/*
 	 * Modern spells
