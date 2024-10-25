@@ -16,7 +16,6 @@ import io.xeros.content.items.Packs;
 import io.xeros.content.items.RottenPotato;
 import io.xeros.content.items.Starter;
 import io.xeros.content.items.pouch.RunePouch;
-import io.xeros.content.skills.DoubleExpScroll;
 import io.xeros.content.skills.SkillHandler;
 import io.xeros.content.skills.SkillPetRateIncreaseScroll;
 import io.xeros.content.skills.hunter.Hunter;
@@ -42,7 +41,6 @@ import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.net.packets.PacketType;
 import io.xeros.util.discord.Discord;
 
-import java.util.Calendar;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -136,29 +134,6 @@ public class ItemOptionOne implements PacketType {
         if (TreasureTrails.firstClickItem(c, itemId)) return;
 
         switch (itemId) {
-            case 13188:
-                c.startAnimation(7514);
-                c.gfx0(1282);
-                break;
-            case 2841:
-                if (!c.getItems().playerHasItem(2841)) {
-                    c.sendMessage("You need an Bonus XP Scroll to do this!");
-                    return;
-                }
-                if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
-                    || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                    c.sendMessage("@red@Bonus XP Weekend is @gre@active@red@, no need to use that now!");
-                    return;
-                }
-                else if (!c.xpScroll && c.getItems().playerHasItem(2841)) {
-                    c.getItems().deleteItem(2841, 1);
-                    DoubleExpScroll.openScroll(c);
-                    c.sendMessage("@red@You have activated 1 hour of bonus experience.");
-                    c.getPA().sendGameTimer(ClientGameTimer.BONUS_XP, TimeUnit.MINUTES, 60);
-                    c.getQuestTab().updateInformationTab();
-                }
-                else if (c.xpScroll) c.sendMessage("@red@You already used this up.");
-                break;
             case 7968:
                 if (!c.getItems().playerHasItem(7968)) {
                     c.sendMessage("You need an Bonus Pet Scroll to do this!");
