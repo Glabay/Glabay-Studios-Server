@@ -13,6 +13,7 @@ import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.ClientGameTimer;
 import io.xeros.model.entity.player.Player;
 
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class HitDispatcherPlayer extends HitDispatcher {
@@ -29,29 +30,18 @@ public class HitDispatcherPlayer extends HitDispatcher {
     @Override
     public void afterDamageCalculated(CombatType type, boolean successfulHit) {
         Player defender = this.defender.asPlayer();
-        switch (type) {
-            case MELEE:
-                break;
-            case RANGE:
-                break;
-            case MAGE:
-                if (successfulHit) {
-                    mageEffect(defender);
-                }
-                break;
-            default:
-                break;
-        }
+        if (Objects.requireNonNull(type) == CombatType.MAGE)
+            if (successfulHit)
+                mageEffect(defender);
 
         if (successfulHit) {
             // AMULET OF THE DAMNED EFFECTS
-            if (DharokEffect.INSTANCE.canUseEffect(defender)) {
+            if (DharokEffect.INSTANCE.canUseEffect(defender))
                 DharokEffect.INSTANCE.useEffect(defender, attacker, new Damage(damage));
-            } else if (KarilEffect.INSTANCE.canUseEffect(attacker))
+            else if (KarilEffect.INSTANCE.canUseEffect(attacker))
                 KarilEffect.INSTANCE.useEffect(attacker, defender, new Damage(damage));
-            else if (VeracsEffect.INSTANCE.canUseEffect(attacker)) {
+            else if (VeracsEffect.INSTANCE.canUseEffect(attacker))
                 VeracsEffect.INSTANCE.useEffect(attacker, null, null);
-            }
         }
     }
 
@@ -94,7 +84,6 @@ public class HitDispatcherPlayer extends HitDispatcher {
                     defenderPlayer.getPA().refreshSkill(2);
                     break;
 
-
                 case 1562:
                     defenderPlayer.playerLevel[0] -= ((defenderPlayer.getPA().getLevelForXP(defenderPlayer.playerXP[0]) * 10) / 100);
                     defenderPlayer.sendMessage("Your attack level has been reduced!");
@@ -104,9 +93,8 @@ public class HitDispatcherPlayer extends HitDispatcher {
             }
         }
 
-        if (CombatSpellData.MAGIC_SPELLS[attacker.oldSpellId][0] == 1191) {
+        if (CombatSpellData.MAGIC_SPELLS[attacker.oldSpellId][0] == 1191)
             attacker.getDiaryManager().getWildernessDiary().progress(WildernessDiaryEntry.CLAWS_OF_GUTHIX);
-        }
 
         if (CombatSpellData.MAGIC_SPELLS[attacker.oldSpellId][0] == 12445) {
             if (!o.isTeleblocked()) {
@@ -118,7 +106,8 @@ public class HitDispatcherPlayer extends HitDispatcher {
                 if (magicPrayer) {
                     o.teleBlockLength = 150000;
                     o.getPA().sendGameTimer(ClientGameTimer.TELEBLOCK, TimeUnit.SECONDS, 150);
-                } else {
+                }
+                else {
                     o.teleBlockLength = 300000;
                     o.getPA().sendGameTimer(ClientGameTimer.TELEBLOCK, TimeUnit.MINUTES, 5);
                 }
