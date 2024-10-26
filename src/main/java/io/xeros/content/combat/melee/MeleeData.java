@@ -67,7 +67,7 @@ public class MeleeData { //TODO change this to load from json or txt
             return;
         }
 
-        if (player.isWearingWeapon(GHRAZU_RAPIER)) {
+        if (player.isWearingWeapon(GHRAZI_RAPIER)) {
             player.playerStandIndex = 809;
             player.playerWalkIndex = 823;
             player.playerRunIndex = 824;

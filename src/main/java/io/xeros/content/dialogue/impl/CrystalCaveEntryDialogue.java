@@ -20,7 +20,8 @@ public class CrystalCaveEntryDialogue extends DialogueBuilder {
 
     private void enterCave(Player c, int floor, boolean fee) {
         c.getPA().closeAllWindows();
-        if ((!c.getSlayer().getTask().isPresent() || !c.getSlayer().getTask().get().getPrimaryName().contains("crystalline")) && !c.getItems().playerHasItem(23951)) {
+        if ((c.getSlayer().getTask().isEmpty() ||
+            !c.getSlayer().getTask().get().getPrimaryName().contains("crystalline")) && !c.getItems().playerHasItem(23951)) {
             c.sendMessage("@red@You must have a crystalline task to go in this cave.");
             return;
         }
