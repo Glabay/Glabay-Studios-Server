@@ -128,10 +128,10 @@ public class GroupIronmanBank {
     }
 
     public void deposit(final Player player, final SlottedItem item, boolean equipment) {
-        var itemId = item.getId();
-        var slot = item.getSlot();
-        var amountInContainer = equipment ? player.playerEquipmentN[item.getSlot()] : player.getItems().getItemAmount(item.getId());
-        var amount = Math.min(amountInContainer, item.getAmount());
+        var itemId = item.id();
+        var slot = item.slot();
+        var amountInContainer = equipment ? player.playerEquipmentN[item.slot()] : player.getItems().getItemAmount(item.id());
+        var amount = Math.min(amountInContainer, item.amount());
         if (amount <= 0)
             return;
         if (!player.getItems().isTradable(itemId)) {
@@ -145,7 +145,7 @@ public class GroupIronmanBank {
             itemIdToAdd = Server.itemHandler.getCounterpart(itemId);
 
         GameItem removed = inventory.addAndReturnAmountAdded(new GameItem(itemIdToAdd, amount));
-        int remainingAmount = amount - removed.getAmount();
+        int remainingAmount = amount - removed.amount();
 
         // Update source container to only remove successfully deposited item amount
         if (equipment) {
@@ -155,9 +155,9 @@ public class GroupIronmanBank {
             }
         } else {
             if (itemDef.isStackable()) {
-                player.getItems().deleteItem(itemId, removed.getAmount());
+                player.getItems().deleteItem(itemId, removed.amount());
             } else {
-                for (int i = 0; i < removed.getAmount(); i++) {
+                for (int i = 0; i < removed.amount(); i++) {
                     player.getItems().deleteItem(itemId, 1);
                 }
             }
@@ -172,7 +172,7 @@ public class GroupIronmanBank {
             updateInventoryContainer(player);
         }
 
-        if (removed.getAmount() != amount) {
+        if (removed.amount() != amount) {
             player.sendMessage("There was not enough space in the bank to deposit all those items.");
         }
     }

@@ -49,7 +49,7 @@ public abstract class WorldItemAction extends ItemAction
 
     public boolean performActionOnItem(Player player, GameItem itemUsed, GameItem itemUsedOn) {
         if (!isEnabled()) {
-            logger.info("{} has just tried to use a disabled Item: {}", player.getDisplayName(), itemUsed.getId());
+            logger.info("{} has just tried to use a disabled Item: {}", player.getDisplayName(), itemUsed.id());
             player.sendMessage("This Item is currently disabled.");
             return false;
         }

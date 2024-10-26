@@ -133,9 +133,9 @@ public class HunllefChest implements Lootable {
                 GameItem commonreward = commonChestRewards();
                 GameItem commonreward2 = commonChestRewards();
                 GameItem commonreward3 = commonChestRewards();
-                c.getItems().addItem(commonreward.getId(), commonreward.getAmount() * 1);
-                c.getItems().addItem(commonreward2.getId(), commonreward2.getAmount() * 1);
-                c.getItems().addItem(commonreward3.getId(), commonreward3.getAmount()* 1);
+                c.getItems().addItem(commonreward.id(), commonreward.amount() * 1);
+                c.getItems().addItem(commonreward2.id(), commonreward2.amount() * 1);
+                c.getItems().addItem(commonreward3.id(), commonreward3.amount()* 1);
                 c.getItems().deleteItem(21046, 1);
                 c.getItems().addItem(23877, crystalshardbonus);
             } else if (!(c.getItems().playerHasItem(KEY))) {
@@ -149,10 +149,10 @@ public class HunllefChest implements Lootable {
             c.getItems().deleteItem(KEY, 1);
             c.startAnimation(ANIMATION);
             GameItem rarereward = rareChestRewards(rareChance);
-            if (rarereward.getId() == 23757 && c.getItems().getItemCount(23757, false) == 0) {
+            if (rarereward.id() == 23757 && c.getItems().getItemCount(23757, false) == 0) {
                 c.getCollectionLog().handleDrop(c, 5, 23757, 1);
             }
-            c.getItems().addItem(rarereward.getId(), rarereward.getAmount() * 1);
+            c.getItems().addItem(rarereward.id(), rarereward.amount() * 1);
             if (c.getItems().playerHasItem(21046)) {
                 c.getEventCalendar().progress(EventChallenge.USE_X_CHEST_RATE_INCREASE_TABLETS, 1);
                 c.getItems().deleteItem(21046, 1);

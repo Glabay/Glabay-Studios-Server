@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Queue;
-import java.util.stream.Collectors;
 
 import io.xeros.Server;
 import io.xeros.content.instances.InstancedArea;
@@ -22,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Jason MacKeigan
- * @date Dec 18, 2014, 12:14:09 AM
+ * @since Dec 18, 2014, 12:14:09 AM
  */
 public class GlobalObjects {
 
@@ -82,7 +81,7 @@ public class GlobalObjects {
 
     public void remove(int id, InstancedArea instance) {
         List<GlobalObject> remove = objects.stream().filter(o -> o.getObjectId() == id && o.getInstance() == instance)
-                .collect(Collectors.toList());
+                .toList();
         remove.forEach(it -> {
             remove(it);
             logger.debug("Removed object id={}, instance={}", id, instance);
@@ -165,7 +164,7 @@ public class GlobalObjects {
      * is never removed unless indicated otherwise.
      */
     public void pulse() {
-        if (objects.size() == 0) {
+        if (objects.isEmpty()) {
             return;
         }
         Queue<GlobalObject> updated = new LinkedList<>();
@@ -184,20 +183,16 @@ public class GlobalObjects {
             object.removeTick();
             if (object.getTicksRemaining() == 0) {
                 if (object.getObjectId() == SpiderWeb.RESTORE_ID) {
-                    /**
-                     * You have to delete both world and custom object before placing down a new 1. Method should work without issues.
+                    /*
+                      Sets objectId
                      */
-                    GlobalObject obj = object;
-                    /**
-                     * Sets objectId
+                    object.setId(object.getRestoreId() == -1 ? object.getObjectId() : object.getRestoreId());
+                    /*
+                      Adds new object
                      */
-                    obj.setId(object.getRestoreId() == -1 ? object.getObjectId() : object.getRestoreId());
-                    /**
-                     * Adds new object
-                     */
-                    add(obj);
-                    /**
-                     * For appearance
+                    add(object);
+                    /*
+                      For appearance
                      */
                 } else {
                     placeObject(object, object.getRestoreId());
@@ -284,7 +279,6 @@ public class GlobalObjects {
     /**
      * This is a convenience method that should only be referenced when testing game content on a private host. This should not be referenced during the active game.
      *
-     * @throws IOException
      */
     public void reloadObjectFile(Player player) throws IOException {
         objects.clear();
@@ -294,16 +288,26 @@ public class GlobalObjects {
 
     @Override
     public String toString() {
-        List<GlobalObject> copy = new ArrayList<>(objects);
-        long matches = objects.stream().filter(o -> copy.stream().anyMatch(m -> m.getX() == o.getX() && m.getY() == o.getY())).count();
-        StringBuilder sb = new StringBuilder();
-        sb.append("GlobalObjects: <size: " + objects.size() + ", same spot: " + matches + "> [");
-        sb.append("\n");
-        for (GlobalObject object : objects) {
-            if (object == null) {
-                continue;
-            }
-            sb.append("\t<id: " + object.getObjectId() + ", x: " + object.getX() + ", y: " + object.getY() + ">\n");
+        var copy = new ArrayList<>(objects);
+        long matches = objects.stream()
+            .filter(o -> copy.stream().anyMatch(m -> m.getX() == o.getX() && m.getY() == o.getY()))
+            .count();
+        var sb = new StringBuilder();
+        sb.append("GlobalObjects: <size: ")
+            .append(objects.size())
+            .append(", same spot: ")
+            .append(matches)
+            .append("> [")
+            .append("\n");
+        for (var object : objects) {
+            if (object == null) continue;
+            sb.append("\t<id: ")
+                .append(object.getObjectId())
+                .append(", x: ")
+                .append(object.getX())
+                .append(", y: ")
+                .append(object.getY())
+                .append(">\n");
         }
         sb.append("]");
         return sb.toString();

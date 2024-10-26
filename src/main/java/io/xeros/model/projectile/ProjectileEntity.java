@@ -1,6 +1,5 @@
 package io.xeros.model.projectile;
 
-import io.xeros.content.commands.owner.Pos;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.entity.player.Position;

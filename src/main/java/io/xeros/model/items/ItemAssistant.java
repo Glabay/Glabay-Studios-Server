@@ -102,7 +102,7 @@ public class ItemAssistant {
 	}
 
 	public SlottedItem getInventoryItem(int itemId) {
-		return getInventoryItems().stream().filter(it -> it.getId() == itemId).findFirst().orElse(null);
+		return getInventoryItems().stream().filter(it -> it.id() == itemId).findFirst().orElse(null);
 	}
 
 	public List<SlottedItem> getInventoryItems() {
@@ -139,7 +139,7 @@ public class ItemAssistant {
 		List<GameItem> bankItems = new ArrayList<>();
 		for (BankTab tab : player.getBank().getBankTab())
 			for (BankItem bankItem : tab.getItems())
-				bankItems.add(new GameItem(bankItem.getId() - 1, bankItem.getAmount())); // :(
+				bankItems.add(new GameItem(bankItem.id() - 1, bankItem.amount())); // :(
 		return bankItems;
 	}
 
@@ -149,8 +149,8 @@ public class ItemAssistant {
 
 	public int getWeapon() {
 		List<SlottedItem> equipment = getEquipmentItems();
-		Optional<SlottedItem> weapon = equipment.stream().filter(it -> it.getSlot() == Player.playerWeapon).findFirst();
-		return weapon.map(SlottedItem::getId).orElse(-1);
+		Optional<SlottedItem> weapon = equipment.stream().filter(it -> it.slot() == Player.playerWeapon).findFirst();
+		return weapon.map(SlottedItem::id).orElse(-1);
 	}
 
 	public void setEquipmentUpdateTypes() {
@@ -215,15 +215,15 @@ public class ItemAssistant {
 	 * The x and y represents the possible x and y location of the dropped item if in fact it cannot be added to the bank.
 	 */
 	public void sendItemToAnyTabOrDrop(BankItem item, int x, int y) {
-		item = new BankItem(item.getId() + 1, item.getAmount());
-		if (item.getDef().isNoted() && bankContains(item.getId() - 2)) {
+		item = new BankItem(item.id() + 1, item.amount());
+		if (item.getDef().isNoted() && bankContains(item.id() - 2)) {
 			if (isBankSpaceAvailable(item)) {
-				sendItemToAnyTab(item.getId() - 1, item.getAmount());
+				sendItemToAnyTab(item.id() - 1, item.amount());
 			} else {
-				Server.itemHandler.createGroundItem(player, item.getId() - 1, x, y, player.heightLevel, item.getAmount());
+				Server.itemHandler.createGroundItem(player, item.id() - 1, x, y, player.heightLevel, item.amount());
 			}
 		} else {
-			sendItemToAnyTab(item.getId() - 1, item.getAmount());
+			sendItemToAnyTab(item.id() - 1, item.amount());
 		}
 	}
 
@@ -347,14 +347,14 @@ public class ItemAssistant {
 					player.getOutStream().writeByte(0);
 					player.getOutStream().writeWordBigEndianA(0);
 				} else {
-					if (container.get(i).getAmount() > 254) {
+					if (container.get(i).amount() > 254) {
 						player.getOutStream().writeByte(255);
-						player.getOutStream().writeDWord_v2(container.get(i).getAmount() == -1 ? 0 : container.get(i).getAmount());
+						player.getOutStream().writeDWord_v2(container.get(i).amount() == -1 ? 0 : container.get(i).amount());
 					} else {
-						player.getOutStream().writeByte(container.get(i).getAmount() == -1 ? 0 : container.get(i).getAmount());
+						player.getOutStream().writeByte(container.get(i).amount() == -1 ? 0 : container.get(i).amount());
 					}
 
-					player.getOutStream().writeWordBigEndianA(container.get(i).getId() + (addToItemId ? 1 : 0));
+					player.getOutStream().writeWordBigEndianA(container.get(i).id() + (addToItemId ? 1 : 0));
 				}
 			}
 			player.getOutStream().endFrameVarSizeWord();
@@ -391,7 +391,7 @@ public class ItemAssistant {
 			BankTab t = iterator.next();
 			if (t != null && t.size() > 0) {
 				for (BankItem i : t.getItems()) {
-					if (i.getId()==item.getId()) {
+					if (i.id()==item.id()) {
 						if (t.getTabId()!=tab.getTabId()) {
 							tab=t;
 							break outer;
@@ -421,7 +421,7 @@ public class ItemAssistant {
 					player.getIndex());
 			return;
 		}
-		long totalAmount = ((long) tab.getItemAmount(item) + (long) item.getAmount());
+		long totalAmount = ((long) tab.getItemAmount(item) + (long) item.amount());
 		if (totalAmount >= Integer.MAX_VALUE) {
 			player.sendMessage("The item has been dropped on the floor.");
 			Server.itemHandler.createGroundItem(player, itemId, player.absX, player.absY, player.heightLevel, amount, player.getIndex());
@@ -432,7 +432,7 @@ public class ItemAssistant {
 		if (player.isBanking) {
 			queueBankContainerUpdate();
 		}
-		player.sendMessage(getItemName(itemId) + " x" + item.getAmount() + " has been added to your bank.");
+		player.sendMessage(getItemName(itemId) + " x" + item.amount() + " has been added to your bank.");
 	}
 
 	public void replaceItem(Player c, int i, int l) {
@@ -522,7 +522,7 @@ public class ItemAssistant {
 				getBankItems()
 		);
 
-		return items.stream().mapToLong(list -> list.stream().filter(it -> it.getId() == itemId).mapToLong(GameItem::getAmount).sum()).sum();
+		return items.stream().mapToLong(list -> list.stream().filter(it -> it.id() == itemId).mapToLong(GameItem::amount).sum()).sum();
 	}
 
 	/**
@@ -551,8 +551,8 @@ public class ItemAssistant {
 			counterpart = Server.itemHandler.getCounterpart(itemId);
 		}
 		for (LootingBagItem item : player.getLootingBag().getLootingBagContainer().items) {
-			if (item.getId() == itemId || counterpart > 0 && item.getId() == counterpart) {
-				counter += item.getAmount();
+			if (item.id() == itemId || counterpart > 0 && item.id() == counterpart) {
+				counter += item.amount();
 			}
 		}
 		for (int i = 0; i < player.playerItems.length; i++) {
@@ -576,8 +576,8 @@ public class ItemAssistant {
 				continue;
 			}
 			for (BankItem item : tab.getItems()) {
-				if (item.getId() == itemId + 1 || counterpart > 0 && item.getId() == counterpart + 1) {
-					counter += item.getAmount();
+				if (item.id() == itemId + 1 || counterpart > 0 && item.id() == counterpart + 1) {
+					counter += item.amount();
 					break;
 				}
 			}
@@ -626,7 +626,7 @@ public class ItemAssistant {
 
 	public boolean isItemInInventorySlot(int itemId, int slot) {
 		GameItem itemInInventorySlot = getItemInInventorySlot(slot);
-		return itemInInventorySlot != null && itemInInventorySlot.getId() == itemId;
+		return itemInInventorySlot != null && itemInInventorySlot.id() == itemId;
 	}
 
 	public GameItem getItemInInventorySlot(int slot) {
@@ -638,7 +638,7 @@ public class ItemAssistant {
 	private boolean updateStackableInventoryItemAmount(int itemId, int amountToAdd) {
 		for (int i = 0; i < player.playerItems.length; i++) {
 			GameItem slottedItem = getItemInInventorySlot(i);
-			if (slottedItem != null && slottedItem.getId() == itemId) {
+			if (slottedItem != null && slottedItem.id() == itemId) {
 				player.playerItemsN[i] += amountToAdd;
 				addContainerUpdate(ContainerUpdate.INVENTORY);
 				return true;
@@ -652,8 +652,8 @@ public class ItemAssistant {
 		for (int i = 0; i < player.playerItems.length; i++) {
 			GameItem slottedItem = getItemInInventorySlot(i);
 			if (slottedItem == null) {
-				player.playerItems[i] = gameItem.getId() + 1;
-				player.playerItemsN[i] = gameItem.getAmount();
+				player.playerItems[i] = gameItem.id() + 1;
+				player.playerItemsN[i] = gameItem.amount();
 				addContainerUpdate(ContainerUpdate.INVENTORY);
 				return true;
 			}
@@ -683,19 +683,19 @@ public class ItemAssistant {
 				return false;
 			}
 
-			if (!updateStackableInventoryItemAmount(gameItem.getId(), gameItem.getAmount()))
+			if (!updateStackableInventoryItemAmount(gameItem.id(), gameItem.amount()))
 				throw new IllegalStateException("Impossible condition, reinstall existence.");
 			return true;
 		} else {
 			if (gameItem.isStackable()) {
 				return addInventoryItemToFreeSlot(gameItem);
 			} else {
-				if (freeSlots() < gameItem.getAmount()) {
+				if (freeSlots() < gameItem.amount()) {
 					player.sendMessageIf(sendMessage, "Not enough space in your inventory.");
 					return false;
 				}
-				for (int i = 0; i < gameItem.getAmount(); i++)
-					if (!addInventoryItemToFreeSlot(new GameItem(gameItem.getId(), 1)))
+				for (int i = 0; i < gameItem.amount(); i++)
+					if (!addInventoryItemToFreeSlot(new GameItem(gameItem.id(), 1)))
 						throw new IllegalStateException();
 				return true;
 			}
@@ -724,11 +724,11 @@ public class ItemAssistant {
 	public Optional<GameItem> addItemUntilFullReverse(GameItem gameItem, int maxStack, boolean sendMessage) {
 		Optional<GameItem> optional = addItemUntilFull(gameItem, maxStack, sendMessage);
 		if (optional.isEmpty())
-			return Optional.of(new GameItem(gameItem.getId(), gameItem.getAmount()));
+			return Optional.of(new GameItem(gameItem.id(), gameItem.amount()));
 		GameItem remaining = optional.get();
-		if (remaining.getAmount() == gameItem.getAmount())
+		if (remaining.amount() == gameItem.amount())
 			return Optional.empty();
-		return Optional.of(new GameItem(gameItem.getId(), gameItem.getAmount() - remaining.getAmount()));
+		return Optional.of(new GameItem(gameItem.id(), gameItem.amount() - remaining.amount()));
 	}
 
 	/**
@@ -754,8 +754,8 @@ public class ItemAssistant {
 	 *         (i.e. the items that were not added).
 	 */
 	public Optional<GameItem> addItemUntilFull(GameItem gameItem, int maxStack, boolean sendMessage) {
-		int item = gameItem.getId();
-		int amount = gameItem.getAmount();
+		int item = gameItem.id();
+		int amount = gameItem.amount();
 		gameItem = new GameItem(item, amount);
 
 		if (amount <= 0)
@@ -787,13 +787,13 @@ public class ItemAssistant {
 				return Optional.empty();
 			}
 
-			while (gameItem.getAmount() > 0) {
+			while (gameItem.amount() > 0) {
 				if (!addInventoryItemToFreeSlot(new GameItem(item, 1)))
 					break;
 				gameItem.incrementAmount(-1);
 			}
 
-			return gameItem.getAmount() == 0 ? Optional.empty() : Optional.of(gameItem);
+			return gameItem.amount() == 0 ? Optional.empty() : Optional.of(gameItem);
 		}
 	}
 
@@ -1155,9 +1155,9 @@ public class ItemAssistant {
 			break;
 		}
 		for (SkillLevel requirement : item.getRequirements()) {
-			if (player.getLevelForXP(player.playerXP[requirement.getSkill().getId()]) < requirement.getLevel()) {
-				player.sendMessage("You need " + Misc.anOrA(requirement.getSkill().toString()) + " " + requirement.getSkill().toString()
-						+ " level of " + requirement.getLevel() + " to wear this item.");
+			if (player.getLevelForXP(player.playerXP[requirement.skill().getId()]) < requirement.level()) {
+				player.sendMessage("You need " + Misc.anOrA(requirement.skill().toString()) + " " + requirement.skill().toString()
+						+ " level of " + requirement.level() + " to wear this item.");
 				return false;
 			}
 		}
@@ -1683,7 +1683,7 @@ public class ItemAssistant {
 			BankTab t = iterator.next();
 			if (t != null && t.size() > 0) {
 				for (BankItem i : t.getItems()) {
-					if (i.getId()==item.getId()) {
+					if (i.id()==item.id()) {
 						if (t.getTabId()!=tab.getTabId()) {
 							tab=t;
 							break outer;
@@ -1692,7 +1692,7 @@ public class ItemAssistant {
 				}
 			}
 		}
-		if (item.getAmount() > getItemAmount(itemId))
+		if (item.amount() > getItemAmount(itemId))
 			item.setAmount(getItemAmount(itemId));
 		if (tab.getItemAmount(item) == Integer.MAX_VALUE) {
 			player.sendMessage("Your bank is already holding the maximum amount of " + getItemName(itemId).toLowerCase() + " possible.");
@@ -1702,13 +1702,13 @@ public class ItemAssistant {
 			player.sendMessage("Your current bank tab is full.");
 			return false;
 		}
-		long totalAmount = ((long) tab.getItemAmount(item) + (long) item.getAmount());
+		long totalAmount = ((long) tab.getItemAmount(item) + (long) item.amount());
 		if (totalAmount >= Integer.MAX_VALUE) {
 			int difference = Integer.MAX_VALUE - tab.getItemAmount(item);
 			item.setAmount(difference);
 			deleteItem2(itemId, difference);
 		} else {
-			deleteItem2(itemId, item.getAmount());
+			deleteItem2(itemId, item.amount());
 		}
 		tab.add(item);
 		if (updateView) {
@@ -1769,7 +1769,7 @@ public class ItemAssistant {
 		if (tab.getItemAmount(item) < itemAmount) {
 			item.setAmount(tab.getItemAmount(item));
 		}
-		if (item.getAmount() < 0)
+		if (item.amount() < 0)
 			item.setAmount(0);
 		tab.remove(item, 0, player.placeHolders);
 		if (tab.size() == 0) {
@@ -1826,7 +1826,7 @@ public class ItemAssistant {
 			player.sendMessage("Your inventory is already holding the maximum amount of " + getItemName(itemId).toLowerCase() + " possible.");
 			return;
 		}
-		boolean stackable = isStackable(item.getId() - 1);
+		boolean stackable = isStackable(item.id() - 1);
 		if (stackable || noted) {
 			long totalAmount = (long) getItemAmount(itemId) + (long) itemAmount;
 			if (totalAmount > Integer.MAX_VALUE)
@@ -1836,19 +1836,19 @@ public class ItemAssistant {
 			item.setAmount(tab.getItemAmount(item));
 		}
 		if (!stackable && !noted) {
-			if (freeSlots() < item.getAmount())
+			if (freeSlots() < item.amount())
 				item.setAmount(freeSlots());
 		}
 
-		if (item.getAmount() == 0) {
+		if (item.amount() == 0) {
 			if (!player.placeHolderWarning) {
-				player.lastPlaceHolderWarning = item.getId();
-				player.sendMessage("@cr10@@red@Are you sure you want to release the placeholder of " + ItemDef.forId(item.getId() - 1).getName() + "?");
+				player.lastPlaceHolderWarning = item.id();
+				player.sendMessage("@cr10@@red@Are you sure you want to release the placeholder of " + ItemDef.forId(item.id() - 1).getName() + "?");
 				player.sendMessage("@cr10@@red@If so, click the item once more.");
 				player.placeHolderWarning = true;
 				return;
 			} else {
-				if (item.getId() != player.lastPlaceHolderWarning) {
+				if (item.id() != player.lastPlaceHolderWarning) {
 					player.placeHolderWarning = false;
 					return;
 				}
@@ -1860,21 +1860,21 @@ public class ItemAssistant {
 			}
 		}
 
-		if (item.getAmount() < 0)
+		if (item.amount() < 0)
 			item.setAmount(0);
 
-		if (item.getAmount() > 0) { // Can't release placeholder now with the addItem if statement check
+		if (item.amount() > 0) { // Can't release placeholder now with the addItem if statement check
 			if (!noted) {
-				if (!addItem(item.getId() - 1, item.getAmount()))
+				if (!addItem(item.id() - 1, item.amount()))
 					return;
 			} else {
-				if (!addItem(Server.itemHandler.getCounterpart(item.getId() - 1), item.getAmount()))
+				if (!addItem(Server.itemHandler.getCounterpart(item.id() - 1), item.amount()))
 					return;
 			}
 		}
 
 		int type = 0;
-		if (item.getAmount() <= 0) // if already a placeholder aka amt 0
+		if (item.amount() <= 0) // if already a placeholder aka amt 0
 			type = 1;
 		tab.remove(item, type, player.placeHolders);
 
@@ -1919,7 +1919,7 @@ public class ItemAssistant {
 			BankTab t = iterator.next();
 			if (t != null && t.size() > 0) {
 				for (BankItem i : t.getItems()) {
-					if (i.getId()==item.getId()) {
+					if (i.id()==item.id()) {
 						if (t.getTabId()!=tab.getTabId()) {
 							tab=t;
 							break outer;
@@ -1929,7 +1929,7 @@ public class ItemAssistant {
 			}
 		}
 
-		if (item.getAmount() > player.playerEquipmentN[slot])
+		if (item.amount() > player.playerEquipmentN[slot])
 			item.setAmount(player.playerEquipmentN[slot]);
 		if (tab.getItemAmount(item) == Integer.MAX_VALUE) {
 			player.sendMessage("Your bank is already holding the maximum amount of " + getItemName(itemId).toLowerCase() + " possible.");
@@ -1939,12 +1939,12 @@ public class ItemAssistant {
 			player.sendMessage("Your current bank tab is full.");
 			return false;
 		}
-		long totalAmount = ((long) tab.getItemAmount(item) + (long) item.getAmount());
+		long totalAmount = ((long) tab.getItemAmount(item) + (long) item.amount());
 		if (totalAmount >= Integer.MAX_VALUE) {
 			player.sendMessage("Your bank is already holding the maximum amount of this item.");
 			return false;
 		} else
-			player.playerEquipmentN[slot] -= item.getAmount();
+			player.playerEquipmentN[slot] -= item.amount();
 		if (player.playerEquipmentN[slot] <= 0) {
 			player.playerEquipmentN[slot] = -1;
 			player.playerEquipment[slot] = -1;
@@ -1974,7 +1974,7 @@ public class ItemAssistant {
 			return;
 		}
 
-		setEquipment(gameItem.getId(), gameItem.getAmount(), slot, true);
+		setEquipment(gameItem.id(), gameItem.amount(), slot, true);
 	}
 
 	/**
@@ -2082,7 +2082,7 @@ public class ItemAssistant {
 	}
 
 	public void deleteItem(SlottedItem item) {
-		deleteItem(item.getId(), item.getSlot(), item.getAmount());
+		deleteItem(item.id(), item.slot(), item.amount());
 	}
 
 	public void deleteItem(int id, int slot, int amount) {
@@ -2306,7 +2306,7 @@ public class ItemAssistant {
 			return;
 		}
 
-		setInventoryItemSlot(slot, gameItem.getId(), gameItem.getAmount());
+		setInventoryItemSlot(slot, gameItem.id(), gameItem.amount());
 	}
 
 	public void setInventoryItemSlot(int slot, int itemId) {
@@ -2340,7 +2340,7 @@ public class ItemAssistant {
 	 * Get a count of items inside the player's inventory.
 	 */
 	public int getInventoryCount(int itemId) {
-		return getInventoryItems().stream().filter(it -> it.getId() == itemId).mapToInt(SlottedItem::getAmount).sum();
+		return getInventoryItems().stream().filter(it -> it.id() == itemId).mapToInt(SlottedItem::amount).sum();
 	}
 
 	/**
@@ -2444,8 +2444,8 @@ public class ItemAssistant {
 			player.getOutStream().writeByteC((groundItem.getPos().getY() - 8 * player.mapRegionY));
 			player.getOutStream().writeByteC((groundItem.getPos().getX() - 8 * player.mapRegionX));
 			player.getOutStream().createFrame(44);
-			player.getOutStream().writeWordBigEndianA(groundItem.getItem().getId());
-			player.getOutStream().writeDWord_v1(groundItem.getItem().getAmount());
+			player.getOutStream().writeWordBigEndianA(groundItem.getItem().id());
+			player.getOutStream().writeDWord_v1(groundItem.getItem().amount());
 			player.getOutStream().writeByte(0);
 			player.flushOutStream();
 		}
@@ -2458,7 +2458,7 @@ public class ItemAssistant {
 			player.getOutStream().writeByteC((groundItem.getPos().getX() - 8 * player.mapRegionX));
 			player.getOutStream().createFrame(156);
 			player.getOutStream().writeByteS(0);
-			player.getOutStream().writeUShort(groundItem.getItem().getId());
+			player.getOutStream().writeUShort(groundItem.getItem().id());
 			player.flushOutStream();
 		}
 	}

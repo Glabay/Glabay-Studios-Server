@@ -13,22 +13,17 @@ public class WalkToTickable implements Tickable<Player> {
 	/**
 	 * x distance
 	 */
-	private int xDistance = -1;
+	private final int xDistance;
 
 	/**
 	 * y distance
 	 */
-	private int yDistance = -1;
+	private final int yDistance;
 
-	/**
-	 * The associated game character.
-	 */
-	private final Player player;
-
-	/**
+    /**
 	 * The destination the game character will move to.
 	 */
-	private Position destination;
+	private final Position destination;
 
 	/**
 	 * The task a player must execute upon reaching said destination.
@@ -39,8 +34,7 @@ public class WalkToTickable implements Tickable<Player> {
 	 * The WalkToTask constructor.
 	 */
 	public WalkToTickable(Player entity, Position destination, int xDistance, int yDistance, Consumer<Player> consumer) {
-		this.player = entity;
-		this.destination = destination;
+        this.destination = destination;
 		this.consumer = consumer;
 		this.xDistance = xDistance;
 		this.yDistance = yDistance;

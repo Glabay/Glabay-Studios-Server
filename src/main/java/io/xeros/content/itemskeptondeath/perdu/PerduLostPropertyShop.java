@@ -61,7 +61,7 @@ public class PerduLostPropertyShop {
             return;
         GameItem gameItem = inventory.get(slot);
 
-        int cost = gameItem.getDef().getShopValue() * gameItem.getAmount();
+        int cost = gameItem.getDef().getShopValue() * gameItem.amount();
         if (cost > 0) {
             if (!player.getItems().playerHasItem(Items.COINS, cost)) {
                 player.sendMessage("You don't have enough coins.");
@@ -73,10 +73,10 @@ public class PerduLostPropertyShop {
 
         inventory.remove(gameItem);
         inventory.shift();
-        player.getItems().addItemUnderAnyCircumstance(gameItem.getId(), gameItem.getAmount());
+        player.getItems().addItemUnderAnyCircumstance(gameItem.id(), gameItem.amount());
         updateContainer(player);
 
-        String description = (gameItem.getAmount() > 1 ? "x" + gameItem.getAmount() + " " : "") + gameItem.getDef().getName();
+        String description = (gameItem.amount() > 1 ? "x" + gameItem.amount() + " " : "") + gameItem.getDef().getName();
         player.sendMessage("@dre@You buy back your {} for {} coins.", description, Misc.insertCommas(cost));
         updateContainer(player);
     }

@@ -39,7 +39,7 @@ public class ItemsLostOnDeath {
         // Remove always lost items here, I know.. I know. But I can't rewrite this shit again.
         Set<Integer> alwaysLost = AlwaysLostDeathItem.items();
         alwaysLost.forEach(item -> {
-            List<GameItem> remove = kept.stream().filter(it -> it.getId() == item).collect(Collectors.toList());
+            List<GameItem> remove = kept.stream().filter(it -> it.id() == item).collect(Collectors.toList());
             remove.forEach(it -> {
                 kept.remove(it);
                 lost.add(it);
@@ -61,14 +61,14 @@ public class ItemsLostOnDeath {
     public static ItemsLostOnDeathList generateModified(Player player) {
         ItemsLostOnDeathList list = generate(player);
         for (GameItem keptItem : new ArrayList<>(list.getKept())) {
-            DeathItemModifier modifier = DeathItemModifiers.get(keptItem.getId());
+            DeathItemModifier modifier = DeathItemModifiers.get(keptItem.id());
             if (modifier != null) {
                 modifier.modify(player, keptItem, true, list.getKept(), list.getLost());
             }
         }
 
         for (GameItem lostItem : new ArrayList<>(list.getLost())) {
-            DeathItemModifier modifier = DeathItemModifiers.get(lostItem.getId());
+            DeathItemModifier modifier = DeathItemModifiers.get(lostItem.id());
             if (modifier != null) {
                 modifier.modify(player, lostItem, false, list.getKept(), list.getLost());
             }

@@ -5,7 +5,6 @@ import java.util.List;
 
 import io.xeros.content.bosses.nightmare.Nightmare;
 import io.xeros.content.combat.death.NPCDeath;
-import io.xeros.content.instances.InstancedArea;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;
@@ -72,13 +71,13 @@ public class TableGroup extends ArrayList<Table> {
                                 minimumAmount + Misc.random(drop.getMaximumAmount() - minimumAmount));
 
                         if (policy.equals(TablePolicy.VERY_RARE) || policy.equals(TablePolicy.RARE)) {
-                            player.getCollectionLog().handleDrop(player, drop.getNpcIds().get(0), item.getId(), item.getAmount());
+                            player.getCollectionLog().handleDrop(player, drop.getNpcIds().get(0), item.id(), item.amount());
                         }
 
                         // Rare drop announcements
 
                         // Any item names here will always announce when dropped
-                        String itemNameLowerCase = ItemDef.forId(item.getId()).getName().toLowerCase();
+                        String itemNameLowerCase = ItemDef.forId(item.id()).getName().toLowerCase();
                         if (itemNameLowerCase.contains("archer ring") || itemNameLowerCase.contains("vasa minirio")
                         		|| itemNameLowerCase.contains("hydra") || itemNameLowerCase.contains("skeletal visage")) {
                             NPCDeath.announce(player, item, npcId);
@@ -96,7 +95,7 @@ public class TableGroup extends ArrayList<Table> {
                             // Any item names here will never announce
                             if (
                                     name.contains("cowhide")
-                                    || ShopAssistant.getItemShopValue(item.getId()) <= 100_000
+                                    || ShopAssistant.getItemShopValue(item.id()) <= 100_000
                                     || name.contains("feather")
                                     || name.contains("dharok")
                                     || name.contains("guthan")
@@ -179,7 +178,7 @@ public class TableGroup extends ArrayList<Table> {
                                     || name.contains("overload")
                                     || name.contains("bones")
                                             || name.contains("amulet of the damned")
-                            || item.getId() >= 23490 && item.getId() <= 23491 || item.getId() >= 23083 && item.getId() <= 23084) {
+                            || item.id() >= 23490 && item.id() <= 23491 || item.id() >= 23083 && item.id() <= 23084) {
                             } else {
                                 NPCDeath.announce(player, item, npcId);
                             }

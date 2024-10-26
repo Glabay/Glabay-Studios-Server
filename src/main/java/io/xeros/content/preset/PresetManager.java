@@ -523,9 +523,9 @@ public class PresetManager {
 				 */
 				var ammoItem = findBankItem(player, ammo);
 				if (ammoItem != null) {
-					var amount = Math.min(ammoItem.getAmount(), ammo.getAmount());
+					var amount = Math.min(ammoItem.amount(), ammo.getAmount());
 					if (amount > 0) {
-						equipmentItemsFound[Player.playerArrows] = new PresetItem(ammoItem.getId() - 1, amount);
+						equipmentItemsFound[Player.playerArrows] = new PresetItem(ammoItem.id() - 1, amount);
 					}
 				}
 
@@ -1167,7 +1167,7 @@ public class PresetManager {
 
 	private GameItem findBankItem(Player player, PresetItem item) {
 		for (GameItem bankItem : getBankItems(player)) {
-			if (bankItem.getId() == item.getItemId() + 1) {
+			if (bankItem.id() == item.getItemId() + 1) {
 				return bankItem;
 			}
 		}

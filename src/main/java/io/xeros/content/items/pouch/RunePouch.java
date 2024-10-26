@@ -71,11 +71,11 @@ public class RunePouch extends Pouch {
 		if(itemOpt.isPresent()) {
 			GameItem item = itemOpt.get();
 			item.incrementAmount(-amount);
-			if(item.getAmount() <= 0)
+			if(item.amount() <= 0)
 				items.remove(item);
-			player.getItems().addItem(item.getId(), amount);
+			player.getItems().addItem(item.id(), amount);
 			sendUpdates();
-			return item.getAmount();
+			return item.amount();
 		}
 	
 		return 0;
@@ -90,7 +90,7 @@ public class RunePouch extends Pouch {
 		Optional<GameItem> item = getItemInBag(id);
 		if(item.isPresent()) {
 			item.get().incrementAmount(-amount);
-			if(item.get().getAmount() <= 0)
+			if(item.get().amount() <= 0)
 				items.remove(item.get());
 			sendPouchRuneInventory();
 			return true;
@@ -115,12 +115,12 @@ public class RunePouch extends Pouch {
 		GameItem item = new GameItem(id);
 		if (interfaceId >= START_RUNE_INVENTORY_INTERFACE && interfaceId <= END_RUNE_INVENTORY_INTERFACE) {
 			if ((amount = withdrawRunesFromBag(id, amount)) > 0) {
-				player.sendMessage("You removed " + Misc.insertCommas(amount) + " " + ItemDef.forId(item.getId()).getName() + "s from your pouch.");
+				player.sendMessage("You removed " + Misc.insertCommas(amount) + " " + ItemDef.forId(item.id()).getName() + "s from your pouch.");
 			}
 			return true;
 		} else if(interfaceId >= START_BAG_INVENTORY_INTERFACE && interfaceId <= END_BAG_INVENTORY_INTERFACE) {
 			if ((amount = addRunesFromInventory(id, amount)) > 0) {
-				player.sendMessage("You added " + Misc.insertCommas(amount) + " " + ItemDef.forId(item.getId()).getName() + "s to your pouch.");
+				player.sendMessage("You added " + Misc.insertCommas(amount) + " " + ItemDef.forId(item.id()).getName() + "s to your pouch.");
 			}
 			return true;
 		}
@@ -128,7 +128,7 @@ public class RunePouch extends Pouch {
 	}
 
 	private Optional<GameItem> getItemInBag(int id) {
-		return items.stream().filter(bagItem -> bagItem.getId() == id).findFirst();
+		return items.stream().filter(bagItem -> bagItem.id() == id).findFirst();
 	}
 	
 	private boolean pouchContainsItem(int id) {
@@ -137,11 +137,11 @@ public class RunePouch extends Pouch {
 	
 	public int getCountInBag(int itemId) {
 		Optional<GameItem> foundItem = getItemInBag(itemId);
-		return foundItem.isPresent() ? foundItem.get().getAmount() : 0;
+		return foundItem.isPresent() ? foundItem.get().amount() : 0;
 	}
 
 	public boolean pouchContainsItem(int id, int amount) {
-		return items.stream().anyMatch(bagItem -> bagItem.getId() == id && bagItem.getAmount() >= amount);
+		return items.stream().anyMatch(bagItem -> bagItem.id() == id && bagItem.amount() >= amount);
 	}
 
 	public boolean hasRunes(int runes, int amount) {
@@ -212,7 +212,7 @@ public class RunePouch extends Pouch {
 
 		Optional<GameItem> pouchOptional = getItemInBag(id);
 		int inventoryCount = player.getItems().getInventoryCount(id);
-		int pouchAmount = pouchOptional.isPresent() ? pouchOptional.get().getAmount() : 0;
+		int pouchAmount = pouchOptional.isPresent() ? pouchOptional.get().amount() : 0;
 
 		if (amount > inventoryCount) {
 			amount = inventoryCount;
@@ -277,8 +277,8 @@ public class RunePouch extends Pouch {
 				if (i < items.size()) {
 					GameItem item = items.get(i);
 					if (item != null) {
-						id = item.getId();
-						amt = item.getAmount();
+						id = item.id();
+						amt = item.amount();
 					}
 				}
 

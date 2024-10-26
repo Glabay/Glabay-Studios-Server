@@ -22,7 +22,7 @@ public class Herbs extends Command {
         });
 
         Arrays.stream(PotionData.UnfinishedPotions.values()).forEach(it ->
-                player.getItems().sendItemToAnyTab(it.getPotion().getId(), 10_000));
+                player.getItems().sendItemToAnyTab(it.getPotion().id(), 10_000));
 
         Arrays.stream(PotionDecanting.Potion.values()).forEach(pot -> {
             for (int i = 1; i <= 4; i++)
@@ -31,9 +31,9 @@ public class Herbs extends Command {
 
         Arrays.stream(PotionData.FinishedPotions.values()).forEach(it -> Arrays.stream(it.getIngredients()).forEach(ingredient ->
         {
-            if (ingredient.getId() <= 0)
+            if (ingredient.id() <= 0)
                 return;
-            player.getItems().sendItemToAnyTab(ingredient.getId(), 80_000);
+            player.getItems().sendItemToAnyTab(ingredient.id(), 80_000);
         }));
     }
 

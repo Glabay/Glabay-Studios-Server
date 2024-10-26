@@ -38,11 +38,11 @@ public enum Crushable {
 	private static final Set<Crushable> VALUES = Collections.unmodifiableSet(EnumSet.allOf(Crushable.class));
 
 	public static Optional<GameItem> getResult(int original) {
-		return VALUES.stream().filter(c -> c.original.getId() == original).map(c -> c.result).findAny();
+		return VALUES.stream().filter(c -> c.original.id() == original).map(c -> c.result).findAny();
 	}
 
 	public static Optional<GameItem> getOriginal(int original) {
-		return VALUES.stream().filter(c -> c.original.getId() == original).map(c -> c.original).findAny();
+		return VALUES.stream().filter(c -> c.original.id() == original).map(c -> c.original).findAny();
 	}
 
 	public static boolean crushIngredient(Player c, int item1, int item2) {
@@ -61,13 +61,13 @@ public enum Crushable {
 			GameItem crushedItem = original.get();
 			GameItem resultItem = result.get();
 
-			if (!c.getItems().playerHasItem(crushedItem.getId(), crushedItem.getAmount())) {
-				c.sendMessage("You need x" + crushedItem.getAmount() + " " + ItemDef.forId(crushedItem.getId()).getName() + " to grind.");
+			if (!c.getItems().playerHasItem(crushedItem.id(), crushedItem.amount())) {
+				c.sendMessage("You need x" + crushedItem.amount() + " " + ItemDef.forId(crushedItem.id()).getName() + " to grind.");
 				return true;
 			}
 
-			int resultAmount = resultItem.getAmount();
-			if (resultItem.getId() == Items.LAVA_SCALE_SHARD) {
+			int resultAmount = resultItem.amount();
+			if (resultItem.id() == Items.LAVA_SCALE_SHARD) {
 				if (c.getDiaryManager().getWildernessDiary().hasDone(DifficultyAchievementDiary.EntryDifficulty.HARD)) {
 					resultAmount = Misc.random(6, 9);
 				} else {
@@ -75,9 +75,9 @@ public enum Crushable {
 				}
 			}
 
-			c.getItems().deleteItem(ingredient, crushedItem.getAmount());
-			c.getItems().addItem(resultItem.getId(), resultAmount);
-			c.sendMessage("You grind down the " + ItemDef.forId(ingredient).getName().toLowerCase() + " to " + ItemDef.forId(resultItem.getId()).getName().toLowerCase() + ".");
+			c.getItems().deleteItem(ingredient, crushedItem.amount());
+			c.getItems().addItem(resultItem.id(), resultAmount);
+			c.sendMessage("You grind down the " + ItemDef.forId(ingredient).getName().toLowerCase() + " to " + ItemDef.forId(resultItem.id()).getName().toLowerCase() + ".");
 			return true;
 		}
 		return false;

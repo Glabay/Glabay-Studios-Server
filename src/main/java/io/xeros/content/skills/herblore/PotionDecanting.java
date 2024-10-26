@@ -25,7 +25,7 @@ public class PotionDecanting {
 	 * @return true if the item is a potion based on its item id, otherwise it will return false
 	 */
 	public boolean isPotion(GameItem item) {
-		Potion potion = Potion.get(item.getId());
+		Potion potion = Potion.get(item.id());
 		return potion != null;
 	}
 
@@ -37,8 +37,8 @@ public class PotionDecanting {
 	 * @return true if they both match.
 	 */
 	public boolean matches(GameItem potion1, GameItem potion2) {
-		Potion p1 = Potion.get(potion1.getId());
-		Potion p2 = Potion.get(potion2.getId());
+		Potion p1 = Potion.get(potion1.id());
+		Potion p2 = Potion.get(potion2.id());
 		if (p1 == null || p2 == null) {
 			return false;
 		}
@@ -51,24 +51,24 @@ public class PotionDecanting {
 	 * @param player the player combining the potions
 	 */
 	public void mix(Player player, GameItem item1, GameItem item2) {
-		if (!player.getItems().playerHasItem(item1.getId(), item1.getAmount(), item1.getSlot())) {
+		if (!player.getItems().playerHasItem(item1.id(), item1.amount(), item1.getSlot())) {
 			return;
 		}
-		if (!player.getItems().playerHasItem(item2.getId(), item2.getAmount(), item2.getSlot())) {
+		if (!player.getItems().playerHasItem(item2.id(), item2.amount(), item2.getSlot())) {
 			return;
 		}
-		Potion potion1 = Potion.get(item1.getId());
-		Potion potion2 = Potion.get(item2.getId());
+		Potion potion1 = Potion.get(item1.id());
+		Potion potion2 = Potion.get(item2.id());
 		if (potion1 == null || potion2 == null) {
 			return;
 		}
-		if (potion1.isFull(item1.getId()) || potion2.isFull(item2.getId())) {
+		if (potion1.isFull(item1.id()) || potion2.isFull(item2.id())) {
 			return;
 		}
-		player.getItems().deleteItemNoSave(item1.getId(), item1.getSlot(), item1.getAmount());
-		player.getItems().deleteItemNoSave(item2.getId(), item2.getSlot(), item2.getAmount());
-		int dose1 = potion1.getDosage(item1.getId());
-		int dose2 = potion2.getDosage(item2.getId());
+		player.getItems().deleteItemNoSave(item1.id(), item1.getSlot(), item1.amount());
+		player.getItems().deleteItemNoSave(item2.id(), item2.getSlot(), item2.amount());
+		int dose1 = potion1.getDosage(item1.id());
+		int dose2 = potion2.getDosage(item2.id());
 		int sum = dose1 + dose2;
 		if (sum >= 4) {
 			item1 = new GameItem(potion1.full);
@@ -81,8 +81,8 @@ public class PotionDecanting {
 			item1 = new GameItem(potion1.getItemId(sum));
 			item2 = new GameItem(229);
 		}
-		player.getItems().addItem(item1.getId(), item1.getAmount());
-		player.getItems().addItem(item2.getId(), item2.getAmount());
+		player.getItems().addItem(item1.id(), item1.amount());
+		player.getItems().addItem(item2.id(), item2.amount());
 	}
 
 	/**
@@ -105,8 +105,8 @@ public class PotionDecanting {
 	}
 
 	private static void decantUnnotedItem(Player player, GameItem item) {
-		Potion potion = Potion.get(item.getId());
-		if (potion == null || potion.isFull(item.getId())) {
+		Potion potion = Potion.get(item.id());
+		if (potion == null || potion.isFull(item.id())) {
 			return;
 		}
 		int slot = item.getSlot();
@@ -125,9 +125,9 @@ public class PotionDecanting {
 					continue;
 				}
 				GameItem item2 = new GameItem(player.playerItems[index] - 1, player.playerItemsN[index], index);
-				if (POTION_MIXING.matches(item, item2) && !Potion.get(item2.getId()).isFull(item2.getId())) {
+				if (POTION_MIXING.matches(item, item2) && !Potion.get(item2.id()).isFull(item2.id())) {
 					POTION_MIXING.mix(player, item, item2);
-					if (item.getId() != player.playerItems[item.getSlot()] - 1) {
+					if (item.id() != player.playerItems[item.getSlot()] - 1) {
 						hasChanged = true;
 					}
 					break;
@@ -137,8 +137,8 @@ public class PotionDecanting {
 	}
 
 	private static void decantNotedItem(Player player, GameItem item) {
-		Potion potion = Potion.get(item.getId() - 1);
-		if (potion == null || potion.isFull(item.getId() - 1)) {
+		Potion potion = Potion.get(item.id() - 1);
+		if (potion == null || potion.isFull(item.id() - 1)) {
 			return;
 		}
 		List<Integer> idList = Arrays.asList(potion.getItemId(4), potion.getItemId(3), potion.getItemId(2), potion.getItemId(1));

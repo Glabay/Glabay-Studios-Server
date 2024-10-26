@@ -311,10 +311,10 @@ public class PlayerDeath {
                 PkpRewards.award(player, playerKiller);
 
             for (GameItem item : itemsLostOnDeathList.getKept())
-                if (player.getItems().hasRoomInInventory(item.getId(), item.getAmount()))
-                    player.getItems().addItem(item.getId(), item.getAmount());
+                if (player.getItems().hasRoomInInventory(item.id(), item.amount()))
+                    player.getItems().addItem(item.id(), item.amount());
                 else
-                    player.getItems().sendItemToAnyTab(item.getId(), item.getAmount());
+                    player.getItems().sendItemToAnyTab(item.id(), item.amount());
 
         }
         else if (TourneyManager.getSingleton().isInArena(player)) {

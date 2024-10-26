@@ -1,5 +1,8 @@
 package io.xeros.model;
 
+import lombok.Getter;
+
+@Getter
 public class Graphic {
 
 	public enum GraphicHeight {
@@ -10,12 +13,22 @@ public class Graphic {
 
 	/**
 	 * The graphic's id.
-	 */
+     * -- GETTER --
+     *  Gets the graphic's id.
+     *
+     * @return	id.
+
+     */
 	private final int id;
 
 	/**
 	 * The delay which the graphic must wait before being performed.
-	 */
+     * -- GETTER --
+     *  Gets the graphic's wait delay.
+     *
+     * @return	delay.
+
+     */
 	private final int delay;
 
 	/**
@@ -61,27 +74,4 @@ public class Graphic {
 		this.animationPriority = animationPriority;
 	}
 
-	/**
-	 * Gets the graphic's id.
-	 * @return	id.
-	 */
-	public int getId() {
-		return id;
-	}
-	
-	/**
-	 * Gets the graphic's wait delay.
-	 * @return	delay.
-	 */
-	public int getDelay() {
-		return delay;
-	}
-
-	public AnimationPriority getAnimationPriority() {
-		return animationPriority;
-	}
-
-	public int getHeight() {
-		return height;
-	}
 }

@@ -230,16 +230,16 @@ public class PvmCasket implements Lootable {
 
 		if (Misc.random(10) == 0) {
 			player.getItems().addItem(995, coins + coinsDouble);
-			player.getItems().addItem(item.getId(), item.getAmount());
-			player.getItems().addItem(itemDouble.getId(), itemDouble.getAmount());
-			player.sendMessage("You receive <col=255>" + item.getAmount() + " x " + ItemAssistant.getItemName(item.getId()) + "</col>, and <col=255>"
+			player.getItems().addItem(item.id(), item.amount());
+			player.getItems().addItem(itemDouble.id(), itemDouble.amount());
+			player.sendMessage("You receive <col=255>" + item.amount() + " x " + ItemAssistant.getItemName(item.id()) + "</col>, and <col=255>"
 					+ Misc.insertCommas(Integer.toString(coins)) + "</col>GP.");
-			player.sendMessage("You receive <col=255>" + itemDouble.getAmount() + " x " + ItemAssistant.getItemName(itemDouble.getId()) + "</col>, and <col=255>"
+			player.sendMessage("You receive <col=255>" + itemDouble.amount() + " x " + ItemAssistant.getItemName(itemDouble.id()) + "</col>, and <col=255>"
 					+ Misc.insertCommas(Integer.toString(coins)) + "</col>GP.");
 		} else {
 			player.getItems().addItem(995, coins);
-			player.getItems().addItem(item.getId(), item.getAmount());
-			player.sendMessage("You receive <col=255>" + item.getAmount() + " x " + ItemAssistant.getItemName(item.getId()) + "</col>, and <col=255>"
+			player.getItems().addItem(item.id(), item.amount());
+			player.sendMessage("You receive <col=255>" + item.amount() + " x " + ItemAssistant.getItemName(item.id()) + "</col>, and <col=255>"
 					+ Misc.insertCommas(Integer.toString(coins)) + "</col>GP.");
 		}
 	}

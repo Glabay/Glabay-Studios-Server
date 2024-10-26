@@ -3,7 +3,9 @@ package io.xeros.model;
 import io.xeros.content.skills.Skill;
 import io.xeros.model.entity.player.Player;
 import io.xeros.util.Misc;
+import lombok.Getter;
 
+@Getter
 public class SkillExperience {
 
     private final Skill skill;
@@ -24,17 +26,5 @@ public class SkillExperience {
                 "skill=" + skill.toString() +
                 ", experience=" + Misc.insertCommas(experience) +
                 '}';
-    }
-
-    public int skillId() {
-        return getSkill().getId();
-    }
-
-    public Skill getSkill() {
-        return skill;
-    }
-
-    public int getExperience() {
-        return experience;
     }
 }

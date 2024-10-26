@@ -17,7 +17,7 @@ public class RewardItem extends GameItem {
 	}
 
 	@Override
-	public int getAmount() {
+	public int amount() {
 		return Misc.random(maxAmount - minAmount) + minAmount;
 	}
 

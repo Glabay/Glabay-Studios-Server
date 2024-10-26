@@ -1,7 +1,6 @@
 package io.xeros.model.items.inventory;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.items.GameItem;
 
@@ -128,7 +127,7 @@ public final class Inventory {
 	 */
 	public int add(int id, int amount) {
 		Optional<GameItem> item = add(new GameItem(id, amount));
-		return item.isPresent() ? item.get().getAmount() : 0;
+		return item.isPresent() ? item.get().amount() : 0;
 	}
 
 	/**
@@ -139,8 +138,8 @@ public final class Inventory {
 	 */
 	public GameItem addAndReturnAmountAdded(GameItem item) {
 		Optional<GameItem> remaining = add(item);
-		int amountDeleted = remaining.isEmpty() ? item.getAmount() : item.getAmount() - remaining.get().getAmount();
-		return new GameItem(item.getId(), amountDeleted);
+		int amountDeleted = remaining.isEmpty() ? item.amount() : item.amount() - remaining.get().amount();
+		return new GameItem(item.id(), amountDeleted);
 	}
 
 	/**
@@ -157,14 +156,14 @@ public final class Inventory {
 	 * @return The item that may remain, if nothing remains, {@link Optional#empty an empty Optional} is returned.
 	 */
 	public Optional<GameItem> add(GameItem item) {
-		int id = item.getId();
+		int id = item.id();
 		boolean stackable = isStackable(item.getDef());
 
 		if (stackable) {
 			return addStackable(item, id);
 		}
 
-		int remaining = item.getAmount();
+		int remaining = item.amount();
 
 		if (remaining == 0) {
 			return Optional.empty();
@@ -172,7 +171,7 @@ public final class Inventory {
 
 		stopFiringEvents();
 		try {
-			GameItem single = new GameItem(item.getId(), 1);
+			GameItem single = new GameItem(item.id(), 1);
 
 			for (int slot = 0; slot < capacity; slot++) {
 				if (items[slot] == null) {
@@ -186,14 +185,14 @@ public final class Inventory {
 		} finally {
 			startFiringEvents();
 
-			if (remaining != item.getAmount()) {
+			if (remaining != item.amount()) {
 				notifyItemsUpdated();
 			}
 		}
 
 		notifyCapacityExceeded();
 
-		return Optional.of(new GameItem(item.getId(), remaining));
+		return Optional.of(new GameItem(item.id(), remaining));
 	}
 
 	/**
@@ -209,7 +208,7 @@ public final class Inventory {
 		if (slot != -1) {
 			GameItem other = items[slot];
 
-			long total = (long) item.getAmount() + other.getAmount();
+			long total = (long) item.amount() + other.amount();
 			int amount, remaining;
 
 			if (total > Integer.MAX_VALUE) {
@@ -242,14 +241,14 @@ public final class Inventory {
 	 * @return True if there is enough space to fully add the item.
 	 */
 	public boolean hasSpaceFor(GameItem item) {
-		int id = item.getId();
+		int id = item.id();
 		boolean stackable = isStackable(item.getDef());
 
 		if (stackable) {
 			return hasSpaceForStackable(item, id);
 		}
 
-		int remaining = item.getAmount();
+		int remaining = item.amount();
 
 		if (remaining == 0) {
 			return true;
@@ -277,7 +276,7 @@ public final class Inventory {
 
 		if (slot != -1) {
 			GameItem other = items[slot];
-			long total = (long) item.getAmount() + other.getAmount();
+			long total = (long) item.amount() + other.amount();
 			return total <= Integer.MAX_VALUE;
 		}
 
@@ -423,7 +422,7 @@ public final class Inventory {
 	public int getAmount(int id) {
 		if (isStackable(ItemDef.forId(id))) {
 			int slot = slotOf(id);
-			return slot == -1 ? 0 : items[slot].getAmount();
+			return slot == -1 ? 0 : items[slot].amount();
 		}
 
 		int amount = 0, used = 0;
@@ -431,7 +430,7 @@ public final class Inventory {
 			GameItem item = items[index];
 
 			if (item != null) {
-				if (item.getId() == id) {
+				if (item.id() == id) {
 					amount++;
 				}
 
@@ -571,12 +570,12 @@ public final class Inventory {
 			if (slot != -1) {
 				GameItem item = items[slot];
 
-				if (amount >= item.getAmount()) {
+				if (amount >= item.amount()) {
 					set(slot, null);
-					return item.getAmount();
+					return item.amount();
 				}
 
-				set(slot, new GameItem(item.getId(), item.getAmount() - amount));
+				set(slot, new GameItem(item.id(), item.amount() - amount));
 				return amount;
 			}
 
@@ -590,7 +589,7 @@ public final class Inventory {
 		try {
 			for (int slot = 0; slot < capacity; slot++) {
 				GameItem item = items[slot];
-				if (item != null && item.getId() == id) {
+				if (item != null && item.id() == id) {
 					set(slot, null);
 
 					if (++removed >= amount) {
@@ -617,7 +616,7 @@ public final class Inventory {
 	 * @return The amount that was removed.
 	 */
 	public int remove(GameItem item) {
-		return remove(item.getId(), item.getAmount());
+		return remove(item.id(), item.amount());
 	}
 
 	/**
@@ -658,11 +657,11 @@ public final class Inventory {
 		if (amount != 0) {
 			GameItem item = items[slot];
 			if (item != null) {
-				int itemAmount = item.getAmount();
+				int itemAmount = item.amount();
 				int removed = Math.min(amount, itemAmount);
 				int remainder = itemAmount - removed;
 
-				set(slot, remainder > 0 ? new GameItem(item.getId(), remainder) : null);
+				set(slot, remainder > 0 ? new GameItem(item.id(), remainder) : null);
 				return removed;
 			}
 		}
@@ -750,7 +749,7 @@ public final class Inventory {
 			GameItem item = items[slot];
 
 			if (item != null) {
-				if (item.getId() == id) {
+				if (item.id() == id) {
 					return slot;
 				}
 

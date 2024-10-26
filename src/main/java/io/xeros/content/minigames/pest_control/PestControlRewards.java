@@ -275,8 +275,8 @@ public class PestControlRewards {
 			player.pcPoints -= cost;
 			player.getQuestTab().updateInformationTab();
 			player.buyPestControlTimer = System.currentTimeMillis();
-			player.getItems().addItem(item.getId(), item.getAmount());
-			ItemDef itemDef = ItemDef.forId(item.getId());
+			player.getItems().addItem(item.id(), item.amount());
+			ItemDef itemDef = ItemDef.forId(item.id());
 			String name = itemDef == null ? "a item" : itemDef.getName();
 			player.sendMessage("You have received a " + name + " in exchange for " + cost + " pc points.");
 		}
@@ -355,12 +355,12 @@ public class PestControlRewards {
 			List<GameItem> receive = new ArrayList<>(amount);
 			while (amount-- > 0) {
 				GameItem item = list.get(Misc.random(list.size() - 1));
-				item.setAmount(1 + Misc.random(item.getAmount()));
+				item.setAmount(1 + Misc.random(item.amount()));
 				receive.add(item);
 				list.remove(item);
 			}
 
-			receive.forEach(item -> player.getItems().addItem(item.getId(), item.getAmount()));
+			receive.forEach(item -> player.getItems().addItem(item.id(), item.amount()));
 		}
 	}
 

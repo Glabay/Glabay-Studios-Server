@@ -96,7 +96,7 @@ public class TheatreOfBloodChest implements Lootable {
         for(GameItem f : found) {
             boolean foundItem = false;
             for(GameItem drop : drops) {
-                if (drop.getId() == f.getId()) {
+                if (drop.id() == f.id()) {
                     foundItem = true;
                     break;
                 }
@@ -131,7 +131,7 @@ public class TheatreOfBloodChest implements Lootable {
     }
 
     public static boolean containsRare(List<GameItem> itemList) {
-        return items.get(LootRarity.RARE).stream().anyMatch(rareItem -> itemList.stream().anyMatch(itemReward -> rareItem.getId() == itemReward.getId()));
+        return items.get(LootRarity.RARE).stream().anyMatch(rareItem -> itemList.stream().anyMatch(itemReward -> rareItem.id() == itemReward.id()));
     }
 
     /**
@@ -150,17 +150,17 @@ public class TheatreOfBloodChest implements Lootable {
         player.getItems().addItem(995, 500_000 + Misc.random(1_000_000));
         List<GameItem> rareItemList = items.get(LootRarity.RARE);
         for (GameItem reward : rewards) {
-            if (rareItemList.stream().anyMatch(rareItem -> reward.getId() == rareItem.getId())) {
+            if (rareItemList.stream().anyMatch(rareItem -> reward.id() == rareItem.id())) {
                 if (!player.getDisplayName().equalsIgnoreCase("thimble") && !player.getDisplayName().equalsIgnoreCase("top hat")) {
                     PlayerHandler.executeGlobalMessage("@pur@" + player.getDisplayNameFormatted() + " received a drop: "
-                            + ItemDef.forId(reward.getId()).getName() + " x " + reward.getAmount() + " from Theatre of Blood.");
+                            + ItemDef.forId(reward.id()).getName() + " x " + reward.amount() + " from Theatre of Blood.");
                 }
-                player.getCollectionLog().handleDrop(player, Npcs.THE_MAIDEN_OF_SUGADINTI, rewards.get(0).getId(), 1);
+                player.getCollectionLog().handleDrop(player, Npcs.THE_MAIDEN_OF_SUGADINTI, rewards.get(0).id(), 1);
             }
         }
 
         for (GameItem item : rewards) {
-            player.getInventory().addAnywhere(new ImmutableItem(item.getId(), item.getAmount()));
+            player.getInventory().addAnywhere(new ImmutableItem(item.id(), item.amount()));
         }
 
         player.getTobContainer().displayRewardInterface(rewards);

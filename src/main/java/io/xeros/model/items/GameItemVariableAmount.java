@@ -16,7 +16,7 @@ public class GameItemVariableAmount extends GameItem {
     }
 
     @Override
-    public int getAmount() {
+    public int amount() {
         return minimum + (maximum - minimum > 0 ? Misc.random(0, maximum - minimum) : 0);
     }
 

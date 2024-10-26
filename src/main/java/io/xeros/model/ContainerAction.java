@@ -1,5 +1,8 @@
 package io.xeros.model;
 
+import lombok.Getter;
+
+@Getter
 public class ContainerAction {
 
     private final ContainerActionType type;
@@ -20,23 +23,4 @@ public class ContainerAction {
         this.itemAmount = itemAmount;
     }
 
-    public ContainerActionType getType() {
-        return type;
-    }
-
-    public int getInterfaceId() {
-        return interfaceId;
-    }
-
-    public int getItemId() {
-        return itemId;
-    }
-
-    public int getSlotId() {
-        return slotId;
-    }
-
-    public int getItemAmount() {
-        return itemAmount;
-    }
 }

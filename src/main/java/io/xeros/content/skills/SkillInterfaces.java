@@ -1191,8 +1191,8 @@ public class SkillInterfaces {
 						ing.add("Super set");
 					} else {
 						for (GameItem item : potion.getIngredients()) {
-							if (item.getAmount() > 1) {
-								ing.add(item.getAmount() + " x " + item.getDef().getName());
+							if (item.amount() > 1) {
+								ing.add(item.amount() + " x " + item.getDef().getName());
 							} else {
 								ing.add(item.getDef().getName());
 							}
@@ -1201,7 +1201,7 @@ public class SkillInterfaces {
 				}
 
 				builder.add(ing.toString());
-				menuLine(potion.getLevel() + "", builder.toString(), potion.getResult().getId(), lineCounter++);
+				menuLine(potion.getLevel() + "", builder.toString(), potion.getResult().id(), lineCounter++);
 			}
 
 //			menuLine("3", "Attack Potion \\n Guam potion (unf), Eye of newt", 121, 0);

@@ -158,7 +158,7 @@ public class Achievements {
             this.rewards = rewards;
 
             //format the items
-            for (GameItem b : rewards) if (b.getAmount() == 0) b.setAmount(1);
+            for (GameItem b : rewards) if (b.amount() == 0) b.setAmount(1);
         }
 
         @Override
@@ -263,7 +263,7 @@ public class Achievements {
 
     public static void addReward(Player player, Achievement achievement) {
         for (GameItem item : achievement.getRewards()) {
-            player.getInventory().addAnywhere(new ImmutableItem(item.getId(), item.getAmount()));
+            player.getInventory().addAnywhere(new ImmutableItem(item.id(), item.amount()));
         }
     }
 

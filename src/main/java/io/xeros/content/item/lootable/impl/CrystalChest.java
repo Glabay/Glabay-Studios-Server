@@ -174,8 +174,8 @@ public class CrystalChest implements Lootable {
 			c.startAnimation(ANIMATION);
 			c.getItems().addItem(DRAGONSTONE, 1);
 			GameItem reward = randomChestRewards(c);
-			if (!c.getItems().addItem(reward.getId(), reward.getAmount())) {
-				Server.itemHandler.createGroundItem(c, reward.getId(), c.getX(), c.getY(), c.heightLevel, reward.getAmount());
+			if (!c.getItems().addItem(reward.id(), reward.amount())) {
+				Server.itemHandler.createGroundItem(c, reward.id(), c.getX(), c.getY(), c.heightLevel, reward.amount());
 			}
 			Achievements.increase(c, AchievementType.LOOT_CRYSTAL_CHEST, 1);
 		} else {

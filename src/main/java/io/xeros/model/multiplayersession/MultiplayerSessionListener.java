@@ -2,6 +2,7 @@ package io.xeros.model.multiplayersession;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +11,7 @@ import io.xeros.model.entity.player.Player;
 /**
  * 
  * @author Jason MacKeigan
- * @date Oct 20, 2014, 4:42:11 PM
+ * @since Oct 20, 2014, 4:42:11 PM
  */
 public class MultiplayerSessionListener {
 
@@ -86,7 +87,7 @@ public class MultiplayerSessionListener {
 			if (!type.equals(session.type)) {
 				continue;
 			}
-			if (session.getPlayers().containsAll(Arrays.asList(sender, receiver))) {
+			if (new HashSet<>(session.getPlayers()).containsAll(Arrays.asList(sender, receiver))) {
 				if (session.getStage().getAttachment() == receiver) {
 					return session;
 				}
@@ -96,8 +97,12 @@ public class MultiplayerSessionListener {
 	}
 
 	public void removeOldRequests(Player player) {
-		sessions.removeAll(Arrays
-				.asList(sessions.stream().filter(session -> session.getPlayers().contains(player) && session.getStage().getStage() == MultiplayerSessionStage.REQUEST).toArray()));
+		var toRemove = sessions.stream()
+            .filter(session -> session.getPlayers().contains(player))
+            .filter(session -> session.getStage().getStage() == MultiplayerSessionStage.REQUEST)
+            .toList();
+
+		sessions.removeAll(toRemove);
 	}
 
 	/**

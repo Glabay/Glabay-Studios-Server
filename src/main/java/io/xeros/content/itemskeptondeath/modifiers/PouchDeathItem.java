@@ -30,11 +30,11 @@ public class PouchDeathItem implements DeathItemModifier {
     public void modify(Player player, GameItem gameItem, boolean kept, List<GameItem> keptItems, List<GameItem> lostItems) {
         List<GameItem> pouchItems;
 
-        if (gameItem.getId() == HerbSack.HERB_SACK_ID) {
+        if (gameItem.id() == HerbSack.HERB_SACK_ID) {
             pouchItems = player.getHerbSack().getItems();
-        } else if (gameItem.getId() == GemBag.GEM_BAG_ID) {
+        } else if (gameItem.id() == GemBag.GEM_BAG_ID) {
             pouchItems = player.getGemBag().getItems();
-        } else if (gameItem.getId() == RunePouch.RUNE_POUCH_ID) {
+        } else if (gameItem.id() == RunePouch.RUNE_POUCH_ID) {
             pouchItems = player.getRunePouch().getItems();
         } else {
             logger.error("No pouch instances for {}", gameItem);
@@ -45,7 +45,7 @@ public class PouchDeathItem implements DeathItemModifier {
         while (iterator.hasNext()) {
             GameItem item = iterator.next();
             iterator.remove();
-            if (item == null || item.getId() <= 0 || item.getAmount() <= 0)
+            if (item == null || item.id() <= 0 || item.amount() <= 0)
                 continue;
             lostItems.add(item);
         }

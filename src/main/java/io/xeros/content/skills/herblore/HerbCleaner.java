@@ -2,9 +2,7 @@ package io.xeros.content.skills.herblore;
 
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueOption;
-import io.xeros.content.skills.Skill;
 import io.xeros.model.Items;
-import io.xeros.model.Npcs;
 import io.xeros.model.SlottedItem;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Player;
@@ -21,15 +19,15 @@ public class HerbCleaner {
 
     public static int getPriceForInventory(Player player) {
         return player.getItems().getInventoryItems().stream().mapToInt(it -> {
-            Herb herb = Herb.forNotedOrUnNotedGrimyHerb(it.getId());
-            return herb != null ? CLEAN_HERB_PRICE * it.getAmount() : 0;
+            Herb herb = Herb.forNotedOrUnNotedGrimyHerb(it.id());
+            return herb != null ? CLEAN_HERB_PRICE * it.amount() : 0;
         }).sum();
     }
 
     public static void cleanHerbsFromInventory(Player player) {
         player.getPA().closeAllWindows();
         for (SlottedItem item : player.getItems().getInventoryItems()) {
-            Herb herb = Herb.forNotedOrUnNotedGrimyHerb(item.getId());
+            Herb herb = Herb.forNotedOrUnNotedGrimyHerb(item.id());
             if (herb == null)
                 continue;
             if (!cleanHerb(player, item, herb, false)) {
@@ -43,9 +41,9 @@ public class HerbCleaner {
      *         If {@param warn} is true and dialogue sent, return true.
      */
     public static boolean cleanHerb(Player player, SlottedItem gameItem, Herb herb, boolean warn) {
-        ItemDef usedItemDef = ItemDef.forId(gameItem.getId());
+        ItemDef usedItemDef = ItemDef.forId(gameItem.id());
 
-        int price = gameItem.getAmount() * CLEAN_HERB_PRICE;
+        int price = gameItem.amount() * CLEAN_HERB_PRICE;
         if (warn && price >= PRICE_WARN_AMOUNT) {
             String priceString = Misc.formatCoins(price);
             new DialogueBuilder(player).option(
@@ -63,7 +61,7 @@ public class HerbCleaner {
      * @return true if the potion was made successfully.
      */
     private static boolean clean(Player player, SlottedItem gameItem, ItemDef usedItemDef, Herb herb, int price) {
-        if (!player.getItems().playerHasItem(gameItem.getId(), gameItem.getAmount()))
+        if (!player.getItems().playerHasItem(gameItem.id(), gameItem.amount()))
             return false;
 
         if (player.getLevelForXP(player.playerXP[Player.playerHerblore]) < herb.getLevel()) {
@@ -80,11 +78,11 @@ public class HerbCleaner {
         int unfPotionId = herb.getClean();
         ItemDef unfPotionDef = ItemDef.forId(unfPotionId);
 
-        GameItem unfPotionsItem = new GameItem(usedItemDef.isNoted() ? unfPotionDef.getNotedItemIfAvailable() : unfPotionDef.getId(), gameItem.getAmount());
+        GameItem unfPotionsItem = new GameItem(usedItemDef.isNoted() ? unfPotionDef.getNotedItemIfAvailable() : unfPotionDef.getId(), gameItem.amount());
 
         player.getItems().deleteItem(Items.COINS, price);
-        player.getItems().deleteItem(gameItem.getId(), gameItem.getAmount());
-        player.getItems().addItemUnderAnyCircumstance(unfPotionsItem.getId(), unfPotionsItem.getAmount());
+        player.getItems().deleteItem(gameItem.id(), gameItem.amount());
+        player.getItems().addItemUnderAnyCircumstance(unfPotionsItem.id(), unfPotionsItem.amount());
         return true;
     }
 }

@@ -9,7 +9,9 @@ import io.xeros.Server;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.util.Misc;
+import lombok.Getter;
 
+@Getter
 public class ClanManager {
 
 	public ArrayList<Clan> clans = new ArrayList<>();
@@ -35,19 +37,17 @@ public class ClanManager {
 	}
 
 	public Clan getClan(String paramString) {
-		for (int i = 0; i < this.clans.size(); i++) {
-			if (this.clans.get(i).getFounder().equalsIgnoreCase(paramString)) {
-				return this.clans.get(i);
-			}
-
-		}
-
-		Clan localClan = read(paramString);
-		if (localClan != null) {
-			this.clans.add(localClan);
-			return localClan;
-		}
-		return null;
+		return clans.stream()
+			.filter(clan -> clan.getFounder().equalsIgnoreCase(paramString))
+			.findFirst()
+			.orElseGet(() -> {
+				var localClan = read(paramString);
+				if (localClan != null) {
+					this.clans.add(localClan);
+					return localClan;
+				}
+				return null;
+			});
 	}
 
 	/**
@@ -56,11 +56,11 @@ public class ClanManager {
 	 * @return The Help clan.
 	 */
 	public Clan getHelpClan() {
-		for (int i = 0; i < this.clans.size(); i++) {
-			if (clans.get(i).getFounder().equalsIgnoreCase("Help")) {
-				return clans.get(i);
-			}
-		}
+        for (Clan clan : this.clans) {
+            if (clan.getFounder().equalsIgnoreCase("Help")) {
+                return clan;
+            }
+        }
 
 		Clan localClan = read("Help");
 		if (localClan != null) {
@@ -102,11 +102,11 @@ public class ClanManager {
 			localRandomAccessFile.writeByte(paramClan.whoCanTalk);
 			localRandomAccessFile.writeByte(paramClan.whoCanKick);
 			localRandomAccessFile.writeByte(paramClan.whoCanBan);
-			if ((paramClan.rankedMembers != null) && (paramClan.rankedMembers.size() > 0)) {
+			if ((paramClan.rankedMembers != null) && (!paramClan.rankedMembers.isEmpty())) {
 				localRandomAccessFile.writeShort(paramClan.rankedMembers.size());
 				for (int i = 0; i < paramClan.rankedMembers.size(); i++) {
 					localRandomAccessFile.writeUTF(paramClan.rankedMembers.get(i));
-					localRandomAccessFile.writeShort(paramClan.ranks.get(i).intValue());
+					localRandomAccessFile.writeShort(paramClan.ranks.get(i));
 				}
 			} else {
 				localRandomAccessFile.writeShort(0);
@@ -114,7 +114,7 @@ public class ClanManager {
 
 			localRandomAccessFile.close();
 		} catch (IOException localIOException) {
-			localIOException.printStackTrace();
+			localIOException.printStackTrace(System.err);
 		}
 	}
 
@@ -136,26 +136,25 @@ public class ClanManager {
 			if (i != 0) {
 				for (int j = 0; j < i; j++) {
 					localClan.rankedMembers.add(localRandomAccessFile.readUTF());
-					localClan.ranks.add(Integer.valueOf(localRandomAccessFile.readShort()));
+					localClan.ranks.add((int) localRandomAccessFile.readShort());
 				}
 			}
 			localRandomAccessFile.close();
 
 			return localClan;
 		} catch (IOException localIOException) {
-			localIOException.printStackTrace();
+			localIOException.printStackTrace(System.err);
 		}
 		return null;
 	}
 
 	/**
 	 * Attempt to rejoin the last Clan channel upon login.
-	 * 
-	 * @param client
-	 */
+	 *
+     */
 	public void joinOnLogin(Player client) {
 		String lastChannel = client.getLastClanChat();
-		if (lastChannel != null && lastChannel.length() > 0) {
+		if (lastChannel != null && !lastChannel.isEmpty()) {
 			Clan localClan = getClan(lastChannel);
 			if (localClan != null) {
 				localClan.addMember(client);
@@ -171,7 +170,4 @@ public class ClanManager {
 		return localFile.exists();
 	}
 
-	public ArrayList<Clan> getClans() {
-		return this.clans;
-	}
 }

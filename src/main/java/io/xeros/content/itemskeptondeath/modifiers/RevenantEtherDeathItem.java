@@ -36,7 +36,7 @@ public class RevenantEtherDeathItem implements DeathItemModifier {
             return;
 
         lostItems.remove(gameItem);
-        int id = gameItem.getId();
+        int id = gameItem.id();
         int charge = 0;
 
         if (CRAWS.contains(id)) {

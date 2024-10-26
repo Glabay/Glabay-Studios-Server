@@ -6,8 +6,9 @@ import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
-import io.xeros.punishments.PunishmentType;
 import io.xeros.util.Misc;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * This class stores all information about the clan. This includes active members, banned members, ranked members and their ranks, clan title, and clan founder. All clan joining,
@@ -30,13 +31,29 @@ public class Clan {
 
 	/**
 	 * The title of the clan.
-	 */
-	public String title;
+     * -- GETTER --
+     *  Gets the title of the clan.
+     * -- SETTER --
+     *  Sets the title.
+
+
+     */
+	@Setter
+    @Getter
+    public String title;
 
 	/**
 	 * The founder of the clan.
-	 */
-	public String founder;
+     * -- GETTER --
+     *  Gets the founder of the clan.
+     * -- SETTER --
+     *  Sets the founder.
+
+
+     */
+	@Setter
+    @Getter
+    public String founder;
 
 	/**
 	 * The active clan members.
@@ -61,7 +78,9 @@ public class Clan {
 	/**
 	 * Needs to be updated for players.
 	 */
-	public boolean dirty = false;
+	@Setter
+    @Getter
+    public boolean dirty = false;
 
 	/**
 	 * The clan ranks.
@@ -105,9 +124,8 @@ public class Clan {
 
 	/**
 	 * Adds a member to the clan.
-	 * 
-	 * @param player
-	 */
+	 *
+     */
 	public void addMember(Player player) {
 		if (isBanned(player.getLoginName())) {
 			player.sendMessage("<col=FF0000>You are currently banned from this clan chat.</col>");
@@ -154,9 +172,8 @@ public class Clan {
 
 	/**
 	 * Removes the player from the clan.
-	 * 
-	 * @param player
-	 */
+	 *
+     */
 	public void removeMember(Player player) {
 		if (remove(player)) {
 			player.clan = null;
@@ -179,9 +196,8 @@ public class Clan {
 
 	/**
 	 * Updates the members on the interface for the player.
-	 * 
-	 * @param player
-	 */
+	 *
+     */
 	public void updateInterface(Player player) {
 		player.getPA().sendString("Leave chat", 18135);
 		player.getPA().sendString("Talking in: <col=FDFF38>" + getTitle() + "</col>", 18139);
@@ -198,9 +214,8 @@ public class Clan {
 
 	/**
 	 * Resets the clan interface.
-	 * 
-	 * @param player
-	 */
+	 *
+     */
 	public void resetInterfaceOnLeave(Player player) {
 		player.getPA().sendString("Join chat", 18135);
 		player.getPA().sendString("Talking in: Not in chat", 18139);
@@ -293,10 +308,8 @@ public class Clan {
 
 	/**
 	 * Sets the rank for the specified name.
-	 * 
-	 * @param name
-	 * @param rank
-	 */
+	 *
+     */
 	public void setRank(String name, int rank) {
 		if (rankedMembers.contains(name)) {
 			ranks.set(rankedMembers.indexOf(name), rank);
@@ -309,9 +322,8 @@ public class Clan {
 
 	/**
 	 * Demotes the specified name.
-	 * 
-	 * @param name
-	 */
+	 *
+     */
 	public void demote(String name) {
 		if (!rankedMembers.contains(name)) {
 			return;
@@ -324,10 +336,8 @@ public class Clan {
 
 	/**
 	 * Gets the rank of the specified name.
-	 * 
-	 * @param name
-	 * @return
-	 */
+	 *
+     */
 	public int getRank(String name) {
 		name = Misc.formatPlayerName(name);
 		if (rankedMembers.contains(name)) {
@@ -346,10 +356,8 @@ public class Clan {
 
 	/**
 	 * Can they kick?
-	 * 
-	 * @param name
-	 * @return
-	 */
+	 *
+     */
 	public boolean canKick(String name) {
 		if (isFounder(name)) {
 			return true;
@@ -359,10 +367,8 @@ public class Clan {
 
 	/**
 	 * Can they ban?
-	 * 
-	 * @param name
-	 * @return
-	 */
+	 *
+     */
 	public boolean canBan(String name) {
 		if (isFounder(name)) {
 			return true;
@@ -372,20 +378,16 @@ public class Clan {
 
 	/**
 	 * Returns whether or not the specified name is the founder.
-	 * 
-	 * @param name
-	 * @return
-	 */
+	 *
+     */
 	public boolean isFounder(String name) {
         return getFounder().equalsIgnoreCase(name);
     }
 
 	/**
 	 * Returns whether or not the specified name is a ranked user.
-	 * 
-	 * @param name
-	 * @return
-	 */
+	 *
+     */
 	public boolean isRanked(String name) {
 		name = Misc.formatPlayerName(name);
         return rankedMembers.contains(name);
@@ -393,10 +395,8 @@ public class Clan {
 
 	/**
 	 * Returns whether or not the specified name is banned.
-	 * 
-	 * @param name
-	 * @return
-	 */
+	 *
+     */
 	public boolean isBanned(String name) {
 		name = Misc.formatPlayerName(name);
         return bannedMembers.contains(name);
@@ -404,9 +404,8 @@ public class Clan {
 
 	/**
 	 * Kicks the name from the clan chat.
-	 * 
-	 * @param name
-	 */
+	 *
+     */
 	public void kickMember(String name) {
 		if (activeMembers.stream().noneMatch(it -> it.is(name))) {
 			return;
@@ -424,9 +423,8 @@ public class Clan {
 
 	/**
 	 * Bans the name from entering the clan chat.
-	 * 
-	 * @param name
-	 */
+	 *
+     */
 	public void banMember(String name) {
 		name = Misc.formatPlayerName(name);
 		if (bannedMembers.contains(name)) {
@@ -450,9 +448,8 @@ public class Clan {
 
 	/**
 	 * Unbans the name from the clan chat.
-	 * 
-	 * @param name
-	 */
+	 *
+     */
 	public void unbanMember(String name) {
 		name = Misc.formatPlayerName(name);
 		if (bannedMembers.contains(name)) {
@@ -484,133 +481,71 @@ public class Clan {
 
 	/**
 	 * Creates a new clan for the specified player.
-	 * 
-	 * @param player
-	 */
+	 *
+     */
 	public Clan(Player player) {
-		setTitle(player.getLoginName() + "");
+		setTitle(player.getLoginName());
 		setFounder(player.getLoginName().toLowerCase());
 	}
 
 	/**
 	 * Creates a new clan for the specified title and founder.
-	 * 
-	 * @param title
-	 * @param founder
-	 */
+	 *
+     */
 	public Clan(String title, String founder) {
 		setTitle(title);
 		setFounder(founder);
 	}
 
-	/**
-	 * Gets the founder of the clan.
-	 * 
-	 * @return
-	 */
-	public String getFounder() {
-		return founder;
-	}
-
-	/**
-	 * Sets the founder.
-	 * 
-	 * @param founder
-	 */
-	public void setFounder(String founder) {
-		this.founder = founder;
-	}
-
-	/**
-	 * Gets the title of the clan.
-	 * 
-	 * @return
-	 */
-	public String getTitle() {
-		return title;
-	}
-
-	/**
-	 * Sets the title.
-	 * 
-	 * @param title
-	 * @return
-	 */
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	/**
+    /**
 	 * Gets the rank title as a string.
-	 * 
-	 * @param rank
-	 * @return
-	 */
+	 *
+     */
 	public String getRankTitle(int rank) {
-		switch (rank) {
-		case -1:
-			return "Anyone";
-		case 0:
-			return "Friend";
-		case 1:
-			return "Recruit";
-		case 2:
-			return "Corporal";
-		case 3:
-			return "Sergeant";
-		case 4:
-			return "Lieutenant";
-		case 5:
-			return "Captain";
-		case 6:
-			return "General";
-		case 7:
-			return "Only Me";
-		}
-		return "";
-	}
+        return switch (rank) {
+            case -1 -> "Anyone";
+            case 0 -> "Friend";
+            case 1 -> "Recruit";
+            case 2 -> "Corporal";
+            case 3 -> "Sergeant";
+            case 4 -> "Lieutenant";
+            case 5 -> "Captain";
+            case 6 -> "General";
+            case 7 -> "Only Me";
+            default -> "";
+        };
+    }
 
 	/**
 	 * Sets the minimum rank that can join.
-	 * 
-	 * @param rank
-	 */
+	 *
+     */
 	public void setRankCanJoin(int rank) {
 		whoCanJoin = rank;
 	}
 
 	/**
 	 * Sets the minimum rank that can talk.
-	 * 
-	 * @param rank
-	 */
+	 *
+     */
 	public void setRankCanTalk(int rank) {
 		whoCanTalk = rank;
 	}
 
 	/**
 	 * Sets the minimum rank that can kick.
-	 * 
-	 * @param rank
-	 */
+	 *
+     */
 	public void setRankCanKick(int rank) {
 		whoCanKick = rank;
 	}
 
 	/**
 	 * Sets the minimum rank that can ban.
-	 * 
-	 * @param rank
-	 */
+	 *
+     */
 	public void setRankCanBan(int rank) {
 		whoCanBan = rank;
 	}
 
-	public boolean isDirty() {
-		return dirty;
-	}
-
-	public void setDirty(boolean dirty) {
-		this.dirty = dirty;
-	}
 }

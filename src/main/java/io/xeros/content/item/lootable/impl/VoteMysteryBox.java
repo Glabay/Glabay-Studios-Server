@@ -275,13 +275,13 @@ public class VoteMysteryBox implements Lootable {
 				GameItem itemDouble = Misc.getRandomItem(itemList);
 
 				if (Misc.random(10) == 0) {
-					player.getItems().addItem(item.getId(), item.getAmount());
-					player.getItems().addItem(itemDouble.getId(), itemDouble.getAmount());
-					player.sendMessage("You receive <col=255>" + item.getAmount() + " x " + ItemAssistant.getItemName(item.getId()) + "</col>.");
-					player.sendMessage("You receive <col=255>" + itemDouble.getAmount() + " x " + ItemAssistant.getItemName(itemDouble.getId()) + "</col>.");
+					player.getItems().addItem(item.id(), item.amount());
+					player.getItems().addItem(itemDouble.id(), itemDouble.amount());
+					player.sendMessage("You receive <col=255>" + item.amount() + " x " + ItemAssistant.getItemName(item.id()) + "</col>.");
+					player.sendMessage("You receive <col=255>" + itemDouble.amount() + " x " + ItemAssistant.getItemName(itemDouble.id()) + "</col>.");
 				} else {
-					player.getItems().addItem(item.getId(), item.getAmount());
-					player.sendMessage("You receive <col=255>" + item.getAmount() + " x " + ItemAssistant.getItemName(item.getId()) + "</col>.");
+					player.getItems().addItem(item.id(), item.amount());
+					player.sendMessage("You receive <col=255>" + item.amount() + " x " + ItemAssistant.getItemName(item.id()) + "</col>.");
 				}
 				container.stop();
 			}

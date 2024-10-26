@@ -1,11 +1,10 @@
 package io.xeros.model.timers;
 
-import com.google.common.base.Preconditions;
 import io.xeros.Server;
 
 /**
  * A timer implementation that uses game ticks.
- * @author Michael Sasse (https://github.com/mikeysasse/)
+ * @author Michael Sasse (<a href="https://github.com/mikeysasse/">...</a>)
  */
 public class TickTimer {
 

@@ -34,7 +34,6 @@ import io.xeros.content.vote_panel.VotePanelManager;
 import io.xeros.content.wogw.Wogw;
 import io.xeros.model.Items;
 import io.xeros.model.Npcs;
-import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.definitions.NpcDef;
 import io.xeros.model.definitions.NpcStats;
 import io.xeros.model.entity.npc.NPC;
@@ -541,8 +540,8 @@ public class DropManager {
                 List<GameItem> drops = player.getTrails().generateRewardList(RewardLevel.MASTER, 6);
                 for (GameItem item : drops) {
                     onDrop(player, item, npcId);
-                    Server.itemHandler.createGroundItem(player, item.getId(), location.getX(), location.getY(),
-                            location.getZ(), item.getAmount(), player.getIndex());
+                    Server.itemHandler.createGroundItem(player, item.id(), location.getX(), location.getY(),
+                            location.getZ(), item.amount(), player.getIndex());
                 }
 
                 handle(player, npc, location, repeats, npcId);
@@ -557,8 +556,8 @@ public class DropManager {
             List<GameItem> drops = g.access(player, npc, modifier, repeats, npcId);
             for (GameItem item : drops) {
                 onDrop(player, item, npcId);
-                Server.itemHandler.createGroundItem(player, item.getId(), location.getX(), location.getY(),
-                        location.getZ(), item.getAmount(), player.getIndex());
+                Server.itemHandler.createGroundItem(player, item.id(), location.getX(), location.getY(),
+                        location.getZ(), item.amount(), player.getIndex());
             }
             handle(player, npc, location, repeats, npcId);
         });
@@ -992,7 +991,7 @@ public class DropManager {
                 List<GameItem> drops = g.access(player, null, 1.0, 1, npcId);
 
                 for (GameItem item : drops) {
-                    player.getItems().addItemToBankOrDrop(item.getId(), item.getAmount());
+                    player.getItems().addItemToBankOrDrop(item.id(), item.amount());
                 }
             });
         }
@@ -1000,12 +999,12 @@ public class DropManager {
     }
 
     public void onDrop(Player player, GameItem item, int npcId) {
-        if (item.getId() == 536) {
+        if (item.id() == 536) {
             if (player.getRechargeItems().hasItem(13111) && player.getPosition().inWild()) {
-                item.changeDrop(537, item.getAmount());
+                item.changeDrop(537, item.amount());
             }
         }
-        if (player.getItems().isWearingItem(21816) && player.absorption == true && item.getId() == 21820 && (IntStream.of(revs).anyMatch(id -> id == npcId))) {
+        if (player.getItems().isWearingItem(21816) && player.absorption == true && item.id() == 21820 && (IntStream.of(revs).anyMatch(id -> id == npcId))) {
             item.changeDrop(-1, 1);
             int amount = Misc.random(5);
             player.braceletIncrease(amount);
@@ -1015,100 +1014,100 @@ public class DropManager {
 //			int ether = 6 + Misc.random(6);
 //			item.changeDrop(21820, ether); //basically just changes coins for ether
 //		}
-        if (item.getId() == 995 && player.collectCoins == true && (player.getItems().freeSlots() > 0 || player.getItems().playerHasItem(995))) {
+        if (item.id() == 995 && player.collectCoins == true && (player.getItems().freeSlots() > 0 || player.getItems().playerHasItem(995))) {
             if ((player.getItems().isWearingItem(12785)) || (player.getItems().isWearingItem(2572))) {
-                player.getItems().addItem(995, item.getAmount());
-                item.changeDrop(-1, item.getAmount());
+                player.getItems().addItem(995, item.amount());
+                item.changeDrop(-1, item.amount());
                 player.sendMessage("@red@The ring of wealth has collected some coins for you.");
             }
         }
-        if (item.getId() == 6529 && player.collectCoins == true && (player.getItems().freeSlots() > 0 || player.getItems().playerHasItem(6529))) {
+        if (item.id() == 6529 && player.collectCoins == true && (player.getItems().freeSlots() > 0 || player.getItems().playerHasItem(6529))) {
             if ((player.getItems().isWearingItem(12785)) || (player.getItems().isWearingItem(2572))) {
-                player.getItems().addItem(6529, item.getAmount());
-                item.changeDrop(-1, item.getAmount());
+                player.getItems().addItem(6529, item.amount());
+                item.changeDrop(-1, item.amount());
                 player.sendMessage("@red@The ring of wealth has collected some tokkul for you.");
             }
         }
 
 
-        if (item.getId() == 6529) {
+        if (item.id() == 6529) {
             if (player.getRechargeItems().hasItem(11136)) {
-                item.changeDrop(6529, (int) (item.getAmount() * 1.20));
+                item.changeDrop(6529, (int) (item.amount() * 1.20));
             }
             if (player.getRechargeItems().hasItem(11138)) {
-                item.changeDrop(6529, (int) (item.getAmount() * 1.50));
+                item.changeDrop(6529, (int) (item.amount() * 1.50));
             }
             if (player.getRechargeItems().hasItem(11140)) {
-                item.changeDrop(6529, (int) (item.getAmount() * 1.70));
+                item.changeDrop(6529, (int) (item.amount() * 1.70));
             }
             if (player.getRechargeItems().hasItem(13103)) {
-                item.changeDrop(6529, (int) (item.getAmount() * 1.90));
+                item.changeDrop(6529, (int) (item.amount() * 1.90));
             }
         }
-        if (item.getId() == 6729 && player.getRechargeItems().hasItem(13132)) {
-            item.changeDrop(6730, item.getAmount());
+        if (item.id() == 6729 && player.getRechargeItems().hasItem(13132)) {
+            item.changeDrop(6730, item.amount());
         }
 
         if (player.playerEquipment[Player.playerHands] == 22975) {
-            if (item.getId() == 22988 || item.getId() == 22971 || item.getId() == 22973 &&
+            if (item.id() == 22988 || item.id() == 22971 || item.id() == 22973 &&
                     player.getItems().getItemCount(22988, true) > 0 || player.getItems().getItemCount(22971, true) > 0
                     || player.getItems().getItemCount(22973, true) > 0 || player.getItems().getItemCount(22969, true) > 0) { //if they got all of the items, it just give them there usual item id
-                item.changeDrop(item.getId(), item.getAmount());
+                item.changeDrop(item.id(), item.amount());
             }
-            if (item.getId() == 22988 && player.getItems().getItemCount(22988, true) > 0 &&
+            if (item.id() == 22988 && player.getItems().getItemCount(22988, true) > 0 &&
                     player.getItems().getItemCount(22971, false) > 0 && player.getItems().getItemCount(22969, true) > 0 && player.getItems().getItemCount(22973, true) > 0) {
-                item.changeDrop(22971, item.getAmount());
+                item.changeDrop(22971, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra tail for the Hydra eye..");
-            } else if (item.getId() == 22988 && player.getItems().getItemCount(22988, true) > 0 &&
+            } else if (item.id() == 22988 && player.getItems().getItemCount(22988, true) > 0 &&
                     player.getItems().getItemCount(22971, true) > 0 && player.getItems().getItemCount(22969, true) > 0 && player.getItems().getItemCount(22973, false) > 0) {
-                item.changeDrop(22973, item.getAmount());
+                item.changeDrop(22973, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra tail for the Hydra fang."); //thats the hydra tail drop done
-            } else if (item.getId() == 22988 && player.getItems().getItemCount(22988, true) > 0 &&
+            } else if (item.id() == 22988 && player.getItems().getItemCount(22988, true) > 0 &&
                     player.getItems().getItemCount(22971, true) > 0 && player.getItems().getItemCount(22969, false) > 0 && player.getItems().getItemCount(22973, true) > 0) {
-                item.changeDrop(22969, item.getAmount());
+                item.changeDrop(22969, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra tail for the Hydra heart."); //thats the hydra tail drop done
             }
-            if (item.getId() == 22971 && player.getItems().getItemCount(22971, true) > 0 &&
+            if (item.id() == 22971 && player.getItems().getItemCount(22971, true) > 0 &&
                     player.getItems().getItemCount(22988, true) > 0 && player.getItems().getItemCount(22969, true) > 0 && player.getItems().getItemCount(22973, false) > 0) {
-                item.changeDrop(22973, item.getAmount());
+                item.changeDrop(22973, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra fang for the Hydra eye.");
-            } else if (item.getId() == 22971 && player.getItems().getItemCount(22971, true) > 0 &&
+            } else if (item.id() == 22971 && player.getItems().getItemCount(22971, true) > 0 &&
                     player.getItems().getItemCount(22988, false) > 0 && player.getItems().getItemCount(22969, true) > 0 && player.getItems().getItemCount(22973, true) > 0) {
-                item.changeDrop(22988, item.getAmount());
+                item.changeDrop(22988, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra fang for the Hydra tail."); //thats the hydra fang drop done
-            } else if (item.getId() == 22971 && player.getItems().getItemCount(22971, true) > 0 &&
+            } else if (item.id() == 22971 && player.getItems().getItemCount(22971, true) > 0 &&
                     player.getItems().getItemCount(22988, true) > 0 && player.getItems().getItemCount(22969, false) > 0 && player.getItems().getItemCount(22973, true) > 0) {
-                item.changeDrop(22969, item.getAmount());
+                item.changeDrop(22969, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra fang for the Hydra heart."); //thats the hydra fang drop done
             }
-            if (item.getId() == 22973 && player.getItems().getItemCount(22973, true) > 0 && player.getItems().getItemCount(22969, true) > 0 &&
+            if (item.id() == 22973 && player.getItems().getItemCount(22973, true) > 0 && player.getItems().getItemCount(22969, true) > 0 &&
                     player.getItems().getItemCount(22988, true) > 0 && player.getItems().getItemCount(22971, false) > 0) {
-                item.changeDrop(22971, item.getAmount());
+                item.changeDrop(22971, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra eye for the Hydra fang.");
-            } else if (item.getId() == 22973 && player.getItems().getItemCount(22973, true) > 0 && player.getItems().getItemCount(22969, true) > 0 &&
+            } else if (item.id() == 22973 && player.getItems().getItemCount(22973, true) > 0 && player.getItems().getItemCount(22969, true) > 0 &&
                     player.getItems().getItemCount(22988, false) > 0 && player.getItems().getItemCount(22971, true) > 0) {
-                item.changeDrop(22988, item.getAmount());
+                item.changeDrop(22988, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra eye for the Hydra tail."); //thats the hydra eye drop done
-            } else if (item.getId() == 22973 && player.getItems().getItemCount(22973, true) > 0 && player.getItems().getItemCount(22969, false) > 0 &&
+            } else if (item.id() == 22973 && player.getItems().getItemCount(22973, true) > 0 && player.getItems().getItemCount(22969, false) > 0 &&
                     player.getItems().getItemCount(22988, true) > 0 && player.getItems().getItemCount(22971, true) > 0) {
-                item.changeDrop(22969, item.getAmount());
+                item.changeDrop(22969, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra eye for the Hydra heart."); //thats the hydra eye drop done
             }
-            if (item.getId() == 22969 && player.getItems().getItemCount(22973, true) > 0 && player.getItems().getItemCount(22969, true) > 0 &&
+            if (item.id() == 22969 && player.getItems().getItemCount(22973, true) > 0 && player.getItems().getItemCount(22969, true) > 0 &&
                     player.getItems().getItemCount(22988, true) > 0 && player.getItems().getItemCount(22971, false) > 0) {
-                item.changeDrop(22971, item.getAmount());
+                item.changeDrop(22971, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra heart for the Hydra fang.");
-            } else if (item.getId() == 22969 && player.getItems().getItemCount(22971, true) > 0 && player.getItems().getItemCount(22969, true) > 0 &&
+            } else if (item.id() == 22969 && player.getItems().getItemCount(22971, true) > 0 && player.getItems().getItemCount(22969, true) > 0 &&
                     player.getItems().getItemCount(22988, false) > 0 && player.getItems().getItemCount(22971, true) > 0) {
-                item.changeDrop(22988, item.getAmount());
+                item.changeDrop(22988, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra heart for the Hydra tail."); //thats the hydra eye drop done
-            } else if (item.getId() == 22969 && player.getItems().getItemCount(22971, true) > 0 && player.getItems().getItemCount(22969, true) > 0 &&
+            } else if (item.id() == 22969 && player.getItems().getItemCount(22971, true) > 0 && player.getItems().getItemCount(22969, true) > 0 &&
                     player.getItems().getItemCount(22988, true) > 0 && player.getItems().getItemCount(22973, false) > 0) {
-                item.changeDrop(22973, item.getAmount());
+                item.changeDrop(22973, item.amount());
                 player.sendMessage("@red@The Brimstone ring has swapped the Hydra heart for the Hydra eye."); //thats the hydra eye drop done
             }
         }
-        if (item.getId() == 13233 && !Boundary.isIn(player, Boundary.CERBERUS_BOSSROOMS)) {
+        if (item.id() == 13233 && !Boundary.isIn(player, Boundary.CERBERUS_BOSSROOMS)) {
             player.sendMessage("@red@Something hot drops from the body of your vanquished foe");
         }
     }

@@ -1,6 +1,5 @@
 package io.xeros.content.items;
 
-import java.util.List;
 import java.util.Optional;
 
 import dev.openrune.cache.CacheManager;
@@ -35,7 +34,6 @@ import io.xeros.content.trails.MasterClue;
 import io.xeros.content.wogw.Wogw;
 import io.xeros.model.Animation;
 import io.xeros.model.Items;
-import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Boundary;
@@ -44,7 +42,6 @@ import io.xeros.model.entity.player.PlayerAssistant;
 import io.xeros.net.packets.ClickObject;
 import io.xeros.net.packets.objectoptions.impl.DarkAltar;
 import io.xeros.model.items.GameItem;
-import io.xeros.model.items.ItemCombination;
 import io.xeros.util.Misc;
 import io.xeros.util.logging.player.ItemOnItemLog;
 import org.slf4j.Logger;
@@ -438,8 +435,8 @@ public class UseItem {
 		}
 
 		var itemActionManager = Server.getItemOptionActionManager();
-		if (itemActionManager.findHandlerById(gameItemUsed.getId()).isPresent()) {
-			var itemAction = itemActionManager.findHandlerById(gameItemUsed.getId()).get();
+		if (itemActionManager.findHandlerById(gameItemUsed.id()).isPresent()) {
+			var itemAction = itemActionManager.findHandlerById(gameItemUsed.id()).get();
 			if (itemAction.performActionOnItem(c, gameItemUsed, gameItemUsedWith))
 				return;
 		}

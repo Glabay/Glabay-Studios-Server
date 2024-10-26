@@ -50,7 +50,7 @@ public class TreasureTrails {
 	private static void announceRare(Player player, GameItem item, RewardLevel difficulty) {
 		PlayerHandler.executeGlobalMessage("[<col=CC0000>Treasure</col>] <col=255>" + player.getDisplayNameFormatted() + "</col> " +
 				"<col=CC0000>received " +
-				"<col=255>" + ItemDef.forId(item.getId()).getName() + "</col> " +
+				"<col=255>" + ItemDef.forId(item.id()).getName() + "</col> " +
 				"<col=CC0000>from <col=255>" + Misc.formatPlayerName(difficulty.name().toLowerCase()) + " clue #" + getCluesCompleted(player, difficulty) + ".");
 	}
 
@@ -79,12 +79,12 @@ public class TreasureTrails {
 		List<GameItem> rewards = TreasureTrailsRewards.getRandomRewardItems(rewardLevel, rolls);
 
 		for (GameItem item : rewards) {
-			if (ItemDef.forId(item.getId()).getName().contains("3rd") || item.getId() == 2577 || ItemDef.forId(item.getId()).getName().contains("mage's")) {
+			if (ItemDef.forId(item.id()).getName().contains("3rd") || item.id() == 2577 || ItemDef.forId(item.id()).getName().contains("mage's")) {
 				announceRare(player, item, rewardLevel);
 			}
 
-			if (TreasureTrailsRewards.possibleDrops.get(rewardLevel).stream().anyMatch(it -> it.getItemId() == item.getId())) {
-				player.getCollectionLog().handleDrop(player, rewardLevel.ordinal(), item.getId(), item.getAmount());
+			if (TreasureTrailsRewards.possibleDrops.get(rewardLevel).stream().anyMatch(it -> it.getItemId() == item.id())) {
+				player.getCollectionLog().handleDrop(player, rewardLevel.ordinal(), item.id(), item.amount());
 			}
 		}
 
@@ -102,7 +102,7 @@ public class TreasureTrails {
 
 	public void addRewards(RewardLevel rewardLevel) {
 		List<GameItem> rewards = generateRewardList(rewardLevel);
-		rewards.forEach(it -> player.getItems().addItemUnderAnyCircumstance(it.getId(), it.getAmount()));
+		rewards.forEach(it -> player.getItems().addItemUnderAnyCircumstance(it.id(), it.amount()));
 		displayRewards(rewards);
 	}
 
@@ -113,12 +113,12 @@ public class TreasureTrails {
 		for (int i = 0; i < rewards.size(); i++) {
 			if (player.playerItemsN[i] > 254) {
 				player.outStream.writeByte(255);
-				player.outStream.writeDWord_v2(rewards.get(i).getAmount());
+				player.outStream.writeDWord_v2(rewards.get(i).amount());
 			} else {
-				player.outStream.writeByte(rewards.get(i).getAmount());
+				player.outStream.writeByte(rewards.get(i).amount());
 			}
 			if (rewards.size() > 0) {
-				player.outStream.writeWordBigEndianA(rewards.get(i).getId() + 1);
+				player.outStream.writeWordBigEndianA(rewards.get(i).id() + 1);
 			} else {
 				player.outStream.writeWordBigEndianA(0);
 			}

@@ -1,16 +1,17 @@
 package io.xeros.model.multiplayersession;
 
 import io.xeros.model.entity.player.Player;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Jason MacKeigan
- * @date Oct 19, 2014, 8:03:05 PM
+ * @since Oct 19, 2014, 8:03:05 PM
  */
 public abstract class Multiplayer {
-	/**
-	 * The last time, in milliseconds, that you accepted a trade.
-	 */
-	protected long lastAccept;
+	@Setter
+    @Getter
+    protected long lastAccept;
 
 	/**
 	 * Player associated with trading operations
@@ -19,9 +20,8 @@ public abstract class Multiplayer {
 
 	/**
 	 * Constructs a new class for managing trade operations
-	 * 
-	 * @param player
-	 */
+	 *
+     */
 	public Multiplayer(Player player) {
 		this.player = player;
 	}
@@ -30,21 +30,4 @@ public abstract class Multiplayer {
 
 	public abstract void request(Player requested);
 
-	/**
-	 * The last time in millisecods that you traded
-	 * 
-	 * @return the last time in milliseconds
-	 */
-	public long getLastAccept() {
-		return lastAccept;
-	}
-
-	/**
-	 * Records the last time you accepted a trade
-	 * 
-	 * @param lastAccept the last time in milliseconds
-	 */
-	public void setLastAccept(long lastAccept) {
-		this.lastAccept = lastAccept;
-	}
 }

@@ -22,7 +22,7 @@ public abstract class ItemLootable implements Lootable {
             player.getItems().deleteItem(getLootableItem(), 1);
             for (int roll = 0; roll < getRollCount(); roll++) {
                 GameItem reward = Misc.getRandomItem(getLoot().get(LootRarity.COMMON));
-                player.getItems().addItemUnderAnyCircumstance(reward.getId(), reward.getAmount());
+                player.getItems().addItemUnderAnyCircumstance(reward.id(), reward.amount());
             }
         }
     }

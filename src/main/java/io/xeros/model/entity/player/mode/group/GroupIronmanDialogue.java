@@ -393,8 +393,8 @@ public class GroupIronmanDialogue extends DialogueBuilder {
             into = into.copy();
 
         Predicate<ItemInterface> forfeit = it -> it.getDef().isTradable() && (
-                FireOfExchangeBurnPrice.getBurnPrice(null, it.getId(), false) != -1
-                || it.getId() == Items.COINS && it.getAmount() > 100_000
+                FireOfExchangeBurnPrice.getBurnPrice(null, it.id(), false) != -1
+                || it.id() == Items.COINS && it.amount() > 100_000
         );
 
         List<SlottedItem> inventory = player.getItems().getInventoryItems().stream().filter(forfeit).collect(Collectors.toList());
@@ -406,7 +406,7 @@ public class GroupIronmanDialogue extends DialogueBuilder {
             if (remaining.isPresent() && dryRun)
                 return remaining;
             if (!dryRun)
-                player.getItems().setInventoryItemSlot(gameItem.getSlot(), null);
+                player.getItems().setInventoryItemSlot(gameItem.slot(), null);
         }
 
         for (SlottedItem gameItem : equipment) {
@@ -414,7 +414,7 @@ public class GroupIronmanDialogue extends DialogueBuilder {
             if (remaining.isPresent() && dryRun)
                 return remaining;
             if (!dryRun)
-                player.getItems().setEquipmentSlot(gameItem.getSlot(), null);
+                player.getItems().setEquipmentSlot(gameItem.slot(), null);
         }
 
         for (GameItem gameItem : bank) {
@@ -422,7 +422,7 @@ public class GroupIronmanDialogue extends DialogueBuilder {
             if (remaining.isPresent() && dryRun)
                 return remaining;
             if (!dryRun)
-                player.getItems().removeFromAnyTabWithoutAdding(gameItem.getId(), gameItem.getAmount(), false);
+                player.getItems().removeFromAnyTabWithoutAdding(gameItem.id(), gameItem.amount(), false);
         }
 
         if (!dryRun) {

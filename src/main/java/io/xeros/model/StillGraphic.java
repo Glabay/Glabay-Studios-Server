@@ -1,7 +1,9 @@
 package io.xeros.model;
 
 import io.xeros.model.entity.player.Position;
+import lombok.Getter;
 
+@Getter
 public class StillGraphic extends Graphic {
 
     private final Position position;
@@ -21,7 +23,4 @@ public class StillGraphic extends Graphic {
         this.position = position;
     }
 
-    public Position getPosition() {
-        return position;
-    }
 }

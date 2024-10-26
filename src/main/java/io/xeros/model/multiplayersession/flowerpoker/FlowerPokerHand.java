@@ -7,11 +7,9 @@ import io.xeros.content.fireofexchange.FireOfExchangeBurnPrice;
 import io.xeros.model.cycleevent.*;
 import io.xeros.model.entity.player.*;
 import io.xeros.model.items.GameItem;
-import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.util.Misc;
 import io.xeros.util.logging.player.FlowerpokerResultLog;
-import io.xeros.util.logging.player.ItemTradeLog;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -349,7 +347,7 @@ public class FlowerPokerHand {
     private void giveItems(Player player) {
         for (GameItem item : prizePool) {
             if (item != null) {
-                player.getItems().addItemUnderAnyCircumstance(item.getId(), item.getAmount());
+                player.getItems().addItemUnderAnyCircumstance(item.id(), item.amount());
             }
         }
         prizePool = Lists.newArrayList();
@@ -359,8 +357,8 @@ public class FlowerPokerHand {
         long saved = 0;
         for (GameItem item : prizePool) {
             if (item != null) {
-                if (item.getId() == 995) {
-                    saved += item.getDef().getRawShopValue() * item.getAmount();
+                if (item.id() == 995) {
+                    saved += item.getDef().getRawShopValue() * item.amount();
                 }
             }
         }
@@ -370,9 +368,9 @@ public class FlowerPokerHand {
         long saved = 0;
         for (GameItem item : prizePool) {
             if (item != null) {
-                    int foeBurnRate = FireOfExchangeBurnPrice.getBurnPrice(null, item.getId(), false);
+                    int foeBurnRate = FireOfExchangeBurnPrice.getBurnPrice(null, item.id(), false);
                 if (foeBurnRate > 0) {
-                    saved += (long) foeBurnRate * item.getAmount();
+                    saved += (long) foeBurnRate * item.amount();
                 }
             }
         }

@@ -28,7 +28,7 @@ public class DegradableItemDeathItem implements DeathItemModifier {
         if (kept)
             return;
 
-        Degrade.DegradableItem degrade = Degrade.DegradableItem.forId(gameItem.getId()).orElse(null);
+        Degrade.DegradableItem degrade = Degrade.DegradableItem.forId(gameItem.id()).orElse(null);
         if (degrade == null)
             return;
 

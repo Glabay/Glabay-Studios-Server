@@ -29,7 +29,7 @@ public class LostPropertySave implements PlayerSaveEntry {
 
     @Override
     public String encode(Player player, String key) {
-        return player.getPerduLostPropertyShop().getInventory().buildList().stream().map(it -> it.getId() + ":" + it.getAmount()).collect(Collectors.joining(";"));
+        return player.getPerduLostPropertyShop().getInventory().buildList().stream().map(it -> it.id() + ":" + it.amount()).collect(Collectors.joining(";"));
     }
 
     @Override

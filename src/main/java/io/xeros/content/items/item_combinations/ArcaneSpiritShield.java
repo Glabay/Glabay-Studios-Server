@@ -15,8 +15,8 @@ public class ArcaneSpiritShield extends ItemCombination {
 
 	@Override
 	public void combine(Player player) {
-		super.items.forEach(item -> player.getItems().deleteItem2(item.getId(), item.getAmount()));
-		player.getItems().addItem(super.outcome.getId(), super.outcome.getAmount());
+		super.items.forEach(item -> player.getItems().deleteItem2(item.id(), item.amount()));
+		player.getItems().addItem(super.outcome.id(), super.outcome.amount());
 		player.getDH().sendItemStatement("You combined the items and created the Arcane Spirit Shield.", 12825);
 		player.setCurrentCombination(Optional.empty());
 		player.nextChat = -1;

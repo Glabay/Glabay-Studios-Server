@@ -12,19 +12,13 @@ public enum Bonus {
 	PRAYER;
 
 	public static Bonus attackBonusForCombatStyle(CombatStyle combatStyle) {
-		switch (combatStyle) {
-			case SLASH:
-				return ATTACK_SLASH;
-			case CRUSH:
-				return ATTACK_CRUSH;
-			case MAGIC:
-			case SPECIAL:
-				return ATTACK_MAGIC;
-			case RANGE:
-				return ATTACK_RANGED;
-			default:
-				return ATTACK_STAB;
-		}
+        return switch (combatStyle) {
+            case SLASH -> ATTACK_SLASH;
+            case CRUSH -> ATTACK_CRUSH;
+            case MAGIC, SPECIAL -> ATTACK_MAGIC;
+            case RANGE -> ATTACK_RANGED;
+            default -> ATTACK_STAB;
+        };
 	}
 	
 }

@@ -43,7 +43,7 @@ public class CollectionBox {
         }
 
         for (GameItem gameItem : gameItems) {
-            if (player.getItems().addItem(gameItem.getId(), gameItem.getAmount(), false)) {
+            if (player.getItems().addItem(gameItem.id(), gameItem.amount(), false)) {
                 player.sendMessage("Collected {}.", gameItem.getFormattedString());
                 inventory.remove(gameItem);
             } else {
@@ -78,7 +78,7 @@ public class CollectionBox {
 
         @Override
         public String encode(Player player, String key) {
-            return player.getCollectionBox().inventory.buildList().stream().map(it -> it.getId() + ":" + it.getAmount()).collect(Collectors.joining(";"));
+            return player.getCollectionBox().inventory.buildList().stream().map(it -> it.id() + ":" + it.amount()).collect(Collectors.joining(";"));
         }
 
         @Override

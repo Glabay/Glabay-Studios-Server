@@ -203,7 +203,7 @@ public class PlayerEmotes {
 		static {
 			for (SKILLCAPE_ANIMATION_DATA animations : values()) {
 				for (GameItem item : animations.cape) {
-					SKILLCAPE_DATA.put(item.getId(), animations);
+					SKILLCAPE_DATA.put(item.id(), animations);
 				}
 			}
 		}
@@ -214,7 +214,7 @@ public class PlayerEmotes {
 			return;
 		}
 		GameItem cape = skillcape;
-		SKILLCAPE_ANIMATION_DATA data = SKILLCAPE_ANIMATION_DATA.SKILLCAPE_DATA.get(cape.getId());
+		SKILLCAPE_ANIMATION_DATA data = SKILLCAPE_ANIMATION_DATA.SKILLCAPE_DATA.get(cape.id());
 		if (data != null) {
 			String name = data.name().toLowerCase().replaceAll("_", " ");
 			if (System.currentTimeMillis() - player.lastPerformedEmote < data.delay * 500)

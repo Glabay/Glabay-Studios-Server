@@ -1,7 +1,6 @@
 package io.xeros.content.items.pouch;
 
 import io.xeros.model.entity.player.Player;
-import io.xeros.model.entity.player.save.PlayerSave;
 import io.xeros.model.items.GameItem;
 import io.xeros.model.items.ItemAssistant;
 
@@ -102,8 +101,8 @@ public class HerbSack extends Pouch {
 			if (i < items.size()) {
 				GameItem item = items.get(i);
 				if (item != null) {
-					id = item.getId();
-					amt = item.getAmount();
+					id = item.id();
+					amt = item.amount();
 				}
 				totalAmount += amt;
 				player.getPA().sendFrame126("@red@Total Amount: "+totalAmount+"/700", 8147);

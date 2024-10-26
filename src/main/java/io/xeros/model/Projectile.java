@@ -7,7 +7,9 @@ import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.Position;
+import lombok.Getter;
 
+@Getter
 public class Projectile extends ProjectileBase {
 
 
@@ -71,15 +73,4 @@ public class Projectile extends ProjectileBase {
         }
     }
 
-    public Position getStart() {
-        return start;
-    }
-
-    public Position getOffset() {
-        return offset;
-    }
-
-    public int getLockon() {
-        return lockon;
-    }
 }

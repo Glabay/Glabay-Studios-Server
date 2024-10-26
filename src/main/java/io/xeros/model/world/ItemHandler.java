@@ -39,7 +39,7 @@ public class ItemHandler {
 	}
 
 	public void createGroundItem(Player player, GameItem gameItem, Position position) {
-		createGroundItem(player, gameItem.getId(), position.getX(), position.getY(), position.getHeight(), gameItem.getAmount(), player.getIndex());
+		createGroundItem(player, gameItem.id(), position.getX(), position.getY(), position.getHeight(), gameItem.amount(), player.getIndex());
 	}
 
 	public void createGroundItem(Player player, int itemId, int itemX, int itemY, int height, int itemAmount) {

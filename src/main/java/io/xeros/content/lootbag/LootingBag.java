@@ -209,10 +209,10 @@ public class LootingBag {
             if (item == null) {
                 continue;
             }
-            if (item.getId() <= 0 || item.getAmount() <= 0) {
+            if (item.id() <= 0 || item.amount() <= 0) {
                 continue;
             }
-            player.getItems().addItemToBankOrDrop(item.getId(), item.getAmount());
+            player.getItems().addItemToBankOrDrop(item.id(), item.amount());
             iterator.remove();
         }
         updateItemContainers();
@@ -275,13 +275,13 @@ public class LootingBag {
             if (item == null) {
                 continue;
             }
-            if (item.getId() <= 0 || item.getAmount() <= 0) {
+            if (item.id() <= 0 || item.amount() <= 0) {
                 continue;
             }
-            if (ItemDef.forId(item.getId()) != null) {
+            if (ItemDef.forId(item.id()) != null) {
                 if (player.debugMessage)
-                    player.sendMessage("Name: " + ItemDef.forId(item.getId()).getName() + "- Value:" + ItemDef.forId(item.getId()).getShopValue() + " - Amount:" + item.getAmount());
-                total += ((ItemDef.forId(item.getId()).getShopValue() * item.getAmount()));
+                    player.sendMessage("Name: " + ItemDef.forId(item.id()).getName() + "- Value:" + ItemDef.forId(item.id()).getShopValue() + " - Amount:" + item.amount());
+                total += ((ItemDef.forId(item.id()).getShopValue() * item.amount()));
             }
         }
         player.getPA().sendFrame126("Value: " + Misc.insertCommas(total), 39348);

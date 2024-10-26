@@ -34,7 +34,7 @@ public class CrystalWeaponDeathItem implements DeathItemModifier {
         if (kept)
             return;
 
-        if (Arrays.stream(RangeData.CRYSTAL_BOWS).anyMatch(it -> it == gameItem.getId())) {
+        if (Arrays.stream(RangeData.CRYSTAL_BOWS).anyMatch(it -> it == gameItem.id())) {
             player.crystalBowArrowCount = 0;
         }
 

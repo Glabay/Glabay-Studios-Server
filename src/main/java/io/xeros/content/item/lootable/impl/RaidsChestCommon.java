@@ -41,9 +41,9 @@ public class RaidsChestCommon implements Lootable {
             GameItem reward =  randomChestRewards();
             GameItem reward2 = randomChestRewards();
             GameItem reward3 = randomChestRewards();
-            c.getItems().addItem(reward.getId(), reward.getAmount() * 1); //potentially gives the loot 3 times.
-            c.getItems().addItem(reward2.getId(), reward2.getAmount() * 1); //potentially gives the loot 3 times.
-            c.getItems().addItem(reward3.getId(), reward3.getAmount()* 1); //potentially gives the loot 3 times.
+            c.getItems().addItem(reward.id(), reward.amount() * 1); //potentially gives the loot 3 times.
+            c.getItems().addItem(reward2.id(), reward2.amount() * 1); //potentially gives the loot 3 times.
+            c.getItems().addItem(reward3.id(), reward3.amount()* 1); //potentially gives the loot 3 times.
             c.sendMessage("@blu@You received a common item out of the storage unit.");
         } else {
             c.sendMessage("@blu@The chest is locked, it won't budge!");

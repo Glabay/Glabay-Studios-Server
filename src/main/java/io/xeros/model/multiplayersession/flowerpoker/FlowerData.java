@@ -19,9 +19,9 @@ public enum FlowerData {
     WHITE(2987, 0.1),
     ;
 
-    public int objectId;
+    public final int objectId;
 
-    public double chance;
+    public final double chance;
 
     FlowerData(int objectId, double chance) {
         this.objectId = objectId;

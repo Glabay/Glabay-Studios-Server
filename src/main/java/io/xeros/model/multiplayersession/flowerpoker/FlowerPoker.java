@@ -57,9 +57,6 @@ public class FlowerPoker extends Multiplayer {
             return;
         }
         if (requested.isFping()) {
-            /**
-             * Cannot do action while fping
-             */
             player.sendMessage("Other player is busy");
             return;
         }

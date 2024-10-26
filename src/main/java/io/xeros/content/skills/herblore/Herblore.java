@@ -77,7 +77,7 @@ public class Herblore {
 	}
 
 	public void mix(int primary) {
-		Optional<PotionData.FinishedPotions> potion = FINISHED.stream().filter(p -> p.getPrimary().getId() == primary && containsSecondaries(p)).findFirst();
+		Optional<PotionData.FinishedPotions> potion = FINISHED.stream().filter(p -> p.getPrimary().id() == primary && containsSecondaries(p)).findFirst();
 		potion.ifPresent(p -> {
 			
 			CycleEventHandler.getSingleton().addEvent(player, new CycleEvent() {
@@ -87,9 +87,9 @@ public class Herblore {
 						onStopped();
 						return;
 					}
-					if (player.getItems().playerHasItem(p.getPrimary().getId(), p.getPrimary().getAmount()) && containsSecondaries(p)) {
+					if (player.getItems().playerHasItem(p.getPrimary().id(), p.getPrimary().amount()) && containsSecondaries(p)) {
 					player.getPA().stopSkilling();
-						ItemDef definition = ItemDef.forId(p.getResult().getId());
+						ItemDef definition = ItemDef.forId(p.getResult().id());
 					String name = definition != null && definition.getName() != null ? definition.getName() : "unknown";
 					if (player.playerLevel[Skill.HERBLORE.getId()] < p.getLevel()) {
 						player.sendMessage("You need a herblore level of " + p.getLevel() + " to make " + (definition != null ? definition.getName() : "potion") + ".");
@@ -97,7 +97,7 @@ public class Herblore {
 						return;
 					}
 					player.startAnimation(363);
-					Arrays.asList(p.getIngredients()).stream().forEach(ing -> player.getItems().deleteItem2(ing.getId(), ing.getAmount()));
+					Arrays.asList(p.getIngredients()).stream().forEach(ing -> player.getItems().deleteItem2(ing.id(), ing.amount()));
 					
 					/**
 					 * Chance of saving a herb while wearing herblore or max cape
@@ -106,13 +106,13 @@ public class Herblore {
 						if (Misc.random(4) == 2) {
 							player.sendMessage("You manage to save an ingredient.");
 						} else {
-							player.getItems().deleteItem2(p.getPrimary().getId(), p.getPrimary().getAmount());
+							player.getItems().deleteItem2(p.getPrimary().id(), p.getPrimary().amount());
 						}
 					} else {
-						player.getItems().deleteItem2(p.getPrimary().getId(), p.getPrimary().getAmount());
+						player.getItems().deleteItem2(p.getPrimary().id(), p.getPrimary().amount());
 					}
 					
-					player.getItems().addItem(p.getResult().getId(), p.getResult().getAmount());
+					player.getItems().addItem(p.getResult().id(), p.getResult().amount());
 					player.getPA().addSkillXPMultiplied(p.getExperience(), Skill.HERBLORE.getId(), true);
 					player.sendMessage("You combine all of the ingredients and make a " + name + ".");
 					Achievements.increase(player, AchievementType.HERB, 1);
@@ -165,7 +165,7 @@ public class Herblore {
 	}
 	
 	public boolean makeUnfinishedPotion(final Player player, final GameItem itemUsed) {
-		final PotionData.UnfinishedPotions unf = PotionData.UnfinishedPotions.forHerb(itemUsed.getId());
+		final PotionData.UnfinishedPotions unf = PotionData.UnfinishedPotions.forHerb(itemUsed.id());
 		if (unf == null) {
 			return false;
 		}
@@ -180,12 +180,12 @@ public class Herblore {
 					onStopped();
 					return;
 				}
-				if (player.getItems().playerHasItem(227) && player.getItems().playerHasItem(unf.getHerb().getId())) {
+				if (player.getItems().playerHasItem(227) && player.getItems().playerHasItem(unf.getHerb().id())) {
 					player.getItems().deleteItem(227, player.getItems().getInventoryItemSlot(227), 1);
-					player.getItems().deleteItem2(unf.getHerb().getId(), 1);
-					player.getItems().addItem(unf.getPotion().getId(), 1);
-					player.sendMessage("You put the " + ItemDef.forId(unf.getHerb().getId()).getName() + " into the vial of water and create a "
-							+ ItemDef.forId(unf.getPotion().getId()).getName() + ".");
+					player.getItems().deleteItem2(unf.getHerb().id(), 1);
+					player.getItems().addItem(unf.getPotion().id(), 1);
+					player.sendMessage("You put the " + ItemDef.forId(unf.getHerb().id()).getName() + " into the vial of water and create a "
+							+ ItemDef.forId(unf.getPotion().id()).getName() + ".");
 				} else {
 					player.sendMessage("You have run out of supplies to do this.");
 					container.stop();
@@ -208,7 +208,7 @@ public class Herblore {
 		int required = p.getIngredients().length;
 
 		for (GameItem ingredient : p.getIngredients()) {
-			if (player.getItems().playerHasItem(ingredient.getId(), ingredient.getAmount())) {
+			if (player.getItems().playerHasItem(ingredient.id(), ingredient.amount())) {
 				required--;
 			}
 		}

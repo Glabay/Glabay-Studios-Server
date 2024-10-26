@@ -24,8 +24,8 @@ public class ItemsKeptOnDeathInterface {
         ItemsLostOnDeathList items = ItemsLostOnDeath.generate(player);
         List<GameItem> kept = items.getKept();
         List<GameItem> lost = items.getLost();
-        kept.removeIf(it -> AlwaysKeptDeathItem.items().contains(it.getId()));
-        lost.removeIf(it -> AlwaysKeptDeathItem.items().contains(it.getId()));
+        kept.removeIf(it -> AlwaysKeptDeathItem.items().contains(it.id()));
+        lost.removeIf(it -> AlwaysKeptDeathItem.items().contains(it.id()));
 
         player.getItems().sendItemContainer(KEPT_CONTAINER, kept);
         player.getItems().sendItemContainer(LOST_CONTAINER, lost);

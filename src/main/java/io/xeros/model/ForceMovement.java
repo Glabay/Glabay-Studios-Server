@@ -11,6 +11,7 @@ import io.xeros.model.cycleevent.CycleEventHandler;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Position;
+import lombok.Getter;
 
 /**
  * Force movement wrapper. Only supports npcs cause I don't have time to rewrite a bunch of shit.
@@ -21,8 +22,11 @@ public class ForceMovement extends CycleEvent {
     private final int ticksToFinish;
     private final Position start;
     private final Position end;
+    @Getter
     private final int moveCycleStart;
+    @Getter
     private final int moveCycleEnd;
+    @Getter
     private final int moveDirection;
     private final List<Consumer<NPC>> everyTick = Lists.newArrayList();
     private CycleEventContainer container;
@@ -92,15 +96,4 @@ public class ForceMovement extends CycleEvent {
         return container.isRunning();
     }
 
-    public int getMoveCycleStart() {
-        return moveCycleStart;
-    }
-
-    public int getMoveCycleEnd() {
-        return moveCycleEnd;
-    }
-
-    public int getMoveDirection() {
-        return moveDirection;
-    }
 }

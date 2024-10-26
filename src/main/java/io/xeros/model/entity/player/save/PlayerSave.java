@@ -2262,7 +2262,7 @@ public class PlayerSave {
                 for (int index = 0; index < bankTab.getItems().size(); index++) {
                     BankItem item = bankTab.getItems().get(index);
                     if (item != null) {
-                        characterfile.write("bank-tab = " + bankTabIndex + "\t" + item.getId() + "\t" + item.getAmount());
+                        characterfile.write("bank-tab = " + bankTabIndex + "\t" + item.id() + "\t" + item.amount());
                         characterfile.newLine();
                     }
                 }
@@ -2273,12 +2273,12 @@ public class PlayerSave {
             characterfile.write("[LOOTBAG]", 0, 9);
             characterfile.newLine();
             for (int i = 0; i < p.getLootingBag().getLootingBagContainer().items.size(); i++) {
-                if (p.getLootingBag().getLootingBagContainer().items.get(i).getId() > 0) {
+                if (p.getLootingBag().getLootingBagContainer().items.get(i).id() > 0) {
                     characterfile.write("bag-item = ", 0, 11);
                     characterfile.write(Integer.toString(i), 0, Integer.toString(i).length());
                     characterfile.write("\t", 0, 1);
-                    int id = p.getLootingBag().getLootingBagContainer().items.get(i).getId();
-                    int amt = p.getLootingBag().getLootingBagContainer().items.get(i).getAmount();
+                    int id = p.getLootingBag().getLootingBagContainer().items.get(i).id();
+                    int amt = p.getLootingBag().getLootingBagContainer().items.get(i).amount();
                     characterfile.write(Integer.toString(id), 0, Integer.toString(id).length());
                     characterfile.write("\t", 0, 1);
                     characterfile.write(Integer.toString(amt), 0, Integer.toString(amt).length());
@@ -2290,12 +2290,12 @@ public class PlayerSave {
             characterfile.write("[RUNEPOUCH]", 0, 11);
             characterfile.newLine();
             for (int i = 0; i < p.getRunePouch().getItems().size(); i++) {
-                if (p.getRunePouch().getItems().get(i).getId() > 0) {
+                if (p.getRunePouch().getItems().get(i).id() > 0) {
                     characterfile.write("pouch-item = ", 0, 13);
                     characterfile.write(Integer.toString(i), 0, Integer.toString(i).length());
                     characterfile.write("\t", 0, 1);
-                    int id = p.getRunePouch().getItems().get(i).getId();
-                    int amt = p.getRunePouch().getItems().get(i).getAmount();
+                    int id = p.getRunePouch().getItems().get(i).id();
+                    int amt = p.getRunePouch().getItems().get(i).amount();
                     characterfile.write(Integer.toString(id), 0, Integer.toString(id).length());
                     characterfile.write("\t", 0, 1);
                     characterfile.write(Integer.toString(amt), 0, Integer.toString(amt).length());
@@ -2307,12 +2307,12 @@ public class PlayerSave {
             characterfile.write("[HERBSACK]", 0, 10);
             characterfile.newLine();
             for (int i = 0; i < p.getHerbSack().getItems().size(); i++) {
-                if (p.getHerbSack().getItems().get(i).getId() > 0) {
+                if (p.getHerbSack().getItems().get(i).id() > 0) {
                     characterfile.write("sack-item = ", 0, 12);
                     characterfile.write(Integer.toString(i), 0, Integer.toString(i).length());
                     characterfile.write("\t", 0, 1);
-                    int id = p.getHerbSack().getItems().get(i).getId();
-                    int amt = p.getHerbSack().getItems().get(i).getAmount();
+                    int id = p.getHerbSack().getItems().get(i).id();
+                    int amt = p.getHerbSack().getItems().get(i).amount();
                     characterfile.write(Integer.toString(id), 0, Integer.toString(id).length());
                     characterfile.write("\t", 0, 1);
                     characterfile.write(Integer.toString(amt), 0, Integer.toString(amt).length());
@@ -2324,12 +2324,12 @@ public class PlayerSave {
             characterfile.write("[GEMBAG]", 0, 8);
             characterfile.newLine();
             for (int i = 0; i < p.getGemBag().getItems().size(); i++) {
-                if (p.getGemBag().getItems().get(i).getId() > 0) {
+                if (p.getGemBag().getItems().get(i).id() > 0) {
                     characterfile.write("bag-item = ", 0, 11);
                     characterfile.write(Integer.toString(i), 0, Integer.toString(i).length());
                     characterfile.write("\t", 0, 1);
-                    int id = p.getGemBag().getItems().get(i).getId();
-                    int amt = p.getGemBag().getItems().get(i).getAmount();
+                    int id = p.getGemBag().getItems().get(i).id();
+                    int amt = p.getGemBag().getItems().get(i).amount();
                     characterfile.write(Integer.toString(id), 0, Integer.toString(id).length());
                     characterfile.write("\t", 0, 1);
                     characterfile.write(Integer.toString(amt), 0, Integer.toString(amt).length());

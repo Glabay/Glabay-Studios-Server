@@ -3,7 +3,9 @@ package io.xeros.model;
 import com.google.common.base.Preconditions;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.Position;
+import lombok.Getter;
 
+@Getter
 public class ProjectileBase {
 
     /**
@@ -76,35 +78,4 @@ public class ProjectileBase {
         return Projectile.createTargeted(attacker, position, this);
     }
 
-    public int getProjectileId() {
-        return projectileId;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public int getStartHeight() {
-        return startHeight;
-    }
-
-    public int getEndHeight() {
-        return endHeight;
-    }
-
-    public int getCurve() {
-        return curve;
-    }
-
-    public int getSendDelay() {
-        return sendDelay;
-    }
-
-    public int getScale() { return scale; }
-
-    public int getPitch() { return pitch; }
 }

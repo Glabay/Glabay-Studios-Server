@@ -2,7 +2,6 @@ package io.xeros.content.cheatprevention;
 
 import java.util.concurrent.TimeUnit;
 
-import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
@@ -126,12 +125,12 @@ public class RandomEventInterface extends CycleEvent {
 		int slot = buttonId == 130032 ? 0 : buttonId == 130035 ? 1 : buttonId == 130038 ? 2 : -1;
 		if (slot != -1) {
 			GameItem item = combination.items[slot];
-			if (item.getId() != correctItem.getId()) {
+			if (item.id() != correctItem.id()) {
 				player.getPA().stopSkilling();
 				player.sendMessage("Incorrect."); //, you have been sent to Home.
 				//player.getPA().movePlayer(Configuration.HOME_X, Configuration.HOME_Y, 0);
 			}
-			if (item.getId() == correctItem.getId()) {
+			if (item.id() == correctItem.id()) {
 				player.getItems().addItemToBankOrDrop(995, 100000);
 				player.sendMessage("@blu@Correct! well done.");	
 				player.sendMessage("@red@100,000 coins has been added to your bank.");
@@ -147,13 +146,13 @@ public class RandomEventInterface extends CycleEvent {
 	 * Draws the information on the interface
 	 */
 	public void draw() {
-		System.out.println("Correct item: " + correctItem.getId() + " - ");
-		ItemDef definition = ItemDef.forId(correctItem.getId());
+		System.out.println("Correct item: " + correctItem.id() + " - ");
+		ItemDef definition = ItemDef.forId(correctItem.id());
 		player.getPA().sendFrame126("Click the '" + definition.getName() + "'", 33302);
 		int frame = 33311;
 		for (GameItem item : combination.items) {
-			System.out.println("Sending item: " + item.getId() + " - " + ItemDef.forId(item.getId()).getName());
-			player.getPA().sendFrame34a(frame, item.getId(), 0, 1);
+			System.out.println("Sending item: " + item.id() + " - " + ItemDef.forId(item.id()).getName());
+			player.getPA().sendFrame34a(frame, item.id(), 0, 1);
 			frame += 3;
 		}
 		// int yOffset = -115 + Misc.random(115 * 2);

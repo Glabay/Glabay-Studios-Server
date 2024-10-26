@@ -30,7 +30,7 @@ public class OrnamentedDeathItem implements DeathItemModifier {
     public void modify(Player player, GameItem gameItem, boolean kept, List<GameItem> keptItems, List<GameItem> lostItems) {
         if (kept)
             return;
-        OrnamentedItem ornamentedItem = OrnamentedItem.forOrnamentedItem(gameItem.getId());
+        OrnamentedItem ornamentedItem = OrnamentedItem.forOrnamentedItem(gameItem.id());
         if (ornamentedItem == null)
             return;
 

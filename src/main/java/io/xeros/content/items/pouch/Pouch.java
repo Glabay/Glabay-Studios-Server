@@ -19,8 +19,8 @@ public abstract class Pouch {
     public int countItems(int id) {
         int count = 0;
         for (GameItem item : items) {
-            if (item.getId() == id + 1) {
-                count += item.getAmount();
+            if (item.id() == id + 1) {
+                count += item.amount();
             }
         }
         return count;
@@ -33,7 +33,7 @@ public abstract class Pouch {
         }
         for (Iterator<GameItem> iterator = items.iterator(); iterator.hasNext(); ) {
             GameItem item = iterator.next();
-            if (!player.getItems().addItem(item.getId(), item.getAmount())) {
+            if (!player.getItems().addItem(item.id(), item.amount())) {
                 break;
             }
             iterator.remove();
@@ -42,7 +42,7 @@ public abstract class Pouch {
 
     public boolean sackContainsItem(int id) {
         for (GameItem item : items) {
-            if (item.getId() == id) {
+            if (item.id() == id) {
                 return true;
             }
         }
@@ -51,8 +51,8 @@ public abstract class Pouch {
 
     public boolean addItemToList(int id, int amount) {
         for (GameItem item : items) {
-            if (item.getId() == id) {
-                if (item.getAmount() + amount >= 61) {
+            if (item.id() == id) {
+                if (item.amount() + amount >= 61) {
                     return false;
                 }
                 if (player.getItems().isStackable(id)) {

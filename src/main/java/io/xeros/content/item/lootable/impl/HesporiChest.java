@@ -126,8 +126,8 @@ public class HesporiChest implements Lootable {
                 c.startAnimation(ANIMATION);
                 GameItem reward = randomChestRewardsCommon();
                 GameItem reward2 = randomChestRewardsCommon();
-                c.getItems().addItem(reward.getId(), reward.getAmount() * 1);
-                c.getItems().addItem(reward2.getId(), reward2.getAmount() * 1);
+                c.getItems().addItem(reward.id(), reward.amount() * 1);
+                c.getItems().addItem(reward2.id(), reward2.amount() * 1);
                 c.sendMessage("@blu@You received common items out of the chest.");
 
             } else {
@@ -139,9 +139,9 @@ public class HesporiChest implements Lootable {
                 c.getItems().addItem(995, 500_000 + Misc.random(1_000_000));
                 c.startAnimation(ANIMATION);
                 GameItem reward = randomChestRewardsRare();
-                c.getItems().addItem(reward.getId(), reward.getAmount() * 1);
-                if (reward.getId() != Items.TOME_OF_FIRE_EMPTY) {
-                    ItemDef def = ItemDef.forId(reward.getId());
+                c.getItems().addItem(reward.id(), reward.amount() * 1);
+                if (reward.id() != Items.TOME_OF_FIRE_EMPTY) {
+                    ItemDef def = ItemDef.forId(reward.id());
                     PlayerHandler.executeGlobalMessage("@bla@[<col=3d7018>HESPORI@bla@] The Hespori chest rewarded a <col=47831c>rare seed!");
                 }
             } else {

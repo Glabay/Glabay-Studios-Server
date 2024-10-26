@@ -59,13 +59,13 @@ public abstract class MysteryBoxLootable implements Lootable {
             for (int i=0; i<66; i++){
                 MysteryBoxRarity notPrizeRarity = MysteryBoxRarity.values()[new Random().nextInt(MysteryBoxRarity.values().length)];
                 GameItem NotPrize = Misc.getRandomItem(getLoot().get(notPrizeRarity.getLootRarity()));
-                final int NOT_PRIZE_ID = NotPrize.getId();
+                final int NOT_PRIZE_ID = NotPrize.id();
                 sendItem(i, 55, mysteryPrize, NOT_PRIZE_ID,1);
             }
         } else {
             for (int i=spinNum*50 + 16; i<spinNum*50 + 66; i++){
                 MysteryBoxRarity notPrizeRarity = MysteryBoxRarity.values()[new Random().nextInt(MysteryBoxRarity.values().length)];
-                final int NOT_PRIZE_ID = Misc.getRandomItem(getLoot().get(notPrizeRarity.getLootRarity())).getId();
+                final int NOT_PRIZE_ID = Misc.getRandomItem(getLoot().get(notPrizeRarity.getLootRarity())).id();
                 sendItem(i, (spinNum+1)*50 + 5, mysteryPrize, NOT_PRIZE_ID, mysteryAmount);
             }
         }
@@ -109,13 +109,13 @@ public abstract class MysteryBoxLootable implements Lootable {
             for (int i=0; i<66; i++){
                 MysteryBoxRarity notPrizeRarity = MysteryBoxRarity.values()[new Random().nextInt(MysteryBoxRarity.values().length)];
                 GameItem NotPrize =Misc.getRandomItem(getLoot().get(notPrizeRarity.getLootRarity()));
-                final int NOT_PRIZE_ID = NotPrize.getId();
+                final int NOT_PRIZE_ID = NotPrize.id();
                 sendItem(i, 55, mysteryPrize, NOT_PRIZE_ID,1);
             }
         } else {
             for (int i=spinNum*50 + 16; i<spinNum*50 + 66; i++){
                 MysteryBoxRarity notPrizeRarity = MysteryBoxRarity.values()[new Random().nextInt(MysteryBoxRarity.values().length)];
-                final int NOT_PRIZE_ID = Misc.getRandomItem(getLoot().get(notPrizeRarity.getLootRarity())).getId();
+                final int NOT_PRIZE_ID = Misc.getRandomItem(getLoot().get(notPrizeRarity.getLootRarity())).id();
                 sendItem(i, (spinNum+1)*50 + 5, mysteryPrize, NOT_PRIZE_ID, mysteryAmount);
             }
         }
@@ -129,8 +129,8 @@ public abstract class MysteryBoxLootable implements Lootable {
                 && random <= 85 ? getLoot().get(MysteryBoxRarity.UNCOMMON.getLootRarity())
                 : getLoot().get(MysteryBoxRarity.RARE.getLootRarity());
         GameItem item = Misc.getRandomItem(itemList);
-        mysteryPrize = item.getId();
-        mysteryAmount = item.getAmount();
+        mysteryPrize = item.id();
+        mysteryAmount = item.amount();
 
     }
 

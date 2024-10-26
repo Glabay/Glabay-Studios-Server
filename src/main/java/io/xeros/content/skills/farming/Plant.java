@@ -131,7 +131,7 @@ public class Plant {
 					GameItem add = null;
 					int id = Plants.values()[plant].harvest;
 					add = ItemDef.forId(id).isNoted() ? new GameItem(ItemDef.forId(id).getNoteId(), 1) : new GameItem(id, 1);
-					player.getItems().addItem(add.getId(), add.getAmount());
+					player.getItems().addItem(add.id(), add.amount());
 
 					int petRate = player.skillingPetRateScroll ? (int) (10000 * .75) : 10000;
 					if (Misc.random(petRate) == 2 && player.getItems().getItemCount(20661, false) == 0 && player.petSummonId != 7352) {
@@ -148,7 +148,7 @@ public class Plant {
 
 					harvested++;
 
-					if (add.getId() == Items.GRIMY_TORSTOL && getPatch() == FarmingPatches.FALADOR_HERB) {
+					if (add.id() == Items.GRIMY_TORSTOL && getPatch() == FarmingPatches.FALADOR_HERB) {
 						player.getDiaryManager().getFaladorDiary().progress(FaladorDiaryEntry.HARVEST_TORSTOL);
 					}
 

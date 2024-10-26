@@ -46,19 +46,19 @@ public class ZulrahEquipmentDeathItem implements DeathItemModifier {
         lostItems.remove(gameItem);
         int charges = 0;
 
-        if (SERP_HELMETS_CHARGED.contains(gameItem.getId())) {
+        if (SERP_HELMETS_CHARGED.contains(gameItem.id())) {
             charges = player.getSerpentineHelmCharge();
             player.setSerpentineHelmCharge(0);
-            lostItems.add(new GameItem(CombatItems.getUnchargedSerpentineHelmet(gameItem.getId())));
-        } else if (TOXIC_STAFF.contains(gameItem.getId())) {
+            lostItems.add(new GameItem(CombatItems.getUnchargedSerpentineHelmet(gameItem.id())));
+        } else if (TOXIC_STAFF.contains(gameItem.id())) {
             charges = player.getToxicStaffOfTheDeadCharge();
             player.setToxicStaffOfTheDeadCharge(0);
             lostItems.add(new GameItem(Items.TOXIC_STAFF_UNCHARGED));
-        } else if (TOXIC_TRIDENT.contains(gameItem.getId())) {
+        } else if (TOXIC_TRIDENT.contains(gameItem.id())) {
             charges = player.getToxicTridentCharge();
             player.setToxicTridentCharge(0);
             lostItems.add(new GameItem(Items.TRIDENT_OF_THE_SWAMP));
-        } else if (BLOWPIPE.contains(gameItem.getId())) {
+        } else if (BLOWPIPE.contains(gameItem.id())) {
             charges = player.getToxicBlowpipeCharge();
             player.setToxicBlowpipeCharge(0);
             lostItems.add(new GameItem(Items.TOXIC_BLOWPIPE_EMPTY));

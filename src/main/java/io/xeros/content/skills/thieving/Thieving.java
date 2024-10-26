@@ -130,7 +130,7 @@ public class Thieving {
 		}
  */
 		GameItem item = stall.item;
-		ItemDef definition = ItemDef.forId(item.getId());
+		ItemDef definition = ItemDef.forId(item.id());
 		int petRate = player.skillingPetRateScroll ? (int) (stall.petChance * .75) : stall.petChance;
 		if (Misc.random(petRate) == 20 && player.getItems().getItemCount(20663, false) == 0 && player.petSummonId != 20663) {
 			 PlayerHandler.executeGlobalMessage("[<col=CC0000>News</col>] <col=255>" + player.getDisplayName() + "</col> now goes hand in hand with a <col=CC0000>Rocky</col> pet!");
@@ -139,7 +139,7 @@ public class Thieving {
 		 }
 
 		player.startAnimation(ANIMATION);
-		player.getItems().addItem(item.getId(), item.getAmount());
+		player.getItems().addItem(item.id(), item.amount());
 		player.getPA().addSkillXPMultiplied((int) (stall.experience * (1 + (getRoguesPieces() * 0.12))), Skill.THIEVING.getId(), true);
 		player.sendMessage("You steal a " + definition.getName() + " from the stall.");
 		Achievements.increase(player, AchievementType.THIEV, 1);
@@ -221,7 +221,7 @@ public class Thieving {
 		GameItem item = pickpocket.getRandomItem();
 		boolean maxCape = SkillcapePerks.THIEVING.isWearing(player) || SkillcapePerks.isWearingMaxCape(player);
 		if (item != null) {
-			player.getItems().addItem(item.getId(), maxCape ? item.getAmount()*2 : item.getAmount());
+			player.getItems().addItem(item.id(), maxCape ? item.amount()*2 : item.amount());
 		} else {
 			player.sendMessage("You were unable to find anything useful.");
 		}

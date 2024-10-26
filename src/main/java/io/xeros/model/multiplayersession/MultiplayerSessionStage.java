@@ -1,7 +1,12 @@
 package io.xeros.model.multiplayersession;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Objects;
 
+@Setter
+@Getter
 public class MultiplayerSessionStage {
 	/**
 	 * Represents the start of a session where a player
@@ -29,12 +34,12 @@ public class MultiplayerSessionStage {
 
 	/**
 	 * The stage of the trade
-	 */
+     */
 	private int stage;
 
 	/**
-	 * The attachment to the trade stage, this will more than likely be a player object that will be attatched when they have confirmed a certain stage.
-	 */
+	 * The attachment to the trade stage, this will more than likely be a player object that will be attached when they have confirmed a certain stage.
+     */
 	private Object attachment;
 
 	/**
@@ -48,58 +53,19 @@ public class MultiplayerSessionStage {
 
 	/**
 	 * Allows use to create a new trade stage, with a default stage id, and an object as an attachment to the trade stage.
-	 * 
-	 * @param stage
-	 * @param attachment
-	 */
+	 *
+     */
 	public MultiplayerSessionStage(int stage, Object attachment) {
 		this(stage);
 		this.attachment = attachment;
 	}
 
-	/**
-	 * Assigns an attachment to this stage object
-	 * 
-	 * @param attachment the attachment to be assigned
-	 */
-	public void setAttachment(Object attachment) {
-		this.attachment = attachment;
-	}
-
-	/**
-	 * Retrieves the attachment object to this class
-	 * 
-	 * @return the attachment
-	 */
-	public Object getAttachment() {
-		return attachment;
-	}
-
-	/**
+    /**
 	 * Determines if the trade stage has an attachment
-	 * 
-	 * @return
-	 */
+	 *
+     */
 	public boolean hasAttachment() {
 		return Objects.nonNull(attachment);
-	}
-
-	/**
-	 * Retrieves the stage of the trade in the form of an Integer
-	 * 
-	 * @return
-	 */
-	public int getStage() {
-		return stage;
-	}
-
-	/**
-	 * Assigns the stage of the trade in the form of an Integer
-	 * 
-	 * @param stage the stage
-	 */
-	public void setStage(int stage) {
-		this.stage = stage;
 	}
 
 }

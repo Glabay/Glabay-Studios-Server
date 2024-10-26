@@ -15,8 +15,8 @@ public class RingOfWealthImbued extends ItemCombination {
 
 	@Override
 	public void combine(Player player) {
-		items.forEach(item -> player.getItems().deleteItem2(item.getId(), item.getAmount()));
-		player.getItems().addItem(outcome.getId(), outcome.getAmount());
+		items.forEach(item -> player.getItems().deleteItem2(item.id(), item.amount()));
+		player.getItems().addItem(outcome.id(), outcome.amount());
 		player.getDH().sendItemStatement("You combined the items and created a ring of wealth (i).", 12785);
 		player.setCurrentCombination(Optional.empty());
 		player.nextChat = -1;

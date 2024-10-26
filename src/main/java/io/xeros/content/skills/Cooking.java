@@ -43,7 +43,7 @@ public class Cooking extends SkillHandler {
 			case 7183:
 			case 26181:
 				for (SlottedItem item : p.getItems().getInventoryItems()) {
-					if (cookThisFood(p, item.getId(), object)) {
+					if (cookThisFood(p, item.id(), object)) {
 						break;
 					}
 				}

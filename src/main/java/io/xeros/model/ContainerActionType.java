@@ -1,5 +1,10 @@
 package io.xeros.model;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum ContainerActionType {
     ACTION_1(1),
     ACTION_2(2),
@@ -13,12 +18,4 @@ public enum ContainerActionType {
     ;
 
     private final int intValue;
-
-    ContainerActionType(int intValue) {
-        this.intValue = intValue;
-    }
-
-    public int getIntValue() {
-        return intValue;
-    }
 }

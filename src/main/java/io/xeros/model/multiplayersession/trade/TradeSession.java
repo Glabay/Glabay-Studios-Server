@@ -41,8 +41,8 @@ public class TradeSession extends MultiplayerSession {
 			for (Player p : players) {
 				GameItem overlap = getOverlappedItem(p);
 				if (overlap != null) {
-					p.getPA().sendFrame126("Too many of one item! The other player has " + Misc.getValueRepresentation(overlap.getAmount()) + " "
-							+ ItemAssistant.getItemName(overlap.getId()) + " in their inventory.", 3431);
+					p.getPA().sendFrame126("Too many of one item! The other player has " + Misc.getValueRepresentation(overlap.amount()) + " "
+							+ ItemAssistant.getItemName(overlap.id()) + " in their inventory.", 3431);
 					getOther(p).getPA().sendFrame126("The other player has offered too many of one item, they must remove some.", 3431);
 					return;
 				}
@@ -110,15 +110,15 @@ public class TradeSession extends MultiplayerSession {
 
 	@Override
 	public boolean itemAddable(Player player, GameItem item) {
-		if (item.getId() == 12650 || item.getId() == 12649 || item.getId() == 12651 || item.getId() == 12652 || item.getId() == 12644 || item.getId() == 12645 || item.getId() == 12643 || item.getId() == 11995 || item.getId() == 15568 || item.getId() == 12653 || item.getId() == 12655 || item.getId() == 13178 || item.getId() == 12646 || item.getId() == 13179 || item.getId() == 13177 || item.getId() == 12921 || item.getId() == 13181 || item.getId() == 12816 || item.getId() == 12647) {
+		if (item.id() == 12650 || item.id() == 12649 || item.id() == 12651 || item.id() == 12652 || item.id() == 12644 || item.id() == 12645 || item.id() == 12643 || item.id() == 11995 || item.id() == 15568 || item.id() == 12653 || item.id() == 12655 || item.id() == 13178 || item.id() == 12646 || item.id() == 13179 || item.id() == 13177 || item.id() == 12921 || item.id() == 13181 || item.id() == 12816 || item.id() == 12647) {
 			player.sendMessage("You cannot trade this item, it is deemed as untradable.");
 			return false;
 		}
-		if (item.getId() == 12006) {
+		if (item.id() == 12006) {
 			player.sendMessage("You cannot trade this item, it is deemed as untradable.");
 			return false;
 		}
-		if (!player.getItems().isTradable(item.getId())) {
+		if (!player.getItems().isTradable(item.id())) {
 			player.sendMessage("You cannot trade this item, it is deemed as untradable.");
 			return false;
 		}
@@ -163,50 +163,48 @@ public class TradeSession extends MultiplayerSession {
 				Player recipient = getOther(player);
 				player.getItems().sendInventoryInterface(3214);
 				List<GameItem> items = getItems(player);
-				String SendTrade = NOTHING;
-				String SendAmount = "";
-				boolean first = true;
+				StringBuilder SendTrade = new StringBuilder(NOTHING);
+                boolean first = true;
 				for (GameItem item : items) {
-					if (item.getId() > 0 && item.getAmount() > 0) {
+					if (item.id() > 0 && item.amount() > 0) {
 						if (first) {
-							SendTrade = ItemAssistant.getItemName(item.getId());
+							SendTrade = new StringBuilder(ItemAssistant.getItemName(item.id()));
 							first = false;
 						} else {
-							SendTrade = SendTrade + "\\n" + ItemAssistant.getItemName(item.getId());
+							SendTrade.append("\\n").append(ItemAssistant.getItemName(item.id()));
 						}
 						
-						if (item.isStackable() && item.getAmount() > 1) {
-							SendTrade = SendTrade + " x "+Misc.getValueRepresentation(item.getAmount());
+						if (item.isStackable() && item.amount() > 1) {
+							SendTrade.append(" x ").append(Misc.getValueRepresentation(item.amount()));
 						}
 					}
 				}
 				
-				player.getPA().sendFrame126(SendTrade, 3557);
-				SendTrade = NOTHING;
-				SendAmount = "";
-				first = true;
+				player.getPA().sendFrame126(SendTrade.toString(), 3557);
+				SendTrade = new StringBuilder(NOTHING);
+                first = true;
 				
 				
 				items = getItems(recipient);
 				for (GameItem item : items) {
-					if (item.getId() > 0 && item.getAmount() > 0) {
+					if (item.id() > 0 && item.amount() > 0) {
 						//player.getPA().sendFrame126(ItemAssistant.getItemName(item.getId()) + " x " + Misc.getValueRepresentation(item.getAmount()), 3558);
 					
 						if (first) {
-							SendTrade = ItemAssistant.getItemName(item.getId());
+							SendTrade = new StringBuilder(ItemAssistant.getItemName(item.id()));
 							first = false;
 						} else {
-							SendTrade = SendTrade + "\\n" + ItemAssistant.getItemName(item.getId());
+							SendTrade.append("\\n").append(ItemAssistant.getItemName(item.id()));
 						}
 						
-						if (item.isStackable() && item.getAmount() > 1) {
-							SendTrade = SendTrade + " x "+Misc.getValueRepresentation(item.getAmount());
+						if (item.isStackable() && item.amount() > 1) {
+							SendTrade.append(" x ").append(Misc.getValueRepresentation(item.amount()));
 						}
 					
 					}
 				}
 				updateSecondTradeScreen(player);
-				player.getPA().sendFrame126(SendTrade, 3558);
+				player.getPA().sendFrame126(SendTrade.toString(), 3558);
 				player.getPA().sendFrame126("", 3607);
 				player.getPA().sendFrame248(TRADE_SCREEN[1], 197);
 			}
@@ -222,7 +220,7 @@ public class TradeSession extends MultiplayerSession {
 
 	@Override
 	public void give() {
-		if (players.stream().anyMatch(client -> Objects.isNull(client))) {
+		if (players.stream().anyMatch(Objects::isNull)) {
 			finish(MultiplayerSessionFinalizeType.WITHDRAW_ITEMS);
 			return;
 		}
@@ -234,7 +232,7 @@ public class TradeSession extends MultiplayerSession {
 				continue;
 			}
 			for (GameItem item : items.get(player)) {
-				getOther(player).getItems().addItem(item.getId(), item.getAmount());
+				getOther(player).getItems().addItem(item.id(), item.amount());
 			}
 
 			final Player other = getOther(player);
@@ -258,7 +256,7 @@ public class TradeSession extends MultiplayerSession {
 				continue;
 			}
 			for (GameItem item : items.get(player)) {
-				player.getItems().addItem(item.getId(), item.getAmount());
+				player.getItems().addItem(item.id(), item.amount());
 			}
 		}
 	}
@@ -278,14 +276,14 @@ public class TradeSession extends MultiplayerSession {
 	}
 
 	private String createItemList(Player player) {
-		if (items.get(player).size() == 0) {
+		if (items.get(player).isEmpty()) {
 			return "";
 		}
 		StringBuilder sb = new StringBuilder();
 		for (GameItem item : items.get(player)) {
-			sb.append(ItemAssistant.getItemName(item.getId()));
-			if (item.getAmount() != 1) {
-				sb.append(" x" + item.getAmount());
+			sb.append(ItemAssistant.getItemName(item.id()));
+			if (item.amount() != 1) {
+				sb.append(" x").append(item.amount());
 			}
 			sb.append(", ");
 		}

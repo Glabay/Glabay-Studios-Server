@@ -53,8 +53,8 @@ public class EnterReferralDialogue extends DialogueBuilder {
         } else if (player.totalLevel < totalReq) {
             player.start(new DialogueBuilder(player).npc(13, "You need a total level of " + totalReq + " to claim a referral."));
         } else {
-            player.start(new DialogueBuilder(player).itemStatement(rewards.get(0).getId(), message, "Thanks for trying out the server, we hope you stay!"));
-            rewards.forEach(reward -> player.getItems().addItemUnderAnyCircumstance(reward.getId(), reward.getAmount()));
+            player.start(new DialogueBuilder(player).itemStatement(rewards.get(0).id(), message, "Thanks for trying out the server, we hope you stay!"));
+            rewards.forEach(reward -> player.getItems().addItemUnderAnyCircumstance(reward.id(), reward.amount()));
             ReferralRegister.register(player, source, qualifier);
             player.usedReferral = true;
         }

@@ -219,7 +219,7 @@ public class Commands implements PacketType {
                         List<SlottedItem> inventory = c.getItems().getInventoryItems();
                         AtomicInteger count = new AtomicInteger();
                         inventory.stream().forEach(i -> {
-                            ItemDef def = ItemDef.forId(i.getId());
+                            ItemDef def = ItemDef.forId(i.id());
                             if (def.getName().toLowerCase().contains("grimy")) {
                                 count.getAndIncrement();
                                 c.sendMessage("name=" + def.getName() + " unnoteId=" + def.getNoteId());

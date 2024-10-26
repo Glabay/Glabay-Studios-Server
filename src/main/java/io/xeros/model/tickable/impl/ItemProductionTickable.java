@@ -145,7 +145,7 @@ public class ItemProductionTickable implements Tickable<Player> {
             }
 
             if (experiencedGained != null) {
-                Arrays.stream(experiencedGained).forEach(exp -> player.getPA().addSkillXPMultiplied(exp.getLevel(), exp.getSkill().getId(), true));
+                Arrays.stream(experiencedGained).forEach(exp -> player.getPA().addSkillXPMultiplied(exp.level(), exp.skill().getId(), true));
             }
 
             if (productionConsumer != null) {

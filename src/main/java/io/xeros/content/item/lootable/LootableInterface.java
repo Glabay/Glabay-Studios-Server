@@ -71,8 +71,8 @@ public class LootableInterface {
             if (addingRare != null)
                 rare.addAll(lootable.getLoot().get(LootRarity.RARE));
 
-            common = common.stream().filter(Misc.distinctByKey(GameItem::getId)).collect(Collectors.toList());
-            rare = rare.stream().filter(Misc.distinctByKey(GameItem::getId)).collect(Collectors.toList());
+            common = common.stream().filter(Misc.distinctByKey(GameItem::id)).collect(Collectors.toList());
+            rare = rare.stream().filter(Misc.distinctByKey(GameItem::id)).collect(Collectors.toList());
 
             common = Collections.unmodifiableList(common);
             rare = Collections.unmodifiableList(rare);

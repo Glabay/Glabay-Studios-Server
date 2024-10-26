@@ -19,11 +19,11 @@ public class PrimordialBoots extends ItemCombination {
 			player.sendMessage("You must have a magic and runecrafting level of at least 60 to do this.");
 			return;
 		}
-		items.forEach(item -> player.getItems().deleteItem2(item.getId(), item.getAmount()));
-		player.getItems().addItem(outcome.getId(), outcome.getAmount());
+		items.forEach(item -> player.getItems().deleteItem2(item.id(), item.amount()));
+		player.getItems().addItem(outcome.id(), outcome.amount());
 		//emote 6929
 		player.startAnimation(6929);
-		player.getDH().sendItemStatement("You combined the items and created a pair of primordial boots.", outcome.getId());
+		player.getDH().sendItemStatement("You combined the items and created a pair of primordial boots.", outcome.id());
 		player.setCurrentCombination(Optional.empty());
 		player.nextChat = -1;
 	}

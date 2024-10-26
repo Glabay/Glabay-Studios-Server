@@ -61,7 +61,7 @@ public enum ItemCombinations {
 	}
 
 	public static Optional<ItemCombination> isRevertable(GameItem item) {
-		Predicate<ItemCombinations> itemMatches = ic -> ic.getItemCombination().getRevertItems().isPresent() && ic.getItemCombination().getOutcome().getId() == item.getId();
+		Predicate<ItemCombinations> itemMatches = ic -> ic.getItemCombination().getRevertItems().isPresent() && ic.getItemCombination().getOutcome().id() == item.id();
 		Optional<ItemCombinations> revertable = COMBINATIONS.stream().filter(itemMatches).findFirst();
 		if (revertable.isPresent() && revertable.get().getItemCombination().isRevertable()) {
 			return Optional.of(revertable.get().getItemCombination());

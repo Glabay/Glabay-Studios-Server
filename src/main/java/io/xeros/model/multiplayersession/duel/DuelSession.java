@@ -88,8 +88,8 @@ public class DuelSession extends MultiplayerSession {
 			for (Player p : players) {
 				GameItem overlap = getOverlappedItem(p);
 				if (overlap != null) {
-					p.getPA().sendString("Too many of one item! The other player has " + Misc.getValueRepresentation(overlap.getAmount()) + " "
-							+ ItemAssistant.getItemName(overlap.getId()) + " in their inventory.", 6684);
+					p.getPA().sendString("Too many of one item! The other player has " + Misc.getValueRepresentation(overlap.amount()) + " "
+							+ ItemAssistant.getItemName(overlap.id()) + " in their inventory.", 6684);
 					getOther(p).getPA().sendString("The other player has offered too many of one item, they must remove some.", 6684);
 					return;
 				}
@@ -150,11 +150,11 @@ public class DuelSession extends MultiplayerSession {
 
 	@Override
 	public boolean itemAddable(Player player, GameItem item) {
-		if (item.getId() == 12006) {
+		if (item.id() == 12006) {
 			player.sendMessage("You cannot stake this item, it is deemed as untradable.");
 			return false;
 		}
-		if (!player.getItems().isTradable(item.getId())) {
+		if (!player.getItems().isTradable(item.id())) {
 			player.sendMessage("You cannot stake this item, it is deemed as untradable.");
 			return false;
 		}
@@ -196,16 +196,16 @@ public class DuelSession extends MultiplayerSession {
 				StringBuilder itemList = new StringBuilder();
 				List<GameItem> items = getItems(player);
 				for (GameItem item : items) {
-					if (item.getId() > 0 && item.getAmount() > 0) {
-						itemList.append(ItemAssistant.getItemName(item.getId()) + " x " + Misc.getValueRepresentation(item.getAmount()) + "\\n");
+					if (item.id() > 0 && item.amount() > 0) {
+						itemList.append(ItemAssistant.getItemName(item.id()) + " x " + Misc.getValueRepresentation(item.amount()) + "\\n");
 					}
 				}
 				player.getPA().sendString(itemList.toString(), 6516);
 				itemList = new StringBuilder();
 				items = getItems(recipient);
 				for (GameItem item : items) {
-					if (item.getId() > 0 && item.getAmount() > 0) {
-						itemList.append(ItemAssistant.getItemName(item.getId()) + " x " + Misc.getValueRepresentation(item.getAmount()) + "\\n");
+					if (item.id() > 0 && item.amount() > 0) {
+						itemList.append(ItemAssistant.getItemName(item.id()) + " x " + Misc.getValueRepresentation(item.amount()) + "\\n");
 					}
 				}
 				player.getPA().sendString(itemList.toString(), 6517);
@@ -235,7 +235,7 @@ public class DuelSession extends MultiplayerSession {
 				plr.sendMessage("The duel was a tie.");
 				moveAndClearAttributes(plr);
 				List<GameItem> refundItems = items.get(plr);
-				refundItems.forEach(item -> plr.getItems().addItem(item.getId(), item.getAmount()));
+				refundItems.forEach(item -> plr.getItems().addItem(item.id(), item.amount()));
 				items.remove(plr);
 			});
 			return;
@@ -246,13 +246,13 @@ public class DuelSession extends MultiplayerSession {
 			items.get(winner.get()).addAll(items.get(other));
 			if (items.get(winner.get()).size() > 0) {
 				for (GameItem item : items.get(winner.get())) {
-					long totalSum = (long) winner.get().getItems().getItemAmount(item.getId()) + item.getAmount();
+					long totalSum = (long) winner.get().getItems().getItemAmount(item.id()) + item.amount();
 					
-					if (winner.get().getItems().freeSlots() == 0 || winner.get().getItems().playerHasItem(item.getId()) && totalSum > Integer.MAX_VALUE) {
-						winner.get().getItems().sendItemToAnyTabOrDrop(new BankItem(item.getId(), item.getAmount()),
+					if (winner.get().getItems().freeSlots() == 0 || winner.get().getItems().playerHasItem(item.id()) && totalSum > Integer.MAX_VALUE) {
+						winner.get().getItems().sendItemToAnyTabOrDrop(new BankItem(item.id(), item.amount()),
 								Configuration.DUELING_RESPAWN_X + (Misc.random(RANDOM_DUELING_RESPAWN)), Configuration.DUELING_RESPAWN_Y + (Misc.random(RANDOM_DUELING_RESPAWN)));
 					} else {
-						winner.get().getItems().addItem(item.getId(), item.getAmount());
+						winner.get().getItems().addItem(item.id(), item.amount());
 					}
 				}
 
@@ -284,7 +284,7 @@ public class DuelSession extends MultiplayerSession {
 				continue;
 			}
 			for (GameItem item : items.get(player)) {
-				player.getItems().addItem(item.getId(), item.getAmount());
+				player.getItems().addItem(item.id(), item.amount());
 			}
 		}
 	}
@@ -378,16 +378,16 @@ public class DuelSession extends MultiplayerSession {
 			c.getOutStream().writeUShort(6822);
 			c.getOutStream().writeUShort(itemList.size());
 			for (GameItem item : itemList) {
-				if (item.getAmount() > 254) {
+				if (item.amount() > 254) {
 					c.getOutStream().writeByte(255);
-					c.getOutStream().writeDWord_v2(item.getAmount());
+					c.getOutStream().writeDWord_v2(item.amount());
 				} else {
-					c.getOutStream().writeByte(item.getAmount());
+					c.getOutStream().writeByte(item.amount());
 				}
-				if (item.getId() > Configuration.ITEM_LIMIT || item.getId() < 0) {
-					item = new GameItem(Configuration.ITEM_LIMIT, item.getId());
+				if (item.id() > Configuration.ITEM_LIMIT || item.id() < 0) {
+					item = new GameItem(Configuration.ITEM_LIMIT, item.id());
 				}
-				c.getOutStream().writeWordBigEndianA(item.getId() + 1);
+				c.getOutStream().writeWordBigEndianA(item.id() + 1);
 			}
 			c.getOutStream().endFrameVarSizeWord();
 			c.flushOutStream();
@@ -547,9 +547,9 @@ public class DuelSession extends MultiplayerSession {
 		}
 		StringBuilder sb = new StringBuilder();
 		for (GameItem item : items.get(player)) {
-			sb.append(ItemAssistant.getItemName(item.getId()));
-			if (item.getAmount() != 1) {
-				sb.append(" x" + item.getAmount());
+			sb.append(ItemAssistant.getItemName(item.id()));
+			if (item.amount() != 1) {
+				sb.append(" x" + item.amount());
 			}
 			sb.append(", ");
 		}

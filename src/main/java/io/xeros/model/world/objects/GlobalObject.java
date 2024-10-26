@@ -4,36 +4,47 @@ import io.xeros.content.instances.InstancedArea;
 import io.xeros.model.collisionmap.RegionProvider;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.entity.player.Position;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * A global object is a visual model that is viewed by all players within a region. This class represents the identification value, x and y position, as well as the height of the
  * object.
- * 
+ * <p>
  * A key factor is the ticks remaining. The ticksRemaining variable represents how many game ticks this object will remain visible for. If the value is negative the object will
  * remain indefinitly. On the flip side, if the value is positive then every tick the total remaining will reduce by one until it hits zero.
  * 
  * @author Jason MacKeigan
- * @date Dec 17, 2014, 6:18:20 PM
+ * @since Dec 17, 2014, 6:18:20 PM
  */
 public class GlobalObject {
 
-	private int id;
+	@Setter
+    private int id;
 
-	private final int x;
+	@Getter
+    private final int x;
 
-	private final int y;
+	@Getter
+    private final int y;
 
-	private final int height;
+	@Getter
+    private final int height;
 
-	private int face;
+	@Getter
+    private int face;
 
-	private int ticksRemaining;
+	@Getter
+    private int ticksRemaining;
 
-	private int restoreId;
+	@Getter
+    private int restoreId;
 
-	private int type;
+	@Getter
+    private int type;
 	
-	private InstancedArea instance;
+	@Getter
+    private InstancedArea instance;
 
 	public GlobalObject(int id, Position position, int face, int type) {
 		this.id = id;
@@ -99,47 +110,11 @@ public class GlobalObject {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public int getFace() {
-		return face;
-	}
-
-	public int getTicksRemaining() {
-		return ticksRemaining;
-	}
-
-	public int getRestoreId() {
-		return restoreId;
-	}
-
-	public Position getPosition() {
+    public Position getPosition() {
 		return new Position(x, y, height);
 	}
 
-	public int getType() {
-		return type;
-	}
-
-	public InstancedArea getInstance() {
-		return instance;
-	}
-
-	public GlobalObject setInstance(InstancedArea instance) {
+    public GlobalObject setInstance(InstancedArea instance) {
 		this.instance = instance;
 		return this;
 	}

@@ -222,12 +222,12 @@ public class CollectionLog {
 			if (npcs.get(index) == PETS_ID) {
 				List<GameItem> pets = PetHandler.getPetIds(false);
 				for(GameItem petItem : pets) {
-					if (player.getItems().getItemCount(petItem.getId(), false) > 0 || (player.hasFollower && player.petSummonId == petItem.getId())) {
-						PetHandler.Pets petForItem = PetHandler.forItem(petItem.getId());
+					if (player.getItems().getItemCount(petItem.id(), false) > 0 || (player.hasFollower && player.petSummonId == petItem.id())) {
+						PetHandler.Pets petForItem = PetHandler.forItem(petItem.id());
 						if (petForItem != null) {
 							PetHandler.Pets pet = PetHandler.getPetForParentId(petForItem);
 							ArrayList<GameItem> petList = getCollections().get("" + 5);
-							if (petList == null || petList.stream().noneMatch(item -> item.getId() == pet.getItemId())) {
+							if (petList == null || petList.stream().noneMatch(item -> item.id() == pet.getItemId())) {
 								player.getCollectionLog().handleDrop(player, 5, pet.getItemId(), 1);
 								player.sendMessage("@red@Added missing " + ItemDef.forId(pet.getItemId()).getName() + " to collection log.");
 							}
@@ -297,15 +297,15 @@ public class CollectionLog {
 		for(int i = 0; i < player.dropItems.size(); i++) {
 			boolean found = false;
 			for(int j = 0; j < items.size(); j++) {
-				if (items.get(j).getId() == player.dropItems.get(i).getId()) {
-					player.getPA().sendItemToSlotWithOpacity(23231, items.get(j).getId(), i, items.get(j).getAmount(), false);
+				if (items.get(j).id() == player.dropItems.get(i).id()) {
+					player.getPA().sendItemToSlotWithOpacity(23231, items.get(j).id(), i, items.get(j).amount(), false);
 					foundCount++;
 					found = true;
 					break;
 				}
 			}
 			if (!found) {
-				player.getPA().sendItemToSlotWithOpacity(23231, player.dropItems.get(i).getId(), i, 0, true);
+				player.getPA().sendItemToSlotWithOpacity(23231, player.dropItems.get(i).id(), i, 0, true);
 			}
 		}
 		player.getPA().sendFrame126("Obtained: " + (foundCount == player.dropItems.size() ? "@gre@" : "@red@") + foundCount + "/" + player.dropItems.size(), 23119);
@@ -364,8 +364,8 @@ public class CollectionLog {
 		} else {
 			boolean found = false;
 			for(int i = 0; i < currentItems.size(); i++) {
-				if (currentItems.get(i).getId() == dropId) {
-					currentItems.get(i).setAmount(currentItems.get(i).getAmount() + dropAmount);
+				if (currentItems.get(i).id() == dropId) {
+					currentItems.get(i).setAmount(currentItems.get(i).amount() + dropAmount);
 					found = true;
 					break;
 				}
@@ -411,7 +411,7 @@ public class CollectionLog {
 
 		for (List<GameItem> items : collections.values()) {
 			for (GameItem item : items) {
-				uniques.add(item.getId());
+				uniques.add(item.id());
 			}
 		}
 
@@ -517,8 +517,8 @@ public class CollectionLog {
 
 				main: for (GameItem playerItem : entry.getValue()) {
 					for (GameItem groupItem : groupItems) {
-						if (playerItem.getId() == groupItem.getId()) {
-							groupItem.setAmount(playerItem.getAmount() + groupItem.getAmount());
+						if (playerItem.id() == groupItem.id()) {
+							groupItem.setAmount(playerItem.amount() + groupItem.amount());
 							logger.debug("Combined player and group item to create new amount {}, originalGroupItem={}, originalPlayerItem={}", groupItem, groupItem, playerItem);
 							continue main;
 						}

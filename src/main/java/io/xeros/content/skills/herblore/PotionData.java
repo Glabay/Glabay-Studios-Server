@@ -57,7 +57,7 @@ public class PotionData {
 
 		public static UnfinishedPotions forHerb(int i) {
 			for(UnfinishedPotions unf : values()) {
-				if (unf.getHerb().getId() == i) {
+				if (unf.getHerb().id() == i) {
 					return unf;
 				}
 			}

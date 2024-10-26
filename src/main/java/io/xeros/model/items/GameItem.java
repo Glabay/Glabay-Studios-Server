@@ -29,8 +29,8 @@ public class GameItem implements ItemInterface {
 		List<GameItem> normalizedItems = new ArrayList<>();
 		itemLoop: for (GameItem item : items) {
 			for (GameItem normalizedItem : normalizedItems) {
-				if (normalizedItem.getId() == item.getId() && (stackEverything || item.getDef().isStackable())) {
-					normalizedItem.setAmount(normalizedItem.getAmount() + item.getAmount());
+				if (normalizedItem.id() == item.id() && (stackEverything || item.getDef().isStackable())) {
+					normalizedItem.setAmount(normalizedItem.amount() + item.amount());
 					continue itemLoop;
 				}
 			}
@@ -79,7 +79,7 @@ public class GameItem implements ItemInterface {
 	}
 
 	public ItemDef getDef() {
-		return ItemDef.forId(getId());
+		return ItemDef.forId(id());
 	}
 	
 	/**
@@ -113,9 +113,9 @@ public class GameItem implements ItemInterface {
 	}
 
 	public String getFormattedName(boolean coinColor) {
-		String coins = Misc.formatCoins(getAmount());
+		String coins = Misc.formatCoins(amount());
 		if (coinColor) {
-			coins = Misc.colorWrap(Misc.getCoinColour(getAmount()), coins);
+			coins = Misc.colorWrap(Misc.getCoinColour(amount()), coins);
 		}
 
 		return getDef().getName() + " x " + coins;
@@ -138,7 +138,7 @@ public class GameItem implements ItemInterface {
 	 * @return the item id
 	 */
 	@Override
-	public int getId() {
+	public int id() {
 		return id;
 	}
 
@@ -164,7 +164,7 @@ public class GameItem implements ItemInterface {
 	 * @return the amount
 	 */
 	@Override
-	public int getAmount() {
+	public int amount() {
 		return amount;
 	}
 

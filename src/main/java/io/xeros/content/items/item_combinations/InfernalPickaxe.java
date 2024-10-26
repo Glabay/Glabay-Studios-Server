@@ -19,11 +19,11 @@ public class InfernalPickaxe extends ItemCombination {
 			player.sendMessage("You must have a smithing level of at least 85 to do this.");
 			return;
 		}
-		items.forEach(item -> player.getItems().deleteItem2(item.getId(), item.getAmount()));
-		player.getItems().addItem(outcome.getId(), outcome.getAmount());
+		items.forEach(item -> player.getItems().deleteItem2(item.id(), item.amount()));
+		player.getItems().addItem(outcome.id(), outcome.amount());
 		//emote 4514
 		player.startAnimation(4514);
-		player.getDH().sendItemStatement("You combined the items and created an infernal axe.", outcome.getId());
+		player.getDH().sendItemStatement("You combined the items and created an infernal axe.", outcome.id());
 		player.setCurrentCombination(Optional.empty());
 		player.nextChat = -1;
 	}

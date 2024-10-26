@@ -96,10 +96,10 @@ public class Inventory {
         for (BankTab tab : player.getBank().getBankTab()) {
             BankItem foundItem = tab.getItem(bankItem);
             if (foundItem != null) {
-                if ((long) item.getAmount() + (long) foundItem.getAmount() > Integer.MAX_VALUE) {
+                if ((long) item.getAmount() + (long) foundItem.amount() > Integer.MAX_VALUE) {
                     return false;
                 } else {
-                    foundItem.setAmount(foundItem.getAmount() + item.getAmount());
+                    foundItem.setAmount(foundItem.amount() + item.getAmount());
                     return true;
                 }
             }

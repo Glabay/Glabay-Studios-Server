@@ -55,7 +55,7 @@ public class ImmutableItem {
     }
 
     public ImmutableItem(GameItem item) {
-        this(item.getId(), item.getAmount());
+        this(item.id(), item.amount());
     }
 
     public ImmutableItem withAmount(int amount) {

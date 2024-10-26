@@ -104,12 +104,12 @@ public class CoinBagLarge extends CycleEvent {
 		GameItem itemDouble = Misc.getRandomItem(itemList);
 		int amount = player.getItems().getItemAmount(10834);
 		if (Misc.random(1000) == 10) {
-			int rewardAllGpAmount = (coins + coinsDouble* amount) + (item.getAmount()*amount) + (itemDouble.getAmount() * amount);
+			int rewardAllGpAmount = (coins + coinsDouble* amount) + (item.amount()*amount) + (itemDouble.amount() * amount);
 			player.getItems().addItem(995, rewardAllGpAmount);
 			player.sendMessage("@red@You dig deeper and find a hidden pocket of " + Misc.formatCoins(rewardAllGpAmount) + " coins!");
 			player.getItems().deleteItem(10834, amount);
 		} else {
-			int rewardAllGpAmount = (coins*amount) + (item.getAmount()*amount);
+			int rewardAllGpAmount = (coins*amount) + (item.amount()*amount);
 			player.getItems().deleteItem(10834, amount);
 			player.getItems().addItem(995, rewardAllGpAmount);
 			player.sendMessage("You receive " + Misc.formatCoins(rewardAllGpAmount) + " coins!");
@@ -132,12 +132,12 @@ public class CoinBagLarge extends CycleEvent {
 		GameItem itemDouble = Misc.getRandomItem(itemList);
 
 		if (Misc.random(1000) == 10) {
-			int rewardAmount = (coins+coinsDouble + item.getAmount()+itemDouble.getAmount());
+			int rewardAmount = (coins+coinsDouble + item.amount()+itemDouble.amount());
 			player.getItems().addItem(995, rewardAmount);
 			player.sendMessage("@red@You dig deeper and find a hidden pocket of coins!");
 			player.sendMessage("You receive " + Misc.formatCoins(rewardAmount) + " coins!");
 		} else {
-			int rewardAmount = coins + item.getAmount();
+			int rewardAmount = coins + item.amount();
 			player.getItems().addItem(995, rewardAmount);
 			player.sendMessage("You receive " + Misc.formatCoins(rewardAmount) + " coins!");
 		}

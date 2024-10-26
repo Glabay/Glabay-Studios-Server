@@ -9,7 +9,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import io.xeros.Server;
-import io.xeros.model.items.GameItem;
 import io.xeros.model.shops.NamedShopItem;
 import io.xeros.model.shops.ShopItem;
 import io.xeros.util.ItemConstants;
@@ -46,7 +45,7 @@ public class ShopDef {
 
                     shopItems.forEach(item -> {
                         Preconditions.checkState(item.getPrice() != Integer.MAX_VALUE, "Don't use max int value for price, use something below it.");
-                        items.add(new ShopItem(item.getId() + 1, item.getAmount() == 0 ? 1_000_000_000 : item.getAmount(), item.getPrice()));
+                        items.add(new ShopItem(item.id() + 1, item.amount() == 0 ? 1_000_000_000 : item.amount(), item.getPrice()));
                     }); // Item amount is zero for almost all shops due to infinity
                     definitions.put(shop.id, ShopDef.builder()
                             .id(shop.id)
@@ -78,7 +77,7 @@ public class ShopDef {
     }
 
     public int getPrice(int itemId) {
-        Optional<ShopItem> first = items.stream().filter(it -> it.getId() - 1 == itemId).findFirst();
+        Optional<ShopItem> first = items.stream().filter(it -> it.id() - 1 == itemId).findFirst();
         return first.map(ShopItem::getPrice).orElse(Integer.MAX_VALUE);
     }
 

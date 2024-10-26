@@ -1,7 +1,9 @@
 package io.xeros.model.world;
 
 import io.xeros.model.entity.player.Player;
+import lombok.Getter;
 
+@Getter
 public class ClanMember {
 
     private final String loginName;
@@ -25,11 +27,4 @@ public class ClanMember {
         return loginName.equalsIgnoreCase(name) || displayName.equalsIgnoreCase(name);
     }
 
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
 }

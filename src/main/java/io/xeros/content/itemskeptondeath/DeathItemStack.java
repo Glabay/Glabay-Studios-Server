@@ -29,9 +29,9 @@ public class DeathItemStack {
         List<GameItem> keptItems = new ArrayList<>();
         for (int i = 0; i < amount && !valuedItemStack.isEmpty(); i++) {
             GameItem item = valuedItemStack.pop();
-            if (item.getAmount() > 1)
-                valuedItemStack.push(new GameItem(item.getId(), item.getAmount() - 1));
-            keptItems.add(new GameItem(item.getId(), 1));
+            if (item.amount() > 1)
+                valuedItemStack.push(new GameItem(item.id(), item.amount() - 1));
+            keptItems.add(new GameItem(item.id(), 1));
         }
 
         return keptItems;

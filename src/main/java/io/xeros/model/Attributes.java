@@ -60,8 +60,7 @@ public class Attributes {
 	 * 
 	 * @param key
 	 *            The key of the attribute
-	 * @return
-	 */
+     */
 	public Object get(Object key) {
 		return attributes.get(key);
 	}
@@ -73,8 +72,7 @@ public class Attributes {
 	 *            The key of the attribute
 	 * @param fail
 	 *            return fail if not present
-	 * @return
-	 */
+     */
 	public Object get(Object key, Object fail) {
 		Object value = attributes.get(key);
 		if (value == null) {
@@ -102,17 +100,15 @@ public class Attributes {
 	 * 
 	 * @param key
 	 *            The key to check if eixists
-	 * @return
-	 */
+     */
 	public boolean contains(Object key) {
 		return attributes.containsKey(key);
 	}
 
 	/**
 	 * Removes an attribute from the map
-	 * 
-	 * @param key
-	 */
+	 *
+     */
 	public void remove(Object key) {
 		attributes.remove(key);
 	}
@@ -240,12 +236,7 @@ public class Attributes {
 	 * 			the boolean key
 	 */
 	public boolean flipBoolean(String key) {
-		if (getBoolean(key)) {
-			setBoolean(key, false);
-		} else {
-			setBoolean(key, true);
-		}
-
+        setBoolean(key, !getBoolean(key));
 		return getBoolean(key);
 	}
 	

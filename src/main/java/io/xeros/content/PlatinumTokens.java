@@ -39,7 +39,7 @@ public class PlatinumTokens {
                 if (addedTokens.isEmpty())
                     return;
 
-                player.getItems().deleteItem(Items.COINS, addedTokens.get().getAmount() * TOKEN_VALUE);
+                player.getItems().deleteItem(Items.COINS, addedTokens.get().amount() * TOKEN_VALUE);
                 break;
             case Items.PLATINUM_TOKEN:
                 long coinsToAdd = (long) tokenAmount * (long) TOKEN_VALUE;
@@ -60,7 +60,7 @@ public class PlatinumTokens {
                 if (addedCoins.isEmpty())
                     return;
 
-                player.getItems().deleteItem(Items.PLATINUM_TOKEN, addedCoins.get().getAmount() / TOKEN_VALUE);
+                player.getItems().deleteItem(Items.PLATINUM_TOKEN, addedCoins.get().amount() / TOKEN_VALUE);
                 break;
         }
     }

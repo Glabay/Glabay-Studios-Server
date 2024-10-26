@@ -4,12 +4,10 @@ package io.xeros.content.questing;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import io.xeros.model.Items;
 import io.xeros.model.SkillLevel;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;
-import io.xeros.model.items.GameItem;
 
 public abstract class Quest {
 
@@ -38,7 +36,7 @@ public abstract class Quest {
         if (startRequirements != null && startRequirements.size() > 0) {
             stringList.add("To start this quest you need:");
             for (SkillLevel requirement : startRequirements) {
-                stringList.add(requirement.getLevel() + " " + requirement.getSkill().toString());
+                stringList.add(requirement.level() + " " + requirement.skill().toString());
             }
         }
         return stringList;

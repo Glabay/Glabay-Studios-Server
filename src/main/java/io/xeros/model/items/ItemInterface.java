@@ -5,11 +5,11 @@ import io.xeros.model.definitions.ItemDef;
 public interface ItemInterface {
 
     default ItemDef getDef() {
-        return ItemDef.forId(getId());
+        return ItemDef.forId(id());
     }
 
-    int getId();
+    int id();
 
-    int getAmount();
+    int amount();
 
 }

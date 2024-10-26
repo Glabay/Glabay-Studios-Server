@@ -223,7 +223,7 @@ public class MageArenaII {
         for (SlottedItem i : player.getItems().getInventoryItems()) {
             if (i != null) {
                 for (int inv = 0; inv < collectables.size(); inv++)
-                    if (i.getId() == collectables.get(inv))
+                    if (i.id() == collectables.get(inv))
                         count++;
             }
         }

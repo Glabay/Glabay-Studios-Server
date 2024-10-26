@@ -48,7 +48,7 @@ public class ShopHandler {
 
 	public static int addShopAnywhere(String name, List<ShopItem> items) {
 		for (int i = 1; i < ShopName.length; i++) {
-			if (ShopName[i].length() == 0 && ShopItems[i][0] == 0) {
+			if (ShopName[i].isEmpty() && ShopItems[i][0] == 0) {
 				addShop(i, name, items);
 				return i;
 			}
@@ -62,9 +62,9 @@ public class ShopHandler {
 		ShopName[id] = name;
 		int itemIndex = 0;
 		for (GameItem item : items) {
-			ShopItems[id][itemIndex] = item.getId();
-			ShopItemsN[id][itemIndex] = item.getAmount();
-			ShopItemsSN[id][itemIndex] = item.getAmount();
+			ShopItems[id][itemIndex] = item.id();
+			ShopItemsN[id][itemIndex] = item.amount();
+			ShopItemsSN[id][itemIndex] = item.amount();
 			ShopItemsStandard[id]++;
 			itemIndex++;
 		}
@@ -94,8 +94,7 @@ public class ShopHandler {
 								DidUpdate = true;
 								ShopItemsDelay[i][j] = 1;
 								ShopItemsDelay[i][j] = 0;
-								DidUpdate = true;
-							}
+                            }
 						} else if (ShopItemsDelay[i][j] >= MaxSpecShowDelay) {
 							//DiscountItem(i, j);
 							ShopItemsDelay[i][j] = 0;
@@ -105,13 +104,12 @@ public class ShopHandler {
 					ShopItemsDelay[i][j]++;
 				}
 			}
-			if (DidUpdate == true) {
+			if (DidUpdate) {
 				for (int k = 1; k < Configuration.MAX_PLAYERS; k++) {
 					if (PlayerHandler.players[k] != null) {
-						if (PlayerHandler.players[k].isShopping == true && PlayerHandler.players[k].myShopId == i) {
+						if (PlayerHandler.players[k].isShopping && PlayerHandler.players[k].myShopId == i) {
 							PlayerHandler.players[k].updateShop = true;
-							DidUpdate = false;
-							PlayerHandler.players[k].updateshop(i);
+                            PlayerHandler.players[k].updateshop(i);
 						}
 					}
 				}

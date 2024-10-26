@@ -108,9 +108,9 @@ public class VoteChest implements Lootable {
             Achievements.increase(c, AchievementType.VOTE_CHEST_UNLOCK, 1);
             c.startAnimation(ANIMATION);
             GameItem reward = randomChestRewards(c, 100);
-            String name = ItemDef.forId(reward.getId()).getName();
-            if (!c.getItems().addItem(reward.getId(), reward.getAmount())) {
-                Server.itemHandler.createGroundItem(c, reward.getId(), c.getX(), c.getY(), c.heightLevel, reward.getAmount());
+            String name = ItemDef.forId(reward.id()).getName();
+            if (!c.getItems().addItem(reward.id(), reward.amount())) {
+                Server.itemHandler.createGroundItem(c, reward.id(), c.getX(), c.getY(), c.heightLevel, reward.amount());
             }
             PlayerHandler.executeGlobalMessage("@pur@["+ c.getDisplayName() +"]@blu@ has just opened the vote chest and received a " + name + "!");
             int random = 1 + Misc.random(5);

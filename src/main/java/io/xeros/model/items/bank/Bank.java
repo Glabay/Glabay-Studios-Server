@@ -79,7 +79,7 @@ public class Bank {
 		if (interfaceId == BANK_SEARCH_CONTAINER) {
 			for (BankTab tab : bankTabs) {
 				for (GameItem item : tab.getItems()) {
-					if (item.getId() == itemId + 1) {
+					if (item.id() == itemId + 1) {
 						return tab;
 					}
 				}
@@ -94,7 +94,7 @@ public class Bank {
 	public int getItemSlot(BankTab bankTab, int interfaceId, int itemId, int slot) {
 		if (interfaceId == BANK_SEARCH_CONTAINER) {
 			for (int index = 0; index < bankTab.size(); index++) {
-				if (bankTab.getItem(index).getId() == itemId + 1) {
+				if (bankTab.getItem(index).id() == itemId + 1) {
 					return index;
 				}
 			}
@@ -113,7 +113,7 @@ public class Bank {
 				if (slot != -1) {
 					GameItem item = tab.getItem(slot);
 					if (item != null) {
-						return withdraw(interfaceId, item.getId() - 1, amount);
+						return withdraw(interfaceId, item.id() - 1, amount);
 					}
 				}
 			}
@@ -301,8 +301,8 @@ public class Bank {
 		int slotsFilled = 0;
 		for (BankTab bankTab : bankTabs) {
 			for (GameItem bankedItem : bankTab.getItems()) {
-				if (bankedItem.getId() + 1 == bankingItem.getId()) {
-					long amount = (long) bankedItem.getAmount() + (long) bankingItem.getAmount();
+				if (bankedItem.id() + 1 == bankingItem.id()) {
+					long amount = (long) bankedItem.amount() + (long) bankingItem.amount();
 					if (amount > Integer.MAX_VALUE) {
 						player.sendMessage("Your bank doesn't have room for this item.");
 						return false;

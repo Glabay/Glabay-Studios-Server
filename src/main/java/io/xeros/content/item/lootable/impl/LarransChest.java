@@ -87,11 +87,11 @@ public class LarransChest implements Lootable {
 				if (!c.getDisplayName().equalsIgnoreCase("thimble") && !c.getDisplayName().equalsIgnoreCase("top hat")) {
 
 					PlayerHandler.executeGlobalMessage("@pur@" + c.getDisplayNameFormatted() + " received a drop: " +
-							"" + ItemDef.forId(reward.getId()).getName() + " x " + reward.getAmount() + " from Larran's chest.");
+							"" + ItemDef.forId(reward.id()).getName() + " x " + reward.amount() + " from Larran's chest.");
 				}
 			}
-			if (!c.getItems().addItem(reward.getId(), reward.getAmount())) {
-				Server.itemHandler.createGroundItem(c, reward.getId(), c.getX(), c.getY(), c.heightLevel, reward.getAmount());
+			if (!c.getItems().addItem(reward.id(), reward.amount())) {
+				Server.itemHandler.createGroundItem(c, reward.id(), c.getX(), c.getY(), c.heightLevel, reward.amount());
 			}
 		} else {
 			c.sendMessage("The chest is locked, it won't budge!");

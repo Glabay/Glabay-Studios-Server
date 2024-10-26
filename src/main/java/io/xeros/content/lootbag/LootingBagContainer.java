@@ -35,7 +35,7 @@ public class LootingBagContainer {
         if (item == null) {
             return false;
         }
-        if (item.getId() <= 0 || item.getAmount() <= 0 || player.getItems().freeSlots() <= 0) {
+        if (item.id() <= 0 || item.amount() <= 0 || player.getItems().freeSlots() <= 0) {
             return false;
         }
         if (!player.getPosition().inBank() || player.getPosition().inWild()) {
@@ -45,14 +45,14 @@ public class LootingBagContainer {
         if (player.getItems().getItemCount(id, false) + amount >= Integer.MAX_VALUE || player.getItems().getItemCount(id, false) + amount <= 0) {
             return false;
         }
-        if ((items.get(items.indexOf(item)).getAmount()) > amount) {
+        if ((items.get(items.indexOf(item)).amount()) > amount) {
             amountToAdd = amount;
             items.get(items.indexOf(item)).incrementAmount(-amount);
         } else {
-            amountToAdd = item.getAmount();
+            amountToAdd = item.amount();
             items.remove(index);
         }
-        player.getItems().addItem(item.getId(), amountToAdd);
+        player.getItems().addItem(item.id(), amountToAdd);
         return true;
     }
 
@@ -155,8 +155,8 @@ public class LootingBagContainer {
     public int countItems(int id) {
         int count = 0;
         for (LootingBagItem item : items) {
-            if (item.getId() == id) {
-                count += item.getAmount();
+            if (item.id() == id) {
+                count += item.amount();
             }
         }
         return count;
@@ -164,8 +164,8 @@ public class LootingBagContainer {
 
     public boolean addItemToList(int id, int amount) {
         for (LootingBagItem item : items) {
-            if (item.getId() == id) {
-                if (item.getAmount() + amount >= Integer.MAX_VALUE) {
+            if (item.id() == id) {
+                if (item.amount() + amount >= Integer.MAX_VALUE) {
                     return false;
                 }
                 if (player.getItems().isStackable(id)) {
@@ -215,7 +215,7 @@ public class LootingBagContainer {
 
     public boolean containsItem(int id) {
         for (LootingBagItem item : items) {
-            if (item.getId() == id) {
+            if (item.id() == id) {
                 return true;
             }
         }
@@ -224,7 +224,7 @@ public class LootingBagContainer {
 
     public int findIndexInLootBag(int id) {
         for (LootingBagItem item : items) {
-            if (item.getId() == id) {
+            if (item.id() == id) {
                 return items.indexOf(item);
             }
         }

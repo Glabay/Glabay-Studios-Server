@@ -67,9 +67,9 @@ public abstract class ItemCombination {
 			player.nextChat = -1;
 			return;
 		}
-		player.getItems().deleteItem2(outcome.getId(), outcome.getAmount());
-		revertedItems.get().forEach(item -> player.getItems().addItem(item.getId(), item.getAmount()));
-		player.getDH().sendStatement("The " + ItemAssistant.getItemName(outcome.getId()) + " has been split up.", "You have received some of the item(s) used in the making of",
+		player.getItems().deleteItem2(outcome.id(), outcome.amount());
+		revertedItems.get().forEach(item -> player.getItems().addItem(item.id(), item.amount()));
+		player.getDH().sendStatement("The " + ItemAssistant.getItemName(outcome.id()) + " has been split up.", "You have received some of the item(s) used in the making of",
 				"this item.");
 		player.nextChat = -1;
 	}
@@ -99,7 +99,7 @@ public abstract class ItemCombination {
 	 * @return true if they have all of the items, otherwise false
 	 */
 	public boolean isCombinable(Player player) {
-		Optional<GameItem> unavailableItem = items.stream().filter(i -> !player.getItems().playerHasItem(i.getId(), i.getAmount())).findFirst();
+		Optional<GameItem> unavailableItem = items.stream().filter(i -> !player.getItems().playerHasItem(i.id(), i.amount())).findFirst();
 		return !unavailableItem.isPresent();
 	}
 
@@ -115,7 +115,7 @@ public abstract class ItemCombination {
 	}
 
 	private static final Predicate<GameItem> itemValuesMatch(GameItem item) {
-		return i -> i.getId() == item.getId() && i.getAmount() <= item.getAmount();
+		return i -> i.id() == item.id() && i.amount() <= item.amount();
 	}
 
 	/**

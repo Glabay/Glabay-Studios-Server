@@ -13,10 +13,10 @@ public class TreasureTrailsRewardItem {
     public static List<GameItem> toGameItems(List<TreasureTrailsRewardItem> list) {
         List<GameItem> items = Lists.newArrayList();
         for (TreasureTrailsRewardItem reward : list) {
-            Optional<GameItem> existing = items.stream().filter(it -> it.getId() == reward.getItemId()).findFirst();
+            Optional<GameItem> existing = items.stream().filter(it -> it.id() == reward.getItemId()).findFirst();
             if (existing.isPresent()) {
                 GameItem gameItem = existing.get();
-                gameItem.setAmount(gameItem.getAmount() + reward.getRandomAmount());
+                gameItem.setAmount(gameItem.amount() + reward.getRandomAmount());
                 continue;
             }
 

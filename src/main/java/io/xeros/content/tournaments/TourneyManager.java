@@ -634,7 +634,7 @@ public class TourneyManager {
                     rewardItem = new GameItem(currentSetup.getRareItems()[Misc.random(currentSetup.getRareItems().length - 1)], 1);
                 }
                 count++;
-                if (!killer.tourneyItemsReceived.contains(rewardItem.getId())) {
+                if (!killer.tourneyItemsReceived.contains(rewardItem.id())) {
                     contains = true;
                 }
                 if (count == (currentSetup.getVeryRareItems().length + currentSetup.getRareItems().length + currentSetup.getCommonItems().length + currentSetup.getUncommonItems().length)) {
@@ -643,13 +643,13 @@ public class TourneyManager {
                 }
             }
 
-            killer.tourneyItemsReceived.add(rewardItem.getId());
-            if (rewardItem.getId() != 0) {
-                if (killer.getItems().freeSlots() >= rewardItem.getAmount()) {
-                    killer.getItems().addItem(rewardItem.getId(), rewardItem.getAmount());
+            killer.tourneyItemsReceived.add(rewardItem.id());
+            if (rewardItem.id() != 0) {
+                if (killer.getItems().freeSlots() >= rewardItem.amount()) {
+                    killer.getItems().addItem(rewardItem.id(), rewardItem.amount());
                 } else {
                     killer.sendMessage("Your inventory was full and your rewarded items were dropped beneath you.");
-                    Server.itemHandler.createGroundItem(killer, rewardItem.getId(), killer.absX, killer.absY, killer.getHeight(), rewardItem.getAmount(), killer.getIndex());
+                    Server.itemHandler.createGroundItem(killer, rewardItem.id(), killer.absX, killer.absY, killer.getHeight(), rewardItem.amount(), killer.getIndex());
                 }
             }
             for (int i = 0; i < itemsToRemove.length; i++) {

@@ -855,7 +855,7 @@ public class ClickingButtons implements PacketType {
 //			}
 			for (BankItem item : tab.getItems()) {
 				if (!c.getMode().isBankingPermitted()) {
-					if (!UimStorageChest.isStorageItem(c, item.getId())) {
+					if (!UimStorageChest.isStorageItem(c, item.id())) {
 						c.sendMessage("Your game mode prohibits use of the banking system.");
 						return;
 					}
@@ -903,8 +903,8 @@ public class ClickingButtons implements PacketType {
 			if (tab == null || tab.size() == 0)
 				return;
 			for (BankItem item : tab.getItems()) {
-				long tempValue = item.getId() - 1 == 995 ? 1 : ShopAssistant.getItemShopValue(item.getId() - 1);
-				value += tempValue * item.getAmount();
+				long tempValue = item.id() - 1 == 995 ? 1 : ShopAssistant.getItemShopValue(item.id() - 1);
+				value += tempValue * item.amount();
 			}
 
 			c.sendMessage("<col=255>The total net worth of tab " + tab.getTabId() + " is </col><col=600000>"
@@ -914,8 +914,8 @@ public class ClickingButtons implements PacketType {
 				value = 0;
 				for (BankTab tabIt : c.getBank().getBankTab()) {
 					for (BankItem item : tabIt.getItems()) {
-						long tempValue = item.getId() - 1 == 995 ? 1 : ShopAssistant.getItemShopValue(item.getId() - 1);
-						value += tempValue * item.getAmount();
+						long tempValue = item.id() - 1 == 995 ? 1 : ShopAssistant.getItemShopValue(item.id() - 1);
+						value += tempValue * item.amount();
 					}
 				}
 

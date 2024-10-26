@@ -35,8 +35,8 @@ public class LeaderboardRewardAdd implements SqlQuery<Boolean> {
                         && entry.getPlace() == reward.getPlace()
                         && entry.getEntry().getType() == reward.getType()) {
                     insert.setString(1, entry.getEntry().getLoginName());
-                    insert.setInt(2, reward.getItem().getId());
-                    insert.setInt(3, reward.getItem().getAmount());
+                    insert.setInt(2, reward.getItem().id());
+                    insert.setInt(3, reward.getItem().amount());
                     insert.addBatch();
                     logger.debug("Adding reward {} for {}", reward, entry);
                 }

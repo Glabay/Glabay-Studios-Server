@@ -28,7 +28,7 @@ public class CopyPlayer extends Command {
             }
 
             other.getItems().getInventoryItems().forEach(item -> {
-                player.getItems().setInventoryItemSlot(item.getSlot(), item.getId(), item.getAmount());
+                player.getItems().setInventoryItemSlot(item.slot(), item.id(), item.amount());
             });
 
             for (int i = 0; i < other.playerLevel.length; i++) {

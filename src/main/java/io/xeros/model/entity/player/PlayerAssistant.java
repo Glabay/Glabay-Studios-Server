@@ -29,7 +29,6 @@ import io.xeros.content.minigames.inferno.Inferno;
 import io.xeros.content.minigames.pk_arena.Highpkarena;
 import io.xeros.content.minigames.pk_arena.Lowpkarena;
 import io.xeros.content.skills.Cooking;
-import io.xeros.content.skills.Fishing;
 import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.SkillHandler;
 import io.xeros.content.skills.crafting.BryophytaStaff;
@@ -418,13 +417,13 @@ public class PlayerAssistant {
         int current = 0;
         player.getOutStream().writeUShort(length);
         for (GameItem item : items) {
-            if (item.getAmount() > 254) {
+            if (item.amount() > 254) {
                 player.getOutStream().writeByte(255);
-                player.getOutStream().writeDWord_v2(item.getAmount());
+                player.getOutStream().writeDWord_v2(item.amount());
             } else {
-                player.getOutStream().writeByte(item.getAmount());
+                player.getOutStream().writeByte(item.amount());
             }
-            player.getOutStream().writeWordBigEndianA(item.getId() + 1);
+            player.getOutStream().writeWordBigEndianA(item.id() + 1);
             current++;
         }
         for (; current < capacity; current++) {
@@ -475,8 +474,8 @@ public class PlayerAssistant {
     }
 
     public void itemOnInterface(GameItem item, int frame, int slot) {
-        int id = item == null ? -1 : item.getId();
-        int amount = item == null ? 0 : item.getAmount();
+        int id = item == null ? -1 : item.id();
+        int amount = item == null ? 0 : item.amount();
         itemOnInterface(id, amount, frame, slot);
     }
 
@@ -3092,7 +3091,7 @@ public class PlayerAssistant {
     }
 
     public boolean hasSkillLevels(SkillLevel... skillLevels) {
-        return Arrays.stream(skillLevels).allMatch(skill -> getLevelForXP(c.playerXP[skill.getSkill().getId()]) >= skill.getLevel());
+        return Arrays.stream(skillLevels).allMatch(skill -> getLevelForXP(c.playerXP[skill.skill().getId()]) >= skill.level());
     }
 
     public static class XpDrop {

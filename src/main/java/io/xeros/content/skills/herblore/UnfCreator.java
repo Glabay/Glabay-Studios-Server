@@ -17,15 +17,15 @@ public class UnfCreator {
 
 	public static int getPriceForInventory(Player player) {
 		return player.getItems().getInventoryItems().stream().mapToInt(it -> {
-			UnfinishedPotions unf = UnfinishedPotions.forNotedOrUnNotedHerb(it.getId());
-			return unf != null ? CREATE_UNF_PRICE * it.getAmount() : 0;
+			UnfinishedPotions unf = UnfinishedPotions.forNotedOrUnNotedHerb(it.id());
+			return unf != null ? CREATE_UNF_PRICE * it.amount() : 0;
 		}).sum();
 	}
 
 	public static void makeUnfPotionsFromInventory(Player player) {
 		player.getPA().closeAllWindows();
 		for (SlottedItem item : player.getItems().getInventoryItems()) {
-			UnfinishedPotions unf = UnfinishedPotions.forNotedOrUnNotedHerb(item.getId());
+			UnfinishedPotions unf = UnfinishedPotions.forNotedOrUnNotedHerb(item.id());
 			if (unf == null)
 				continue;
 			if (!makeUnfPotion(player, item, unf, false)) {
@@ -39,9 +39,9 @@ public class UnfCreator {
 	 *         If {@param warn} is true and dialogue sent, return true.
 	 */
 	public static boolean makeUnfPotion(Player player, SlottedItem gameItem, UnfinishedPotions unf, boolean warn) {
-		ItemDef usedItemDef = ItemDef.forId(gameItem.getId());
+		ItemDef usedItemDef = ItemDef.forId(gameItem.id());
 
-		int price = gameItem.getAmount() * CREATE_UNF_PRICE;
+		int price = gameItem.amount() * CREATE_UNF_PRICE;
 		if (warn && price >= PRICE_WARN_AMOUNT) {
 			String priceString = Misc.formatCoins(price);
 			new DialogueBuilder(player).option(
@@ -59,7 +59,7 @@ public class UnfCreator {
 	 * @return true if the potion was made successfully.
 	 */
 	private static boolean make(Player player, SlottedItem gameItem, ItemDef usedItemDef, UnfinishedPotions unf, int price) {
-		if (!player.getItems().playerHasItem(gameItem.getId(), gameItem.getAmount()))
+		if (!player.getItems().playerHasItem(gameItem.id(), gameItem.amount()))
 			return false;
 
 		if (player.getLevelForXP(player.playerXP[Player.playerHerblore]) < unf.getLevelReq()) {
@@ -73,23 +73,23 @@ public class UnfCreator {
 			return false;
 		}
 
-		if (player.getItems().playerHasItem(Items.VIAL_OF_WATER, gameItem.getAmount())) {
-			player.getItems().deleteItem(Items.VIAL_OF_WATER, gameItem.getAmount());
-		} else if (player.getItems().playerHasItem(Items.VIAL_OF_WATER_NOTED, gameItem.getAmount())) {
-			player.getItems().deleteItem(Items.VIAL_OF_WATER_NOTED, gameItem.getAmount());
+		if (player.getItems().playerHasItem(Items.VIAL_OF_WATER, gameItem.amount())) {
+			player.getItems().deleteItem(Items.VIAL_OF_WATER, gameItem.amount());
+		} else if (player.getItems().playerHasItem(Items.VIAL_OF_WATER_NOTED, gameItem.amount())) {
+			player.getItems().deleteItem(Items.VIAL_OF_WATER_NOTED, gameItem.amount());
 		} else {
 			player.sendMessage("You don't have enough vials of water!");
 			return false;
 		}
 
-		int unfPotionId = unf.getPotion().getId();
+		int unfPotionId = unf.getPotion().id();
 		ItemDef unfPotionDef = ItemDef.forId(unfPotionId);
 
-		GameItem unfPotionsItem = new GameItem(usedItemDef.isNoted() ? unfPotionDef.getNotedItemIfAvailable() : unfPotionDef.getId(), gameItem.getAmount());
+		GameItem unfPotionsItem = new GameItem(usedItemDef.isNoted() ? unfPotionDef.getNotedItemIfAvailable() : unfPotionDef.getId(), gameItem.amount());
 
 		player.getItems().deleteItem(Items.COINS, price);
-		player.getItems().deleteItem(gameItem.getId(), gameItem.getAmount());
-		player.getItems().addItemUnderAnyCircumstance(unfPotionsItem.getId(), unfPotionsItem.getAmount());
+		player.getItems().deleteItem(gameItem.id(), gameItem.amount());
+		player.getItems().addItemUnderAnyCircumstance(unfPotionsItem.id(), unfPotionsItem.amount());
 		return true;
 	}
 }

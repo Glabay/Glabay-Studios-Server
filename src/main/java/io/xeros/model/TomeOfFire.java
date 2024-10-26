@@ -1,6 +1,8 @@
 package io.xeros.model;
 
 import io.xeros.model.entity.player.Player;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Arthur Behesnilian 6:47 PM
@@ -10,16 +12,20 @@ public class TomeOfFire {
     /**
      * The Player who this Tome of Fire is bound to
      */
-    private Player player;
+    private final Player player;
 
     /**
      * The amount of pages in this Tome of Fire
      */
+    @Setter
+    @Getter
     private int pages;
 
     /**
      * The amount of charges in this Tome of fire
      */
+    @Setter
+    @Getter
     private int charges;
 
     public TomeOfFire(Player player) {
@@ -54,14 +60,6 @@ public class TomeOfFire {
         this.pages -= amount;
     }
 
-    public int getPages() {
-        return pages;
-    }
-
-    public void setPages(int pages) {
-        this.pages = pages;
-    }
-
     public boolean hasCharges() {
         return charges > 0;
     }
@@ -74,7 +72,8 @@ public class TomeOfFire {
             if (hasPages()) {
                 this.charges = 20;
                 this.decrPage();
-            } else {
+            }
+            else {
                 this.charges = 0;
                 player.sendMessage("Your Tome of Fire has run out of pages and charges.");
                 replaceTomeOfFire();
@@ -88,18 +87,8 @@ public class TomeOfFire {
             player.getItems().setEquipment(Items.TOME_OF_FIRE_EMPTY, 1, Player.playerShield, true);
     }
 
-    public int getCharges() {
-        return charges;
-    }
-
-    public void setCharges(int charges) {
-        this.charges = charges;
-    }
-
     public void reset() {
         this.pages = 0;
         this.charges = 0;
     }
-
-
 }

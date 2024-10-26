@@ -37,13 +37,13 @@ object GroundItemManager {
         // Find all items with the same id and position that are visible
         val stack = getItemsAtPositions(groundItem.pos)
             .filter { if (owner != null) it.isOwner(owner) || it.canSee() else it.canSee() }
-            .filter { it.item.id == groundItem.item.id }
+            .filter { it.item.id() == groundItem.item.id() }
 
         // If there is only 1 item, there is nothing to merge
         if (stack.size == 1) return
 
         // Calculate the total amount of items
-        val newSize = stack.sumOf { it.item.amount }
+        val newSize = stack.sumOf { it.item.amount() }
 
         // Remove all old ground items at the position
         stack.forEach {
@@ -54,7 +54,7 @@ object GroundItemManager {
         // Create a single ground item with an amount equal to all those removed
         val newItem = GroundItem(
             owner = if (owner == null) Optional.empty() else Optional.of(owner),
-            item = GameItem(groundItem.item.id, newSize),
+            item = GameItem(groundItem.item.id(), newSize),
             pos = groundItem.pos,
             state = if (owner == null) GroundItemPickupState.INSTANT else groundItem.state
         )
@@ -173,13 +173,13 @@ object GroundItemManager {
      * Finds all registered [GroundItem] at the specified position with the specified id
      */
     fun getItemWithId(position: Position, id: Int) =
-        items.filterKeys { it.pos == position && it.item.id == id }.map { it.key }.firstOrNull()
+        items.filterKeys { it.pos == position && it.item.id() == id }.map { it.key }.firstOrNull()
 
     /**
      * Finds all registered [GroundItem] at the specified position with the specified id
      */
     fun getVisibleItemWithId(position: Position, id: Int, player: Player) =
-        items.filterKeys { it.pos == position && it.item.id == id && it.canPickup(player) }.map { it.key }
+        items.filterKeys { it.pos == position && it.item.id() == id && it.canPickup(player) }.map { it.key }
             .firstOrNull()
 
     /**
@@ -209,7 +209,7 @@ object GroundItemManager {
      * Check if an item with the same id is spawned at the current position
      */
     fun itemExists(position: Position, id: Int): Boolean {
-        return items.keys.any { it.pos == position && it.item.id == id }
+        return items.keys.any { it.pos == position && it.item.id() == id }
     }
 
     /**
@@ -231,8 +231,8 @@ object GroundItemManager {
     }
 
     fun pickupItem(player: Player, groundItem: GroundItem) {
-        if(itemExists(groundItem.pos, groundItem.item.id)) {
-            val item = ImmutableItem(groundItem.item.id,groundItem.item.amount);
+        if(itemExists(groundItem.pos, groundItem.item.id())) {
+            val item = ImmutableItem(groundItem.item.id(),groundItem.item.amount());
             if (player.inventory.hasRoomInInventory(item)) {
                 player.inventory.addToInventory(item)
                 deregisterGroundItem(groundItem)

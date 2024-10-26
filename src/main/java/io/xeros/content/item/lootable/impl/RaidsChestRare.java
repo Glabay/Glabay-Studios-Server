@@ -9,7 +9,6 @@ import io.xeros.content.combat.death.NPCDeath;
 import io.xeros.content.item.lootable.LootRarity;
 import io.xeros.content.item.lootable.Lootable;
 import io.xeros.content.minigames.raids.Raids;
-import io.xeros.model.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;
@@ -32,7 +31,7 @@ public class RaidsChestRare implements Lootable {
 
         map.forEach((gameItem, amount) -> {
             String dropChance = String.format("%.2f", ((double) amount / 10000) * 100);
-            String itemName = ItemDef.forId(gameItem.getId()).getName();
+            String itemName = ItemDef.forId(gameItem.id()).getName();
             System.out.println("Rolled a " + itemName + " " + amount + " times. " + dropChance);
         });
 
@@ -49,7 +48,7 @@ public class RaidsChestRare implements Lootable {
         for(GameItem f : found) {
             boolean foundItem = false;
             for(GameItem drop : drops) {
-                if (drop.getId() == f.getId()) {
+                if (drop.id() == f.id()) {
                     foundItem = true;
                     break;
                 }
@@ -72,11 +71,11 @@ public class RaidsChestRare implements Lootable {
             c.getItems().deleteItem(KEY, 1);
             c.startAnimation(ANIMATION);
             GameItem reward =  randomChestRewards();
-            c.getCollectionLog().handleDrop(c, 7554, reward.getId(), reward.getAmount());
-            if (reward.getId() == 20851 && c.getItems().getItemCount(20851, false) == 0) {
+            c.getCollectionLog().handleDrop(c, 7554, reward.id(), reward.amount());
+            if (reward.id() == 20851 && c.getItems().getItemCount(20851, false) == 0) {
                 c.getCollectionLog().handleDrop(c, 5, 20851, 1);
             }
-            c.getItems().addItem(reward.getId(), reward.getAmount() * 1); //potentially gives the loot 3 times.
+            c.getItems().addItem(reward.id(), reward.amount() * 1); //potentially gives the loot 3 times.
             c.sendMessage("@blu@You have received a rare item out of the storage unit.");
             NPCDeath.announceKc(c, reward, c.raidCount);
         } else {

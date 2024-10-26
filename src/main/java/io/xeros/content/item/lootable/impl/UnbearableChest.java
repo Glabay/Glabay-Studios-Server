@@ -128,7 +128,7 @@ public class UnbearableChest implements Lootable {
         } else {
             itemList = items.get(LootRarity.RARE);
             GameItem chooseRandomItem = Misc.getRandomItem(itemList);
-            ItemDef def = ItemDef.forId(chooseRandomItem.getId());
+            ItemDef def = ItemDef.forId(chooseRandomItem.id());
             if (!c.getDisplayName().equalsIgnoreCase("thimble") && !c.getDisplayName().equalsIgnoreCase("top hat")) {
                 PlayerHandler.executeGlobalMessage("@bla@[<col=7f0000>UNBEARABLE@bla@] <col=990000>" + c.getDisplayName() + "@bla@ has just received a <col=990000>" + def.getName() + ".");
             }
@@ -151,15 +151,15 @@ public class UnbearableChest implements Lootable {
             c.pkp += pkpbonus;
             if (c.getRights().isOrInherits(Right.YOUTUBER)) {
                 GameItem reward = randomChestRewards(c, 1000);
-                if (!c.getItems().addItem(reward.getId(), reward.getAmount())) {
-                    Server.itemHandler.createGroundItem(c, reward.getId(), c.getX(), c.getY(), c.heightLevel, reward.getAmount());
+                if (!c.getItems().addItem(reward.id(), reward.amount())) {
+                    Server.itemHandler.createGroundItem(c, reward.id(), c.getX(), c.getY(), c.heightLevel, reward.amount());
                 }
                 c.sendMessage("@blu@You also receive @red@" + pkpbonus + " @blu@pkp as a bonus for killing a wildy boss.");
             }
             if (!(c.getRights().isOrInherits(Right.YOUTUBER))) {
                 GameItem reward = randomChestRewards(c,1000);
-                if (!c.getItems().addItem(reward.getId(), reward.getAmount())) {
-                    Server.itemHandler.createGroundItem(c, reward.getId(), c.getX(), c.getY(), c.heightLevel, reward.getAmount());
+                if (!c.getItems().addItem(reward.id(), reward.amount())) {
+                    Server.itemHandler.createGroundItem(c, reward.id(), c.getX(), c.getY(), c.heightLevel, reward.amount());
                 }
                 c.sendMessage("@blu@You also receive @red@" + pkpbonus + " @blu@pkp as a bonus for killing a wildy boss.");
             }

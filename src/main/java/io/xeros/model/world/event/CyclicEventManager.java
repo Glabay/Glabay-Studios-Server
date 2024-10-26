@@ -9,7 +9,7 @@ public class CyclicEventManager {
 	private final List<CyclicEvent> events = Lists.newArrayList();
 	
 	public void wakeCycles() {
-		events.parallelStream().forEach(event -> event.wake());
+		events.parallelStream().forEach(CyclicEvent::wake);
 	}
 	
 	public void register(CyclicEvent event) {

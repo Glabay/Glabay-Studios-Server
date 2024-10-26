@@ -209,8 +209,8 @@ public class NPCDeath {
             "@pur@%s received a drop: %s x %d at <col=E9362B>%d</col>@pur@ kills."
             .formatted(
                 player.getDisplayNameFormatted(),
-                ItemDef.forId(item.getId()).getName(),
-                item.getAmount(),
+                ItemDef.forId(item.id()).getName(),
+                item.amount(),
                 kc
             )
         );

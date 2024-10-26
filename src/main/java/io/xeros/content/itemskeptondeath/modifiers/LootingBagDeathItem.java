@@ -22,7 +22,7 @@ public class LootingBagDeathItem implements DeathItemModifier {
         while (iterator.hasNext()) {
             LootingBagItem item = iterator.next();
             iterator.remove();
-            if (item == null || item.getId() <= 0 || item.getAmount() <= 0)
+            if (item == null || item.id() <= 0 || item.amount() <= 0)
                 continue;
             lostItems.add(item);
         }

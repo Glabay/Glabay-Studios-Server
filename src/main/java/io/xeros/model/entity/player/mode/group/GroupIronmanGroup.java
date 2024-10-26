@@ -126,7 +126,7 @@ public class GroupIronmanGroup {
     }
 
     private boolean log(GameItem gameItem) {
-        return FireOfExchangeBurnPrice.hasValue(gameItem.getId()) || gameItem.getDef().getShopValue() > 50_000;
+        return FireOfExchangeBurnPrice.hasValue(gameItem.id()) || gameItem.getDef().getShopValue() > 50_000;
     }
 
     public void addWithdrawItemLog(Player player, GameItem gameItem) {
