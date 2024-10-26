@@ -1,25 +1,21 @@
 package io.xeros.net.packets.itemoptions;
 
-import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.DiceHandler;
 import io.xeros.content.bosses.Cerberus;
-import io.xeros.content.bosses.mimic.MimicCasket;
 import io.xeros.content.combat.Hitmark;
 import io.xeros.content.combat.magic.NonCombatSpellData;
 import io.xeros.content.combat.magic.SanguinestiStaff;
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.impl.ClaimDonatorScrollDialogue;
 import io.xeros.content.dwarfmulticannon.Cannon;
-import io.xeros.content.item.lootable.impl.*;
+import io.xeros.content.item.lootable.impl.PvmCasket;
+import io.xeros.content.item.lootable.impl.SlayerMysteryBox;
 import io.xeros.content.items.CluescrollRateIncreaseScroll;
 import io.xeros.content.items.Packs;
 import io.xeros.content.items.RottenPotato;
 import io.xeros.content.items.Starter;
 import io.xeros.content.items.pouch.RunePouch;
-import io.xeros.content.lootbag.LootingBag;
-import io.xeros.content.miniquests.magearenaii.MageArenaII;
-import io.xeros.content.skills.DoubleExpScroll;
 import io.xeros.content.skills.SkillHandler;
 import io.xeros.content.skills.SkillPetRateIncreaseScroll;
 import io.xeros.content.skills.hunter.Hunter;
@@ -44,10 +40,7 @@ import io.xeros.model.multiplayersession.flowerpoker.FlowerData;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.net.packets.PacketType;
 import io.xeros.util.discord.Discord;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Calendar;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -141,71 +134,6 @@ public class ItemOptionOne implements PacketType {
         if (TreasureTrails.firstClickItem(c, itemId)) return;
 
         switch (itemId) {
-            case MageArenaII.SYMBOL_ID:
-                MageArenaII.handleEnchantedSymbol(c);
-                return;
-            case Items.MIMIC:
-                MimicCasket.open(c);
-                break;
-            case ResourceBoxSmall.BOX_ITEM:
-                new ResourceBoxSmall().roll(c);
-                break;
-            case ResourceBoxMedium.BOX_ITEM:
-                new ResourceBoxMedium().roll(c);
-                break;
-            case ResourceBoxLarge.BOX_ITEM:
-                new ResourceBoxLarge().roll(c);
-                break;
-            case 21034:
-                c.getDH().sendDialogues(345, 9120);
-                break;
-            case 21079:
-                c.getDH().sendDialogues(347, 9120);
-                break;
-            case 22477:
-                c.sendMessage("Attach it onto a dragon defender to make avernic defender.");
-                break;
-
-            case 23185:
-                if (!c.getPA().morphPermissions()) return;
-                for (int i = 0; i <= 12; i++) c.setSidebarInterface(i, 6014);
-                c.npcId2 = 9415;
-                c.isNpc = true;
-                c.playerStandIndex = -1;
-                c.setUpdateRequired(true);
-                c.morphed = true;
-                c.setAppearanceUpdateRequired(true);
-                break;
-            case 19564:
-                if (c.wildLevel > 30) {
-                    c.sendMessage("You can't teleport above level 30 in the wilderness.");
-                    return;
-                }
-                c.getPA().startTeleport(Configuration.START_LOCATION_X, Configuration.START_LOCATION_Y, 0, "pod", false);
-                break;
-            case 13188:
-                c.startAnimation(7514);
-                c.gfx0(1282);
-                break;
-            case 2841:
-                if (!c.getItems().playerHasItem(2841)) {
-                    c.sendMessage("You need an Bonus XP Scroll to do this!");
-                    return;
-                }
-                if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY
-                    || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
-                    c.sendMessage("@red@Bonus XP Weekend is @gre@active@red@, no need to use that now!");
-                    return;
-                }
-                else if (!c.xpScroll && c.getItems().playerHasItem(2841)) {
-                    c.getItems().deleteItem(2841, 1);
-                    DoubleExpScroll.openScroll(c);
-                    c.sendMessage("@red@You have activated 1 hour of bonus experience.");
-                    c.getPA().sendGameTimer(ClientGameTimer.BONUS_XP, TimeUnit.MINUTES, 60);
-                    c.getQuestTab().updateInformationTab();
-                }
-                else if (c.xpScroll) c.sendMessage("@red@You already used this up.");
-                break;
             case 7968:
                 if (!c.getItems().playerHasItem(7968)) {
                     c.sendMessage("You need an Bonus Pet Scroll to do this!");
