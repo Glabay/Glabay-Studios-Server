@@ -48,9 +48,9 @@ public class TileControl {
 				else 
 					pointer[count++] = calculateDistance(newTiles, following);
 			}
-			for (int i = 0; i < pointer.length; i++)
-				if (pointer[i] < lowestCount)
-					lowestCount = pointer[i];
+            for (int j : pointer)
+                if (j < lowestCount)
+                    lowestCount = j;
 			
 			return lowestCount;
 		}
@@ -58,19 +58,19 @@ public class TileControl {
 		public static int calculateDistance(Tile location, Entity other) {
 			int X = Math.abs(location.getTile()[0] - other.getX());
 			int Y = Math.abs(location.getTile()[1] - other.getY());
-			return X > Y ? X : Y;
+			return Math.max(X, Y);
 		}
 		
 		public static int calculateDistance(int[] location, Entity other) {
 			int X = Math.abs(location[0] - other.getX());
 			int Y = Math.abs(location[1] - other.getY());
-			return X > Y ? X : Y;
+			return Math.max(X, Y);
 		}
 		
 		public static int calculateDistance(int[] location, int[] other) {
 			int X = Math.abs(location[0] - other[0]);
 			int Y = Math.abs(location[1] - other[1]);
-			return X > Y ? X : Y;
+			return Math.max(X, Y);
 		}
 		
 		public static int[] currentLocation(Entity entity) {

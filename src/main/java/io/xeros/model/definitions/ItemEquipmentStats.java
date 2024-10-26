@@ -1,41 +1,29 @@
 package io.xeros.model.definitions;
 
 import io.xeros.model.Bonus;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public final class ItemEquipmentStats {
     public int getBonus(Bonus bonus) {
-        switch (bonus) {
-        case ATTACK_STAB: 
-            return astab;
-        case ATTACK_SLASH: 
-            return aslash;
-        case ATTACK_CRUSH: 
-            return acrush;
-        case ATTACK_MAGIC: 
-            return amagic;
-        case ATTACK_RANGED: 
-            return arange;
-        case DEFENCE_STAB: 
-            return dstab;
-        case DEFENCE_SLASH: 
-            return dslash;
-        case DEFENCE_CRUSH: 
-            return dcrush;
-        case DEFENCE_MAGIC: 
-            return dmagic;
-        case DEFENCE_RANGED: 
-            return drange;
-        case STRENGTH: 
-            return str;
-        case RANGED_STRENGTH: 
-            return rstr;
-        case MAGIC_DMG: 
-            return mdmg;
-        case PRAYER: 
-            return prayer;
-        default: 
-            throw new IllegalArgumentException(bonus.toString());
-        }
+        return switch (bonus) {
+            case ATTACK_STAB -> astab;
+            case ATTACK_SLASH -> aslash;
+            case ATTACK_CRUSH -> acrush;
+            case ATTACK_MAGIC -> amagic;
+            case ATTACK_RANGED -> arange;
+            case DEFENCE_STAB -> dstab;
+            case DEFENCE_SLASH -> dslash;
+            case DEFENCE_CRUSH -> dcrush;
+            case DEFENCE_MAGIC -> dmagic;
+            case DEFENCE_RANGED -> drange;
+            case STRENGTH -> str;
+            case RANGED_STRENGTH -> rstr;
+            case MAGIC_DMG -> mdmg;
+            case PRAYER -> prayer;
+        };
     }
 
     public int getAttackSpeed() {
@@ -62,25 +50,6 @@ public final class ItemEquipmentStats {
     private final int mdmg;
     private final int prayer;
     private final int aspeed;
-
-    ItemEquipmentStats(final int slot, final int astab, final int aslash, final int acrush, final int amagic, final int arange, final int dstab, final int dslash, final int dcrush, final int dmagic, final int drange, final int str, final int rstr, final int mdmg, final int prayer, final int aspeed) {
-        this.slot = slot;
-        this.astab = astab;
-        this.aslash = aslash;
-        this.acrush = acrush;
-        this.amagic = amagic;
-        this.arange = arange;
-        this.dstab = dstab;
-        this.dslash = dslash;
-        this.dcrush = dcrush;
-        this.dmagic = dmagic;
-        this.drange = drange;
-        this.str = str;
-        this.rstr = rstr;
-        this.mdmg = mdmg;
-        this.prayer = prayer;
-        this.aspeed = aspeed;
-    }
 
     public static class ItemEquipmentStatsBuilder {
 
@@ -213,75 +182,10 @@ public final class ItemEquipmentStats {
         return new ItemEquipmentStats.ItemEquipmentStatsBuilder();
     }
 
-    public int getSlot() {
-        return this.slot;
-    }
-
-    public int getAstab() {
-        return this.astab;
-    }
-
-    public int getAslash() {
-        return this.aslash;
-    }
-
-    public int getAcrush() {
-        return this.acrush;
-    }
-
-    public int getAmagic() {
-        return this.amagic;
-    }
-
-    public int getArange() {
-        return this.arange;
-    }
-
-    public int getDstab() {
-        return this.dstab;
-    }
-
-    public int getDslash() {
-        return this.dslash;
-    }
-
-    public int getDcrush() {
-        return this.dcrush;
-    }
-
-    public int getDmagic() {
-        return this.dmagic;
-    }
-
-    public int getDrange() {
-        return this.drange;
-    }
-
-    public int getStr() {
-        return this.str;
-    }
-
-    public int getRstr() {
-        return this.rstr;
-    }
-
-    public int getMdmg() {
-        return this.mdmg;
-    }
-
-    public int getPrayer() {
-        return this.prayer;
-    }
-
-    public int getAspeed() {
-        return this.aspeed;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (o == this) return true;
-        if (!(o instanceof ItemEquipmentStats)) return false;
-        final ItemEquipmentStats other = (ItemEquipmentStats) o;
+        if (!(o instanceof ItemEquipmentStats other)) return false;
         if (this.getSlot() != other.getSlot()) return false;
         if (this.getAstab() != other.getAstab()) return false;
         if (this.getAslash() != other.getAslash()) return false;
@@ -297,8 +201,7 @@ public final class ItemEquipmentStats {
         if (this.getRstr() != other.getRstr()) return false;
         if (this.getMdmg() != other.getMdmg()) return false;
         if (this.getPrayer() != other.getPrayer()) return false;
-        if (this.getAspeed() != other.getAspeed()) return false;
-        return true;
+        return this.getAspeed() == other.getAspeed();
     }
 
     @Override

@@ -1,9 +1,12 @@
 package io.xeros.model.collisionmap;
 
+import lombok.Setter;
+
 public class ByteStream {
 
 	private final byte[] buffer;
-	private int offset;
+	@Setter
+    private int offset;
 
 	public ByteStream(byte[] buffer) {
 		this.buffer = buffer;
@@ -12,14 +15,6 @@ public class ByteStream {
 
 	public void skip(int length) {
 		offset += length;
-	}
-
-	public void setOffset(int position) {
-		offset = position;
-	}
-
-	public void setOffset(long position) {
-		offset = (int) position;
 	}
 
 	public int length() {
@@ -55,7 +50,14 @@ public class ByteStream {
 	}
 
 	public long getLong() {
-		return (getUByte() << 56) + (getUByte() << 48) + (getUByte() << 40) + (getUByte() << 32) + (getUByte() << 24) + (getUByte() << 16) + (getUByte() << 8) + getUByte();
+		return (getUByte() << 56) +
+			(getUByte() << 48) +
+			(getUByte() << 40) +
+			(getUByte() << 32) +
+			(getUByte() << 24) +
+			(getUByte() << 16) +
+			(getUByte() << 8) +
+			getUByte();
 	}
 
 	public int getUSmart() {

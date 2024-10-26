@@ -11,11 +11,19 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.xeros.Server;
 import io.xeros.model.entity.player.Coordinate;
+import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 
+@Getter
 public class DoorDefinition {
 
-	private static final Map<Coordinate, DoorDefinition> definitions = new HashMap<>();
+    /**
+     * -- GETTER --
+     *  A map of all definitions.
+     *
+     */
+    @Getter
+    private static final Map<Coordinate, DoorDefinition> definitions = new HashMap<>();
 
 	public static void load() throws IOException {
 		List<DoorDefinition> list = new Gson().fromJson(FileUtils.readFileToString(new File(Server.getDataDirectory() + "/cfg/obj/door_definitions.json")), new TypeToken<List<DoorDefinition>>() {
@@ -59,16 +67,7 @@ public class DoorDefinition {
 		return definitions.get(new Coordinate(x, y, h));
 	}
 
-	/**
-	 * A map of all definitions.
-	 * 
-	 * @return the map.
-	 */
-	public static Map<Coordinate, DoorDefinition> getDefinitions() {
-		return definitions;
-	}
-
-	private int id;
+    private int id;
 
 	private int x;
 
@@ -78,27 +77,7 @@ public class DoorDefinition {
 
 	private int face;
 
-	public int getId() {
-		return id;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public int getH() {
-		return h;
-	}
-
-	public int getFace() {
-		return face;
-	}
-
-	public Coordinate getCoordinate() {
+    public Coordinate getCoordinate() {
 		return new Coordinate(x, y, h);
 	}
 

@@ -1,11 +1,10 @@
 package io.xeros.model.definitions;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.xeros.Server;
@@ -26,7 +25,7 @@ public class NpcDef {
             }.getType());
             definitions.putAll(map);
         }
-        log.info("Loaded " + definitions.size() + " npc definitions.");
+        log.info("Loaded {} npc definitions.", definitions.size());
     }
 
     public static NpcDef forId(int npcId) {
@@ -34,8 +33,11 @@ public class NpcDef {
     }
 
     private final String name;
+    @Getter
     private final int combatLevel;
+    @Getter
     private final int size;
+    @Getter
     private final boolean runnable;
 
     public String getName() {
@@ -102,31 +104,17 @@ public class NpcDef {
         return new NpcDef.NpcDefBuilder();
     }
 
-    public int getCombatLevel() {
-        return this.combatLevel;
-    }
-
-    public int getSize() {
-        return this.size;
-    }
-
-    public boolean isRunnable() {
-        return this.runnable;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (o == this) return true;
-        if (!(o instanceof NpcDef)) return false;
-        final NpcDef other = (NpcDef) o;
-        if (!other.canEqual((Object) this)) return false;
+        if (!(o instanceof NpcDef other)) return false;
+        if (!other.canEqual(this)) return false;
         if (this.getCombatLevel() != other.getCombatLevel()) return false;
         if (this.getSize() != other.getSize()) return false;
         if (this.isRunnable() != other.isRunnable()) return false;
         final Object this$name = this.getName();
         final Object other$name = other.getName();
-        if (this$name == null ? other$name != null : !this$name.equals(other$name)) return false;
-        return true;
+        return Objects.equals(this$name, other$name);
     }
 
     protected boolean canEqual(final Object other) {

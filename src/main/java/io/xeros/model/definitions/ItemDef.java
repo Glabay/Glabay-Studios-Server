@@ -14,17 +14,15 @@ import io.xeros.content.skills.herblore.PoisonedWeapon;
 import io.xeros.model.SkillLevel;
 import io.xeros.model.items.EquipmentModelType;
 import io.xeros.util.JsonUtil;
+import lombok.Getter;
 
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class ItemDef {
 
     private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(ItemDef.class.getName());
+    @Getter
     private static Map<Integer, ItemDef> definitions = null;
     private static final List<SkillLevel> EMPTY_REQUIREMENTS = Lists.newArrayList();
-
-    public static Map<Integer, ItemDef> getDefinitions() {
-        return definitions;
-    }
 
     public static void load() throws Exception {
         definitions = new HashMap<>();
@@ -46,7 +44,7 @@ public class ItemDef {
     }
 
     public static ItemDef forId(int itemId) {
-        Preconditions.checkState(definitions != null, "Item definitions weren\'t loaded.");
+        Preconditions.checkState(definitions != null, "Item definitions weren't loaded.");
         return definitions.getOrDefault(itemId, builder().id(itemId).build());
     }
 
@@ -56,17 +54,24 @@ public class ItemDef {
         return builder;
     }
 
+    @Getter
     private final int id;
     private final String name;
+    @Getter
     private final String description;
     private final int shopValue;
+    @Getter
     private final int noteId;
+    @Getter
     private final boolean noted;
     private final boolean stackable;
     private final boolean untradeable;
+    @Getter
     private final boolean checkBeforeDrop;
     private final boolean undroppable;
+    @Getter
     private final boolean destroyable;
+    @Getter
     private final EquipmentModelType equipmentModelType;
     private final List<SkillLevel> requirements;
 
@@ -144,19 +149,11 @@ public class ItemDef {
         return b.build();
     }
 
-    public int getId() {
-        return id;
-    }
-
     public String getName() {
         if (name == null) {
             return "unknown item " + getId();
         }
         return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     /**
@@ -178,14 +175,6 @@ public class ItemDef {
         return shopValue;
     }
 
-    public int getNoteId() {
-        return noteId;
-    }
-
-    public boolean isNoted() {
-        return noted;
-    }
-
     public boolean isStackable() {
         return stackable || isNoted();
     }
@@ -195,17 +184,9 @@ public class ItemDef {
         return !untradeable;
     }
 
-    public boolean isCheckBeforeDrop() {
-        return checkBeforeDrop;
-    }
-
     @JsonIgnore
     public boolean isDroppable() {
         return !undroppable;
-    }
-
-    public boolean isDestroyable() {
-        return destroyable;
     }
 
     public List<SkillLevel> getRequirements() {
@@ -215,13 +196,9 @@ public class ItemDef {
         return requirements == null ? EMPTY_REQUIREMENTS : requirements;
     }
 
-    public EquipmentModelType getEquipmentModelType() {
-        return equipmentModelType;
-    }
-
     @Override
     public String toString() {
-        return "ItemDef{" + "id=" + id + ", name=\'" + name + '\'' + ", description=\'" + description + '\'' + ", shopValue=" + shopValue + ", noteId=" + noteId + ", noted=" + noted + ", stackable=" + stackable + ", untradeable=" + untradeable + ", checkBeforeDrop=" + checkBeforeDrop + ", undroppable=" + undroppable + ", equipmentModelType=" + equipmentModelType + ", requirements=" + requirements + '}';
+        return "ItemDef{" + "id=" + id + ", name='" + name + '\'' + ", description='" + description + '\'' + ", shopValue=" + shopValue + ", noteId=" + noteId + ", noted=" + noted + ", stackable=" + stackable + ", untradeable=" + untradeable + ", checkBeforeDrop=" + checkBeforeDrop + ", undroppable=" + undroppable + ", equipmentModelType=" + equipmentModelType + ", requirements=" + requirements + '}';
     }
 
     @Override

@@ -6,22 +6,33 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import io.xeros.model.entity.player.Player;
+import lombok.Getter;
 
 /**
  * 
  * @author Jason MacKeigan
- * @date Nov 21, 2014, 12:38:16 PM
+ * @since Nov 21, 2014, 12:38:16 PM
  */
 public abstract class ItemCombination {
 	/**
 	 * List of items that are required in the combination
-	 */
-	protected List<GameItem> items;
+     * -- GETTER --
+     *  List of the required items
+     *
+
+     */
+	@Getter
+    protected List<GameItem> items;
 
 	/**
 	 * The item received when the items are combined
-	 */
-	protected GameItem outcome;
+     * -- GETTER --
+     *  The item that we receive for combining the items
+     *
+
+     */
+	@Getter
+    protected GameItem outcome;
 
 	/**
 	 * The item that can be reverted from the combination, if possible.
@@ -40,7 +51,7 @@ public abstract class ItemCombination {
 	}
 
 	/**
-	 * Combines all of the items to create the outcome
+	 * Combines all the items to create the outcome
 	 * 
 	 * @param player the player combining the items
 	 */
@@ -59,11 +70,11 @@ public abstract class ItemCombination {
 	 * @param player the player requesting reversion
 	 */
 	public void revert(Player player) {
-		if (!revertedItems.isPresent()) {
+		if (revertedItems.isEmpty()) {
 			return;
 		}
 		if (player.getItems().freeSlots() < revertedItems.get().size()) {
-			player.getDH().sendStatement("You need at least " + revertedItems.get().size() + "" + " inventory slots to do this.");
+			player.getDH().sendStatement("You need at least " + revertedItems.get().size() + " inventory slots to do this.");
 			player.nextChat = -1;
 			return;
 		}
@@ -100,7 +111,7 @@ public abstract class ItemCombination {
 	 */
 	public boolean isCombinable(Player player) {
 		Optional<GameItem> unavailableItem = items.stream().filter(i -> !player.getItems().playerHasItem(i.id(), i.amount())).findFirst();
-		return !unavailableItem.isPresent();
+		return unavailableItem.isEmpty();
 	}
 
 	/**
@@ -114,24 +125,14 @@ public abstract class ItemCombination {
 		return items.stream().filter(itemValuesMatch(item1).or(itemValuesMatch(item2))).count() == 2;
 	}
 
-	private static final Predicate<GameItem> itemValuesMatch(GameItem item) {
+	private static Predicate<GameItem> itemValuesMatch(GameItem item) {
 		return i -> i.id() == item.id() && i.amount() <= item.amount();
 	}
 
-	/**
-	 * List of the required items
-	 * 
-	 * @return the items
-	 */
-	public List<GameItem> getItems() {
-		return items;
-	}
-
-	/**
+    /**
 	 * Determines if the item is revertable or not
-	 * 
-	 * @return
-	 */
+	 *
+     */
 	public boolean isRevertable() {
 		return revertedItems.isPresent();
 	}
@@ -142,16 +143,7 @@ public abstract class ItemCombination {
 	 * @return the revertable item
 	 */
 	public Optional<List<GameItem>> getRevertItems() {
-		return revertedItems.isPresent() ? revertedItems : Optional.empty();
-	}
-
-	/**
-	 * The item that we receive for combining the items
-	 * 
-	 * @return the item
-	 */
-	public GameItem getOutcome() {
-		return outcome;
+		return revertedItems;
 	}
 
 }

@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import dev.openrune.cache.CacheManager;
 import dev.openrune.cache.filestore.definition.data.ObjectType;
 import io.xeros.Server;
-import io.xeros.content.commands.admin.E;
 import io.xeros.content.commands.owner.Clipping;
 import io.xeros.model.collisionmap.doors.Location;
 import io.xeros.model.world.objects.GlobalObject;
@@ -821,12 +820,12 @@ public class Region {
 
     private static void loadMap(RegionData regionData) {
         try {
-            byte[] file1 = CacheManager.cache.data(5, "l" + regionData.getX() + "_" + regionData.getY(), null);
-            byte[] file2 = CacheManager.cache.data(5, "m" + regionData.getX() + "_" + regionData.getY(), null);
+            byte[] file1 = CacheManager.cache.data(5, "l" + regionData.x() + "_" + regionData.y(), null);
+            byte[] file2 = CacheManager.cache.data(5, "m" + regionData.x() + "_" + regionData.y(), null);
 
-            loadMaps(regionData.getRegionHash(), new ByteStream(file1), new ByteStream(file2));
+            loadMaps(regionData.regionHash(), new ByteStream(file1), new ByteStream(file2));
         } catch (Exception e) {
-            errors.add("l" + regionData.getX() + "_" + regionData.getY());
+            errors.add("l" + regionData.x() + "_" + regionData.y());
         }
     }
 

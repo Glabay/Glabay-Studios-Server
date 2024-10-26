@@ -15,6 +15,7 @@ import io.xeros.util.ItemConstants;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
+import lombok.Setter;
 
 public class ShopDef {
 
@@ -26,7 +27,7 @@ public class ShopDef {
     public static void load() throws IOException {
         definitions.clear();
         loadFromDirectory(new File(DIRECTORY));
-        log.info("Loaded " + definitions.size() + " shops.");
+        log.info("Loaded {} shops.", definitions.size());
     }
 
     private static void loadFromDirectory(File directory) throws IOException {
@@ -40,7 +41,7 @@ public class ShopDef {
                     _ShopDef shop = new ObjectMapper(new YAMLFactory()).readValue(file, _ShopDef.class);
                     Preconditions.checkState(!definitions.containsKey(shop.id), "Shop already present: " + shop + ", " + definitions.get(shop.id));
 
-                    List<ShopItem> shopItems = shop.items.stream().map(item -> item.toShopItem(itemConstants)).collect(Collectors.toList());
+                    List<ShopItem> shopItems = shop.items.stream().map(item -> item.toShopItem(itemConstants)).toList();
                     List<ShopItem> items = Lists.newArrayList();
 
                     shopItems.forEach(item -> {
@@ -84,34 +85,12 @@ public class ShopDef {
     /**
      * Shop definition with named items.
      */
+    @Setter
+    @Getter
     private static class _ShopDef {
         private int id;
         private String name;
         private List<NamedShopItem> items;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public List<NamedShopItem> getItems() {
-            return items;
-        }
-
-        public void setItems(List<NamedShopItem> items) {
-            this.items = items;
-        }
     }
 
     ShopDef(final int id, final String name, final List<ShopItem> items) {
@@ -128,8 +107,7 @@ public class ShopDef {
 
         private List<ShopItem> items;
 
-        ShopDefBuilder() {
-        }
+        ShopDefBuilder() {}
 
         public ShopDef.ShopDefBuilder id(final int id) {
             this.id = id;
@@ -163,17 +141,15 @@ public class ShopDef {
     @Override
     public boolean equals(final Object o) {
         if (o == this) return true;
-        if (!(o instanceof ShopDef)) return false;
-        final ShopDef other = (ShopDef) o;
-        if (!other.canEqual((Object) this)) return false;
+        if (!(o instanceof ShopDef other)) return false;
+        if (!other.canEqual(this)) return false;
         if (this.getId() != other.getId()) return false;
         final Object this$name = this.getName();
         final Object other$name = other.getName();
-        if (this$name == null ? other$name != null : !this$name.equals(other$name)) return false;
+        if (!Objects.equals(this$name, other$name)) return false;
         final Object this$items = this.getItems();
         final Object other$items = other.getItems();
-        if (this$items == null ? other$items != null : !this$items.equals(other$items)) return false;
-        return true;
+        return Objects.equals(this$items, other$items);
     }
 
     protected boolean canEqual(final Object other) {

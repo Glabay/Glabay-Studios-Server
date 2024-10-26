@@ -7,7 +7,9 @@ import io.xeros.Server;
 import io.xeros.model.entity.player.Position;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.GlobalObjects;
+import lombok.Getter;
 
+@Getter
 public class WorldObject {
 
 	public final int x, y, height, id, type, face;
@@ -83,30 +85,6 @@ public class WorldObject {
 				", type=" + type +
 				", face=" + face +
 				'}';
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public int getType() {
-		return type;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public int getFace() {
-		return face;
 	}
 
     public void replace(int objectId) {

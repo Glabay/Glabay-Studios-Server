@@ -32,7 +32,7 @@ public class ControllerRepository {
                 e.printStackTrace(System.err);
                 return null;
             }
-        }).collect(Collectors.toList());
+        }).toList();
 
         controllerList.forEach(controller -> {
             Controller current = controllers.get(controller.getKey());
@@ -55,12 +55,12 @@ public class ControllerRepository {
             });
         });
 
-        logger.info("Loaded " + controllers.size() + " controllers.");
+        logger.info("Loaded {} controllers.", controllers.size());
     }
 
     /**
      * Get controller for the player.
-     *
+     * <p>
      * Checks all controller boundaries to see if the player is inside the boundaries.
      * If player isn't inside any controller boundaries it will return the default controller.
      */

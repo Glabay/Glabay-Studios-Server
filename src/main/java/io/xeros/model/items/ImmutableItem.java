@@ -3,17 +3,19 @@ package io.xeros.model.items;
 import com.google.common.base.Preconditions;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.util.Misc;
+import lombok.Getter;
 
+@Getter
 public class ImmutableItem {
     public static String getItemsAsString(ImmutableItem... itemArray) {
-        String string = "";
+        var string = new StringBuilder();
         for (int i = 0; i < itemArray.length; i++) {
-            string += itemArray[i].getFormattedString();
+            string.append(itemArray[i].getFormattedString());
             if (i != itemArray.length - 1) {
-                string += ", ";
+                string.append(", ");
             }
         }
-        return string;
+        return string.toString();
     }
 
     public static ImmutableItem[] concatItemArray(ImmutableItem[] a, ImmutableItem[] b) {
@@ -62,23 +64,13 @@ public class ImmutableItem {
         return new ImmutableItem(id, amount);
     }
 
-    public int getId() {
-        return this.id;
-    }
-
-    public int getAmount() {
-        return this.amount;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (o == this) return true;
-        if (!(o instanceof ImmutableItem)) return false;
-        final ImmutableItem other = (ImmutableItem) o;
-        if (!other.canEqual((Object) this)) return false;
+        if (!(o instanceof ImmutableItem other)) return false;
+        if (!other.canEqual(this)) return false;
         if (this.getId() != other.getId()) return false;
-        if (this.getAmount() != other.getAmount()) return false;
-        return true;
+        return this.getAmount() == other.getAmount();
     }
 
     protected boolean canEqual(final Object other) {

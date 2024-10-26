@@ -2,12 +2,16 @@ package io.xeros.model.collisionmap.doors;
 
 import java.util.List;
 import com.google.common.collect.Lists;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Representing a specific location.
  * 
  * @author Emiel
  */
+@Setter
+@Getter
 public class Location {
     private int x;
     private int y;
@@ -116,27 +120,4 @@ public class Location {
         return x == other.x && y == other.y;
     }
 
-    public int getX() {
-        return this.x;
-    }
-
-    public int getY() {
-        return this.y;
-    }
-
-    public int getZ() {
-        return this.z;
-    }
-
-    public void setX(final int x) {
-        this.x = x;
-    }
-
-    public void setY(final int y) {
-        this.y = y;
-    }
-
-    public void setZ(final int z) {
-        this.z = z;
-    }
 }

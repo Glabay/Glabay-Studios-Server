@@ -2,16 +2,17 @@ package io.xeros.model.definitions;
 
 import java.io.FileReader;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
+import java.util.Objects;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.xeros.Server;
 import io.xeros.model.entity.npc.combat.CombatMethod;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class NpcStats {
     private static final java.util.logging.Logger log = java.util.logging.Logger.getLogger(NpcStats.class.getName());
     @Getter
@@ -22,7 +23,7 @@ public class NpcStats {
             npcStatsMap = new Gson().fromJson(fr, new TypeToken<Int2ObjectOpenHashMap<NpcStats>>() {}.getType());
             log.info("Loaded " + npcStatsMap.size() + " npc stats.");
         } catch (Exception ex) {
-            ex.printStackTrace();
+            ex.printStackTrace(System.err);
         }
     }
 
@@ -45,199 +46,76 @@ public class NpcStats {
         return builder;
     }
 
-    private String name;
+
+    @Getter
+    private final String name;
+    @Getter
     private final int hitpoints;
+    @Getter
     private final int combatLevel;
+    @Getter
     private final int slayerLevel;
+    @Getter
     private final int attackSpeed;
+    @Getter
     private final int attackLevel;
+    @Getter
     private final int strengthLevel;
+    @Getter
     private final int defenceLevel;
+    @Getter
     private final int rangeLevel;
+    @Getter
     private final int magicLevel;
+    @Getter
     private final int stab;
+    @Getter
     private final int slash;
+    @Getter
     private final int crush;
+    @Getter
     private final int range;
+    @Getter
     private final int magic;
+    @Getter
     private final int stabDef;
+    @Getter
     private final int slashDef;
+    @Getter
     private final int crushDef;
+    @Getter
     private final int rangeDef;
+    @Getter
     private final int magicDef;
+    @Getter
     private final int bonusAttack;
+    @Getter
     private final int bonusStrength;
+    @Getter
     private final int bonusRangeStrength;
+    @Getter
     private final int bonusMagicDamage;
+    @Getter
     private final boolean poisonImmune;
+    @Getter
     private final boolean venomImmune;
+    @Getter
     private final boolean dragon;
+    @Getter
     private final boolean demon;
+    @Getter
     private final boolean undead;
     public Scripts scripts;
 
-    public NpcStats(String name, int hitpoints, int combatLevel, int slayerLevel, int attackSpeed, int attackLevel, int strengthLevel, int defenceLevel, int rangeLevel, int magicLevel, int stab, int slash, int crush, int range, int magic, int stabDef, int slashDef, int crushDef, int rangeDef, int magicDef, int bonusAttack, int bonusStrength, int bonusRangeStrength, int bonusMagicDamage, boolean poisonImmune, boolean venomImmune, boolean dragon, boolean demon, boolean undead) {
-        this.name = name;
-        this.hitpoints = hitpoints;
-        this.combatLevel = combatLevel;
-        this.slayerLevel = slayerLevel;
-        this.attackSpeed = attackSpeed;
-        this.attackLevel = attackLevel;
-        this.strengthLevel = strengthLevel;
-        this.defenceLevel = defenceLevel;
-        this.rangeLevel = rangeLevel;
-        this.magicLevel = magicLevel;
-        this.stab = stab;
-        this.slash = slash;
-        this.crush = crush;
-        this.range = range;
-        this.magic = magic;
-        this.stabDef = stabDef;
-        this.slashDef = slashDef;
-        this.crushDef = crushDef;
-        this.rangeDef = rangeDef;
-        this.magicDef = magicDef;
-        this.bonusAttack = bonusAttack;
-        this.bonusStrength = bonusStrength;
-        this.bonusRangeStrength = bonusRangeStrength;
-        this.bonusMagicDamage = bonusMagicDamage;
-        this.poisonImmune = poisonImmune;
-        this.venomImmune = venomImmune;
-        this.dragon = dragon;
-        this.demon = demon;
-        this.undead = undead;
-    }
-
     @Override
     public String toString() {
-        return "NpcCombatDefinition{" + "name=\'" + name + '\'' + ", attackLevel=" + attackLevel + ", strengthLevel=" + strengthLevel + ", defenceLevel=" + defenceLevel + ", rangeLevel=" + rangeLevel + ", magicLevel=" + magicLevel + ", stab=" + stab + ", slash=" + slash + ", crush=" + crush + ", range=" + range + ", magic=" + magic + ", stabDef=" + stabDef + ", slashDef=" + slashDef + ", crushDef=" + crushDef + ", rangeDef=" + rangeDef + ", magicDef=" + magicDef + ", bonusAttack=" + bonusAttack + ", bonusStrength=" + bonusStrength + ", bonusRangeStrength=" + bonusRangeStrength + ", bonusMagicDamage=" + bonusMagicDamage + ", poisonImmune=" + poisonImmune + ", venomImmune=" + venomImmune + ", dragon=" + dragon + ", demon=" + demon + ", undead=" + undead + '}';
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public int getHitpoints() {
-        return this.hitpoints;
-    }
-
-    public int getCombatLevel() {
-        return this.combatLevel;
-    }
-
-    public int getSlayerLevel() {
-        return this.slayerLevel;
-    }
-
-    public int getAttackSpeed() {
-        return this.attackSpeed;
-    }
-
-    public int getAttackLevel() {
-        return this.attackLevel;
-    }
-
-    public int getStrengthLevel() {
-        return this.strengthLevel;
-    }
-
-    public int getDefenceLevel() {
-        return this.defenceLevel;
-    }
-
-    public int getRangeLevel() {
-        return this.rangeLevel;
-    }
-
-    public int getMagicLevel() {
-        return this.magicLevel;
-    }
-
-    public int getStab() {
-        return this.stab;
-    }
-
-    public int getSlash() {
-        return this.slash;
-    }
-
-    public int getCrush() {
-        return this.crush;
-    }
-
-    public int getRange() {
-        return this.range;
-    }
-
-    public int getMagic() {
-        return this.magic;
-    }
-
-    public int getStabDef() {
-        return this.stabDef;
-    }
-
-    public int getSlashDef() {
-        return this.slashDef;
-    }
-
-    public int getCrushDef() {
-        return this.crushDef;
-    }
-
-    public int getRangeDef() {
-        return this.rangeDef;
-    }
-
-    public int getMagicDef() {
-        return this.magicDef;
-    }
-
-    public int getBonusAttack() {
-        return this.bonusAttack;
-    }
-
-    public int getBonusStrength() {
-        return this.bonusStrength;
-    }
-
-    public int getBonusRangeStrength() {
-        return this.bonusRangeStrength;
-    }
-
-    public int getBonusMagicDamage() {
-        return this.bonusMagicDamage;
-    }
-
-    public boolean isPoisonImmune() {
-        return this.poisonImmune;
-    }
-
-    public boolean isVenomImmune() {
-        return this.venomImmune;
-    }
-
-    public boolean isDragon() {
-        return this.dragon;
-    }
-
-    public boolean isDemon() {
-        return this.demon;
-    }
-
-    public boolean isUndead() {
-        return this.undead;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
+        return "NpcCombatDefinition{" + "name='" + name + '\'' + ", attackLevel=" + attackLevel + ", strengthLevel=" + strengthLevel + ", defenceLevel=" + defenceLevel + ", rangeLevel=" + rangeLevel + ", magicLevel=" + magicLevel + ", stab=" + stab + ", slash=" + slash + ", crush=" + crush + ", range=" + range + ", magic=" + magic + ", stabDef=" + stabDef + ", slashDef=" + slashDef + ", crushDef=" + crushDef + ", rangeDef=" + rangeDef + ", magicDef=" + magicDef + ", bonusAttack=" + bonusAttack + ", bonusStrength=" + bonusStrength + ", bonusRangeStrength=" + bonusRangeStrength + ", bonusMagicDamage=" + bonusMagicDamage + ", poisonImmune=" + poisonImmune + ", venomImmune=" + venomImmune + ", dragon=" + dragon + ", demon=" + demon + ", undead=" + undead + '}';
     }
 
     @Override
     public boolean equals(final Object o) {
         if (o == this) return true;
-        if (!(o instanceof NpcStats)) return false;
-        final NpcStats other = (NpcStats) o;
+        if (!(o instanceof NpcStats other)) return false;
         if (!other.canEqual((Object) this)) return false;
         if (this.getHitpoints() != other.getHitpoints()) return false;
         if (this.getCombatLevel() != other.getCombatLevel()) return false;
@@ -269,8 +147,7 @@ public class NpcStats {
         if (this.isUndead() != other.isUndead()) return false;
         final Object this$name = this.getName();
         final Object other$name = other.getName();
-        if (this$name == null ? other$name != null : !this$name.equals(other$name)) return false;
-        return true;
+        return Objects.equals(this$name, other$name);
     }
 
     protected boolean canEqual(final Object other) {

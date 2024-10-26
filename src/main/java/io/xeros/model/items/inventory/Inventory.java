@@ -19,25 +19,10 @@ public final class Inventory {
 	 *
 	 * @author Graham
 	 */
-	public static enum StackMode {
-
-		/**
-		 * When in {@link #STACK_ALWAYS} mode, an {@link Inventory} will stack every single item, regardless of the
-		 * settings of individual items.
-		 */
+	public enum StackMode {
 		STACK_ALWAYS,
-
-		/**
-		 * When in {@link #STACK_NEVER} mode, an {@link Inventory} will never stack items.
-		 */
 		STACK_NEVER,
-
-		/**
-		 * When in {@link #STACK_STACKABLE_ITEMS} mode, an {@link Inventory} will stack items depending on their
-		 * settings.
-		 */
 		STACK_STACKABLE_ITEMS;
-
 	}
 
 	/**
@@ -127,7 +112,7 @@ public final class Inventory {
 	 */
 	public int add(int id, int amount) {
 		Optional<GameItem> item = add(new GameItem(id, amount));
-		return item.isPresent() ? item.get().amount() : 0;
+		return item.map(GameItem::amount).orElse(0);
 	}
 
 	/**
@@ -138,7 +123,7 @@ public final class Inventory {
 	 */
 	public GameItem addAndReturnAmountAdded(GameItem item) {
 		Optional<GameItem> remaining = add(item);
-		int amountDeleted = remaining.isEmpty() ? item.amount() : item.amount() - remaining.get().amount();
+		int amountDeleted = remaining.map(gameItem -> item.amount() - gameItem.amount()).orElseGet(item::amount);
 		return new GameItem(item.id(), amountDeleted);
 	}
 

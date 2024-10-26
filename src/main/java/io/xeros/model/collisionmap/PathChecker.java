@@ -12,25 +12,20 @@ import io.xeros.model.entity.player.Position;
 public class PathChecker {
 
     @Deprecated
-    public static boolean isProjectilePathClear(Entity entity, Entity other,
-                                                final int x0, final int y0,
-                                                final int z, final int x1, final int y1) {
-
-        if (other != null && other instanceof NPC && entity instanceof Player) {
-            Player c = (Player) entity;
-            NPC theNPC = (NPC) other;
-            if (Boundary.isIn(c, Boundary.PEST_CONTROL_AREA) || theNPC.getNpcId() == Skotizo.AWAKENED_ALTAR_NORTH
-                    || theNPC.getNpcId() == Skotizo.AWAKENED_ALTAR_SOUTH
-                    || theNPC.getNpcId() == Skotizo.AWAKENED_ALTAR_WEST
-                    || theNPC.getNpcId() == Skotizo.AWAKENED_ALTAR_EAST
-                    || theNPC.getNpcId() == 7559
-                    || theNPC.getNpcId() == 7560
-                    || theNPC.getNpcId() == 7706 /* Inferno final boss */) {
+    public static boolean isProjectilePathClear(Entity entity, Entity other, int x0, int y0, int z, int x1, int y1) {
+        if (other instanceof NPC npc && entity instanceof Player player) {
+            if (Boundary.isIn(player, Boundary.PEST_CONTROL_AREA)
+                || npc.getNpcId() == Skotizo.AWAKENED_ALTAR_NORTH
+                || npc.getNpcId() == Skotizo.AWAKENED_ALTAR_SOUTH
+                || npc.getNpcId() == Skotizo.AWAKENED_ALTAR_WEST
+                || npc.getNpcId() == Skotizo.AWAKENED_ALTAR_EAST
+                || npc.getNpcId() == 7559
+                || npc.getNpcId() == 7560
+                || npc.getNpcId() == 7706 /* Inferno final boss */
+            ) {
                 return true;
             }
         }
-
-
         int deltaX = x1 - x0;
         int deltaY = y1 - y0;
 
@@ -50,9 +45,8 @@ public class PathChecker {
         boolean incrY = y0 < y1;
 
         while (true) {
-            if (x != x1) {
+            if (x != x1)
                 x += (incrX ? 1 : -1);
-            }
 
             if (y != y1) {
                 error += deltaError;
@@ -63,32 +57,17 @@ public class PathChecker {
                 }
             }
 
-           /* if (!raycast(entity, entity.getCenterPosition(), new Position(pX, pY, entity.getPosition().getHeight()), true)) {
+            if (!shootable(entity, x, y, z, pX, pY))
                 return false;
-            }*/
 
-            if (!shootable(entity, x, y, z, pX, pY)) {
-                return false;
-            }
-
-            if (incrX && incrY
-                    && x >= x1 && y >= y1) {
-                break;
-            } else if (!incrX && !incrY
-                    && x <= x1 && y <= y1) {
-                break;
-            } else if (!incrX && incrY
-                    && x <= x1 && y >= y1) {
-                break;
-            } else if (incrX && !incrY
-                    && x >= x1 && y <= y1) {
-                break;
-            }
+            if (incrX && incrY && x >= x1 && y >= y1) break;
+            else if (!incrX && !incrY && x <= x1 && y <= y1) break;
+            else if (!incrX && incrY && x <= x1 && y >= y1) break;
+            else if (incrX && !incrY && x >= x1 && y <= y1) break;
 
             pX = x;
             pY = y;
         }
-
         return true;
     }
 
@@ -291,9 +270,7 @@ public class PathChecker {
     }
 
     public static boolean raycast(Entity entity, Entity other, boolean projectile) {
-        if (other != null && other instanceof NPC && entity instanceof Player) {
-            NPC theNPC = (NPC) other;
-            Player c = (Player) entity;
+        if (other instanceof NPC theNPC && entity instanceof Player c) {
             if (Boundary.isIn(c, Boundary.PEST_CONTROL_AREA) || theNPC.getNpcId() == Skotizo.AWAKENED_ALTAR_NORTH
                     || theNPC.getNpcId() == Skotizo.AWAKENED_ALTAR_SOUTH
                     || theNPC.getNpcId() == Skotizo.AWAKENED_ALTAR_WEST
@@ -393,6 +370,4 @@ public class PathChecker {
         }
         return true;
     }
-
-
 }

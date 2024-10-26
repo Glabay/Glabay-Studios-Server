@@ -1,6 +1,5 @@
 package io.xeros.model.items.interactions;
 
-import io.xeros.model.world.objects.actions.WorldObjectAction;
 import io.xeros.util.PackageLoader;
 import lombok.NonNull;
 import org.slf4j.Logger;

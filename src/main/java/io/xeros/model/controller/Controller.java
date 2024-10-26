@@ -78,7 +78,7 @@ public interface Controller {
     boolean canMagicTeleport(Player player);
 
     /**
-     * Called when the player logins in after the controller is loaded via {@link Player#loadController()}.
+     * Called when the player logins in after the controller is loaded via.
      */
     void onLogin(Player player);
 

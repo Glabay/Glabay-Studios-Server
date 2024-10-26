@@ -1,6 +1,5 @@
 package io.xeros.model.collisionmap;
 
-import io.xeros.content.commands.owner.Clipping;
 import io.xeros.content.skills.hunter.impling.Impling;
 import io.xeros.content.skills.hunter.trap.impl.BirdSnare;
 import io.xeros.content.skills.hunter.trap.impl.BoxTrap;

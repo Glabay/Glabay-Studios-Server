@@ -1,13 +1,14 @@
 package io.xeros.model.definitions;
 
-import java.io.File;
 import java.io.FileReader;
-import java.util.Map;
+import java.util.Objects;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import io.xeros.Server;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import lombok.Getter;
 
 public final class ItemStats {
 
@@ -17,11 +18,11 @@ public final class ItemStats {
 
     public static void load() {
         try (FileReader fr = new FileReader(Server.getDataDirectory() + "/cfg/item/item_stats.json")) {
-            itemStatsMap = new Gson().fromJson(fr, new TypeToken<Int2ObjectOpenHashMap<ItemStats>>() {
-            }.getType());
+            itemStatsMap = new Gson().fromJson(fr, new TypeToken<Int2ObjectOpenHashMap<ItemStats>>() {}.getType());
             log.info("Loaded " + itemStatsMap.size() + " item stats.");
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        }
+        catch (Exception ex) {
+            ex.printStackTrace(System.err);
         }
     }
 
@@ -34,9 +35,13 @@ public final class ItemStats {
 
     static final ItemEquipmentStats DEFAULT_STATS = ItemEquipmentStats.builder().slot(-1).aspeed(4).build();
     static final ItemStats DEFAULT = builder().build();
+    @Getter
     private final String name;
+    @Getter
     private final Boolean quest;
+    @Getter
     private final Boolean equipable;
+    @Getter
     private final Double weight;
     private final ItemEquipmentStats equipment;
 
@@ -97,7 +102,7 @@ public final class ItemStats {
         }
 
         @Override
-    public String toString() {
+        public String toString() {
             return "ItemStats.ItemStatsBuilder(name=" + this.name + ", quest=" + this.quest + ", equipable=" + this.equipable + ", weight=" + this.weight + ", equipment=" + this.equipment + ")";
         }
     }
@@ -106,42 +111,25 @@ public final class ItemStats {
         return new ItemStats.ItemStatsBuilder();
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public Boolean getQuest() {
-        return this.quest;
-    }
-
-    public Boolean getEquipable() {
-        return this.equipable;
-    }
-
-    public Double getWeight() {
-        return this.weight;
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (o == this) return true;
-        if (!(o instanceof ItemStats)) return false;
-        final ItemStats other = (ItemStats) o;
+        if (!(o instanceof ItemStats other)) return false;
         final Object this$quest = this.getQuest();
         final Object other$quest = other.getQuest();
-        if (this$quest == null ? other$quest != null : !this$quest.equals(other$quest)) return false;
+        if (!Objects.equals(this$quest, other$quest)) return false;
         final Object this$equipable = this.getEquipable();
         final Object other$equipable = other.getEquipable();
-        if (this$equipable == null ? other$equipable != null : !this$equipable.equals(other$equipable)) return false;
+        if (!Objects.equals(this$equipable, other$equipable)) return false;
         final Object this$weight = this.getWeight();
         final Object other$weight = other.getWeight();
-        if (this$weight == null ? other$weight != null : !this$weight.equals(other$weight)) return false;
+        if (!Objects.equals(this$weight, other$weight)) return false;
         final Object this$name = this.getName();
         final Object other$name = other.getName();
-        if (this$name == null ? other$name != null : !this$name.equals(other$name)) return false;
+        if (!Objects.equals(this$name, other$name)) return false;
         final Object this$equipment = this.getEquipment();
         final Object other$equipment = other.getEquipment();
-        if (this$equipment == null ? other$equipment != null : !this$equipment.equals(other$equipment)) return false;
+        if (!Objects.equals(this$equipment, other$equipment)) return false;
         return true;
     }
 

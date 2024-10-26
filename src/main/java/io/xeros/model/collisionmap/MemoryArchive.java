@@ -19,8 +19,7 @@ public class MemoryArchive {
 			long fileOffset = index.getLong();
 			int fileSize = index.getInt();
 			cache.setOffset(fileOffset);
-			byte[] buffer = cache.read(fileSize);
-			return buffer;
+            return cache.read(fileSize);
 		} catch (Exception e) {
 			System.out.println("MemoryArchive - Check for error");
 			e.printStackTrace(System.err);
