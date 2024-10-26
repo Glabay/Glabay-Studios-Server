@@ -11,7 +11,7 @@ import lombok.Getter;
 /**
  * 
  * @author Jason MacKeigan
- * @date Nov 6, 2014, 1:01:03 PM
+ * @since Nov 6, 2014, 1:01:03 PM
  */
 public class Damage {
 
@@ -32,9 +32,8 @@ public class Damage {
 	 * -- GETTER --
 	 *  The special attack assigned to this damage
 	 *
-	 * @return the special attack
 
-	 */
+     */
 	@Getter
 	private Special special;
 
@@ -43,9 +42,8 @@ public class Damage {
 	 * -- GETTER --
 	 *  The type of combat this damage is relative to
 	 *
-	 * @return the type of damage
 
-	 */
+     */
 	@Getter
 	private CombatType combatType;
 
@@ -56,9 +54,8 @@ public class Damage {
 	 * -- GETTER --
 	 *  The equipment warn by the attacker
 	 *
-	 * @return the equipment;
 
-	 */
+     */
 	@Getter
 	private Optional<int[]> equipment;
 
@@ -67,9 +64,8 @@ public class Damage {
 	 * -- GETTER --
 	 *  Returns the amount of damage
 	 *
-	 * @return the amount of damage
 
-	 */
+     */
 	@Getter
 	private int amount;
 
@@ -78,9 +74,8 @@ public class Damage {
 	 * -- GETTER --
 	 *  The number of ticks this damage is alive for
 	 *
-	 * @return the ticks
 
-	 */
+     */
 	@Getter
 	private int ticks;
 
@@ -95,9 +90,8 @@ public class Damage {
 	 * -- GETTER --
 	 *  The time that the damage was created
 	 *
-	 * @return the time the damage was created
 
-	 */
+     */
 	@Getter
 	private final long timestamp;
 
@@ -106,9 +100,8 @@ public class Damage {
 	 * -- GETTER --
 	 *  The hitmark for this damage
 	 *
-	 * @return the hitmark
 
-	 */
+     */
 	@Getter
 	private Hitmark hitmark;
 

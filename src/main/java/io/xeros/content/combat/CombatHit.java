@@ -1,5 +1,8 @@
 package io.xeros.content.combat;
 
+import lombok.Getter;
+
+@Getter
 public class CombatHit {
 
     public static CombatHit miss() {
@@ -14,15 +17,8 @@ public class CombatHit {
         this.damage = damage;
     }
 
-    public boolean isSuccess() {
-        return success;
-    }
-
     public boolean missed() {
         return !success;
     }
 
-    public int getDamage() {
-        return damage;
-    }
 }

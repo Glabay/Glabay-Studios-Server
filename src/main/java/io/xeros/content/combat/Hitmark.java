@@ -117,7 +117,11 @@ public enum Hitmark {
 	/**
 	 * Sanity drain from Lost Souls and The Whisperer within the Shadow Realm.
 	 */
-	DRAIN_SANITY(71);
+	DRAIN_SANITY(71),
+
+	DOOM(73),
+	BURN(74)
+	;
 
 	private final int id;
 	private final int secondary;

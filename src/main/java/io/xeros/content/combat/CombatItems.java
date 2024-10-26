@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
 
-import io.xeros.content.SkillcapePerks;
 import io.xeros.content.combat.melee.MeleeExtras;
 import io.xeros.content.combat.weapon.CombatStyle;
 import io.xeros.content.items.OrnamentedItem;
@@ -20,7 +19,6 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.items.ItemAssistant;
 import io.xeros.util.Misc;
-import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,27 +55,25 @@ public class CombatItems {
 	 */
 	public static final int[][] MUTAGEN_HELMETS = { { 12931, 12929 }, { 13199, 13198 }, { 13197, 13196 } };
 
-	private final Player c;
+	private final Player player;
 
-	public CombatItems(Player Client) {
-		this.c = Client;
+	public CombatItems(Player player) {
+		this.player = player;
 	}
 
 	public boolean hasArcLight() {
-		return this.c.getArcLightCharge() > 0 && c.getItems().isWearingItem(Items.ARCLIGHT, Player.playerWeapon);
+		return this.player.getArcLightCharge() > 0 && player.getItems().isWearingItem(Items.ARCLIGHT, Player.playerWeapon);
 	}
 
 	public boolean hasTomeOfFire() {
-		return c.getItems().isWearingItem(Items.TOME_OF_FIRE, Player.playerShield)
-				&& c.getTomeOfFire().hasCharges();
+		return player.getItems().isWearingItem(Items.TOME_OF_FIRE, Player.playerShield) && player.getTomeOfFire().hasCharges();
 	}
 
 	public static int getUnchargedSerpentineHelmet(int chargedHelmetId) {
-		for (int i = 0; i < MUTAGEN_HELMETS.length; i++) {
-			if (MUTAGEN_HELMETS[i][0] == chargedHelmetId) {
-				return MUTAGEN_HELMETS[i][1];
-			}
-		}
+        for (int[] mutagenHelmet : MUTAGEN_HELMETS) {
+            if (mutagenHelmet[0] == chargedHelmetId)
+                return mutagenHelmet[1];
+        }
 
 		logger.error("No uncharged serpentine helmet for id {}", chargedHelmetId);
 		return Items.SERPENTINE_HELM_UNCHARGED;
@@ -88,46 +84,45 @@ public class CombatItems {
 	 * If all three pieces are worn, an additional 1.0% bonus is added for a total of 2.5% accuracy and damage bonus.
 	 */
 	public double getInquisitorBonus() {
-		if (c.attacking.getCombatType() == CombatType.MELEE && c.getCombatConfigs().getWeaponMode().getCombatStyle() == CombatStyle.CRUSH) {
+		if (player.attacking.getCombatType() == CombatType.MELEE && player.getCombatConfigs().getWeaponMode().getCombatStyle() == CombatStyle.CRUSH) {
 			double bonus = 100;
 			int[] items = {Items.INQUISITORS_GREAT_HELM, Items.INQUISITORS_HAUBERK, Items.INQUISITORS_PLATESKIRT};
-			long wearingCount = Arrays.stream(items).filter(item -> c.getItems().isWearingItem(item)).count();
+			long wearingCount = Arrays.stream(items).filter(item -> player.getItems().isWearingItem(item)).count();
 			bonus += wearingCount * 0.5;
-			if (wearingCount >= 3) {
+			if (wearingCount >= 3)
 				bonus += 1;
-			}
 			return bonus / 100d;
-		} else {
-			return 1.0;
 		}
+		else return 1.0;
 	}
 
 	public boolean elyProc() {
-		if (c.playerEquipment[Player.playerShield] == 12817 && Misc.trueRand(10) <= 6) {
-			c.startGraphic(new Graphic(321));
+		if (player.playerEquipment[Player.playerShield] == 12817 && Misc.trueRand(10) <= 6) {
+			player.startGraphic(new Graphic(321));
 			return true;
 		}
 		return false;
 	}
 
 	public boolean doQueuedGraniteMaulSpecials() {
-		if (c.graniteMaulSpecialCharges > 0) {
-			if (c.npcAttackingIndex != 0) {
-				NPC o = NPCHandler.npcs[c.npcAttackingIndex];
-				if (!c.goodDistance(c.getX(), c.getY(), o.getX(), o.getY(), c.attacking.getRequiredDistance())) {
+		if (player.graniteMaulSpecialCharges > 0) {
+			if (player.npcAttackingIndex != 0) {
+				NPC npc = NPCHandler.npcs[player.npcAttackingIndex];
+				if (!player.goodDistance(player.getX(), player.getY(), npc.getX(), npc.getY(), player.attacking.getRequiredDistance())) {
 					return false;
 				}
-			} else if (c.playerAttackingIndex != 0) {
-				Player o = PlayerHandler.players[c.playerAttackingIndex];
-				if (o != null && !c.goodDistance(c.getX(), c.getY(), o.getX(), o.getY(), c.attacking.getRequiredDistance())) {
+			}
+			else if (player.playerAttackingIndex != 0) {
+				Player target = PlayerHandler.players[player.playerAttackingIndex];
+				if (target != null && !player.goodDistance(player.getX(), player.getY(), target.getX(), target.getY(), player.attacking.getRequiredDistance())) {
 					return false;
 				}
 			}
 
-			boolean spec = c.graniteMaulSpecialCharges > 0;
-			while (c.graniteMaulSpecialCharges != 0) {
-				MeleeExtras.graniteMaulSpecial(c, false);
-				c.graniteMaulSpecialCharges--;
+			boolean spec = player.graniteMaulSpecialCharges > 0;
+			while (player.graniteMaulSpecialCharges != 0) {
+				MeleeExtras.graniteMaulSpecial(player, false);
+				player.graniteMaulSpecialCharges--;
 			}
 
 			return spec;
@@ -137,20 +132,18 @@ public class CombatItems {
 	}
 
 	public void absorbDragonfireDamage() {
-		int shieldId = c.playerEquipment[Player.playerShield];
-		String shieldName = ItemAssistant.getItemName(shieldId).toLowerCase();
+		int shieldId = player.playerEquipment[Player.playerShield];
+		var shieldName = ItemAssistant.getItemName(shieldId).toLowerCase();
 		if (shieldName.contains("dragonfire")) {
-			int charges = c.getDragonfireShieldCharge();
+			int charges = player.getDragonfireShieldCharge();
 			if (charges < 50) {
-				c.setDragonfireShieldCharge(charges++);
-				if (charges == 50) {
-					c.sendMessage("<col=255>Your dragonfire shield has completely finished charging.");
-				}
-				c.startAnimation(6695);
-				c.gfx0(1164);
-				c.setDragonfireShieldCharge(charges);
-				return;
-			}
+				player.setDragonfireShieldCharge(charges++);
+				if (charges == 50)
+					player.sendMessage("<col=255>Your dragonfire shield has completely finished charging.");
+				player.startAnimation(6695);
+				player.gfx0(1164);
+				player.setDragonfireShieldCharge(charges);
+            }
 		}
 	}
 
@@ -159,7 +152,7 @@ public class CombatItems {
 	 * @return True if the player is wearing a crawsbow
 	 */
 	public boolean wearingCrawsBow() {
-		return c.getItems().getWeapon() == Items.CRAWS_BOW;
+		return player.getItems().getWeapon() == Items.CRAWS_BOW;
 	}
 
 	/**
@@ -167,7 +160,7 @@ public class CombatItems {
 	 * @return True if the player is wearing a chainmace
 	 */
 	public boolean wearingViggorasChainmace() {
-		return c.getItems().getWeapon() == Items.VIGGORAS_CHAINMACE;
+		return player.getItems().getWeapon() == Items.VIGGORAS_CHAINMACE;
 	}
 
 	/**
@@ -175,44 +168,44 @@ public class CombatItems {
 	 * @return True if the player is wearing a sceptre
 	 */
 	public boolean wearingThammaronsSceptre() {
-		return c.getItems().getWeapon() == Items.THAMMARONS_SCEPTRE;
+		return player.getItems().getWeapon() == Items.THAMMARONS_SCEPTRE;
 	}
 
 	public boolean usingNightmareStaffSpecial() {
-		int weapon = c.playerEquipment[3];
-		return weapon == 24424 && c.usingSpecial && !c.usingClickCast;
+		int weapon = player.playerEquipment[3];
+		return weapon == 24424 && player.usingSpecial && !player.usingClickCast;
 	}
 
 	public boolean usingEldritchStaffSpecial() {
-		int weapon = c.playerEquipment[3];
-		return weapon == 24425 && c.usingSpecial && !c.usingClickCast;
+		int weapon = player.playerEquipment[3];
+		return weapon == 24425 && player.usingSpecial && !player.usingClickCast;
 	}
 
 	public boolean usingCrystalBow() {
-		return c.playerEquipment[Player.playerWeapon] >= 4212 && c.playerEquipment[Player.playerWeapon] <= 4223;
+		return player.playerEquipment[Player.playerWeapon] >= 4212 && player.playerEquipment[Player.playerWeapon] <= 4223;
 	}
 
 	public boolean usingCrawsBow() {
-		return c.playerEquipment[Player.playerWeapon] == Items.CRAWS_BOW;
+		return player.playerEquipment[Player.playerWeapon] == Items.CRAWS_BOW;
 	}
 
 	public boolean usingBlowPipe() {
-		return c.playerEquipment[Player.playerWeapon] == Items.TOXIC_BLOWPIPE;
+		return player.playerEquipment[Player.playerWeapon] == Items.TOXIC_BLOWPIPE;
 	}
 
 	public boolean usingTwistedBow() {
-		return c.playerEquipment[Player.playerWeapon] == Items.TWISTED_BOW;
+		return player.playerEquipment[Player.playerWeapon] == Items.TWISTED_BOW;
 	}
 
 	public boolean usingDbow() {
-		return c.playerEquipment[Player.playerWeapon] == 11235 || c.playerEquipment[Player.playerWeapon] == 12765 || c.playerEquipment[Player.playerWeapon] == 12766
-				|| c.playerEquipment[Player.playerWeapon] == 12767 || c.playerEquipment[Player.playerWeapon] == 12768;
+		return player.playerEquipment[Player.playerWeapon] == 11235 || player.playerEquipment[Player.playerWeapon] == 12765 || player.playerEquipment[Player.playerWeapon] == 12766
+				|| player.playerEquipment[Player.playerWeapon] == 12767 || player.playerEquipment[Player.playerWeapon] == 12768;
 	}
 
 	public boolean properBolts() {
-		int i = c.playerEquipment[Player.playerArrows];
-		return (i >= 9139 && i <= 9145) || (i >= 9236 && i <= 9245) || (i >= 9236 && i <= 9245) || (i >= 21924 && i <= 21974)
-				|| (i >= 9335 && i <= 9341) || i == 11875 || i == 9340 || i == 21905 || i == 21906 ||i == 21316;
+		int i = player.playerEquipment[Player.playerArrows];
+		return (i >= 9139 && i <= 9145) || (i >= 9236 && i <= 9245) || (i >= 21924 && i <= 21974)
+				|| (i >= 9335 && i <= 9341) || i == 11875 || i == 21905 || i == 21906 ||i == 21316;
 	}
 
 	public boolean usingJavelins(int i) {
@@ -220,27 +213,27 @@ public class CombatItems {
 	}
 	
 	public void checkDemonItems() {
-		if (c.getItems().isWearingItem(19675, Player.playerWeapon)) {
-			c.setArcLightCharge(c.getArcLightCharge() - 1);
-			if (c.getArcLightCharge() <= 0) {
-				c.setArcLightCharge(0);
-				c.sendMessage("Your arclight has lost all charge.");
-				c.getItems().equipItem(-1, 0, Player.playerWeapon);
-				c.getItems().addItemUnderAnyCircumstance(19675, 1);
+		if (player.getItems().isWearingItem(19675, Player.playerWeapon)) {
+			player.setArcLightCharge(player.getArcLightCharge() - 1);
+			if (player.getArcLightCharge() <= 0) {
+				player.setArcLightCharge(0);
+				player.sendMessage("Your arclight has lost all charge.");
+				player.getItems().equipItem(-1, 0, Player.playerWeapon);
+				player.getItems().addItemUnderAnyCircumstance(19675, 1);
 			}
 		}
 	}
 
 	public boolean usingAssembler() {
-		return c.getItems().isWearingItem(Items.ASSEMBLER_MAX_CAPE)
-				|| c.getItems().isWearingItem(Items.AVAS_ASSEMBLER);
+		return player.getItems().isWearingItem(Items.ASSEMBLER_MAX_CAPE)
+				|| player.getItems().isWearingItem(Items.AVAS_ASSEMBLER);
 	}
 
 	public boolean usingAccumulator() {
-		return c.getItems().isWearingItem(Items.AVAS_ACCUMULATOR)
-				|| c.getItems().isWearingItem(Items.ACCUMULATOR_MAX_CAPE)
-				|| c.getItems().isWearingItem(Items.RANGING_CAPE)
-				|| c.getItems().isWearingItem(Items.RANGE_MASTER_CAPE);
+		return player.getItems().isWearingItem(Items.AVAS_ACCUMULATOR)
+				|| player.getItems().isWearingItem(Items.ACCUMULATOR_MAX_CAPE)
+				|| player.getItems().isWearingItem(Items.RANGING_CAPE)
+				|| player.getItems().isWearingItem(Items.RANGE_MASTER_CAPE);
 	}
 
 	public boolean consumeDart() {
@@ -255,54 +248,51 @@ public class CombatItems {
 	}
 
 	public void checkBlowpipeShotsRemaining() {
-		if (c.getToxicBlowpipeAmmo() != 0) {
-			c.sendMessage("The blowpipe has " + c.getToxicBlowpipeAmmoAmount() + " " + ItemDef.forId(c.getToxicBlowpipeAmmo()).getName()
-					+ " and " + c.getToxicBlowpipeCharge() + " scales remaining.");
+		if (player.getToxicBlowpipeAmmo() != 0) {
+			player.sendMessage("The blowpipe has %d %s and %d scales remaining.".formatted(player.getToxicBlowpipeAmmoAmount(), ItemDef.forId(player.getToxicBlowpipeAmmo()).getName(), player.getToxicBlowpipeCharge()));
 		} else {
-			c.sendMessage("The blowpipe has no ammo and " + c.getToxicBlowpipeCharge() + " scales remaining.");
+			player.sendMessage("The blowpipe has no ammo and %d scales remaining.".formatted(player.getToxicBlowpipeCharge()));
 		}
 	}
 
 	public void checkBlowpipe() {
-		if (c.getItems().isWearingItem(Items.TOXIC_BLOWPIPE, Player.playerWeapon)) {
-
+		if (player.getItems().isWearingItem(Items.TOXIC_BLOWPIPE, Player.playerWeapon)) {
 			if (consumeDart())
-				c.setToxicBlowpipeAmmoAmount(c.getToxicBlowpipeAmmoAmount() - 1);
+				player.setToxicBlowpipeAmmoAmount(player.getToxicBlowpipeAmmoAmount() - 1);
 
 			if (consumeScale())
-				c.setToxicBlowpipeCharge(c.getToxicBlowpipeCharge() - 1);
+				player.setToxicBlowpipeCharge(player.getToxicBlowpipeCharge() - 1);
 
+			if (player.getToxicBlowpipeAmmoAmount() % 500 == 0 && player.getToxicBlowpipeAmmoAmount() > 0)
+				player.sendMessage("<col=255>You have %d ammo in your blow pipe remaining.</col>".formatted(player.getToxicBlowpipeAmmoAmount()));
 
-			if (c.getToxicBlowpipeAmmoAmount() % 500 == 0 && c.getToxicBlowpipeAmmoAmount() > 0) {
-				c.sendMessage("<col=255>You have " + c.getToxicBlowpipeAmmoAmount() + " ammo in your blow pipe remaining.</col>");
-			}
-			if (c.getToxicBlowpipeAmmoAmount() <= 0 && c.getToxicBlowpipeCharge() <= 0) {
-				c.sendMessage("Your toxic blowpipe has lost all charge.");
-				c.getItems().equipItem(-1, 0, 3);
-				c.getItems().addItemUnderAnyCircumstance(12924, 1);
-				c.setToxicBlowpipeAmmo(0);
-				c.setToxicBlowpipeAmmoAmount(0);
-				c.setToxicBlowpipeCharge(0);
+			if (player.getToxicBlowpipeAmmoAmount() <= 0 && player.getToxicBlowpipeCharge() <= 0) {
+				player.sendMessage("Your toxic blowpipe has lost all charge.");
+				player.getItems().equipItem(-1, 0, 3);
+				player.getItems().addItemUnderAnyCircumstance(12924, 1);
+				player.setToxicBlowpipeAmmo(0);
+				player.setToxicBlowpipeAmmoAmount(0);
+				player.setToxicBlowpipeCharge(0);
 			}
 		}
 	}
 
 	public void checkCombatTickBasedItems() {
-		if (c.serpHelmCombatTicks > 0 && (c.serpHelmCombatTicks % 8 == 0)) {
-			c.serpHelmCombatTicks = 0;
+		if (player.serpHelmCombatTicks > 0 && (player.serpHelmCombatTicks % 8 == 0)) {
+			player.serpHelmCombatTicks = 0;
 			for (int[] helmets : MUTAGEN_HELMETS) {
 				int charged = helmets[0];
 				int uncharged = helmets[1];
-				if (c.getItems().isWearingItem(charged) && c.getItems().getWornItemSlot(charged) == Player.playerHat) {
-					c.setSerpentineHelmCharge(c.getSerpentineHelmCharge() - 1);
-					if (c.getSerpentineHelmCharge() % 500 == 0 && c.getSerpentineHelmCharge() != 0) {
-						c.sendMessage("<col=255>You have " + c.getSerpentineHelmCharge() + " charges remaining in your serpentine helm.</col>");
+				if (player.getItems().isWearingItem(charged) && player.getItems().getWornItemSlot(charged) == Player.playerHat) {
+					player.setSerpentineHelmCharge(player.getSerpentineHelmCharge() - 1);
+					if (player.getSerpentineHelmCharge() % 500 == 0 && player.getSerpentineHelmCharge() != 0) {
+						player.sendMessage("<col=255>You have %d charges remaining in your serpentine helm.</col>".formatted(player.getSerpentineHelmCharge()));
 					}
-					if (c.getSerpentineHelmCharge() <= 0) {
-						c.sendMessage("Your serpentine helm has lost all of it's charge.");
-						c.getItems().equipItem(-1, 0, Player.playerHat);
-						c.getItems().addItemUnderAnyCircumstance(uncharged, 1);
-						c.setSerpentineHelmCharge(0);
+					if (player.getSerpentineHelmCharge() <= 0) {
+						player.sendMessage("Your serpentine helm has lost all of it's charge.");
+						player.getItems().equipItem(-1, 0, Player.playerHat);
+						player.getItems().addItemUnderAnyCircumstance(uncharged, 1);
+						player.setSerpentineHelmCharge(0);
 					}
 				}
 			}
@@ -310,24 +300,21 @@ public class CombatItems {
 	}
 
 	public void checkVenomousItems(Entity target) {
-		if (c.getItems().isWearingItem(12904, Player.playerWeapon)) {
-			c.setToxicStaffOfTheDeadCharge(c.getToxicStaffOfTheDeadCharge() - 1);
-			if (c.getToxicStaffOfTheDeadCharge() <= 0) {
-				c.setToxicStaffOfTheDeadCharge(0);
-				c.sendMessage("Your toxic staff of the dead has lost all charge.");
-				c.getItems().equipItem(-1, 0, Player.playerWeapon);
-				c.getItems().addItemUnderAnyCircumstance(12902, 1);
+		if (player.getItems().isWearingItem(12904, Player.playerWeapon)) {
+			player.setToxicStaffOfTheDeadCharge(player.getToxicStaffOfTheDeadCharge() - 1);
+			if (player.getToxicStaffOfTheDeadCharge() <= 0) {
+				player.setToxicStaffOfTheDeadCharge(0);
+				player.sendMessage("Your toxic staff of the dead has lost all charge.");
+				player.getItems().equipItem(-1, 0, Player.playerWeapon);
+				player.getItems().addItemUnderAnyCircumstance(12902, 1);
 			}
 		}
 		if (target.isNPC() && Misc.random(6) == 1) {
 			for (int[] helmets : MUTAGEN_HELMETS) {
 				int charged = helmets[0];
-				int uncharged = helmets[1];
-				if (c.getItems().isWearingItem(charged) && c.getItems().getWornItemSlot(charged) == Player.playerHat) {
-					if (c.getSerpentineHelmCharge() > 0) {
-						target.getHealth().proposeStatus(HealthStatus.VENOM, 6, Optional.of(c));
-					}
-				}
+				if (player.getItems().isWearingItem(charged) && player.getItems().getWornItemSlot(charged) == Player.playerHat)
+					if (player.getSerpentineHelmCharge() > 0)
+						target.getHealth().proposeStatus(HealthStatus.VENOM, 6, Optional.of(player));
 			}
 		}
 	}
