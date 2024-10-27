@@ -60,8 +60,7 @@ public class PunishmentCycleEvent extends Event<Punishments> {
 				}
 				if (System.currentTimeMillis() > punishment.getDuration()) {
 					Server.getPunishments().remove(punishment);
-					continue;
-				}
+                }
 			}
 		}
 	}

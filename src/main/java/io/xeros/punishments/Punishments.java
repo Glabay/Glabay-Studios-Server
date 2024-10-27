@@ -20,13 +20,20 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.save.PlayerAddresses;
 import io.xeros.util.Stream;
 import io.xeros.util.dateandtime.TimeSpan;
+import lombok.Getter;
 
 public class Punishments {
 
 	/**
 	 * A mapping of all punishments
-	 */
-	private final Map<PunishmentType, List<Punishment>> punishments = new HashMap<>();
+     * -- GETTER --
+     *  The list of punishments
+     *
+     * @return the punishments
+
+     */
+	@Getter
+    private final Map<PunishmentType, List<Punishment>> punishments = new HashMap<>();
 
 	/**
 	 * A Queue of Punishments that will be added to the list of punishments
@@ -90,9 +97,7 @@ public class Punishments {
 	/**
 	 * Writes information to a particular file.
 	 *
-	 * @throws FileNotFoundException thrown if the file does not exist
-	 * @throws IOException thrown if any IO occurs
-	 */
+     */
 	public final void write(PunishmentType punishmentType) {
 		Path path = Paths.get(Server.getSaveDirectory(), "punishments", punishmentType.getFileName());
 		Stream stream = new Stream();
@@ -178,18 +183,10 @@ public class Punishments {
 	 */
 	public boolean remove(Punishment punishment) {
 		List<Punishment> punishments = this.punishments.get(punishment.getType());
-
-		if (punishments == null) {
-			return false;
-		}
-
-		List<Punishment> matches = punishments.stream().filter(p -> Arrays.stream(p.getData()).anyMatch(s -> punishment.contains(s))).collect(Collectors.toList());
-
-		if (matches.isEmpty()) {
-			return false;
-		}
-
-		matches.forEach(toRemove::add);
+		if (punishments == null) return false;
+		var matches = punishments.stream().filter(p -> Arrays.stream(p.getData()).anyMatch(punishment::contains)).toList();
+		if (matches.isEmpty()) return false;
+        toRemove.addAll(matches);
 		return true;
 	}
 
@@ -244,16 +241,7 @@ public class Punishments {
 		return false;
 	}
 
-	/**
-	 * The list of punishments
-	 * 
-	 * @return the punishments
-	 */
-	public Map<PunishmentType, List<Punishment>> getPunishments() {
-		return punishments;
-	}
-
-	/**
+    /**
 	 * The punishments to be added
 	 * 
 	 * @return the add queue

@@ -1,22 +1,40 @@
 package io.xeros.punishments;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 
+@Getter
 public class Punishment {
 
 	/**
 	 * The type of punishment
-	 */
+     * -- GETTER --
+     *  The type of punishment
+     *
+     * @return the type
+
+     */
 	private final PunishmentType type;
 
 	/**
 	 * The duration of the punishment
-	 */
+     * -- GETTER --
+     *  The duration of the punishment
+     *
+     * @return the duration
+
+     */
 	private final long duration;
 
 	/**
 	 * An array of information that pertains to this punishment
-	 */
+     * -- GETTER --
+     *  The data or information about this punishment
+     *
+     * @return the data
+
+     */
 	private final String[] data;
 
 	/**
@@ -41,34 +59,7 @@ public class Punishment {
 		return Arrays.stream(data).anyMatch(s -> s.equalsIgnoreCase(information));
 	}
 
-	/**
-	 * The duration of the punishment
-	 * 
-	 * @return the duration
-	 */
-	public long getDuration() {
-		return duration;
-	}
-
-	/**
-	 * The data or information about this punishment
-	 * 
-	 * @return the data
-	 */
-	public String[] getData() {
-		return data;
-	}
-
-	/**
-	 * The type of punishment
-	 * 
-	 * @return the type
-	 */
-	public PunishmentType getType() {
-		return type;
-	}
-
-	public String toString() {
+    public String toString() {
 		return Arrays.toString(data);
 	}
 

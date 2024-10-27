@@ -1,5 +1,7 @@
 package io.xeros.punishments;
 
+import lombok.Getter;
+
 public enum PunishmentType {
 	MUTE(0, "Muted", "mute.dat"),
 	BAN(1, "Banned", "ban.dat"),
@@ -14,7 +16,8 @@ public enum PunishmentType {
 	 */
 	private final int id;
 
-	private final String formattedName;
+	@Getter
+    private final String formattedName;
 
 	/**
 	 * The name of the file associated with the type of punishment
@@ -24,7 +27,6 @@ public enum PunishmentType {
 	/**
 	 * Creates a new type of punishment associated with a file to log data
 	 *
-	 * @param formattedName
 	 * @param file the name of the file
 	 */
     PunishmentType(int id, String formattedName, String file) {
@@ -42,11 +44,7 @@ public enum PunishmentType {
 		return fileName;
 	}
 
-	public String getFormattedName() {
-		return formattedName;
-	}
-
-	/**
+    /**
 	 * The id associated with this type
 	 * 
 	 * @return the id

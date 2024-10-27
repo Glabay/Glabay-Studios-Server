@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 
 import io.xeros.content.instances.InstanceHeight;
 import io.xeros.content.minigames.pk_arena.Highpkarena;
