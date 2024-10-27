@@ -10,6 +10,7 @@ import java.util.Set;
 import io.xeros.model.entity.player.mode.Mode;
 import io.xeros.model.entity.player.mode.ModeType;
 import io.xeros.util.Misc;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * The rights of a player determines their authority. Every right can be viewed with a name and a value. The value is used to separate each right from one another.
  * 
  * @author Jason MacK
- * @date January 22, 2015, 5:23:49 PM
+ * @since January 22, 2015, 5:23:49 PM
  */
 
 public enum Right implements Comparator<Right> {
@@ -55,7 +56,7 @@ public enum Right implements Comparator<Right> {
 	 * Display groups. You can have one displayed right from the first group,
 	 * the second group you can have as many until you reach 2 displayed groups.
 	 */
-	public static final EnumSet[] DISPLAY_GROUPS = {
+	public static final EnumSet<?>[] DISPLAY_GROUPS = {
 			EnumSet.of(HELPER, MODERATOR, ADMINISTRATOR, OWNER, UNKNOWN, REGULAR_DONATOR, EXTREME_DONOR,
 					 LEGENDARY_DONATOR, DIAMOND_CLUB, ONYX_CLUB, YOUTUBER),
 			EnumSet.of(HITBOX, EVENT_MAN, IRONMAN, ULTIMATE_IRONMAN, GAME_DEVELOPER, OSRS, MEMBERSHIP, HC_IRONMAN, ROGUE,
@@ -92,8 +93,13 @@ public enum Right implements Comparator<Right> {
 
 	/**
 	 * The color associated with the right
-	 */
-	private final String color;
+     * -- GETTER --
+     *  The color associated with the right
+     *
+
+     */
+	@Getter
+    private final String color;
 
 	/**
 	 * Creates a new right with a value to differentiate it between the others
@@ -113,27 +119,19 @@ public enum Right implements Comparator<Right> {
 	}
 
 	public Mode getMode() {
-		switch (this) {
-			case IRONMAN:
-				return Mode.forType(ModeType.IRON_MAN);
-			case ULTIMATE_IRONMAN:
-				return Mode.forType(ModeType.ULTIMATE_IRON_MAN);
-			case HC_IRONMAN:
-				return Mode.forType(ModeType.HC_IRON_MAN);
-			case ROGUE_HARDCORE_IRONMAN:
-				return Mode.forType(ModeType.ROGUE_HARDCORE_IRONMAN);
-			case ROGUE_IRONMAN:
-				return Mode.forType(ModeType.ROGUE_IRONMAN);
-			case OSRS:
-				return Mode.forType(ModeType.OSRS);
-			case ROGUE:
-				return Mode.forType(ModeType.ROGUE);
-			case GROUP_IRONMAN:
-				return Mode.forType(ModeType.GROUP_IRONMAN);
-		}
+        return switch (this) {
+            case IRONMAN -> Mode.forType(ModeType.IRON_MAN);
+            case ULTIMATE_IRONMAN -> Mode.forType(ModeType.ULTIMATE_IRON_MAN);
+            case HC_IRONMAN -> Mode.forType(ModeType.HC_IRON_MAN);
+            case ROGUE_HARDCORE_IRONMAN -> Mode.forType(ModeType.ROGUE_HARDCORE_IRONMAN);
+            case ROGUE_IRONMAN -> Mode.forType(ModeType.ROGUE_IRONMAN);
+            case OSRS -> Mode.forType(ModeType.OSRS);
+            case ROGUE -> Mode.forType(ModeType.ROGUE);
+            case GROUP_IRONMAN -> Mode.forType(ModeType.GROUP_IRONMAN);
+            default -> Mode.forType(ModeType.STANDARD);
+        };
 
-		return Mode.forType(ModeType.STANDARD);
-	}
+    }
 
 	/**
 	 * The rights of this enumeration
@@ -159,16 +157,7 @@ public enum Right implements Comparator<Right> {
 	 */
 	private static final Set<Right> RIGHTS = Collections.unmodifiableSet(EnumSet.allOf(Right.class));
 
-	/**
-	 * The color associated with the right
-	 * 
-	 * @return the color
-	 */
-	public String getColor() {
-		return color;
-	}
-
-	/**
+    /**
 	 * Determines if this level of rights inherited another level of rights
 	 * 
 	 * @param right the level of rights we're looking to determine is inherited
@@ -183,7 +172,7 @@ public enum Right implements Comparator<Right> {
 		}
 		System.out.println("inherited.size: "+inherited.size());
 		return false;*/
-		return this == right || inherited.size() > 0 && inherited.stream().anyMatch(r -> r.isOrInherits(right));
+		return this == right || !inherited.isEmpty() && inherited.stream().anyMatch(r -> r.isOrInherits(right));
 	}
 	
 	/**

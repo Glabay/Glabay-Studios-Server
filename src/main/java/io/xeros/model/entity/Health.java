@@ -10,6 +10,8 @@ import io.xeros.model.cycleevent.impl.PoisonResistanceEvent;
 import io.xeros.model.cycleevent.impl.VenomEvent;
 import io.xeros.model.cycleevent.impl.VenomResistanceEvent;
 import io.xeros.model.entity.player.Player;
+import lombok.Getter;
+import lombok.Setter;
 
 public final class Health {
 
@@ -20,18 +22,37 @@ public final class Health {
 
 	/**
 	 * The amount of health the entity has
-	 */
-	private int currentHealth;
+     * -- GETTER --
+     *  The amount of health the entity has
+     *
+
+     */
+	@Getter
+    private int currentHealth;
 
 	/**
 	 * The maximum amount of health the entity has access to
-	 */
-	private int maximumHealth;
+     * -- GETTER --
+     *  The maximum health the entity can have
+     * <p>
+     *
+     * -- SETTER --
+     *  The absolute maximum health of this npc
+     *
+     */
+	@Setter
+    @Getter
+    private int maximumHealth;
 
 	/**
 	 * The status of the health
-	 */
-	private HealthStatus status = HealthStatus.NORMAL;
+     * -- GETTER --
+     *  Retrieves the current status of the entities health
+     *
+
+     */
+	@Getter
+    private HealthStatus status = HealthStatus.NORMAL;
 
 	/**
 	 * A {@link Collection} of statuses that the entity is not susceptible to
@@ -93,9 +114,8 @@ public final class Health {
 
 		this.status = status;
 
-		if (entity instanceof Player) {
-			Player player = (Player) entity;
-			player.sendMessage("You have been effected by " + status.toString() + ".");
+		if (entity instanceof Player player) {
+            player.sendMessage("You have been effected by " + status + ".");
 			player.getPA().requestUpdates();
 			player.getPA().updatePoisonStatus();
 		}
@@ -127,9 +147,8 @@ public final class Health {
 	}
 
 	private void updateStatus() {
-		if (entity instanceof Player) {
-			Player player = (Player) entity;
-			player.getPA().updatePoisonStatus();
+		if (entity instanceof Player player) {
+            player.getPA().updatePoisonStatus();
 		}
 	}
 
@@ -153,12 +172,11 @@ public final class Health {
 
 	/**
 	 * Allows us to remove the status from the list of non-susceptible.
-	 * 
+	 *
 	 * @param status the status to be removed
-	 * @return {@code true} if the status is in the
 	 */
-	public boolean removeNonsusceptible(HealthStatus status) {
-		return nonsusceptibles.remove(status);
+	public void removeNonsusceptible(HealthStatus status) {
+		nonsusceptibles.remove(status);
 	}
 
 	/**
@@ -166,50 +184,13 @@ public final class Health {
 	 * the orb and on the statistic interface.
 	 */
 	public void requestUpdate() {
-		if (entity instanceof Player) {
-			Player player = (Player) entity;
-			if (player.initialized) // Fix for writing packets from outside main
+		if (entity instanceof Player player) {
+            if (player.initialized) // Fix for writing packets from outside main
 				player.getPA().refreshSkill(Player.playerHitpoints);
 		}
 	}
 
-	/**
-	 * Retrieves the current status of the entities health
-	 * 
-	 * @return the status of the health
-	 */
-	public HealthStatus getStatus() {
-		return status;
-	}
-
-	/**
-	 * The amount of health the entity has
-	 * 
-	 * @return the amount of health
-	 */
-	public int getCurrentHealth() {
-		return currentHealth;
-	}
-
-	/**
-	 * The absolute maximum health of this npc
-	 * 
-	 * @param maximumHealth the maximum health
-	 */
-	public void setMaximumHealth(int maximumHealth) {
-		this.maximumHealth = maximumHealth;
-	}
-
-	/**
-	 * The maximum health the entity can have
-	 * 
-	 * @return the maximum health
-	 */
-	public int getMaximumHealth() {
-		return maximumHealth;
-	}
-
-	/**
+    /**
 	 * Attempts to reduce the entities health amount by a specified amount
 	 * 
 	 * @param amount the amount the health amount is to be reduced by

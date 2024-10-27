@@ -27,7 +27,6 @@ import io.xeros.model.definitions.AnimationLength;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.actions.NPCHitPlayer;
 import io.xeros.model.entity.npc.actions.NpcAggression;
-import io.xeros.model.entity.npc.combat.CombatMethod;
 import io.xeros.model.entity.npc.data.RespawnTime;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
@@ -55,7 +54,7 @@ public class NPCProcess {
     public void process(int i) {
         this.i = i;
         if (NPCHandler.npcs[i] == null) {
-            logger.debug("Trying to process null npc index: " + i);
+            logger.debug("Trying to process null npc index: {}", i);
             return;
         }
         npc = NPCHandler.npcs[i];
@@ -118,7 +117,6 @@ public class NPCProcess {
         }
 
         if (npc.getNpcId() == 8583) {
-            npc.getBehaviour().isAggressive();
             npc.getBehaviour().setRespawn(false);
         }
 
@@ -225,7 +223,6 @@ public class NPCProcess {
         ///if (npcs[i].killerId <= 0) {
         if (System.currentTimeMillis() - npc.lastDamageTaken > 5000 && !npc.underAttack) {
             npc.underAttackBy = 0;
-            npc.underAttack = false;
             npc.randomWalk = true;
         }
         if (System.currentTimeMillis() - npc.lastDamageTaken > 10000) {
@@ -354,8 +351,8 @@ public class NPCProcess {
             }
         }
 
-        /**
-         * Npc death
+        /*
+          Npc death
          */
         if (npc.isDead()) {
             processDeath();
@@ -385,9 +382,6 @@ public class NPCProcess {
                             container.stop();
                         }
 
-                        @Override
-                        public void onStopped() {
-                        }
                     }, 9);
                 }
 
@@ -434,9 +428,6 @@ public class NPCProcess {
                                 container.stop();
                             }
 
-                            @Override
-                            public void onStopped() {
-                            }
                         }, 5);
                     }
 
@@ -503,7 +494,8 @@ public class NPCProcess {
 
                     npcHandler.resetPlayersInCombat(i);
                 }
-            } else if (npc.actionTimer == 0 && npc.applyDead && !npc.needRespawn) {
+            }
+            else if (npc.actionTimer == 0 && npc.applyDead && !npc.needRespawn) {
                 int killerIndex = npc.killedBy;
                 NPCDeath.dropItems(npc);
 
@@ -538,8 +530,8 @@ public class NPCProcess {
                 npc.getHealth().reset();
                 npc.startAnimation(0x328);
 
-                /**
-                 * Actions on certain npc deaths
+                /*
+                  Actions on certain npc deaths
                  */
                 Skotizo skotizo = playerOwner != null ? playerOwner.getSkotizo() : null;
                 switch (npc.getNpcId()) {
@@ -569,7 +561,7 @@ public class NPCProcess {
                         break;
                     case FragmentOfSeren.CRYSTAL_WHIRLWIND:
                         FragmentOfSeren.activePillars.remove(npc);
-                        if (FragmentOfSeren.activePillars.size() == 0) {
+                        if (FragmentOfSeren.activePillars.isEmpty()) {
                             FragmentOfSeren.isAttackable = true;
                         }
                         npc.unregister();
@@ -679,7 +671,8 @@ public class NPCProcess {
                         npc.unregister();
                     }
                 }
-            } else if (npc.actionTimer == 0 && npc.needRespawn) {
+            }
+            else if (npc.actionTimer == 0) {
                 if (npc.getNpcId() == 1739 || npc.getNpcId() == 1740
                         || npc.getNpcId() == 1741 || npc.getNpcId() == 1742
                         || npc.getNpcId() == 8583) {

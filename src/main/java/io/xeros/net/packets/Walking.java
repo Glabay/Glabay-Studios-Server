@@ -22,7 +22,7 @@ public class Walking implements PacketType {
 
 	@Override
 	public void processPacket(Player c, int packetType, int packetSize) {
-		if (c.getMovementState().isLocked() || c.getLock().cannotInteract(c))
+		if (c.getMovementState().locked() || c.getLock().cannotInteract(c))
 			return;
 		if (c.isFping()) {
 			/**
@@ -46,7 +46,7 @@ public class Walking implements PacketType {
 				c.sendMessage("You are no longer in idle mode.");
 			c.isIdle = false;
 		}
-		if (!c.getMovementState().isAllowClickToMove()) {
+		if (!c.getMovementState().allowClickToMove()) {
 			return;
 		}
 		if (c.isForceMovementActive()) {

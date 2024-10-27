@@ -11,7 +11,7 @@ public class PlayerOptionsHandler implements PacketType {
 	@Override
 	public void processPacket(Player player, int opCode, int opSize) {
 
-		if (player.getMovementState().isLocked() || player.getLock().cannotInteract(player))
+		if (player.getMovementState().locked() || player.getLock().cannotInteract(player))
 			return;
 
 		if (player.isFping()) {

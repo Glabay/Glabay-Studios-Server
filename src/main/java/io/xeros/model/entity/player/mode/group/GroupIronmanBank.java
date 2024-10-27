@@ -9,6 +9,7 @@ import io.xeros.model.items.ContainerUpdate;
 import io.xeros.model.items.GameItem;
 import io.xeros.model.items.inventory.Inventory;
 import io.xeros.model.items.inventory.InventoryListener;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -70,14 +71,14 @@ public class GroupIronmanBank {
     }
 
     private static int typeToAmount(ContainerAction action) {
-        switch (action.getType()) {
-            case ACTION_1: return 1;
-            case ACTION_2: return 5;
-            case ACTION_3: return 10;
-            case ACTION_4: return Integer.MAX_VALUE;
-            case X: return action.getItemAmount();
-            default: return -1;
-        }
+        return switch (action.getType()) {
+            case ACTION_1 -> 1;
+            case ACTION_2 -> 5;
+            case ACTION_3 -> 10;
+            case ACTION_4 -> Integer.MAX_VALUE;
+            case X -> action.getItemAmount();
+            default -> -1;
+        };
     }
 
 
@@ -92,6 +93,7 @@ public class GroupIronmanBank {
     private static final int CONTAINER_CURR_SIZE_COMPONENT = 48_673;
     private static final int CONTAINER_MAX_SIZE_COMPONENT = 48_674;
 
+    @Getter
     private final Inventory inventory = new Inventory(BANK_SIZE, Inventory.StackMode.STACK_ALWAYS);
     private final GroupIronmanGroup groupIronman;
 
@@ -210,10 +212,6 @@ public class GroupIronmanBank {
         inventory.shift();
         updateInventoryContainer(player);
         groupIronman.addWithdrawItemLog(player, item);
-    }
-
-    public Inventory getInventory() {
-        return inventory;
     }
 
     private Stream<Player> getGroupMembersWithOpenBank() {

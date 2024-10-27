@@ -8,9 +8,8 @@ package io.xeros.model.cycleevent;
 public abstract class CycleEvent {
 
 	/**
-	 * Code which should be ran when the event is executed.
-	 * 
-	 * @param container
+	 * Code which should be run when the event is executed.
+	 *
 	 */
 	public abstract void execute(CycleEventContainer container);
 

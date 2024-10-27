@@ -51,7 +51,6 @@ import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.player.broadcasts.Broadcast;
-import io.xeros.model.entity.player.broadcasts.BroadcastManager;
 import io.xeros.model.entity.player.broadcasts.BroadcastType;
 import io.xeros.model.items.EquipmentSet;
 import io.xeros.model.items.GameItem;
@@ -72,32 +71,33 @@ import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.net.outgoing.messages.ComponentVisibility;
 import io.xeros.util.Misc;
 import io.xeros.util.Stream;
+import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class PlayerAssistant {
 
     public static int ALCH_WARNING_AMOUNT = 200_000;
-    public final Player c;
+    public final Player player;
 
     public PlayerAssistant(Player Client) {
-        this.c = Client;
+        this.player = Client;
     }
 
     public void sendUpdateTimer() {
-        if (c.getOutStream() != null) {
-            long seconds = ((PlayerHandler.updateSeconds * 1000) - (System.currentTimeMillis() - PlayerHandler.updateStartTime)) / 1000;
-            c.getOutStream().createFrame(114);
-            c.getOutStream().writeWordBigEndian((int) seconds * 50 / 30);
+        if (player.getOutStream() != null) {
+            long seconds = ((PlayerHandler.updateSeconds * 1000L) - (System.currentTimeMillis() - PlayerHandler.updateStartTime)) / 1000;
+            player.getOutStream().createFrame(114);
+            player.getOutStream().writeWordBigEndian((int) seconds * 50 / 30);
         }
     }
 
     public void sendDropTableData(String message, int npcIndex) {
-        c.getOutStream().createFrameVarSize(197);
-        c.getOutStream().writeString(message);
-        c.getOutStream().writeDWord(npcIndex);
-        c.getOutStream().endFrameVarSize();
-        c.flushOutStream();
+        player.getOutStream().createFrameVarSize(197);
+        player.getOutStream().writeString(message);
+        player.getOutStream().writeDWord(npcIndex);
+        player.getOutStream().endFrameVarSize();
+        player.flushOutStream();
     }
 
     public void resetQuestInterface() {
@@ -114,7 +114,7 @@ public class PlayerAssistant {
     }
 
     public void openQuestInterface(String header, List<String> lines) {
-        openQuestInterface(header, lines.toArray(new String[lines.size()]));
+        openQuestInterface(header, lines.toArray(new String[0]));
     }
 
     public void openQuestInterface(String header, String... lines) {
@@ -167,21 +167,21 @@ public class PlayerAssistant {
      * @return Return statement
      */
     private boolean checkRetributionReqsSingle(int i) {
-        if (c.inPits && PlayerHandler.getPlayers().get(i).inPits || PlayerHandler.getPlayers().get(i).inDuel) {
-            if (PlayerHandler.getPlayers().get(i) != null || i == c.getIndex())
+        if (player.inPits && PlayerHandler.getPlayers().get(i).inPits || PlayerHandler.getPlayers().get(i).inDuel) {
+            if (PlayerHandler.getPlayers().get(i) != null || i == player.getIndex())
                 return true;
         }
-        int combatDif1 = c.getCombatLevelDifference(PlayerHandler.getPlayers().get(i));
-        if (PlayerHandler.getPlayers().get(i) == null || i != c.getIndex()
-                || !PlayerHandler.getPlayers().get(i).getPosition().inWild() || combatDif1 > c.wildLevel
+        int combatDif1 = player.getCombatLevelDifference(PlayerHandler.getPlayers().get(i));
+        if (PlayerHandler.getPlayers().get(i) == null || i != player.getIndex()
+                || !PlayerHandler.getPlayers().get(i).getPosition().inWild() || combatDif1 > player.wildLevel
                 || combatDif1 > PlayerHandler.getPlayers().get(i).wildLevel) {
             return false;
         }
         if (Configuration.SINGLE_AND_MULTI_ZONES) {
             if (!PlayerHandler.getPlayers().get(i).getPosition().inMulti()) {
-                return PlayerHandler.getPlayers().get(i).underAttackByPlayer != c.getIndex()
+                return PlayerHandler.getPlayers().get(i).underAttackByPlayer != player.getIndex()
                         && PlayerHandler.getPlayers().get(i).underAttackByPlayer > 0
-                        && PlayerHandler.getPlayers().get(i).getIndex() != c.underAttackByPlayer && c.underAttackByPlayer > 0;
+                        && PlayerHandler.getPlayers().get(i).getIndex() != player.underAttackByPlayer && player.underAttackByPlayer > 0;
             }
         }
         return true;
@@ -192,10 +192,10 @@ public class PlayerAssistant {
     }
 
     public void openGameframeTab(int tabId) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrame(24);
-            c.getOutStream().writeByte(tabId);
-            c.flushOutStream();
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(24);
+            player.getOutStream().writeByte(tabId);
+            player.flushOutStream();
         }
     }
 
@@ -204,14 +204,14 @@ public class PlayerAssistant {
     }
 
     public void sendPlayerObjectAnimation(int x, int y, int animation, int type, int orientation) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrame(85);
-            c.getOutStream().writeByteC(y - (c.mapRegionY * 8));
-            c.getOutStream().writeByteC(x - (c.mapRegionX * 8));
-            c.getOutStream().createFrame(160);
-            c.getOutStream().writeByteS(((0 & 7) << 4) + (0 & 7));
-            c.getOutStream().writeByteS((type << 2) + (orientation & 3));
-            c.getOutStream().writeWordA(animation);
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(85);
+            player.getOutStream().writeByteC(y - (player.mapRegionY * 8));
+            player.getOutStream().writeByteC(x - (player.mapRegionX * 8));
+            player.getOutStream().createFrame(160);
+            player.getOutStream().writeByteS(((0 & 7) << 4) + (0 & 7));
+            player.getOutStream().writeByteS((type << 2) + (orientation & 3));
+            player.getOutStream().writeWordA(animation);
         }
     }
 
@@ -240,20 +240,20 @@ public class PlayerAssistant {
     }
 
     public void destroyInterface(ItemToDestroy itemToDestroy) {
-        c.destroyItem = itemToDestroy;
-        String itemName = ItemAssistant.getItemName(itemToDestroy.getItemId());
+        player.destroyItem = itemToDestroy;
+        String itemName = ItemAssistant.getItemName(itemToDestroy.itemId());
         String[][] info = {
-                {"Are you sure you want to " + itemToDestroy.getType().getText() + " this item?", "14174"}, {"Yes.", "14175"},
+                {"Are you sure you want to " + itemToDestroy.type().getText() + " this item?", "14174"}, {"Yes.", "14175"},
                 {"No.", "14176"}, {"There is no way to reverse this.", "14177"}, {"", "14182"},
                 {"", "14183"}, {itemName, "14184"}};
-        sendFrame34(itemToDestroy.getItemId(), 0, 14171, 1);
+        sendFrame34(itemToDestroy.itemId(), 0, 14171, 1);
         for (String[] anInfo : info)
             sendFrame126(anInfo[0], Integer.parseInt(anInfo[1]));
         sendChatboxInterface(14170);
     }
 
     public void destroyInterface(String config) {
-        int itemId = c.destroyItem.getItemId();
+        int itemId = player.destroyItem.itemId();
         String itemName = ItemAssistant.getItemName(itemId);
         String[][] info = { // The info the dialogue gives
                 {"Are you sure you want to " + config + " this item?", "14174"}, {"Yes.", "14175"},
@@ -266,44 +266,44 @@ public class PlayerAssistant {
     }
 
     public void imbuedHeart() {
-        c.playerLevel[6] += imbuedHeartStats();
-        c.getPA().refreshSkill(6);
-        c.gfx0(1316);
-        c.sendMessage("Your Magic has been temporarily raised.");
+        player.playerLevel[6] += imbuedHeartStats();
+        player.getPA().refreshSkill(6);
+        player.gfx0(1316);
+        player.sendMessage("Your Magic has been temporarily raised.");
     }
 
     private int imbuedHeartStats() {
         int increaseBy;
         int skill = 6;
-        increaseBy = (int) (c.getLevelForXP(c.playerXP[skill]) * .10);
-        if (c.playerLevel[skill] + increaseBy > c.getLevelForXP(c.playerXP[skill]) + increaseBy + 1) {
-            return c.getLevelForXP(c.playerXP[skill]) + increaseBy - c.playerLevel[skill];
+        increaseBy = (int) (player.getLevelForXP(player.playerXP[skill]) * .10);
+        if (player.playerLevel[skill] + increaseBy > player.getLevelForXP(player.playerXP[skill]) + increaseBy + 1) {
+            return player.getLevelForXP(player.playerXP[skill]) + increaseBy - player.playerLevel[skill];
         }
         return increaseBy;
     }
 
     public void assembleSlayerHelmet() {
-        if (!c.getSlayer().getUnlocks().contains(SlayerUnlock.MALEVOLENT_MASQUERADE)) {
-            c.sendMessage("You don't have the knowledge to do this. You must learn how to first.");
+        if (!player.getSlayer().getUnlocks().contains(SlayerUnlock.MALEVOLENT_MASQUERADE)) {
+            player.sendMessage("You don't have the knowledge to do this. You must learn how to first.");
             return;
         }
-        if (c.playerLevel[Player.playerCrafting] < 55) {
-            c.sendMessage("@blu@You need a crafting level of 55 to assemble a slayer helmet.");
+        if (player.playerLevel[Player.playerCrafting] < 55) {
+            player.sendMessage("@blu@You need a crafting level of 55 to assemble a slayer helmet.");
             return;
         }
-        if (c.getItems().playerHasItem(4166) && c.getItems().playerHasItem(4168) && c.getItems().playerHasItem(4164)
-                && c.getItems().playerHasItem(4551) && c.getItems().playerHasItem(8901)) {
-            c.sendMessage("@blu@You assemble the pieces and create a full slayer helmet!");
-            c.getItems().deleteItem(4166, 1);
-            c.getItems().deleteItem(4164, 1);
-            c.getItems().deleteItem(4168, 1);
-            c.getItems().deleteItem(4551, 1);
-            c.getItems().deleteItem(8901, 1);
-            c.getItems().addItem(11864, 1);
+        if (player.getItems().playerHasItem(4166) && player.getItems().playerHasItem(4168) && player.getItems().playerHasItem(4164)
+                && player.getItems().playerHasItem(4551) && player.getItems().playerHasItem(8901)) {
+            player.sendMessage("@blu@You assemble the pieces and create a full slayer helmet!");
+            player.getItems().deleteItem(4166, 1);
+            player.getItems().deleteItem(4164, 1);
+            player.getItems().deleteItem(4168, 1);
+            player.getItems().deleteItem(4551, 1);
+            player.getItems().deleteItem(8901, 1);
+            player.getItems().addItem(11864, 1);
         } else {
-            c.sendMessage(
+            player.sendMessage(
                     "You need a @blu@Facemask@bla@, @blu@Nose peg@bla@, @blu@Spiny helmet@bla@ and @blu@Earmuffs");
-            c.sendMessage("@bla@in order to assemble a slayer helmet.");
+            player.sendMessage("@bla@in order to assemble a slayer helmet.");
         }
     }
 
@@ -321,10 +321,10 @@ public class PlayerAssistant {
 
     public void multiWay(int i1) {
         // synchronized(c) {
-        c.outStream.createFrame(61);
-        c.outStream.writeByte(i1);
-        c.setUpdateRequired(true);
-        c.setAppearanceUpdateRequired(true);
+        player.outStream.createFrame(61);
+        player.outStream.writeByte(i1);
+        player.setUpdateRequired(true);
+        player.setAppearanceUpdateRequired(true);
 
     }
 
@@ -337,22 +337,20 @@ public class PlayerAssistant {
     }
 
     /**
-     * @param s
      * @author Grant_ | www.rune-server.ee/members/grant_ | 10/15/19
      */
     public void sendBroadCast(final String s) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrameVarSizeWord(170);
-            c.getOutStream().writeString(s);
-            c.getOutStream().endFrameVarSizeWord();
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrameVarSizeWord(170);
+            player.getOutStream().writeString(s);
+            player.getOutStream().endFrameVarSizeWord();
+            player.flushOutStream();
         }
     }
 
     /**
      * Latest
      *
-     * @param broadcast
      */
     public void sendBroadCast(Broadcast broadcast) {//
         BroadcastType type;//
@@ -362,27 +360,20 @@ public class PlayerAssistant {
             type = BroadcastType.LINK;//
         else//
             type = BroadcastType.MESSAGE;//
-        c.getOutStream().createFrameVarSizeWord(179);//
-        c.getOutStream().writeByte(type.ordinal());//
-        c.getOutStream().writeByte(broadcast.getIndex());//
-        if (type.ordinal() == -1) {//
-            /**
-             * Never removes server sided
-             */
-            BroadcastManager.removeBroadcast(broadcast.index);//
-            return;//
-        }//
-        c.getOutStream().writeString(broadcast.getMessage());//
+        player.getOutStream().createFrameVarSizeWord(179);//
+        player.getOutStream().writeByte(type.ordinal());//
+        player.getOutStream().writeByte(broadcast.getIndex());//
+        player.getOutStream().writeString(broadcast.getMessage());//
 //
         if (type == BroadcastType.LINK)//
-            c.getOutStream().writeString(broadcast.getUrl());//
+            player.getOutStream().writeString(broadcast.getUrl());//
         if (type == BroadcastType.TELEPORT) {//
-            c.getOutStream().writeDWord(broadcast.getTeleport().getX());//
-            c.getOutStream().writeDWord(broadcast.getTeleport().getY());//
-            c.getOutStream().writeByte(broadcast.getTeleport().getHeight());//
+            player.getOutStream().writeDWord(broadcast.getTeleport().getX());//
+            player.getOutStream().writeDWord(broadcast.getTeleport().getY());//
+            player.getOutStream().writeByte(broadcast.getTeleport().getHeight());//
         }//
-        c.getOutStream().endFrameVarSizeWord();//
-        c.flushOutStream();//
+        player.getOutStream().endFrameVarSizeWord();//
+        player.flushOutStream();//
     }//
 
     public void sendURL(String URL) {
@@ -397,14 +388,14 @@ public class PlayerAssistant {
      * @param index       the index in the array
      */
     public void sendChangeSprite(int componentId, byte index) {
-        if (c == null || c.getOutStream() == null) {
+        if (player == null || player.getOutStream() == null) {
             return;
         }
-        Stream stream = c.getOutStream();
+        Stream stream = player.getOutStream();
         stream.createFrame(7);
         stream.writeDWord(componentId);
         stream.writeByte(index);
-        c.flushOutStream();
+        player.flushOutStream();
     }
 
     public static void sendItems(Player player, int componentId, List<GameItem> items, int capacity) {
@@ -435,22 +426,18 @@ public class PlayerAssistant {
     }
 
     public void removeAllItems() {
-        for (int i = 0; i < c.playerItems.length; i++) {
-            c.playerItems[i] = 0;
-        }
-        for (int i = 0; i < c.playerItemsN.length; i++) {
-            c.playerItemsN[i] = 0;
-        }
-        c.getItems().sendInventoryInterface(3214);
+        Arrays.fill(player.playerItems, 0);
+        Arrays.fill(player.playerItemsN, 0);
+        player.getItems().sendInventoryInterface(3214);
     }
 
     public void setConfig(int id, int state) {
         // synchronized (c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(36);
-            c.getOutStream().writeWordBigEndian(id);
-            c.getOutStream().writeByte(state);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(36);
+            player.getOutStream().writeWordBigEndian(id);
+            player.getOutStream().writeByte(state);
+            player.flushOutStream();
         }
         // }
     }
@@ -464,12 +451,12 @@ public class PlayerAssistant {
     }
 
     public void itemOnInterface(int interfaceChild, int zoom, int itemId) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrame(246);
-            c.getOutStream().writeWordBigEndian(interfaceChild);
-            c.getOutStream().writeUShort(zoom);
-            c.getOutStream().writeUShort(itemId);
-            c.flushOutStream();
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(246);
+            player.getOutStream().writeWordBigEndian(interfaceChild);
+            player.getOutStream().writeUShort(zoom);
+            player.getOutStream().writeUShort(itemId);
+            player.flushOutStream();
         }
     }
 
@@ -480,56 +467,56 @@ public class PlayerAssistant {
     }
 
     public void itemOnInterface(int item, int amount, int frame, int slot) {
-        if (c.getOutStream() != null) {
-            c.outStream.createFrameVarSizeWord(34);
-            c.outStream.writeUShort(frame);
+        if (player.getOutStream() != null) {
+            player.outStream.createFrameVarSizeWord(34);
+            player.outStream.writeUShort(frame);
             if (item == 23231) {
-                c.outStream.writeByte(slot);
+                player.outStream.writeByte(slot);
             } else {
-                c.outStream.writeDWord(slot);
+                player.outStream.writeDWord(slot);
             }
-            c.outStream.writeUShort(item + 1);
-            c.outStream.writeByte(255); //write byte of 255
-            c.outStream.writeDWord(amount);
-            c.outStream.endFrameVarSizeWord();
+            player.outStream.writeUShort(item + 1);
+            player.outStream.writeByte(255); //write byte of 255
+            player.outStream.writeDWord(amount);
+            player.outStream.endFrameVarSizeWord();
         }
     }
 
     public void sendTabAreaOverlayInterface(int interfaceId) {
-        if (c.getOutStream() != null) {
-            c.outStream.createFrame(142);
-            c.outStream.writeUShort(interfaceId);
-            c.flushOutStream();
+        if (player.getOutStream() != null) {
+            player.outStream.createFrame(142);
+            player.outStream.writeUShort(interfaceId);
+            player.flushOutStream();
         }
     }
 
     public void playerWalk(int x, int y) {
-        PathFinder.getPathFinder().findRoute(c, x, y, true, 1, 1);
+        PathFinder.getPathFinder().findRoute(player, x, y, true, 1, 1);
     }
 
     public void playerWalk(int x, int y, int xLength, int yLength) {
-        PathFinder.getPathFinder().findRoute(c, x, y, true, xLength, yLength);
+        PathFinder.getPathFinder().findRoute(player, x, y, true, xLength, yLength);
     }
 
     public Clan getClan() {
-        if (Server.clanManager.clanExists(c.getLoginName())) {
-            return Server.clanManager.getClan(c.getLoginName());
+        if (Server.clanManager.clanExists(player.getLoginName())) {
+            return Server.clanManager.getClan(player.getLoginName());
         }
         return null;
     }
 
     public void clearClanChat() {
-        c.clanId = -1;
-        c.getPA().sendString("Talking in: ", 18139);
-        c.getPA().sendString("Owner: ", 18140);
+        player.clanId = -1;
+        player.getPA().sendString("Talking in: ", 18139);
+        player.getPA().sendString("Owner: ", 18140);
         for (int j = 18144; j < 18244; j++) {
-            c.getPA().sendString("", j);
+            player.getPA().sendString("", j);
         }
     }
 
     public void setClanData() {
-        boolean exists = Server.clanManager.clanExists(c.getLoginName());
-        if (!exists || c.clan == null) {
+        boolean exists = Server.clanManager.clanExists(player.getLoginName());
+        if (!exists || player.clan == null) {
             sendString("Join chat", 18135);
             sendString("Talking in: Not in chat", 18139);
             sendString("Owner: None", 18140);
@@ -557,7 +544,7 @@ public class PlayerAssistant {
             }
             return;
         }
-        Clan clan = Server.clanManager.getClan(c.getLoginName());
+        Clan clan = Server.clanManager.getClan(player.getLoginName());
         sendString(clan.getTitle(), 18306);
         String title = "";
         for (int id = 18307; id < 18317; id += 3) {
@@ -597,8 +584,8 @@ public class PlayerAssistant {
     }
 
     public void resetClickCast() {
-        c.usingClickCast = false;
-        c.setSpellId(-1);
+        player.usingClickCast = false;
+        player.setSpellId(-1);
     }
 
     public void resetAutocast() {
@@ -610,74 +597,73 @@ public class PlayerAssistant {
 //	c.autocastId = spellIndex;
 //	updateConfig(c, spell);
     public void resetAutocast(boolean sendWeapon) {
-        c.setSpellId(-1);
-        c.autocastId = -1;
-        c.autocastingDefensive = false;
-        c.autocasting = false;
-        c.getPA().sendConfig(CombatSpellData.AUTOCAST_CONFIG, 0);
-        c.getPA().sendConfig(CombatSpellData.AUTOCAST_DEFENCE_CONFIG, 0);
-        c.getPA().sendFrame36(108, 0);
-        c.getPA().sendFrame36(109, 0);
+        player.setSpellId(-1);
+        player.autocastId = -1;
+        player.autocastingDefensive = false;
+        player.autocasting = false;
+        player.getPA().sendConfig(CombatSpellData.AUTOCAST_CONFIG, 0);
+        player.getPA().sendConfig(CombatSpellData.AUTOCAST_DEFENCE_CONFIG, 0);
+        player.getPA().sendFrame36(108, 0);
+        player.getPA().sendFrame36(109, 0);
         if (sendWeapon) {
-            c.setSidebarInterface(0, 328);
-            c.getItems().sendWeapon(c.playerEquipment[Player.playerWeapon]);
+            player.setSidebarInterface(0, 328);
+            player.getItems().sendWeapon(player.playerEquipment[Player.playerWeapon]);
         }
-        c.getPA().sendAutocastState(false);
+        player.getPA().sendAutocastState(false);
 
-        c.getCombatConfigs().updateWeaponModeConfig();
+        player.getCombatConfigs().updateWeaponModeConfig();
     }
 
     public void movePlayerUnconditionally(int x, int y, int h) {
-        c.resetWalkingQueue();
-        c.setTeleportToX(x);
-        c.setTeleportToY(y);
-        c.heightLevel = h;
-        c.teleTimer = 4;
+        player.resetWalkingQueue();
+        player.setTeleportToX(x);
+        player.setTeleportToY(y);
+        player.heightLevel = h;
+        player.teleTimer = 4;
         requestUpdates();
-        c.lastMove = System.currentTimeMillis();
+        player.lastMove = System.currentTimeMillis();
     }
 
     public void movePlayer(int x, int y) {
-        movePlayer(x, y, c.heightLevel);
+        movePlayer(x, y, player.heightLevel);
     }
 
     public void movePlayer(int x, int y, int h) {
-        if (c.getPosition().inDuelArena() || Server.getMultiplayerSessionListener().inAnySession(c)) {
-            if (!c.isDead) {
+        if (player.getPosition().inDuelArena() || Server.getMultiplayerSessionListener().inAnySession(player)) {
+            if (!player.isDead) {
                 return;
             }
         }
-        if (c.getBankPin().requiresUnlock()) {
-            c.getBankPin().open(2);
+        if (player.getBankPin().requiresUnlock()) {
+            player.getBankPin().open(2);
             return;
         }
-        if (c.morphed) {
+        if (player.morphed) {
             return;
         }
-        if (c.getSlayer().superiorSpawned) {
-            c.getSlayer().superiorSpawned = false;
+        if (player.getSlayer().superiorSpawned) {
+            player.getSlayer().superiorSpawned = false;
         }
-        c.resetWalkingQueue();
-        c.attacking.reset();
-        c.setTeleportToX(x);
-        c.setTeleportToY(y);
-        c.heightLevel = h;
-        c.teleTimer = 2;
+        player.resetWalkingQueue();
+        player.attacking.reset();
+        player.setTeleportToX(x);
+        player.setTeleportToY(y);
+        player.heightLevel = h;
+        player.teleTimer = 2;
         requestUpdates();
     }
 
     public void forceMove(int x, int y, int h, boolean forXlog) {
-        c.resetWalkingQueue();
-        c.attacking.reset();
-        c.setTeleportToX(x);
-        c.setTeleportToY(y);
-        c.heightLevel = h;
-        c.teleTimer = 2;
+        player.resetWalkingQueue();
+        player.attacking.reset();
+        player.setTeleportToX(x);
+        player.setTeleportToY(y);
+        player.heightLevel = h;
+        player.teleTimer = 2;
         if (forXlog) {
-            c.absX = x;
-            c.absY = y;
-            c.heightLevel = h;
-            c.updateController();
+            player.absX = x;
+            player.absY = y;
+            player.updateController();
         }
         requestUpdates();
     }
@@ -687,20 +673,20 @@ public class PlayerAssistant {
     }
 
     public void stopSkilling() {
-        Server.getEventHandler().stop(c, "skilling");
+        Server.getEventHandler().stop(player, "skilling");
     }
 
     public void movePlayerDuel(int x, int y, int h) {
-        DuelSession session = (DuelSession) Server.getMultiplayerSessionListener().getMultiplayerSession(c,
+        DuelSession session = (DuelSession) Server.getMultiplayerSessionListener().getMultiplayerSession(player,
                 MultiplayerSessionType.DUEL);
         if (Objects.nonNull(session) && session.getStage().getStage() == MultiplayerSessionStage.FURTHER_INTERATION
-                && Boundary.isIn(c, Boundary.DUEL_ARENA)) {
+                && Boundary.isIn(player, Boundary.DUEL_ARENA)) {
             return;
         }
-        c.resetWalkingQueue();
-        c.setTeleportToX(x);
-        c.setTeleportToY(y);
-        c.heightLevel = h;
+        player.resetWalkingQueue();
+        player.setTeleportToX(x);
+        player.setTeleportToY(y);
+        player.heightLevel = h;
         requestUpdates();
     }
 
@@ -727,19 +713,19 @@ public class PlayerAssistant {
             }
         }
 
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrameVarSizeWord(126);
-            c.getOutStream().writeString(s);
-            c.getOutStream().writeWordA(id);
-            c.getOutStream().endFrameVarSizeWord();
-            c.flushOutStream();
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrameVarSizeWord(126);
+            player.getOutStream().writeString(s);
+            player.getOutStream().writeWordA(id);
+            player.getOutStream().endFrameVarSizeWord();
+            player.flushOutStream();
         }
 
     }
 
     private final Map<Integer, TinterfaceText> interfaceText = new HashMap<>();
 
-    public class TinterfaceText {
+    public static class TinterfaceText {
         public int id;
         public String currentState;
 
@@ -767,37 +753,37 @@ public class PlayerAssistant {
     }
 
     public void sendEnterString(String header, StringInput stringInputHandler) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrameVarSizeWord(187);
-            c.getOutStream().writeString(header);
-            c.getOutStream().endFrameVarSizeWord();
-            c.stringInputHandler = stringInputHandler;
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrameVarSizeWord(187);
+            player.getOutStream().writeString(header);
+            player.getOutStream().endFrameVarSizeWord();
+            player.stringInputHandler = stringInputHandler;
         }
     }
 
     public void setSkillLevel(int skillNum, int currentLevel, int XP) {
-        if (c.getOutStream() != null && c != null) {
+        if (player != null && player.getOutStream() != null) {
             if (skillNum == 22) {    // Client hunter id, it's 21 in server
                 return;
             }
 
-            c.getOutStream().createFrame(134);
+            player.getOutStream().createFrame(134);
             if (skillNum == 21) {        // Server hunter id
                 skillNum = 22;        // Convert to client hunter id
             }
-            c.getOutStream().writeByte(skillNum);
-            c.getOutStream().writeDWord_v1(XP);
-            c.getOutStream().writeByte(currentLevel);
-            c.flushOutStream();
+            player.getOutStream().writeByte(skillNum);
+            player.getOutStream().writeDWord_v1(XP);
+            player.getOutStream().writeByte(currentLevel);
+            player.flushOutStream();
         }
     }
 
     public void sendFrame106(int sideIcon) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(106);
-            c.getOutStream().writeByteC(sideIcon);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(106);
+            player.getOutStream().writeByteC(sideIcon);
+            player.flushOutStream();
             requestUpdates();
         }
     }
@@ -807,77 +793,77 @@ public class PlayerAssistant {
      */
     public void resetScreenShake() {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(107);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(107);
+            player.flushOutStream();
         }
         // }
     }
 
     public void updateRunningToggle() {
-        sendFrame36(173, c.isRunningToggled() ? 1 : 0);
+        sendFrame36(173, player.isRunningToggled() ? 1 : 0);
     }
 
     public void sendFrame36(int id, int state) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(36);
-            c.getOutStream().writeWordBigEndian(id);
-            c.getOutStream().writeByte(state);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(36);
+            player.getOutStream().writeWordBigEndian(id);
+            player.getOutStream().writeByte(state);
+            player.flushOutStream();
         }
 
     }
 
     public void sendPlayerHeadOnInterface(int interfaceId) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(185);
-            c.getOutStream().writeWordBigEndianA(interfaceId);
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(185);
+            player.getOutStream().writeWordBigEndianA(interfaceId);
         }
 
     }
 
     public void sendLogout() {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrame(109);
-            c.flushOutStream();
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(109);
+            player.flushOutStream();
         }
     }
 
     public void resetScrollBar(int interfaceId) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrame(2);
-            c.getOutStream().writeUShort(interfaceId);
-            c.flushOutStream();
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(2);
+            player.getOutStream().writeUShort(interfaceId);
+            player.flushOutStream();
         }
     }
 
     public void setScrollableMaxHeight(int interfaceId, int scrollMax) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrame(3);
-            c.getOutStream().writeUShort(interfaceId);
-            c.getOutStream().writeUShort(scrollMax);
-            c.flushOutStream();
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(3);
+            player.getOutStream().writeUShort(interfaceId);
+            player.getOutStream().writeUShort(scrollMax);
+            player.flushOutStream();
         }
     }
 
     public void sendSprite(int id, int normal, int hover) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(98);
-            c.getOutStream().writeUShort(id);
-            c.getOutStream().writeUShort(normal);
-            c.getOutStream().writeUShort(hover);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(98);
+            player.getOutStream().writeUShort(id);
+            player.getOutStream().writeUShort(normal);
+            player.getOutStream().writeUShort(hover);
+            player.flushOutStream();
         }
     }
 
     public void sendInterfaceAction(int id, boolean disabled) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(100);
-            c.getOutStream().writeUShort(id);
-            c.getOutStream().writeByte(disabled ? 1 : 0);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(100);
+            player.getOutStream().writeUShort(id);
+            player.getOutStream().writeByte(disabled ? 1 : 0);
+            player.flushOutStream();
         }
     }
 
@@ -885,6 +871,7 @@ public class PlayerAssistant {
         sendSprite(id, normal, normal);
     }
 
+    @Getter
     public enum SceneType {
         OBJECT(0),
         NPC(1);
@@ -895,10 +882,6 @@ public class PlayerAssistant {
             this.id = id;
         }
 
-        public int getId() {
-            return id;
-        }
-
     }
 
 
@@ -906,54 +889,54 @@ public class PlayerAssistant {
 
         String finalstring = Arrays.toString(message).replace("String[", "").replace(", ", "&").replace("]", "").replace("[", "");
 
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrameVarSize(102);
-            c.getOutStream().writeByte(type.id);
-            c.getOutStream().writeUShort(id);
-            c.getOutStream().writeString(finalstring);
-            c.getOutStream().endFrameVarSize();
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrameVarSize(102);
+            player.getOutStream().writeByte(type.id);
+            player.getOutStream().writeUShort(id);
+            player.getOutStream().writeString(finalstring);
+            player.getOutStream().endFrameVarSize();
         }
 
     }
 
 
     public void showInterface(int interfaceid) {
-        c.interruptActions();
-        if (Server.getMultiplayerSessionListener().inSession(c, MultiplayerSessionType.TRADE)) {
-            Server.getMultiplayerSessionListener().finish(c, MultiplayerSessionFinalizeType.WITHDRAW_ITEMS);
+        player.interruptActions();
+        if (Server.getMultiplayerSessionListener().inSession(player, MultiplayerSessionType.TRADE)) {
+            Server.getMultiplayerSessionListener().finish(player, MultiplayerSessionFinalizeType.WITHDRAW_ITEMS);
             return;
         }
-        if (c.getLootingBag().isWithdrawInterfaceOpen() || c.getLootingBag().isDepositInterfaceOpen() || c.viewingRunePouch) {
-            c.sendMessage("You should stop what you are doing before continuing.");
+        if (player.getLootingBag().isWithdrawInterfaceOpen() || player.getLootingBag().isDepositInterfaceOpen() || player.viewingRunePouch) {
+            player.sendMessage("You should stop what you are doing before continuing.");
             return;
         }
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(97);
-            c.getOutStream().writeUShort(interfaceid);
-            c.flushOutStream();
-            c.openedInterface(interfaceid);
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(97);
+            player.getOutStream().writeUShort(interfaceid);
+            player.flushOutStream();
+            player.openedInterface(interfaceid);
         }
     }
 
     public void sendFrame248(int MainFrame, int SubFrame) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(248);
-            c.getOutStream().writeWordA(MainFrame);
-            c.getOutStream().writeUShort(SubFrame);
-            c.flushOutStream();
-            c.setOpenInterface(MainFrame);
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(248);
+            player.getOutStream().writeWordA(MainFrame);
+            player.getOutStream().writeUShort(SubFrame);
+            player.flushOutStream();
+            player.setOpenInterface(MainFrame);
         }
     }
 
     public void sendFrame246(int MainFrame, int SubFrame, int SubFrame2) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(246);
-            c.getOutStream().writeWordBigEndian(MainFrame);
-            c.getOutStream().writeUShort(SubFrame);
-            c.getOutStream().writeUShort(SubFrame2);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(246);
+            player.getOutStream().writeWordBigEndian(MainFrame);
+            player.getOutStream().writeUShort(SubFrame);
+            player.getOutStream().writeUShort(SubFrame2);
+            player.flushOutStream();
         }
     }
 
@@ -963,12 +946,12 @@ public class PlayerAssistant {
     }
 
     public void sendInterfaceHidden(int state, int componentId) {
-        if (c.getPacketDropper().requiresUpdate(171, new ComponentVisibility(state, componentId))) {
-            if (c.getOutStream() != null) {
-                c.getOutStream().createFrame(171);
-                c.getOutStream().writeByte(state);
-                c.getOutStream().writeUShort(componentId);
-                c.flushOutStream();
+        if (player.getPacketDropper().requiresUpdate(171, new ComponentVisibility(state, componentId))) {
+            if (player.getOutStream() != null) {
+                player.getOutStream().createFrame(171);
+                player.getOutStream().writeByte(state);
+                player.getOutStream().writeUShort(componentId);
+                player.flushOutStream();
             }
         }
     }
@@ -979,52 +962,52 @@ public class PlayerAssistant {
 
     public void sendInterfaceAnimation(int interfaceId, int animation) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(200);
-            c.getOutStream().writeUShort(interfaceId);
-            c.getOutStream().writeUShort(animation);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(200);
+            player.getOutStream().writeUShort(interfaceId);
+            player.getOutStream().writeUShort(animation);
+            player.flushOutStream();
         }
     }
 
     public void sendFrame70(int i, int o, int id) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(70);
-            c.getOutStream().writeUShort(i);
-            c.getOutStream().writeWordBigEndian(o);
-            c.getOutStream().writeWordBigEndian(id);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(70);
+            player.getOutStream().writeUShort(i);
+            player.getOutStream().writeWordBigEndian(o);
+            player.getOutStream().writeWordBigEndian(id);
+            player.flushOutStream();
         }
 
     }
 
     public void sendNpcHeadOnInterface(int npcId, int interfaceId) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(75);
-            c.getOutStream().writeWordBigEndianA(npcId);
-            c.getOutStream().writeWordBigEndianA(interfaceId);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(75);
+            player.getOutStream().writeWordBigEndianA(npcId);
+            player.getOutStream().writeWordBigEndianA(interfaceId);
+            player.flushOutStream();
         }
 
     }
 
     public void sendChatboxInterface(int Frame) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(164);
-            c.getOutStream().writeWordBigEndian_dup(Frame);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(164);
+            player.getOutStream().writeWordBigEndian_dup(Frame);
+            player.flushOutStream();
         }
 
     }
 
     public void sendFrame87(int id, int state) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(87);
-            c.getOutStream().writeWordBigEndian_dup(id);
-            c.getOutStream().writeDWord_v1(state);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(87);
+            player.getOutStream().writeWordBigEndian_dup(id);
+            player.getOutStream().writeDWord_v1(state);
+            player.flushOutStream();
         }
 
     }
@@ -1038,97 +1021,97 @@ public class PlayerAssistant {
     }
 
     public void createPlayerHints(int type, int id) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(254);
-            c.getOutStream().writeByte(type);
-            c.getOutStream().writeUShort(id);
-            c.getOutStream().write3Byte(0);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(254);
+            player.getOutStream().writeByte(type);
+            player.getOutStream().writeUShort(id);
+            player.getOutStream().write3Byte(0);
+            player.flushOutStream();
         }
     }
 
     public void createObjectHints(int x, int y, int height, int pos) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(254);
-            c.getOutStream().writeByte(pos);
-            c.getOutStream().writeUShort(x);
-            c.getOutStream().writeUShort(y);
-            c.getOutStream().writeByte(height);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(254);
+            player.getOutStream().writeByte(pos);
+            player.getOutStream().writeUShort(x);
+            player.getOutStream().writeUShort(y);
+            player.getOutStream().writeByte(height);
+            player.flushOutStream();
         }
 
     }
 
     private void sendAutocastState(boolean state) {
-        if (c == null || c.isDisconnected() || c.getSession() == null) {
+        if (player == null || player.isDisconnected() || player.getSession() == null) {
             return;
         }
-        Stream stream = c.getOutStream();
+        Stream stream = player.getOutStream();
         if (stream == null) {
             return;
         }
         stream.createFrame(15);
         stream.writeByte(state ? 1 : 0);
-        c.flushOutStream();
+        player.flushOutStream();
     }
 
     public void updateFriendOnlineStatus(String displayName, int world) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrame(50);
-            c.getOutStream().writeQWord(Misc.playerNameToInt64(displayName));
-            c.getOutStream().writeByte(world);
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(50);
+            player.getOutStream().writeQWord(Misc.playerNameToInt64(displayName));
+            player.getOutStream().writeByte(world);
         }
     }
 
     public void addFriendOrIgnore(String displayName, boolean friend, int world) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrameVarSize(18);
-            c.getOutStream().writeNullTerminatedString(displayName);
-            c.getOutStream().writeByte(friend ? 1 : 0);
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrameVarSize(18);
+            player.getOutStream().writeNullTerminatedString(displayName);
+            player.getOutStream().writeByte(friend ? 1 : 0);
             if (friend)
-                c.getOutStream().writeByte(world);
-            c.getOutStream().endFrameVarSize();
-            c.flushOutStream();
+                player.getOutStream().writeByte(world);
+            player.getOutStream().endFrameVarSize();
+            player.flushOutStream();
         }
     }
 
     public void sendPM(String displayName, RightGroup rightsGroup, byte[] chatMessage) {
-        c.getOutStream().createFrameVarSize(196);
-        c.getOutStream().writeNullTerminatedString(displayName);
-        c.getOutStream().writeDWord(new Random().nextInt());
-        writeRightsGroup(c.getOutStream(), rightsGroup);
-        c.getOutStream().writeBytes(chatMessage, chatMessage.length, 0);
-        c.getOutStream().endFrameVarSize();
+        player.getOutStream().createFrameVarSize(196);
+        player.getOutStream().writeNullTerminatedString(displayName);
+        player.getOutStream().writeDWord(new Random().nextInt());
+        writeRightsGroup(player.getOutStream(), rightsGroup);
+        player.getOutStream().writeBytes(chatMessage, chatMessage.length, 0);
+        player.getOutStream().endFrameVarSize();
     }
 
     public void sendFriendUpdatedDisplayName(String oldName, String newName) {
-        c.getOutStream().createFrameVarSize(19);
-        c.getOutStream().writeNullTerminatedString(oldName);
-        c.getOutStream().writeNullTerminatedString(newName);
-        c.getOutStream().endFrameVarSize();
+        player.getOutStream().createFrameVarSize(19);
+        player.getOutStream().writeNullTerminatedString(oldName);
+        player.getOutStream().writeNullTerminatedString(newName);
+        player.getOutStream().endFrameVarSize();
     }
 
     public void removeAllWindows() {
-        if (c.getOutStream() != null && c != null) {
-            c.getPA().resetVariables();
+        if (player != null && player.getOutStream() != null) {
+            player.getPA().resetVariables();
 
-            c.getOutStream().createFrame(219);
-            c.flushOutStream();
+            player.getOutStream().createFrame(219);
+            player.flushOutStream();
 
-            c.nextChat = 0;
-            c.dialogueOptions = 0;
-            c.closedInterface();
-            c.setDialogueBuilder(null);
-            c.stringInputHandler = null;
-            c.amountInputHandler = null;
-            c.setViewingCollectionLog(null);
+            player.nextChat = 0;
+            player.dialogueOptions = 0;
+            player.closedInterface();
+            player.setDialogueBuilder(null);
+            player.stringInputHandler = null;
+            player.amountInputHandler = null;
+            player.setViewingCollectionLog(null);
         }
         resetVariables();
     }
 
     public void updatePoisonStatus() {
-        sendConfig(1359, c.getHealth().getStatus().ordinal());
+        sendConfig(1359, player.getHealth().getStatus().ordinal());
     }
 
     public void closeAllWindows() {
@@ -1136,43 +1119,43 @@ public class PlayerAssistant {
     }
 
     public void closeAllWindows(boolean sendPacket) {
-        if (c.getOutStream() != null && c != null) {
+        if (player != null && player.getOutStream() != null) {
             if (sendPacket) {
-                c.getOutStream().createFrame(219);
-                c.flushOutStream();
+                player.getOutStream().createFrame(219);
+                player.flushOutStream();
             }
-            c.lastDialogueNewSystem = false;
-            c.getAttributes().remove("dangerous_tele");
-            c.inTradingPost = false;
-            c.isBanking = false;
-            c.viewingPresets = false;
-            c.inPresets = false;
-            c.setEnterAmountInterfaceId(0);
-            c.getLootingBag().setWithdrawInterfaceOpen(false);
-            c.getLootingBag().setDepositInterfaceOpen(false);
-            c.getLootingBag().setSelectDepositAmountInterfaceOpen(false);
-            c.viewingRunePouch = false;
-            c.nextChat = 0;
-            c.dialogueOptions = 0;
-            c.placeHolderWarning = false;
+            player.lastDialogueNewSystem = false;
+            player.getAttributes().remove("dangerous_tele");
+            player.inTradingPost = false;
+            player.isBanking = false;
+            player.viewingPresets = false;
+            player.inPresets = false;
+            player.setEnterAmountInterfaceId(0);
+            player.getLootingBag().setWithdrawInterfaceOpen(false);
+            player.getLootingBag().setDepositInterfaceOpen(false);
+            player.getLootingBag().setSelectDepositAmountInterfaceOpen(false);
+            player.viewingRunePouch = false;
+            player.nextChat = 0;
+            player.dialogueOptions = 0;
+            player.placeHolderWarning = false;
             resetVariables();
-            c.interruptActions();
-            c.closedInterface();
-            c.inBank = false;
-            c.myShopId = 0;
+            player.interruptActions();
+            player.closedInterface();
+            player.inBank = false;
+            player.myShopId = 0;
         }
     }
 
     public void sendFrame34(int id, int slot, int column, int amount) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.outStream.createFrameVarSizeWord(34); // init item to smith screen
-            c.outStream.writeUShort(column); // Column Across Smith Screen
-            c.outStream.writeByte(4); // Total Rows?
-            c.outStream.writeDWord(slot); // Row Down The Smith Screen
-            c.outStream.writeUShort(id + 1); // item
-            c.outStream.writeByte(amount); // how many there are?
-            c.outStream.endFrameVarSizeWord();
+        if (player != null && player.getOutStream() != null) {
+            player.outStream.createFrameVarSizeWord(34); // init item to smith screen
+            player.outStream.writeUShort(column); // Column Across Smith Screen
+            player.outStream.writeByte(4); // Total Rows?
+            player.outStream.writeDWord(slot); // Row Down The Smith Screen
+            player.outStream.writeUShort(id + 1); // item
+            player.outStream.writeByte(amount); // how many there are?
+            player.outStream.endFrameVarSizeWord();
         }
 
     }
@@ -1192,31 +1175,31 @@ public class PlayerAssistant {
         if (currentWalkableInterface == id && id != -2)
             return;
 
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(208);
-            c.getOutStream().writeUShort(id);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(208);
+            player.getOutStream().writeUShort(id);
+            player.flushOutStream();
             currentWalkableInterface = id;
         }
     }
 
     public void shakeScreen(int verticleAmount, int verticleSpeed, int horizontalAmount, int horizontalSpeed) {
-        if (c != null && c.getOutStream() != null) {
-            c.getOutStream().createFrame(35);
-            c.getOutStream().writeByte(verticleAmount);
-            c.getOutStream().writeByte(verticleSpeed);
-            c.getOutStream().writeByte(horizontalAmount);
-            c.getOutStream().writeByte(horizontalSpeed);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(35);
+            player.getOutStream().writeByte(verticleAmount);
+            player.getOutStream().writeByte(verticleSpeed);
+            player.getOutStream().writeByte(horizontalAmount);
+            player.getOutStream().writeByte(horizontalSpeed);
+            player.flushOutStream();
         }
     }
 
     public void sendFrame99(int state) { // used for disabling map
         // synchronized(c) {
-        if (c != null && c.getOutStream() != null) {
-            c.getOutStream().createFrame(99);
-            c.getOutStream().writeByte(state);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(99);
+            player.getOutStream().writeByte(state);
+            player.flushOutStream();
         }
     }
 
@@ -1231,7 +1214,7 @@ public class PlayerAssistant {
                 Player person = PlayerHandler.players[i];
                 if (person != null) {
                     if (person.getOutStream() != null && !person.isDisconnected()) {
-                        if (c.distanceToPoint(person.getX(), person.getY()) <= 25) {
+                        if (player.distanceToPoint(person.getX(), person.getY()) <= 25) {
                             person.getOutStream().createFrame(1);
                             person.flushOutStream();
                             person.getPA().requestUpdates();
@@ -1249,46 +1232,46 @@ public class PlayerAssistant {
     public void createProjectile(int x, int y, int offX, int offY, int angle, int speed, int gfxMoving,
                                  int startHeight, int endHeight, int lockon, int time) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(85);
-            c.getOutStream().writeByteC((y - (c.getMapRegionY() * 8)) - 2);
-            c.getOutStream().writeByteC((x - (c.getMapRegionX() * 8)) - 3);
-            c.getOutStream().createFrame(117);
-            c.getOutStream().writeByte(angle);
-            c.getOutStream().writeByte(offY);
-            c.getOutStream().writeByte(offX);
-            c.getOutStream().writeUShort(lockon);
-            c.getOutStream().writeUShort(gfxMoving);
-            c.getOutStream().writeByte(startHeight);
-            c.getOutStream().writeByte(endHeight);
-            c.getOutStream().writeUShort(time);
-            c.getOutStream().writeUShort(speed);
-            c.getOutStream().writeByte(16);
-            c.getOutStream().writeByte(64);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(85);
+            player.getOutStream().writeByteC((y - (player.getMapRegionY() * 8)) - 2);
+            player.getOutStream().writeByteC((x - (player.getMapRegionX() * 8)) - 3);
+            player.getOutStream().createFrame(117);
+            player.getOutStream().writeByte(angle);
+            player.getOutStream().writeByte(offY);
+            player.getOutStream().writeByte(offX);
+            player.getOutStream().writeUShort(lockon);
+            player.getOutStream().writeUShort(gfxMoving);
+            player.getOutStream().writeByte(startHeight);
+            player.getOutStream().writeByte(endHeight);
+            player.getOutStream().writeUShort(time);
+            player.getOutStream().writeUShort(speed);
+            player.getOutStream().writeByte(16);
+            player.getOutStream().writeByte(64);
+            player.flushOutStream();
         }
     }
 
     public void createProjectile(int x, int y, int offX, int offY, int angle, int scale, int pitch, int speed, int gfxMoving,
                                  int startHeight, int endHeight, int lockon, int time) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(85);
-            c.getOutStream().writeByteC((y - (c.getMapRegionY() * 8)) - 2);
-            c.getOutStream().writeByteC((x - (c.getMapRegionX() * 8)) - 3);
-            c.getOutStream().createFrame(117);
-            c.getOutStream().writeByte(angle);
-            c.getOutStream().writeByte(offY);
-            c.getOutStream().writeByte(offX);
-            c.getOutStream().writeUShort(lockon);
-            c.getOutStream().writeUShort(gfxMoving);
-            c.getOutStream().writeByte(startHeight);
-            c.getOutStream().writeByte(endHeight);
-            c.getOutStream().writeUShort(time);
-            c.getOutStream().writeUShort(speed);
-            c.getOutStream().writeByte(pitch);
-            c.getOutStream().writeByte(scale);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(85);
+            player.getOutStream().writeByteC((y - (player.getMapRegionY() * 8)) - 2);
+            player.getOutStream().writeByteC((x - (player.getMapRegionX() * 8)) - 3);
+            player.getOutStream().createFrame(117);
+            player.getOutStream().writeByte(angle);
+            player.getOutStream().writeByte(offY);
+            player.getOutStream().writeByte(offX);
+            player.getOutStream().writeUShort(lockon);
+            player.getOutStream().writeUShort(gfxMoving);
+            player.getOutStream().writeByte(startHeight);
+            player.getOutStream().writeByte(endHeight);
+            player.getOutStream().writeUShort(time);
+            player.getOutStream().writeUShort(speed);
+            player.getOutStream().writeByte(pitch);
+            player.getOutStream().writeByte(scale);
+            player.flushOutStream();
         }
     }
 
@@ -1298,64 +1281,64 @@ public class PlayerAssistant {
 
 
     public void sendProjectile(Projectile projectile) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrame(85);
-            c.getOutStream().writeByteC((projectile.getStart().getY() - (c.getMapRegionY() * 8)));
-            c.getOutStream().writeByteC((projectile.getStart().getX() - (c.getMapRegionX() * 8)));
-            c.getOutStream().createFrame(117);
-            c.getOutStream().writeByte(projectile.getCurve()); // Unknown
-            c.getOutStream().writeByte(projectile.getOffset().getX());
-            c.getOutStream().writeByte(projectile.getOffset().getY());
-            c.getOutStream().writeUShort(projectile.getLockon());
-            c.getOutStream().writeUShort(projectile.getProjectileId());
-            c.getOutStream().writeByte(projectile.getStartHeight());
-            c.getOutStream().writeByte(projectile.getEndHeight());
-            c.getOutStream().writeUShort(projectile.getDelay());
-            c.getOutStream().writeUShort(projectile.getSpeed());
-            c.getOutStream().writeByte(projectile.getPitch());
-            c.getOutStream().writeByte(projectile.getScale()); // Unknown
-            c.flushOutStream();
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(85);
+            player.getOutStream().writeByteC((projectile.getStart().getY() - (player.getMapRegionY() * 8)));
+            player.getOutStream().writeByteC((projectile.getStart().getX() - (player.getMapRegionX() * 8)));
+            player.getOutStream().createFrame(117);
+            player.getOutStream().writeByte(projectile.getCurve()); // Unknown
+            player.getOutStream().writeByte(projectile.getOffset().getX());
+            player.getOutStream().writeByte(projectile.getOffset().getY());
+            player.getOutStream().writeUShort(projectile.getLockon());
+            player.getOutStream().writeUShort(projectile.getProjectileId());
+            player.getOutStream().writeByte(projectile.getStartHeight());
+            player.getOutStream().writeByte(projectile.getEndHeight());
+            player.getOutStream().writeUShort(projectile.getDelay());
+            player.getOutStream().writeUShort(projectile.getSpeed());
+            player.getOutStream().writeByte(projectile.getPitch());
+            player.getOutStream().writeByte(projectile.getScale()); // Unknown
+            player.flushOutStream();
         }
 
     }
 
     private void createProjectile2(int x, int y, int offX, int offY, int angle, int speed, int gfxMoving, int startHeight, int endHeight, int lockon, int time, int slope) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(85);
-            c.getOutStream().writeByteC((y - (c.getMapRegionY() * 8)) - 2);
-            c.getOutStream().writeByteC((x - (c.getMapRegionX() * 8)) - 3);
-            c.getOutStream().createFrame(117);
-            c.getOutStream().writeByte(angle);
-            c.getOutStream().writeByte(offY);
-            c.getOutStream().writeByte(offX);
-            c.getOutStream().writeUShort(lockon);
-            c.getOutStream().writeUShort(gfxMoving);
-            c.getOutStream().writeByte(startHeight);
-            c.getOutStream().writeByte(endHeight);
-            c.getOutStream().writeUShort(time);
-            c.getOutStream().writeUShort(speed);
-            c.getOutStream().writeByte(slope);
-            c.getOutStream().writeByte(64);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(85);
+            player.getOutStream().writeByteC((y - (player.getMapRegionY() * 8)) - 2);
+            player.getOutStream().writeByteC((x - (player.getMapRegionX() * 8)) - 3);
+            player.getOutStream().createFrame(117);
+            player.getOutStream().writeByte(angle);
+            player.getOutStream().writeByte(offY);
+            player.getOutStream().writeByte(offX);
+            player.getOutStream().writeUShort(lockon);
+            player.getOutStream().writeUShort(gfxMoving);
+            player.getOutStream().writeByte(startHeight);
+            player.getOutStream().writeByte(endHeight);
+            player.getOutStream().writeUShort(time);
+            player.getOutStream().writeUShort(speed);
+            player.getOutStream().writeByte(slope);
+            player.getOutStream().writeByte(64);
+            player.flushOutStream();
         }
     }
 
     public void createPlayersProjectile(int x, int y, int offX, int offY, int angle, int speed, int gfxMoving,
                                         int startHeight, int endHeight, int lockon, int time, int delay) {
-        ProjectileEntity projectile = new ProjectileEntity(new Position(x, y, c.getHeight()), new Position(offX, offY), lockon, gfxMoving, delay, speed, startHeight, endHeight, angle, 1, 5);
+        ProjectileEntity projectile = new ProjectileEntity(new Position(x, y, player.getHeight()), new Position(offX, offY), lockon, gfxMoving, delay, speed, startHeight, endHeight, angle, 1, 5);
         projectile.sendProjectile();
         System.out.println(projectile.getStart());
     }
 
     public void mysteryBoxItemOnInterface(int item, int amount, int frame, int slot) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrameVarSizeWord(34);
-            c.getOutStream().writeUShort(frame);
-            c.getOutStream().writeByte(slot);
-            c.getOutStream().writeUShort(item + 1);
-            c.getOutStream().writeByte(255);
-            c.getOutStream().writeDWord(amount);
-            c.getOutStream().endFrameVarSizeWord();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrameVarSizeWord(34);
+            player.getOutStream().writeUShort(frame);
+            player.getOutStream().writeByte(slot);
+            player.getOutStream().writeUShort(item + 1);
+            player.getOutStream().writeByte(255);
+            player.getOutStream().writeDWord(amount);
+            player.getOutStream().endFrameVarSizeWord();
         }
     }
 
@@ -1379,8 +1362,8 @@ public class PlayerAssistant {
         PlayerHandler
                 .nonNullStream()
                 .filter(p -> p.distanceToPoint(x, y) <= 25)
-                .filter(p -> p.getHeight() == c.getHeight())
-                .filter(c::sameInstance)
+                .filter(p -> p.getHeight() == player.getHeight())
+                .filter(player::sameInstance)
                 .forEach(p -> {
                /*     ProjectileEntity projectile = new ProjectileEntity(x, y, p.getHeight(), offX, offY, lockon, gfxMoving, 100, 100, startHeight, endHeight, angle, 1, 64, 5);
                     projectile.sendProjectile();*/
@@ -1394,8 +1377,8 @@ public class PlayerAssistant {
         PlayerHandler
                 .nonNullStream()
                 .filter(p -> p.distanceToPoint(x, y) <= 25)
-                .filter(p -> p.getHeight() == c.getHeight())
-                .filter(c::sameInstance)
+                .filter(p -> p.getHeight() == player.getHeight())
+                .filter(player::sameInstance)
                 .forEach(p -> {
                     p.getPA().createProjectile2(x, y, offX, offY, angle, speed, gfxMoving, startHeight, endHeight,
                             lockon, time, slope);
@@ -1407,16 +1390,16 @@ public class PlayerAssistant {
      **/
     public void stillGfx(int id, int x, int y, int height, int time) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(85);
-            c.getOutStream().writeByteC(y - (c.getMapRegionY() * 8));
-            c.getOutStream().writeByteC(x - (c.getMapRegionX() * 8));
-            c.getOutStream().createFrame(4);
-            c.getOutStream().writeByte(0);
-            c.getOutStream().writeUShort(id);
-            c.getOutStream().writeByte(height);
-            c.getOutStream().writeUShort(time);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(85);
+            player.getOutStream().writeByteC(y - (player.getMapRegionY() * 8));
+            player.getOutStream().writeByteC(x - (player.getMapRegionX() * 8));
+            player.getOutStream().createFrame(4);
+            player.getOutStream().writeByte(0);
+            player.getOutStream().writeUShort(id);
+            player.getOutStream().writeByte(height);
+            player.getOutStream().writeUShort(time);
+            player.flushOutStream();
         }
 
     }
@@ -1425,41 +1408,41 @@ public class PlayerAssistant {
         int[][] skillsNeck = {{11968, 11970, 5}, {11970, 11105, 4}, {11105, 11107, 3}, {11107, 11109, 2},
                 {11109, 11111, 1}, {11111, 11113, 0}};
         for (int[] aSkillsNeck : skillsNeck) {
-            if (c.operateEquipmentItemId == aSkillsNeck[0]) {
-                if (c.isOperate) {
-                    c.getItems().deleteItem(aSkillsNeck[0], 1);
-                    c.getItems().addItem(aSkillsNeck[1], 1);
+            if (player.operateEquipmentItemId == aSkillsNeck[0]) {
+                if (player.isOperate) {
+                    player.getItems().deleteItem(aSkillsNeck[0], 1);
+                    player.getItems().addItem(aSkillsNeck[1], 1);
                 }
                 if (aSkillsNeck[2] > 1) {
-                    c.sendMessage("Your amulet has " + aSkillsNeck[2] + " charges left.");
+                    player.sendMessage("Your amulet has " + aSkillsNeck[2] + " charges left.");
                 } else {
-                    c.sendMessage("Your amulet has " + aSkillsNeck[2] + " charge left.");
+                    player.sendMessage("Your amulet has " + aSkillsNeck[2] + " charge left.");
                 }
             }
         }
         // c.getItems().updateSlot(c.playerAmulet);
-        c.isOperate = false;
-        c.operateEquipmentItemId = -1;
+        player.isOperate = false;
+        player.operateEquipmentItemId = -1;
     }
 
     public void sendScreenFlash(int color, int maxIntensity) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrame(10);
-            c.getOutStream().writeDWord(color);
-            c.getOutStream().writeByte(maxIntensity);
-            c.getOutStream().writeByte(0);
-            c.flushOutStream();
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(10);
+            player.getOutStream().writeDWord(color);
+            player.getOutStream().writeByte(maxIntensity);
+            player.getOutStream().writeByte(0);
+            player.flushOutStream();
         }
     }
 
     public void sendFog(boolean enabled, int fogStrength) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrame(243);
-            c.getOutStream().writeByte(enabled ? 1 : 0);
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrame(243);
+            player.getOutStream().writeByte(enabled ? 1 : 0);
             if (fogStrength > 85)
                 fogStrength = 85;
-            c.getOutStream().writeDWord(fogStrength);
-            c.flushOutStream();
+            player.getOutStream().writeDWord(fogStrength);
+            player.flushOutStream();
         }
     }
 
@@ -1486,38 +1469,39 @@ public class PlayerAssistant {
      **/
     public void object(int objectId, int objectX, int objectY, int face, int objectType, boolean flushOutStream) {
         // synchronized(c) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(85);
-            c.getOutStream().writeByteC(objectY - (c.getMapRegionY() * 8));
-            c.getOutStream().writeByteC(objectX - (c.getMapRegionX() * 8));
-            c.getOutStream().createFrame(101);
-            c.getOutStream().writeByteC((objectType << 2) + (face & 3));
-            c.getOutStream().writeByte(0);
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(85);
+            player.getOutStream().writeByteC(objectY - (player.getMapRegionY() * 8));
+            player.getOutStream().writeByteC(objectX - (player.getMapRegionX() * 8));
+            player.getOutStream().createFrame(101);
+            player.getOutStream().writeByteC((objectType << 2) + (face & 3));
+            player.getOutStream().writeByte(0);
 
             if (objectId != -1) { // removing
-                c.getOutStream().createFrame(151);
-                c.getOutStream().writeByteS(0);
-                c.getOutStream().writeWordBigEndian(objectId);
-                c.getOutStream().writeByteS((objectType << 2) + (face & 3));
+                player.getOutStream().createFrame(151);
+                player.getOutStream().writeByteS(0);
+                player.getOutStream().writeWordBigEndian(objectId);
+                player.getOutStream().writeByteS((objectType << 2) + (face & 3));
             }
             if (flushOutStream) {
-                c.flushOutStream();
+                player.flushOutStream();
             }
         }
     }
 
-    private Map<Integer, String> playerOptions = new HashMap<>();
+    @Getter
+    private final Map<Integer, String> playerOptions = new HashMap<>();
 
     public void showOption(int i, int l, String s) {
-        if (c.getOutStream() != null) {
+        if (player.getOutStream() != null) {
             if (!s.equals(playerOptions.get(i))) {
                 playerOptions.put(i, s);
-                c.getOutStream().createFrameVarSize(104);
-                c.getOutStream().writeByteC(i);
-                c.getOutStream().writeByteA(l);
-                c.getOutStream().writeString(s);
-                c.getOutStream().endFrameVarSize();
-                c.flushOutStream();
+                player.getOutStream().createFrameVarSize(104);
+                player.getOutStream().writeByteC(i);
+                player.getOutStream().writeByteA(l);
+                player.getOutStream().writeString(s);
+                player.getOutStream().endFrameVarSize();
+                player.flushOutStream();
             }
         }
     }
@@ -1526,32 +1510,27 @@ public class PlayerAssistant {
      * Open bank
      **/
     public void sendFrame34a(int frame, int item, int slot, int amount) {
-        c.outStream.createFrameVarSizeWord(34);
-        c.outStream.writeUShort(frame);
-        c.outStream.writeByte(slot);
-        c.outStream.writeUShort(item + 1);
-        c.outStream.writeByte(255);
-        c.outStream.writeDWord(amount);
-        c.outStream.endFrameVarSizeWord();
+        player.outStream.createFrameVarSizeWord(34);
+        player.outStream.writeUShort(frame);
+        player.outStream.writeByte(slot);
+        player.outStream.writeUShort(item + 1);
+        player.outStream.writeByte(255);
+        player.outStream.writeDWord(amount);
+        player.outStream.endFrameVarSizeWord();
     }
 
     /**
-     * @param frame
-     * @param item
-     * @param slot
-     * @param amount
-     * @param opaque
      * @author Grant_ | www.rune-server.ee/members/grant_ | 10/6/19
      */
     public void sendItemToSlotWithOpacity(int frame, int item, int slot, int amount, boolean opaque) {
         final int bitpackedValue = opaque ? setBit(15, item + 1) : item + 1;
-        c.outStream.createFrameVarSizeWord(34);
-        c.outStream.writeUShort(frame);
-        c.outStream.writeByte(slot);
-        c.outStream.writeUShort(bitpackedValue);
-        c.outStream.writeByte(255);
-        c.outStream.writeDWord(amount);
-        c.outStream.endFrameVarSizeWord();
+        player.outStream.createFrameVarSizeWord(34);
+        player.outStream.writeUShort(frame);
+        player.outStream.writeByte(slot);
+        player.outStream.writeUShort(bitpackedValue);
+        player.outStream.writeByte(255);
+        player.outStream.writeDWord(amount);
+        player.outStream.endFrameVarSizeWord();
     }
 
     public void sendStringContainer(int containerInterfaceId, List<String> strings) {
@@ -1562,13 +1541,13 @@ public class PlayerAssistant {
     }
 
     public void sendStringContainer(int containerInterfaceId, String... strings) {
-        if (c.outStream != null) {
-            c.outStream.createFrameVarSizeWord(5);
-            c.outStream.writeUShort(containerInterfaceId);
-            c.outStream.writeUShort(strings.length);
-            Arrays.stream(strings).forEach(string -> c.outStream.writeString(string));
-            c.outStream.endFrameVarSizeWord();
-            c.flushOutStream();
+        if (player.outStream != null) {
+            player.outStream.createFrameVarSizeWord(5);
+            player.outStream.writeUShort(containerInterfaceId);
+            player.outStream.writeUShort(strings.length);
+            Arrays.stream(strings).forEach(string -> player.outStream.writeString(string));
+            player.outStream.endFrameVarSizeWord();
+            player.flushOutStream();
         }
     }
 
@@ -1580,11 +1559,11 @@ public class PlayerAssistant {
     }
 
     public void sendInterfaceSet(int mainScreenInterface, int inventoryInterface) {
-        c.getOutStream().createFrame(248);
-        c.getOutStream().writeWordA(mainScreenInterface);
-        c.getOutStream().writeUShort(inventoryInterface);
-        c.openedInterface(mainScreenInterface);
-        c.flushOutStream();
+        player.getOutStream().createFrame(248);
+        player.getOutStream().writeWordA(mainScreenInterface);
+        player.getOutStream().writeUShort(inventoryInterface);
+        player.openedInterface(mainScreenInterface);
+        player.flushOutStream();
     }
 
     public boolean viewingOtherBank;
@@ -1592,70 +1571,70 @@ public class PlayerAssistant {
 
     public void resetOtherBank() {
         for (int i = 0; i < backupTabs.length; i++)
-            c.getBank().setBankTab(i, backupTabs[i]);
+            player.getBank().setBankTab(i, backupTabs[i]);
         viewingOtherBank = false;
         removeAllWindows();
-        c.isBanking = false;
-        c.getBank().setCurrentBankTab(c.getBank().getBankTab()[0]);
-        c.getItems().queueBankContainerUpdate();
-        c.sendMessage("You are no longer viewing another players bank.");
+        player.isBanking = false;
+        player.getBank().setCurrentBankTab(player.getBank().getBankTab()[0]);
+        player.getItems().queueBankContainerUpdate();
+        player.sendMessage("You are no longer viewing another players bank.");
     }
 
     public void openOtherBank(Player otherPlayer) {
         if (otherPlayer == null)
             return;
 
-        if (c.getPA().viewingOtherBank) {
-            c.getPA().resetOtherBank();
+        if (player.getPA().viewingOtherBank) {
+            player.getPA().resetOtherBank();
             return;
         }
         if (otherPlayer.getPA().viewingOtherBank) {
-            c.sendMessage("That player is viewing another players bank, please wait.");
+            player.sendMessage("That player is viewing another players bank, please wait.");
             return;
         }
         for (int i = 0; i < backupTabs.length; i++)
-            backupTabs[i] = c.getBank().getBankTab(i);
+            backupTabs[i] = player.getBank().getBankTab(i);
         for (int i = 0; i < otherPlayer.getBank().getBankTab().length; i++)
-            c.getBank().setBankTab(i, otherPlayer.getBank().getBankTab(i));
-        c.getBank().setCurrentBankTab(c.getBank().getBankTab(0));
+            player.getBank().setBankTab(i, otherPlayer.getBank().getBankTab(i));
+        player.getBank().setCurrentBankTab(player.getBank().getBankTab(0));
         viewingOtherBank = true;
-        c.itemAssistant.openUpBank();
+        player.itemAssistant.openUpBank();
     }
 
     public void castVengeance() {
-        c.usingMagic = true;
-        if (c.playerLevel[1] < 40) {
-            c.sendMessage("You need a defence level of 40 to cast this spell.");
+        player.usingMagic = true;
+        if (player.playerLevel[1] < 40) {
+            player.sendMessage("You need a defence level of 40 to cast this spell.");
             return;
         }
-        if (System.currentTimeMillis() - c.lastCast < 30000) {
-            c.sendMessage("You can only cast vengeance every 30 seconds.");
+        if (System.currentTimeMillis() - player.lastCast < 30000) {
+            player.sendMessage("You can only cast vengeance every 30 seconds.");
             return;
         }
-        if (c.vengOn) {
-            c.sendMessage("You already have vengeance casted.");
+        if (player.vengOn) {
+            player.sendMessage("You already have vengeance casted.");
             return;
         }
-        DuelSession session = (DuelSession) Server.getMultiplayerSessionListener().getMultiplayerSession(c,
+        DuelSession session = (DuelSession) Server.getMultiplayerSessionListener().getMultiplayerSession(player,
                 MultiplayerSessionType.DUEL);
         if (!Objects.isNull(session)) {
             if (session.getRules().contains(DuelSessionRules.Rule.NO_MAGE)) {
-                c.sendMessage("You can't cast this spell because magic has been disabled.");
+                player.sendMessage("You can't cast this spell because magic has been disabled.");
                 return;
             }
         }
 
-        if (!MagicRequirements.checkMagicReqs(c, 55, true)) {
+        if (!MagicRequirements.checkMagicReqs(player, 55, true)) {
             return;
         }
-        c.getPA().sendGameTimer(ClientGameTimer.VENGEANCE, TimeUnit.SECONDS, 30);
-        c.startAnimation(8317);
-        c.gfx100(726);
+        player.getPA().sendGameTimer(ClientGameTimer.VENGEANCE, TimeUnit.SECONDS, 30);
+        player.startAnimation(8317);
+        player.gfx100(726);
         addSkillXPMultiplied(112, 6, true);
         refreshSkill(6);
-        c.vengOn = true;
-        c.usingMagic = false;
-        c.lastCast = System.currentTimeMillis();
+        player.vengOn = true;
+        player.usingMagic = false;
+        player.lastCast = System.currentTimeMillis();
     }
 
     /**
@@ -1663,56 +1642,56 @@ public class PlayerAssistant {
      **/
     public void alchemy(int itemId, String alch) {
 
-        if (c.getPosition().inClanWars() || c.getPosition().inClanWarsSafe()) {
-            c.sendMessage("@cr10@There is no need to do this here.");
+        if (player.getPosition().inClanWars() || player.getPosition().inClanWarsSafe()) {
+            player.sendMessage("@cr10@There is no need to do this here.");
             return;
         }
 
         switch (alch) {
             case "low":
-                if (System.currentTimeMillis() - c.alchDelay > 1000) {
+                if (System.currentTimeMillis() - player.alchDelay > 1000) {
                     for (int[] items : EquipmentSet.IRON_MAN_ARMOUR.getEquipment()) {
                         if (Misc.linearSearch(items, itemId) > -1) {
-                            c.sendMessage("You cannot alch iron man amour.");
+                            player.sendMessage("You cannot alch iron man amour.");
                             return;
                         }
                     }
                     for (int[] items : EquipmentSet.ULTIMATE_IRON_MAN_ARMOUR.getEquipment()) {
                         if (Misc.linearSearch(items, itemId) > -1) {
-                            c.sendMessage("You cannot alch ultimate iron man amour.");
+                            player.sendMessage("You cannot alch ultimate iron man amour.");
                             return;
                         }
                     }
                     for (int[] items : EquipmentSet.HC_MAN_ARMOUR.getEquipment()) {
                         if (Misc.linearSearch(items, itemId) > -1) {
-                            c.sendMessage("You cannot alch hardcore iron man amour.");
+                            player.sendMessage("You cannot alch hardcore iron man amour.");
                             return;
                         }
                     }
                     if (itemId == LootingBag.LOOTING_BAG || itemId == LootingBag.LOOTING_BAG_OPEN || itemId == RunePouch.RUNE_POUCH_ID) {
-                        c.sendMessage("This kind of sorcery cannot happen.");
+                        player.sendMessage("This kind of sorcery cannot happen.");
                         return;
                     }
-                    if (!c.getItems().playerHasItem(itemId, 1) || itemId == 995) {
+                    if (!player.getItems().playerHasItem(itemId, 1) || itemId == 995) {
                         return;
                     }
-                    if (!MagicRequirements.checkMagicReqs(c, 49, true)) {
+                    if (!MagicRequirements.checkMagicReqs(player, 49, true)) {
                         return;
                     }
-                    if (Boundary.isIn(c, Boundary.FOUNTAIN_OF_RUNE_BOUNDARY)) {
-                        c.getDiaryManager().getWildernessDiary().progress(WildernessDiaryEntry.LOW_ALCH);
+                    if (Boundary.isIn(player, Boundary.FOUNTAIN_OF_RUNE_BOUNDARY)) {
+                        player.getDiaryManager().getWildernessDiary().progress(WildernessDiaryEntry.LOW_ALCH);
                     }
-                    c.getItems().deleteItem(itemId, 1);
+                    player.getItems().deleteItem(itemId, 1);
                     int amount = ShopAssistant.getItemShopValue(itemId) / 3;
 
-                    if (BryophytaStaff.isWearingStaffWithCharge(c) && c.getItems().isWearingItem(Items.TOME_OF_FIRE, Player.playerShield)) {
+                    if (BryophytaStaff.isWearingStaffWithCharge(player) && player.getItems().isWearingItem(Items.TOME_OF_FIRE, Player.playerShield)) {
                         amount *= 1.25;
                     }
 
-                    c.getItems().addItem(995, amount);
-                    c.startAnimation(CombatSpellData.MAGIC_SPELLS[49][2]);
-                    c.gfx100(CombatSpellData.MAGIC_SPELLS[49][3]);
-                    c.alchDelay = System.currentTimeMillis();
+                    player.getItems().addItem(995, amount);
+                    player.startAnimation(CombatSpellData.MAGIC_SPELLS[49][2]);
+                    player.gfx100(CombatSpellData.MAGIC_SPELLS[49][3]);
+                    player.alchDelay = System.currentTimeMillis();
                     sendFrame106(6);
                     addSkillXPMultiplied(CombatSpellData.MAGIC_SPELLS[49][7], 6, true);
                     refreshSkill(6);
@@ -1720,46 +1699,46 @@ public class PlayerAssistant {
                 break;
 
             case "high":
-                if (System.currentTimeMillis() - c.alchDelay > 2000) {
+                if (System.currentTimeMillis() - player.alchDelay > 2000) {
                     for (int[] items : EquipmentSet.IRON_MAN_ARMOUR.getEquipment()) {
                         if (Misc.linearSearch(items, itemId) > -1) {
-                            c.sendMessage("You cannot alch iron man amour.");
+                            player.sendMessage("You cannot alch iron man amour.");
                             break;
                         }
                     }
                     for (int[] items : EquipmentSet.ULTIMATE_IRON_MAN_ARMOUR.getEquipment()) {
                         if (Misc.linearSearch(items, itemId) > -1) {
-                            c.sendMessage("You cannot alch ultimate iron man amour.");
+                            player.sendMessage("You cannot alch ultimate iron man amour.");
                             break;
                         }
                     }
                     for (int[] items : EquipmentSet.HC_MAN_ARMOUR.getEquipment()) {
                         if (Misc.linearSearch(items, itemId) > -1) {
-                            c.sendMessage("You cannot alch hardcore iron man amour.");
+                            player.sendMessage("You cannot alch hardcore iron man amour.");
                             break;
                         }
                     }
                     if (itemId == LootingBag.LOOTING_BAG || itemId == LootingBag.LOOTING_BAG_OPEN || itemId == RunePouch.RUNE_POUCH_ID) {
-                        c.sendMessage("This kind of sorcery cannot happen.");
+                        player.sendMessage("This kind of sorcery cannot happen.");
                         break;
                     }
-                    if (!c.getItems().playerHasItem(itemId, 1) || itemId == 995) {
+                    if (!player.getItems().playerHasItem(itemId, 1) || itemId == 995) {
                         break;
                     }
-                    if (!MagicRequirements.checkMagicReqs(c, 50, true)) {
+                    if (!MagicRequirements.checkMagicReqs(player, 50, true)) {
                         break;
                     }
-                    c.getItems().deleteItem(itemId, 1);
+                    player.getItems().deleteItem(itemId, 1);
                     int amount = (int) (ShopAssistant.getItemShopValue(itemId) * .75);
 
-                    if (BryophytaStaff.isWearingStaffWithCharge(c) && c.getItems().isWearingItem(Items.TOME_OF_FIRE, Player.playerShield)) {
+                    if (BryophytaStaff.isWearingStaffWithCharge(player) && player.getItems().isWearingItem(Items.TOME_OF_FIRE, Player.playerShield)) {
                         amount *= 1.25;
                     }
 
-                    c.getItems().addItem(995, amount);
-                    c.startAnimation(CombatSpellData.MAGIC_SPELLS[50][2]);
-                    c.gfx100(CombatSpellData.MAGIC_SPELLS[50][3]);
-                    c.alchDelay = System.currentTimeMillis();
+                    player.getItems().addItem(995, amount);
+                    player.startAnimation(CombatSpellData.MAGIC_SPELLS[50][2]);
+                    player.gfx100(CombatSpellData.MAGIC_SPELLS[50][3]);
+                    player.alchDelay = System.currentTimeMillis();
                     sendFrame106(6);
                     addSkillXPMultiplied(CombatSpellData.MAGIC_SPELLS[50][7], 6, true);
                     refreshSkill(6);
@@ -1770,27 +1749,27 @@ public class PlayerAssistant {
 
     public void magicOnItems(int itemId, int itemSlot, int spellId) {
 
-        NonCombatSpellData.attemptDate(c, spellId);
+        NonCombatSpellData.attemptDate(player, spellId);
 
         switch (spellId) {
 
             case 1173:
-                NonCombatSpellData.superHeatItem(c, itemId);
+                NonCombatSpellData.superHeatItem(player, itemId);
                 break;
 
             case 1162: // low alch
-                if (ShopAssistant.getItemShopValue(itemId) >= ALCH_WARNING_AMOUNT && c.isAlchWarning()) {
-                    c.destroyItem = new ItemToDestroy(itemId, itemSlot, DestroyType.LOW_ALCH);
-                    c.getPA().destroyInterface("alch");
+                if (ShopAssistant.getItemShopValue(itemId) >= ALCH_WARNING_AMOUNT && player.isAlchWarning()) {
+                    player.destroyItem = new ItemToDestroy(itemId, itemSlot, DestroyType.LOW_ALCH);
+                    player.getPA().destroyInterface("alch");
                     return;
                 }
                 alchemy(itemId, "low");
                 break;
 
             case 1178: // high alch
-                if (ShopAssistant.getItemShopValue(itemId) >= ALCH_WARNING_AMOUNT && c.isAlchWarning()) {
-                    c.destroyItem = new ItemToDestroy(itemId, itemSlot, DestroyType.HIGH_ALCH);
-                    c.getPA().destroyInterface("alch");
+                if (ShopAssistant.getItemShopValue(itemId) >= ALCH_WARNING_AMOUNT && player.isAlchWarning()) {
+                    player.destroyItem = new ItemToDestroy(itemId, itemSlot, DestroyType.HIGH_ALCH);
+                    player.getPA().destroyInterface("alch");
                     return;
                 }
                 alchemy(itemId, "high");
@@ -1803,7 +1782,7 @@ public class PlayerAssistant {
             case 1187: // Lvl-5 enchant dragonstone
             case 6003: // Lvl-6 enchant onyx
             case 23649://lvl-7 enchant zenyte
-                Enchantment.getSingleton().enchantItem(c, itemId, spellId);
+                Enchantment.getSingleton().enchantItem(player, itemId, spellId);
                 enchantBolt(spellId, itemId, 28);
                 break;
         }
@@ -1823,47 +1802,47 @@ public class PlayerAssistant {
                 if (bolt == aBoltData[1]) {
                     switch (spell) {
                         case 1155:
-                            if (!MagicRequirements.checkMagicReqs(c, 56, true)) {
+                            if (!MagicRequirements.checkMagicReqs(player, 56, true)) {
                                 return;
                             }
                             break;
                         case 1165:
-                            if (!MagicRequirements.checkMagicReqs(c, 57, true)) {
+                            if (!MagicRequirements.checkMagicReqs(player, 57, true)) {
                                 return;
                             }
                             break;
                         case 1176:
-                            if (!MagicRequirements.checkMagicReqs(c, 58, true)) {
+                            if (!MagicRequirements.checkMagicReqs(player, 58, true)) {
                                 return;
                             }
                             break;
                         case 1180:
-                            if (!MagicRequirements.checkMagicReqs(c, 59, true)) {
+                            if (!MagicRequirements.checkMagicReqs(player, 59, true)) {
                                 return;
                             }
                             break;
                         case 1187:
-                            if (!MagicRequirements.checkMagicReqs(c, 60, true)) {
+                            if (!MagicRequirements.checkMagicReqs(player, 60, true)) {
                                 return;
                             }
                             break;
                         case 6003:
-                            if (!MagicRequirements.checkMagicReqs(c, 61, true)) {
+                            if (!MagicRequirements.checkMagicReqs(player, 61, true)) {
                                 return;
                             }
                             break;
                         case 23649:
-                            if (!MagicRequirements.checkMagicReqs(c, 99, true)) {
+                            if (!MagicRequirements.checkMagicReqs(player, 99, true)) {
                                 return;
                             }
                             break;
                     }
-                    if (!c.getItems().playerHasItem(aBoltData[1], amount))
-                        amount = c.getItems().getItemAmount(bolt);
-                    c.getItems().deleteItem(aBoltData[1], c.getItems().getInventoryItemSlot(aBoltData[1]), amount);
-                    c.getPA().addSkillXP(aBoltData[2] * amount, 6, true);
-                    c.getItems().addItem(aBoltData[3], amount);
-                    c.getPA().sendFrame106(6);
+                    if (!player.getItems().playerHasItem(aBoltData[1], amount))
+                        amount = player.getItems().getItemAmount(bolt);
+                    player.getItems().deleteItem(aBoltData[1], player.getItems().getInventoryItemSlot(aBoltData[1]), amount);
+                    player.getPA().addSkillXP(aBoltData[2] * amount, 6, true);
+                    player.getItems().addItem(aBoltData[3], amount);
+                    player.getPA().sendFrame106(6);
                     return;
                 }
             }
@@ -1871,14 +1850,14 @@ public class PlayerAssistant {
     }
 
     public void resetTb() {
-        c.teleBlockLength = 0;
-        c.teleBlockStartMillis = 0;
+        player.teleBlockLength = 0;
+        player.teleBlockStartMillis = 0;
     }
 
     public void resetFollowers() {
         for (int j = 0; j < PlayerHandler.players.length; j++) {
             if (PlayerHandler.players[j] != null) {
-                if (PlayerHandler.players[j].playerFollowingIndex == c.getIndex()) {
+                if (PlayerHandler.players[j].playerFollowingIndex == player.getIndex()) {
                     Player c = PlayerHandler.players[j];
                     c.getPA().resetFollow();
                 }
@@ -1887,138 +1866,138 @@ public class PlayerAssistant {
     }
 
     public void sendSpecialAttack(int amount, int specialEnabled) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrame(204);
-            c.getOutStream().writeByte(amount);
-            c.getOutStream().writeByte(specialEnabled);
-            c.flushOutStream();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrame(204);
+            player.getOutStream().writeByte(amount);
+            player.getOutStream().writeByte(specialEnabled);
+            player.flushOutStream();
         }
     }
 
     public void startLeverTeleport(int x, int y, int height) {
         Consumer<Player> teleport = plr -> {
-            if (c.isTeleblocked()) {
-                c.sendMessage("You are teleblocked and can't teleport.");
+            if (player.isTeleblocked()) {
+                player.sendMessage("You are teleblocked and can't teleport.");
                 return;
             }
-            if (Boundary.isIn(c, Boundary.OUTLAST) || Boundary.isIn(c, Boundary.LUMBRIDGE_OUTLAST_AREA)) {
+            if (Boundary.isIn(player, Boundary.OUTLAST) || Boundary.isIn(player, Boundary.LUMBRIDGE_OUTLAST_AREA)) {
                 return;
             }
-            if (c.jailEnd > 1) {
+            if (player.jailEnd > 1) {
                 return;
             }
-            if (Boundary.isIn(c, Boundary.OUTLAST_HUT)) {
-                c.sendMessage("Please leave the outlast hut area to teleport.");
+            if (Boundary.isIn(player, Boundary.OUTLAST_HUT)) {
+                player.sendMessage("Please leave the outlast hut area to teleport.");
                 return;
             }
-            if (c.getPosition().inClanWars() || c.getPosition().inClanWarsSafe()) {
-                c.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
+            if (player.getPosition().inClanWars() || player.getPosition().inClanWarsSafe()) {
+                player.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
                 return;
             }
-            if (Boundary.isIn(c, Boundary.HESPORI) && !c.canLeaveHespori) {
-                c.sendMessage("Hespori's magic prevents you from teleporting.");
+            if (Boundary.isIn(player, Boundary.HESPORI) && !player.canLeaveHespori) {
+                player.sendMessage("Hespori's magic prevents you from teleporting.");
                 return;
             }
-            if (Boundary.isIn(c, Boundary.ICE_PATH) || Boundary.isIn(c, Boundary.ICE_PATH_TOP) && c.heightLevel > 0) {
-                c.sendMessage("The cold from the ice-path is preventing you from teleporting.");
+            if (Boundary.isIn(player, Boundary.ICE_PATH) || Boundary.isIn(player, Boundary.ICE_PATH_TOP) && player.heightLevel > 0) {
+                player.sendMessage("The cold from the ice-path is preventing you from teleporting.");
                 return;
             }
-            if (c.getBankPin().requiresUnlock()) {
-                c.getBankPin().open(2);
+            if (player.getBankPin().requiresUnlock()) {
+                player.getBankPin().open(2);
                 return;
             }
-            if (Boundary.isIn(c, Boundary.RAIDS)) {
-                c.getPotions().resetOverload();
+            if (Boundary.isIn(player, Boundary.RAIDS)) {
+                player.getPotions().resetOverload();
             }
-            if (c.getSlayer().superiorSpawned) {
-                c.getSlayer().superiorSpawned = false;
+            if (player.getSlayer().superiorSpawned) {
+                player.getSlayer().superiorSpawned = false;
             }
-            if (Lowpkarena.getState(c) != null || Highpkarena.getState(c) != null) {
-                c.sendMessage("You can't teleport from a Pk event!");
+            if (Lowpkarena.getState(player) != null || Highpkarena.getState(player) != null) {
+                player.sendMessage("You can't teleport from a Pk event!");
                 return;
             }
-            if (!c.isDead && c.teleTimer == 0 && c.respawnTimer == -6) {
-                if (c.playerAttackingIndex > 0 || c.npcAttackingIndex > 0)
-                    c.attacking.reset();
-                c.stopMovement();
+            if (!player.isDead && player.teleTimer == 0 && player.respawnTimer == -6) {
+                if (player.playerAttackingIndex > 0 || player.npcAttackingIndex > 0)
+                    player.attacking.reset();
+                player.stopMovement();
                 removeAllWindows();
-                Inferno.reset(c);
-                c.fightCavesWaveType = 0;
-                c.waveId = 0;
-                c.waveInfo = new int[3];
-                c.teleX = x;
-                c.teleY = y;
-                c.faceUpdate(0);
-                c.teleHeight = height;
-                c.startAnimation(2140);
-                c.teleTimer = 8;
-                c.setTektonDamageCounter(0);
-                if (c.getGlodDamageCounter() >= 80 || c.getIceQueenDamageCounter() >= 80) {
-                    c.setGlodDamageCounter(79);
-                    c.setIceQueenDamageCounter(79);
+                Inferno.reset(player);
+                player.fightCavesWaveType = 0;
+                player.waveId = 0;
+                player.waveInfo = new int[3];
+                player.teleX = x;
+                player.teleY = y;
+                player.faceUpdate(0);
+                player.teleHeight = height;
+                player.startAnimation(2140);
+                player.teleTimer = 8;
+                player.setTektonDamageCounter(0);
+                if (player.getGlodDamageCounter() >= 80 || player.getIceQueenDamageCounter() >= 80) {
+                    player.setGlodDamageCounter(79);
+                    player.setIceQueenDamageCounter(79);
                 }
-                c.sendMessage("You pull the lever..");
+                player.sendMessage("You pull the lever..");
             }
-            c.getPA().stopSkilling();
-            if (Server.getMultiplayerSessionListener().inAnySession(c)) {
-                Server.getMultiplayerSessionListener().finish(c, MultiplayerSessionFinalizeType.WITHDRAW_ITEMS);
+            player.getPA().stopSkilling();
+            if (Server.getMultiplayerSessionListener().inAnySession(player)) {
+                Server.getMultiplayerSessionListener().finish(player, MultiplayerSessionFinalizeType.WITHDRAW_ITEMS);
             }
         };
 
-        if (WildWarning.isWarnable(c, x, y, height)) {
-            WildWarning.sendWildWarning(c, teleport);
+        if (WildWarning.isWarnable(player, x, y, height)) {
+            WildWarning.sendWildWarning(player, teleport);
             return;
         }
-        teleport.accept(c);
+        teleport.accept(player);
     }
 
     public boolean morphPermissions() {
-        if (c.morphed) {
+        if (player.morphed) {
             return false;
         }
-        if (c.getPosition().inWild()) {
+        if (player.getPosition().inWild()) {
             return false;
         }
-        if (!Boundary.isIn(c, Boundary.EDGEVILLE_PERIMETER)) {
+        if (!Boundary.isIn(player, Boundary.EDGEVILLE_PERIMETER)) {
             return false;
         }
-        if (Boundary.isIn(c, Boundary.OUTLAST_HUT)) {
+        if (Boundary.isIn(player, Boundary.OUTLAST_HUT)) {
             return false;
         }
-        if (System.currentTimeMillis() - c.lastSpear < 3000) {
-            c.sendMessage("You cannot do this now.");
+        if (System.currentTimeMillis() - player.lastSpear < 3000) {
+            player.sendMessage("You cannot do this now.");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.DUEL_ARENA)) {
-            DuelSession session = (DuelSession) Server.getMultiplayerSessionListener().getMultiplayerSession(c,
+        if (Boundary.isIn(player, Boundary.DUEL_ARENA)) {
+            DuelSession session = (DuelSession) Server.getMultiplayerSessionListener().getMultiplayerSession(player,
                     MultiplayerSessionType.DUEL);
             if (Objects.nonNull(session)) {
-                c.sendMessage("You cannot do this here.");
+                player.sendMessage("You cannot do this here.");
                 return false;
             }
         }
-        if (c.getBankPin().requiresUnlock()) {
-            c.getBankPin().open(2);
+        if (player.getBankPin().requiresUnlock()) {
+            player.getBankPin().open(2);
             return false;
         }
-        if (Boundary.isIn(c, Boundary.DAGANNOTH_MOTHER_HFTD)) {
-            c.sendMessage("You cannot do this here.");
+        if (Boundary.isIn(player, Boundary.DAGANNOTH_MOTHER_HFTD)) {
+            player.sendMessage("You cannot do this here.");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.RFD)) {
-            c.sendMessage("You cannot do this here.");
+        if (Boundary.isIn(player, Boundary.RFD)) {
+            player.sendMessage("You cannot do this here.");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.FIGHT_CAVE)) {
-            c.sendMessage("You cannot do this here.");
+        if (Boundary.isIn(player, Boundary.FIGHT_CAVE)) {
+            player.sendMessage("You cannot do this here.");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.ICE_PATH) || Boundary.isIn(c, Boundary.ICE_PATH_TOP) && c.heightLevel > 0) {
-            c.sendMessage("You cannot do this here.");
+        if (Boundary.isIn(player, Boundary.ICE_PATH) || Boundary.isIn(player, Boundary.ICE_PATH_TOP) && player.heightLevel > 0) {
+            player.sendMessage("You cannot do this here.");
             return false;
         }
-        if (Server.getMultiplayerSessionListener().inAnySession(c)) {
-            c.sendMessage("You cannot do this now.");
+        if (Server.getMultiplayerSessionListener().inAnySession(player)) {
+            player.sendMessage("You cannot do this now.");
             return false;
         }
         return true;
@@ -2028,9 +2007,9 @@ public class PlayerAssistant {
 
     public void resetScrollPosition(int frame) {
         if (flag)
-            c.getPA().sendFrame126(":scp: 0", frame);
+            player.getPA().sendFrame126(":scp: 0", frame);
         else
-            c.getPA().sendFrame126(":scp: 00", frame);
+            player.getPA().sendFrame126(":scp: 00", frame);
 
         flag = !flag;
     }
@@ -2040,138 +2019,138 @@ public class PlayerAssistant {
     }
 
     public boolean canTeleport(String teleportType) {
-        if (!c.getController().canMagicTeleport(c) || c.getLock().cannotTeleport(c)) {
-            c.sendMessage("You can't teleport right now.");
+        if (!player.getController().canMagicTeleport(player) || player.getLock().cannotTeleport(player)) {
+            player.sendMessage("You can't teleport right now.");
             return false;
         }
 
-        if (Boundary.OURIANA_ALTAR.in(c) && !Boundary.OURIANA_ALTAR_BANK.in(c)) {
-            c.sendMessage("A magical force blocks your teleport, you'll have to walk back.. OH NO!!!");
+        if (Boundary.OURIANA_ALTAR.in(player) && !Boundary.OURIANA_ALTAR_BANK.in(player)) {
+            player.sendMessage("A magical force blocks your teleport, you'll have to walk back.. OH NO!!!");
             return false;
         }
-        if (TourneyManager.getSingleton().isInArenaBounds(c) || TourneyManager.getSingleton().isInLobbyBounds(c)) {
-            c.sendMessage("You cannot teleport when in the tournament arena.");
-            return false;
-        }
-
-        if (Boundary.isIn(c, Boundary.OUTLAST_AREA) || Boundary.isIn(c, Boundary.LUMBRIDGE_OUTLAST_AREA)) {
-            c.sendMessage("You cannot teleport when in the tournament arena.");
-            return false;
-        }
-        if (c.morphed) {
-            c.sendMessage("You cannot do this now.");
+        if (TourneyManager.getSingleton().isInArenaBounds(player) || TourneyManager.getSingleton().isInLobbyBounds(player)) {
+            player.sendMessage("You cannot teleport when in the tournament arena.");
             return false;
         }
 
-        if (c.getPosition().inClanWars() || c.getPosition().inClanWarsSafe()) {
-            c.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
+        if (Boundary.isIn(player, Boundary.OUTLAST_AREA) || Boundary.isIn(player, Boundary.LUMBRIDGE_OUTLAST_AREA)) {
+            player.sendMessage("You cannot teleport when in the tournament arena.");
+            return false;
+        }
+        if (player.morphed) {
+            player.sendMessage("You cannot do this now.");
             return false;
         }
 
-        if (Server.getMultiplayerSessionListener().inAnySession(c)) {
-            c.sendMessage("You must finish what you're doing first.");
+        if (player.getPosition().inClanWars() || player.getPosition().inClanWarsSafe()) {
+            player.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
             return false;
         }
 
-        if (c.isForceMovementActive()) {
-            c.sendMessage("You can't teleport during forced movement!");
+        if (Server.getMultiplayerSessionListener().inAnySession(player)) {
+            player.sendMessage("You must finish what you're doing first.");
             return false;
         }
 
-        if (Boundary.isIn(c, Boundary.HUNLLEF_BOSS_ROOM) && c.hunllefDead == false) {
-            c.sendMessage("The Hunllef's powers disable your teleport.");
+        if (player.isForceMovementActive()) {
+            player.sendMessage("You can't teleport during forced movement!");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.RAIDROOMS)) {
-            if (c.getRaidsInstance() != null) {
-                c.sendMessage("Please use the stairs or type @red@::leaveraids!");
+
+        if (Boundary.isIn(player, Boundary.HUNLLEF_BOSS_ROOM) && !player.hunllefDead) {
+            player.sendMessage("The Hunllef's powers disable your teleport.");
+            return false;
+        }
+        if (Boundary.isIn(player, Boundary.RAIDROOMS)) {
+            if (player.getRaidsInstance() != null) {
+                player.sendMessage("Please use the stairs or type @red@::leaveraids!");
                 return false;
             }
         }
-        if (Boundary.isIn(c, Boundary.RFD)) {
-            c.sendMessage("You cannot teleport from here, use the portal.");
+        if (Boundary.isIn(player, Boundary.RFD)) {
+            player.sendMessage("You cannot teleport from here, use the portal.");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.FIGHT_CAVE)) {
-            c.sendMessage("You cannot teleport out of fight caves.");
+        if (Boundary.isIn(player, Boundary.FIGHT_CAVE)) {
+            player.sendMessage("You cannot teleport out of fight caves.");
             return false;
         }
-        if (Lowpkarena.getState(c) != null || Highpkarena.getState(c) != null) {
-            c.sendMessage("You can't teleport from a Pk event!");
+        if (Lowpkarena.getState(player) != null || Highpkarena.getState(player) != null) {
+            player.sendMessage("You can't teleport from a Pk event!");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.ICE_PATH) || Boundary.isIn(c, Boundary.ICE_PATH_TOP) && c.heightLevel > 0) {
-            c.sendMessage("The cold from the ice-path is preventing you from teleporting.");
+        if (Boundary.isIn(player, Boundary.ICE_PATH) || Boundary.isIn(player, Boundary.ICE_PATH_TOP) && player.heightLevel > 0) {
+            player.sendMessage("The cold from the ice-path is preventing you from teleporting.");
             return false;
         }
-        if (c.getPosition().isInJail() && !(c.getRights().isOrInherits(Right.MODERATOR))) {
-            c.sendMessage("You cannot teleport out of jail.");
+        if (player.getPosition().isInJail() && !(player.getRights().isOrInherits(Right.MODERATOR))) {
+            player.sendMessage("You cannot teleport out of jail.");
             return false;
         }
-        if (c.isDead) {
-            c.sendMessage("You can't teleport while dead!");
+        if (player.isDead) {
+            player.sendMessage("You can't teleport while dead!");
             return false;
         }
-        if (c.getPosition().inWild() && !(c.getRights().isOrInherits(Right.MODERATOR))) {
+        if (player.getPosition().inWild() && !(player.getRights().isOrInherits(Right.MODERATOR))) {
             if (!teleportType.equals("glory") && !teleportType.equals("obelisk") && !teleportType.equals("pod")) {
-                if (c.wildLevel > Configuration.NO_TELEPORT_WILD_LEVEL) {
-                    c.sendMessage("You can't teleport above level " + Configuration.NO_TELEPORT_WILD_LEVEL + " in the wilderness.");
-                    c.getPA().closeAllWindows();
+                if (player.wildLevel > Configuration.NO_TELEPORT_WILD_LEVEL) {
+                    player.sendMessage("You can't teleport above level " + Configuration.NO_TELEPORT_WILD_LEVEL + " in the wilderness.");
+                    player.getPA().closeAllWindows();
                     return false;
                 }
             } else if (!teleportType.equals("obelisk")) {
-                if (c.wildLevel > 30) {
-                    c.sendMessage("You can't teleport above level 30 in the wilderness.");
-                    c.getPA().closeAllWindows();
+                if (player.wildLevel > 30) {
+                    player.sendMessage("You can't teleport above level 30 in the wilderness.");
+                    player.getPA().closeAllWindows();
                     return false;
                 }
             }
         }
-        if (c.isTeleblocked()) {
-            c.sendMessage("You are teleblocked and can't teleport.");
+        if (player.isTeleblocked()) {
+            player.sendMessage("You are teleblocked and can't teleport.");
             return false;
         }
 
-        if (Boundary.isIn(c, Boundary.HESPORI) && !c.canLeaveHespori) {
-            c.sendMessage("Hespori's magic prevents you from teleporting.");
+        if (Boundary.isIn(player, Boundary.HESPORI) && !player.canLeaveHespori) {
+            player.sendMessage("Hespori's magic prevents you from teleporting.");
             return false;
-        } else if (Boundary.isIn(c, Boundary.HESPORI) && c.canLeaveHespori) {
-            c.canHarvestHespori = false;
-            c.canLeaveHespori = false;
+        } else if (Boundary.isIn(player, Boundary.HESPORI) && player.canLeaveHespori) {
+            player.canHarvestHespori = false;
+            player.canLeaveHespori = false;
         }
 
-        if (c.teleTimer != 0) {
-            c.sendMessage("Please wait a few seconds before teleporting again.");
-            return false;
-        }
-
-        if (c.respawnTimer != -6) {
-            c.sendMessage("You must wait until you respawn to teleport.");
+        if (player.teleTimer != 0) {
+            player.sendMessage("Please wait a few seconds before teleporting again.");
             return false;
         }
 
-        if (Lowpkarena.getState(c) != null || Highpkarena.getState(c) != null) {
-            c.sendMessage("You can't teleport from a Pk event!");
+        if (player.respawnTimer != -6) {
+            player.sendMessage("You must wait until you respawn to teleport.");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.OUTLAST) || Boundary.isIn(c, Boundary.LUMBRIDGE_OUTLAST_AREA)) {
-            c.sendMessage("You can't teleport from outlast.");
+
+        if (Lowpkarena.getState(player) != null || Highpkarena.getState(player) != null) {
+            player.sendMessage("You can't teleport from a Pk event!");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.TOURNAMENT_LOBBIES_AND_AREAS)) {
-            c.sendMessage("You cannot do this right now.");
+        if (Boundary.isIn(player, Boundary.OUTLAST) || Boundary.isIn(player, Boundary.LUMBRIDGE_OUTLAST_AREA)) {
+            player.sendMessage("You can't teleport from outlast.");
             return false;
         }
-        if (c.jailEnd > 1) {
-            c.sendMessage("You are still jailed!");
+        if (Boundary.isIn(player, Boundary.TOURNAMENT_LOBBIES_AND_AREAS)) {
+            player.sendMessage("You cannot do this right now.");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.OUTLAST_HUT)) {
-            c.sendMessage("Please leave the outlast hut area to teleport.");
+        if (player.jailEnd > 1) {
+            player.sendMessage("You are still jailed!");
             return false;
         }
-        if (Boundary.isIn(c, Boundary.HESPORI) && !c.canLeaveHespori) {
-            c.sendMessage("Hespori's magic prevents you from teleporting.");
+        if (Boundary.isIn(player, Boundary.OUTLAST_HUT)) {
+            player.sendMessage("Please leave the outlast hut area to teleport.");
+            return false;
+        }
+        if (Boundary.isIn(player, Boundary.HESPORI) && !player.canLeaveHespori) {
+            player.sendMessage("Hespori's magic prevents you from teleporting.");
             return false;
         }
 
@@ -2183,7 +2162,7 @@ public class PlayerAssistant {
     }
 
     public void spellTeleport(int x, int y, int height, boolean homeTeleport) {
-        startTeleport(x, y, height, c.playerMagicBook == 1 ? "ancient" : "modern", homeTeleport);
+        startTeleport(x, y, height, player.playerMagicBook == 1 ? "ancient" : "modern", homeTeleport);
     }
 
     public void startTeleport(int x, int y, int height, String teleportType) {
@@ -2192,8 +2171,8 @@ public class PlayerAssistant {
 
 
     public void startTeleport(int x, int y, int height, String teleportType, boolean homeTeleport) {
-        if (WildWarning.isWarnable(c, x, y, height)) {
-            WildWarning.sendWildWarning(c, plr -> startTeleportFinal(x, y, height, teleportType, homeTeleport));
+        if (WildWarning.isWarnable(player, x, y, height)) {
+            WildWarning.sendWildWarning(player, plr -> startTeleportFinal(x, y, height, teleportType, homeTeleport));
             return;
         }
 
@@ -2201,16 +2180,16 @@ public class PlayerAssistant {
     }
 
     private void startTeleportFinal(int x, int y, int height, String teleportType, boolean homeTeleport) {
-        c.isWc = false;
-        if (c.isOverloading) {
-            c.sendMessage("You cannot teleport while taking overload damage.");
+        player.isWc = false;
+        if (player.isOverloading) {
+            player.sendMessage("You cannot teleport while taking overload damage.");
             return;
         }
-        if (c.isFping()) {
-            /**
-             * Cannot do action while fping
+        if (player.isFping()) {
+            /*
+              Cannot do action while fping
              */
-            c.sendMessage("You cannot teleport while fping.");
+            player.sendMessage("You cannot teleport while fping.");
 
             return;
         }
@@ -2218,226 +2197,222 @@ public class PlayerAssistant {
             return;
         }
 
-        if (c.stopPlayerSkill) {
-            SkillHandler.resetPlayerSkillVariables(c);
-            c.stopPlayerSkill = false;
+        if (player.stopPlayerSkill) {
+            SkillHandler.resetPlayerSkillVariables(player);
+            player.stopPlayerSkill = false;
         }
 
         resetVariables();
         SkillHandler.isSkilling[12] = false;
 
-        if (c.getBankPin().requiresUnlock()) {
-            c.getBankPin().open(2);
+        if (player.getBankPin().requiresUnlock()) {
+            player.getBankPin().open(2);
             return;
         }
 
-        if (Boundary.isIn(c, Boundary.RAIDS)) {
-            c.getPotions().resetOverload();
+        if (Boundary.isIn(player, Boundary.RAIDS)) {
+            player.getPotions().resetOverload();
         }
 
-        if (c.getSlayer().superiorSpawned) {
-            c.getSlayer().superiorSpawned = false;
+        if (player.getSlayer().superiorSpawned) {
+            player.getSlayer().superiorSpawned = false;
         }
 
-        if (c.playerAttackingIndex > 0 || c.npcAttackingIndex > 0) {
-            c.attacking.reset();
+        if (player.playerAttackingIndex > 0 || player.npcAttackingIndex > 0) {
+            player.attacking.reset();
         }
-        c.stopMovement();
+        player.stopMovement();
         removeAllWindows();
-        c.teleX = x;
-        c.teleY = y;
-        c.faceUpdate(0);
-        c.teleHeight = height;
-        c.teleGfxTime = 9;
-        c.teleGfxDelay = 0;
-        c.teleSound = 0;
-        c.setTektonDamageCounter(0);
+        player.teleX = x;
+        player.teleY = y;
+        player.faceUpdate(0);
+        player.teleHeight = height;
+        player.teleGfxTime = 9;
+        player.teleGfxDelay = 0;
+        player.teleSound = 0;
+        player.setTektonDamageCounter(0);
 
-        if (c.getGlodDamageCounter() >= 80 || c.getIceQueenDamageCounter() >= 80) {
-            c.setGlodDamageCounter(79);
-            c.setIceQueenDamageCounter(79);
+        if (player.getGlodDamageCounter() >= 80 || player.getIceQueenDamageCounter() >= 80) {
+            player.setGlodDamageCounter(79);
+            player.setIceQueenDamageCounter(79);
         }
 
         if (teleportType.equalsIgnoreCase("modern") || teleportType.equals("glory")) {
-            c.startAnimation(714);
-            c.teleTimer = 11;
-            c.teleGfxTime = 8;
-            c.teleGfxDelay = 20;
-            c.teleGfx = 308;
-            c.teleEndAnimation = 715;
-            c.teleSound = 200;
+            player.startAnimation(714);
+            player.teleTimer = 11;
+            player.teleGfxTime = 8;
+            player.teleGfxDelay = 20;
+            player.teleGfx = 308;
+            player.teleEndAnimation = 715;
+            player.teleSound = 200;
         } else if (teleportType.equalsIgnoreCase("ancient")) {
-            c.startAnimation(1979);
-            c.teleGfx = 0;
-            c.teleTimer = 9;
-            c.teleEndAnimation = 0;
-            c.gfx0(392);
+            player.startAnimation(1979);
+            player.teleGfx = 0;
+            player.teleTimer = 9;
+            player.teleEndAnimation = 0;
+            player.gfx0(392);
         } else if (teleportType.equalsIgnoreCase("pod")) {
-            c.startAnimation(4544);
-            c.teleEndAnimation = 65535;
-            c.teleGfx = 0;
-            c.teleTimer = 9;
-            c.gfx0(767);
+            player.startAnimation(4544);
+            player.teleEndAnimation = 65535;
+            player.teleGfx = 0;
+            player.teleTimer = 9;
+            player.gfx0(767);
 
         } else if (teleportType.equals("obelisk")) {
-            c.startAnimation(1816);
-            c.teleTimer = 11;
-            c.teleGfx = 661;
-            c.teleEndAnimation = 65535;
+            player.startAnimation(1816);
+            player.teleTimer = 11;
+            player.teleGfx = 661;
+            player.teleEndAnimation = 65535;
         } else if (teleportType.equals("puropuro")) {
-            c.startAnimation(6724);
-            c.gfx0(1118);
-            c.teleTimer = 13;
-            c.teleEndAnimation = 65535;
+            player.startAnimation(6724);
+            player.gfx0(1118);
+            player.teleTimer = 13;
+            player.teleEndAnimation = 65535;
         }
         if (!homeTeleport) {
-            c.lastTeleportX = x;
-            c.lastTeleportY = y;
-            c.lastTeleportZ = height;
+            player.lastTeleportX = x;
+            player.lastTeleportY = y;
+            player.lastTeleportZ = height;
         }
-        c.getPA().stopSkilling();
-        if (Server.getMultiplayerSessionListener().inAnySession(c)) {
-            Server.getMultiplayerSessionListener().finish(c, MultiplayerSessionFinalizeType.WITHDRAW_ITEMS);
-            return;
+        player.getPA().stopSkilling();
+        if (Server.getMultiplayerSessionListener().inAnySession(player)) {
+            Server.getMultiplayerSessionListener().finish(player, MultiplayerSessionFinalizeType.WITHDRAW_ITEMS);
         }
     }
 
     public void startTeleport2(int x, int y, int height) {
-        if (Server.getMultiplayerSessionListener().inAnySession(c)) {
-            c.sendMessage("You cannot teleport until you finish what you're doing.");
+        if (Server.getMultiplayerSessionListener().inAnySession(player)) {
+            player.sendMessage("You cannot teleport until you finish what you're doing.");
             return;
         }
         boolean inLobby = LobbyType.stream().anyMatch(lobbyType -> {
             Optional<Lobby> lobbyOpt = LobbyManager.get(lobbyType);
-            if (lobbyOpt.isPresent()) {
-                return lobbyOpt.get().inLobby(c);
-            }
-            return false;
+            return lobbyOpt.map(lobby -> lobby.inLobby(player)).orElse(false);
         });
-        if (c.jailEnd > 1) {
+        if (player.jailEnd > 1) {
             return;
         }
         if (inLobby) {
-            c.sendMessage("You cannot teleport from here, please exit the way you entered!");
+            player.sendMessage("You cannot teleport from here, please exit the way you entered!");
             return;
         }
-        if (c.getPosition().inClanWars() || c.getPosition().inClanWarsSafe()) {
-            c.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
+        if (player.getPosition().inClanWars() || player.getPosition().inClanWarsSafe()) {
+            player.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
             return;
         }
-        if (c.morphed) {
-            c.sendMessage("You cannot do this now.");
+        if (player.morphed) {
+            player.sendMessage("You cannot do this now.");
             return;
         }
-        if (Boundary.isIn(c, Boundary.RAIDS)) {
-            c.getPotions().resetOverload();
+        if (Boundary.isIn(player, Boundary.RAIDS)) {
+            player.getPotions().resetOverload();
         }
-        if (c.getBankPin().requiresUnlock()) {
-            c.getBankPin().open(2);
+        if (player.getBankPin().requiresUnlock()) {
+            player.getBankPin().open(2);
             return;
         }
-        if (Boundary.isIn(c, Boundary.HUNLLEF_BOSS_ROOM) && c.hunllefDead == false) {
-            c.sendMessage("The Hunllef's powers disable your teleport.");
+        if (Boundary.isIn(player, Boundary.HUNLLEF_BOSS_ROOM) && !player.hunllefDead) {
+            player.sendMessage("The Hunllef's powers disable your teleport.");
             return;
         }
-        if (Boundary.isIn(c, Boundary.HESPORI) && !c.canLeaveHespori) {
-            c.sendMessage("Hespori's magic prevents you from teleporting.");
+        if (Boundary.isIn(player, Boundary.HESPORI) && !player.canLeaveHespori) {
+            player.sendMessage("Hespori's magic prevents you from teleporting.");
             return;
         }
-        if (Boundary.isIn(c, Boundary.RFD)) {
-            c.sendMessage("You cannot teleport from here, use the portal.");
+        if (Boundary.isIn(player, Boundary.RFD)) {
+            player.sendMessage("You cannot teleport from here, use the portal.");
             return;
         }
-        if (Boundary.isIn(c, Boundary.RAIDROOMS)) {
-            if (c.getRaidsInstance() != null) {
-                c.sendMessage("You cannot teleport out of the raids. Please use the stairs!");
+        if (Boundary.isIn(player, Boundary.RAIDROOMS)) {
+            if (player.getRaidsInstance() != null) {
+                player.sendMessage("You cannot teleport out of the raids. Please use the stairs!");
                 return;
             }
         }
-        if (c.isTeleblocked()) {
-            c.sendMessage("You are teleblocked and can't teleport.");
+        if (player.isTeleblocked()) {
+            player.sendMessage("You are teleblocked and can't teleport.");
             return;
         }
-        if (Boundary.isIn(c, Boundary.FIGHT_CAVE)) {
-            c.sendMessage("You cannot teleport out of fight caves.");
+        if (Boundary.isIn(player, Boundary.FIGHT_CAVE)) {
+            player.sendMessage("You cannot teleport out of fight caves.");
             return;
         }
-        if (Boundary.isIn(c, Boundary.ICE_PATH) || Boundary.isIn(c, Boundary.ICE_PATH_TOP) && c.heightLevel > 0) {
-            c.sendMessage("The cold from the ice-path is preventing you from teleporting.");
+        if (Boundary.isIn(player, Boundary.ICE_PATH) || Boundary.isIn(player, Boundary.ICE_PATH_TOP) && player.heightLevel > 0) {
+            player.sendMessage("The cold from the ice-path is preventing you from teleporting.");
             return;
         }
-        if (Lowpkarena.getState(c) != null || Highpkarena.getState(c) != null) {
-            c.sendMessage("You can't teleport from a Pk event!");
+        if (Lowpkarena.getState(player) != null || Highpkarena.getState(player) != null) {
+            player.sendMessage("You can't teleport from a Pk event!");
             return;
         }
-        if (c.isDead) {
+        if (player.isDead) {
             return;
         }
-        if (!c.isDead && c.teleTimer == 0) {
-            c.stopMovement();
+        if (player.teleTimer == 0) {
+            player.stopMovement();
             removeAllWindows();
-            c.teleX = x;
-            c.teleY = y;
-            c.faceUpdate(0);
-            c.teleHeight = height;
-            c.startAnimation(714);
-            c.teleTimer = 9;
-            c.teleGfx = 308;
-            c.teleEndAnimation = 715;
-            c.setTektonDamageCounter(0);
-            if (c.getGlodDamageCounter() >= 80 || c.getIceQueenDamageCounter() >= 80) {
-                c.setGlodDamageCounter(79);
-                c.setIceQueenDamageCounter(79);
+            player.teleX = x;
+            player.teleY = y;
+            player.faceUpdate(0);
+            player.teleHeight = height;
+            player.startAnimation(714);
+            player.teleTimer = 9;
+            player.teleGfx = 308;
+            player.teleEndAnimation = 715;
+            player.setTektonDamageCounter(0);
+            if (player.getGlodDamageCounter() >= 80 || player.getIceQueenDamageCounter() >= 80) {
+                player.setGlodDamageCounter(79);
+                player.setIceQueenDamageCounter(79);
             }
-            c.getPA().stopSkilling();
+            player.getPA().stopSkilling();
         }
     }
 
     public void setFollowingEntity(Entity entity, boolean combatFollowing) {
         resetFollow();
-        c.combatFollowing = combatFollowing;
+        player.combatFollowing = combatFollowing;
         if (entity.isNPC()) {
-            c.npcFollowingIndex = entity.getIndex();
+            player.npcFollowingIndex = entity.getIndex();
         } else {
-            c.playerFollowingIndex = entity.getIndex();
+            player.playerFollowingIndex = entity.getIndex();
         }
     }
 
     public void followNPC(NPC npc, boolean combat) {
         if (npc != null) {
-            c.npcFollowingIndex = npc.getIndex();
-            c.combatFollowing = combat;
+            player.npcFollowingIndex = npc.getIndex();
+            player.combatFollowing = combat;
         }
     }
 
     public void followNpc() {
-        if (NPCHandler.npcs[c.npcFollowingIndex] == null || NPCHandler.npcs[c.npcFollowingIndex].isDead()) {
-            c.npcFollowingIndex = 0;
+        if (NPCHandler.npcs[player.npcFollowingIndex] == null || NPCHandler.npcs[player.npcFollowingIndex].isDead()) {
+            player.npcFollowingIndex = 0;
             return;
         }
-        if (c.morphed) {
+        if (player.morphed) {
             return;
         }
-        if (c.freezeTimer > 0) {
+        if (player.freezeTimer > 0) {
             return;
         }
-        if (c.isDead || c.playerLevel[3] <= 0)
+        if (player.isDead || player.playerLevel[3] <= 0)
             return;
 
-        NPC npc = NPCHandler.npcs[c.npcFollowingIndex];
-        int otherX = NPCHandler.npcs[c.npcFollowingIndex].getX();
-        int otherY = NPCHandler.npcs[c.npcFollowingIndex].getY();
-        double distanceToNpc = npc.getDistance(c.absX, c.absY);
+        NPC npc = NPCHandler.npcs[player.npcFollowingIndex];
+        int otherX = NPCHandler.npcs[player.npcFollowingIndex].getX();
+        int otherY = NPCHandler.npcs[player.npcFollowingIndex].getY();
+        double distanceToNpc = npc.getDistance(player.absX, player.absY);
         boolean withinDistance = distanceToNpc <= 2;
 
-        if (!c.goodDistance(otherX, otherY, c.getX(), c.getY(), 25)) {
-            c.npcFollowingIndex = 0;
+        if (!player.goodDistance(otherX, otherY, player.getX(), player.getY(), 25)) {
+            player.npcFollowingIndex = 0;
             return;
         }
 
-        c.faceUpdate(c.npcFollowingIndex);
+        player.faceUpdate(player.npcFollowingIndex);
         if (distanceToNpc <= 1) {
-            if (!npc.insideOf(c.absX, c.absY)) {
+            if (!npc.insideOf(player.absX, player.absY)) {
                 if (npc.getSize() == 0) {
                     stopDiagonal(otherX, otherY);
                 }
@@ -2446,21 +2421,21 @@ public class PlayerAssistant {
         }
 
         boolean projectile = false;
-        if (c.combatFollowing) {
-            projectile = c.usingOtherRangeWeapons || c.usingBow || c.usingMagic || c.autocasting
-                    || c.getCombatItems().usingCrystalBow() || c.playerEquipment[Player.playerWeapon] == 22550;
+        if (player.combatFollowing) {
+            projectile = player.usingOtherRangeWeapons || player.usingBow || player.usingMagic || player.autocasting
+                    || player.getCombatItems().usingCrystalBow() || player.playerEquipment[Player.playerWeapon] == 22550;
             if (!projectile
-                    || PathChecker.raycast(c, npc, true)
-                    || PathChecker.raycast(npc, c, true)) {
-                if (c.attacking.checkNpcAttackDistance(npc, c)) {
+                    || PathChecker.raycast(player, npc, true)
+                    || PathChecker.raycast(npc, player, true)) {
+                if (player.attacking.checkNpcAttackDistance(npc, player)) {
                     return;
                 }
             }
         }
 
-        final int x = c.absX;
-        final int y = c.absY;
-        final int z = c.heightLevel;
+        final int x = player.absX;
+        final int y = player.absY;
+        final int z = player.heightLevel;
         final boolean inWater = npc.getNpcId() == 2042 || npc.getNpcId() == 2043 || npc.getNpcId() == 2044;
 
         if (npc.getFollowPosition() == null) {
@@ -2502,9 +2477,8 @@ public class PlayerAssistant {
                             }
 
                             if (Misc.distance(x3, y3, x, y) < lowDist) {
-                                boolean allowsInteraction = !projectile
-                                        || projectile && PathChecker.raycast(c, npc, true);
-                                boolean accessible = PathFinder.getPathFinder().accessable(c, x3, y3);
+                                boolean allowsInteraction = !projectile || PathChecker.raycast(player, npc, true);
+                                boolean accessible = PathFinder.getPathFinder().accessable(player, x3, y3);
 
                                 if (allowsInteraction && accessible) {
                                     lowDist = Misc.distance(x3, y3, x, y);
@@ -2517,20 +2491,20 @@ public class PlayerAssistant {
 
 
                     if (lowX != 0 && lowY != 0) {
-                        PathFinder.getPathFinder().findRoute(c, lowX, lowY, true, 18, 18);
-                        if (c.debugMessage) {
-                            c.sendMessage("Path found to : " + lowX + ", " + lowY);
+                        PathFinder.getPathFinder().findRoute(player, lowX, lowY, true, 18, 18);
+                        if (player.debugMessage) {
+                            player.sendMessage("Path found to : " + lowX + ", " + lowY);
                         }
                     } else {
-                        PathFinder.getPathFinder().findRoute(c, npc.absX, npc.absY, true, 18, 18);
-                        if (c.debugMessage) {
-                            c.sendMessage("No path found, reverting to npc position.");
+                        PathFinder.getPathFinder().findRoute(player, npc.absX, npc.absY, true, 18, 18);
+                        if (player.debugMessage) {
+                            player.sendMessage("No path found, reverting to npc position.");
                         }
                     }
                 }
             } else {
 
-                if (otherX == c.absX && otherY == c.absY) {
+                if (otherX == player.absX && otherY == player.absY) {
                     int r = Misc.random(3);
                     switch (r) {
                         case 0:
@@ -2546,70 +2520,70 @@ public class PlayerAssistant {
                             playerWalk(-1, 0);
                             break;
                     }
-                } else if (c.isRunningToggled() && !withinDistance) {
-                    if (otherY > c.getY() && otherX == c.getX()) {
+                } else if (player.isRunningToggled() && !withinDistance) {
+                    if (otherY > player.getY() && otherX == player.getX()) {
                         // walkTo(0, getMove(c.getY(), otherY - 1) + getMove(c.getY(),
                         // otherY - 1));
                         playerWalk(otherX, otherY - 1);
-                    } else if (otherY < c.getY() && otherX == c.getX()) {
+                    } else if (otherY < player.getY() && otherX == player.getX()) {
                         // walkTo(0, getMove(c.getY(), otherY + 1) + getMove(c.getY(),
                         // otherY + 1));
                         playerWalk(otherX, otherY + 1);
-                    } else if (otherX > c.getX() && otherY == c.getY()) {
+                    } else if (otherX > player.getX() && otherY == player.getY()) {
                         // walkTo(getMove(c.getX(), otherX - 1) + getMove(c.getX(),
                         // otherX - 1), 0);
                         playerWalk(otherX - 1, otherY);
-                    } else if (otherX < c.getX() && otherY == c.getY()) {
+                    } else if (otherX < player.getX() && otherY == player.getY()) {
                         // walkTo(getMove(c.getX(), otherX + 1) + getMove(c.getX(),
                         // otherX + 1), 0);
                         playerWalk(otherX + 1, otherY);
-                    } else if (otherX < c.getX() && otherY < c.getY()) {
+                    } else if (otherX < player.getX() && otherY < player.getY()) {
                         // walkTo(getMove(c.getX(), otherX + 1) + getMove(c.getX(),
                         // otherX + 1), getMove(c.getY(), otherY + 1) +
                         // getMove(c.getY(), otherY + 1));
                         playerWalk(otherX + 1, otherY + 1);
-                    } else if (otherX > c.getX() && otherY > c.getY()) {
+                    } else if (otherX > player.getX() && otherY > player.getY()) {
                         // walkTo(getMove(c.getX(), otherX - 1) + getMove(c.getX(),
                         // otherX - 1), getMove(c.getY(), otherY - 1) +
                         // getMove(c.getY(), otherY - 1));
                         playerWalk(otherX - 1, otherY - 1);
-                    } else if (otherX < c.getX() && otherY > c.getY()) {
+                    } else if (otherX < player.getX() && otherY > player.getY()) {
                         // walkTo(getMove(c.getX(), otherX + 1) + getMove(c.getX(),
                         // otherX + 1), getMove(c.getY(), otherY - 1) +
                         // getMove(c.getY(), otherY - 1));
                         playerWalk(otherX + 1, otherY - 1);
-                    } else if (otherX > c.getX() && otherY < c.getY()) {
+                    } else if (otherX > player.getX() && otherY < player.getY()) {
                         // walkTo(getMove(c.getX(), otherX + 1) + getMove(c.getX(),
                         // otherX + 1), getMove(c.getY(), otherY - 1) +
                         // getMove(c.getY(), otherY - 1));
                         playerWalk(otherX + 1, otherY - 1);
                     }
                 } else {
-                    if (otherY > c.getY() && otherX == c.getX()) {
+                    if (otherY > player.getY() && otherX == player.getX()) {
                         // walkTo(0, getMove(c.getY(), otherY - 1));n
                         playerWalk(otherX, otherY - 1);
-                    } else if (otherY < c.getY() && otherX == c.getX()) {
+                    } else if (otherY < player.getY() && otherX == player.getX()) {
                         // walkTo(0, getMove(c.getY(), otherY + 1));
                         playerWalk(otherX, otherY + 1);
-                    } else if (otherX > c.getX() && otherY == c.getY()) {
+                    } else if (otherX > player.getX() && otherY == player.getY()) {
                         // walkTo(getMove(c.getX(), otherX - 1), 0);
                         playerWalk(otherX - 1, otherY);
-                    } else if (otherX < c.getX() && otherY == c.getY()) {
+                    } else if (otherX < player.getX() && otherY == player.getY()) {
                         // walkTo(getMove(c.getX(), otherX + 1), 0);
                         playerWalk(otherX + 1, otherY);
-                    } else if (otherX < c.getX() && otherY < c.getY()) {
+                    } else if (otherX < player.getX() && otherY < player.getY()) {
                         // walkTo(getMove(c.getX(), otherX + 1), getMove(c.getY(),
                         // otherY + 1));
                         playerWalk(otherX + 1, otherY + 1);
-                    } else if (otherX > c.getX() && otherY > c.getY()) {
+                    } else if (otherX > player.getX() && otherY > player.getY()) {
                         // walkTo(getMove(c.getX(), otherX - 1), getMove(c.getY(),
                         // otherY - 1));
                         playerWalk(otherX - 1, otherY - 1);
-                    } else if (otherX < c.getX() && otherY > c.getY()) {
+                    } else if (otherX < player.getX() && otherY > player.getY()) {
                         // walkTo(getMove(c.getX(), otherX + 1), getMove(c.getY(),
                         // otherY - 1));
                         playerWalk(otherX + 1, otherY - 1);
-                    } else if (otherX > c.getX() && otherY < c.getY()) {
+                    } else if (otherX > player.getX() && otherY < player.getY()) {
                         // walkTo(getMove(c.getX(), otherX - 1), getMove(c.getY(),
                         // otherY + 1));
                         playerWalk(otherX - 1, otherY + 1);
@@ -2626,62 +2600,62 @@ public class PlayerAssistant {
      **/
 
     public void followPlayer() {
-        if (PlayerHandler.players[c.playerFollowingIndex] == null || PlayerHandler.players[c.playerFollowingIndex].isDead) {
-            c.playerFollowingIndex = 0;
+        if (PlayerHandler.players[player.playerFollowingIndex] == null || PlayerHandler.players[player.playerFollowingIndex].isDead) {
+            player.playerFollowingIndex = 0;
             return;
         }
-        if (c.morphed) {
+        if (player.morphed) {
             return;
         }
-        if (c.freezeTimer > 0) {
+        if (player.freezeTimer > 0) {
             return;
         }
-        if (Boundary.isIn(c, Boundary.DUEL_ARENA)) {
-            DuelSession session = (DuelSession) Server.getMultiplayerSessionListener().getMultiplayerSession(c,
+        if (Boundary.isIn(player, Boundary.DUEL_ARENA)) {
+            DuelSession session = (DuelSession) Server.getMultiplayerSessionListener().getMultiplayerSession(player,
                     MultiplayerSessionType.DUEL);
             if (!Objects.isNull(session)) {
                 if (session.getRules().contains(DuelSessionRules.Rule.NO_MOVEMENT)) {
-                    c.playerFollowingIndex = 0;
+                    player.playerFollowingIndex = 0;
                     return;
                 }
             }
         }
         if (inPitsWait()) {
-            c.playerFollowingIndex = 0;
+            player.playerFollowingIndex = 0;
         }
 
-        if (c.isDead || c.getHealth().getCurrentHealth() <= 0)
+        if (player.isDead || player.getHealth().getCurrentHealth() <= 0)
             return;
-        if (System.currentTimeMillis() - c.lastSpear < 3000) {
-            c.sendMessage("You are stunned, you cannot move.");
-            c.playerFollowingIndex = 0;
+        if (System.currentTimeMillis() - player.lastSpear < 3000) {
+            player.sendMessage("You are stunned, you cannot move.");
+            player.playerFollowingIndex = 0;
             return;
         }
 
-        final Player other = PlayerHandler.players[c.playerFollowingIndex];
-        final int otherX = PlayerHandler.players[c.playerFollowingIndex].getX();
-        final int otherY = PlayerHandler.players[c.playerFollowingIndex].getY();
+        final Player other = PlayerHandler.players[player.playerFollowingIndex];
+        final int otherX = PlayerHandler.players[player.playerFollowingIndex].getX();
+        final int otherY = PlayerHandler.players[player.playerFollowingIndex].getY();
 
-        if (!c.goodDistance(otherX, otherY, c.getX(), c.getY(), 25)) {
-            c.playerFollowingIndex = 0;
+        if (!player.goodDistance(otherX, otherY, player.getX(), player.getY(), 25)) {
+            player.playerFollowingIndex = 0;
             return;
         }
-        if (c.combatFollowing) {
-            boolean projectile = c.attacking.getCombatType() != CombatType.MELEE;
+        if (player.combatFollowing) {
+            boolean projectile = player.attacking.getCombatType() != CombatType.MELEE;
             if (!projectile
-                    || PathChecker.raycast(c, other, true)
-                    || PathChecker.raycast(other, c, true)) {
+                    || PathChecker.raycast(player, other, true)
+                    || PathChecker.raycast(other, player, true)) {
 
-                if (c.attacking.checkPlayerAttackDistance(other, true, c)) {
-                    c.stopMovement();
+                if (player.attacking.checkPlayerAttackDistance(other, true, player)) {
+                    player.stopMovement();
                     return;
                 }
 
             }
 
-            if (otherX == c.absX && otherY == c.absY) {
+            if (otherX == player.absX && otherY == player.absY) {
                 if (!other.isWalkingQueueEmpty()) {
-                    c.stopMovement();
+                    player.stopMovement();
                     return;
                 }
             }
@@ -2696,9 +2670,9 @@ public class PlayerAssistant {
         } else {
             int followX = other.lastX;
             int followY = other.lastY;
-            if (followX != 0 && followY != 0 && PathFinder.getPathFinder().accessable(c, followX, followY)) {
+            if (followX != 0 && followY != 0 && PathFinder.getPathFinder().accessable(player, followX, followY)) {
                 playerWalk(followX, followY);
-            } else if (Misc.distance(c.absX, c.absY, otherX, otherY) != 1.0) {
+            } else if (Misc.distance(player.absX, player.absY, otherX, otherY) != 1.0) {
                 Pair<Integer, Integer> tile = getFollowPosition(other, otherX, otherY, false);
                 if (tile.getLeft() != 0 && tile.getRight() != 0) {
                     playerWalk(tile.getLeft(), tile.getRight());
@@ -2708,7 +2682,7 @@ public class PlayerAssistant {
             }
         }
 
-        c.faceUpdate(c.playerFollowingIndex + 32768);
+        player.faceUpdate(player.playerFollowingIndex + 32768);
     }
 
     public Pair<Integer, Integer> getFollowPosition(Entity other, int otherX, int otherY, boolean projectile) {
@@ -2721,12 +2695,12 @@ public class PlayerAssistant {
         for (int[] nondiag : nondiags) {
             int x2 = otherX + nondiag[0];
             int y2 = otherY + nondiag[1];
-            double dist = Misc.distance(c.absX, c.absY, x2, y2);
+            double dist = Misc.distance(player.absX, player.absY, x2, y2);
             if (lowDist == 0 || dist < lowDist) {
                 //if (wild == new Position(x2, y2).inWild()) {
-                if (!projectile || PathChecker.raycast(c, other, true)
-                        || PathChecker.raycast(other, c, true)) {
-                    if (PathFinder.getPathFinder().accessable(c, x2, y2) && (c.combatFollowing || PathChecker.isMeleePathClear(c, x2, y2, c.heightLevel, otherX, otherY))) {
+                if (!projectile || PathChecker.raycast(player, other, true)
+                        || PathChecker.raycast(other, player, true)) {
+                    if (PathFinder.getPathFinder().accessable(player, x2, y2) && (player.combatFollowing || PathChecker.isMeleePathClear(player, x2, y2, player.heightLevel, otherX, otherY))) {
                         lowX = x2;
                         lowY = y2;
                         lowDist = dist;
@@ -2740,7 +2714,7 @@ public class PlayerAssistant {
     }
 
     public void updateRunEnergy() {
-        sendFrame126(c.getRunEnergy() + "%", 22539);
+        sendFrame126(player.getRunEnergy() + "%", 22539);
     }
 
     public void sendStatement(String s) {
@@ -2750,87 +2724,87 @@ public class PlayerAssistant {
     }
 
     public void resetFollow() {
-        c.combatFollowing = false;
-        c.playerFollowingIndex = 0;
-        c.npcFollowingIndex = 0;
+        player.combatFollowing = false;
+        player.playerFollowingIndex = 0;
+        player.npcFollowingIndex = 0;
     }
 
     public void walkTo3(int i, int j) {
-        c.newWalkCmdSteps = 0;
-        if (++c.newWalkCmdSteps > 50)
-            c.newWalkCmdSteps = 0;
-        int k = c.absX + i;
-        k -= c.mapRegionX * 8;
-        c.getNewWalkCmdX()[0] = c.getNewWalkCmdY()[0] = tmpNWCX[0] = tmpNWCY[0] = 0;
-        int l = c.absY + j;
-        l -= c.mapRegionY * 8;
+        player.newWalkCmdSteps = 0;
+        if (++player.newWalkCmdSteps > 50)
+            player.newWalkCmdSteps = 0;
+        int k = player.absX + i;
+        k -= player.mapRegionX * 8;
+        player.getNewWalkCmdX()[0] = player.getNewWalkCmdY()[0] = tmpNWCX[0] = tmpNWCY[0] = 0;
+        int l = player.absY + j;
+        l -= player.mapRegionY * 8;
 
-        c.getNewWalkCmdX()[0] += k;
-        c.getNewWalkCmdY()[0] += l;
-        c.poimiY = l;
-        c.poimiX = k;
+        player.getNewWalkCmdX()[0] += k;
+        player.getNewWalkCmdY()[0] += l;
+        player.poimiY = l;
+        player.poimiX = k;
     }
 
     private final int[] tmpNWCX = new int[50];
     private final int[] tmpNWCY = new int[50];
 
     public void walkTo(int i, int j) {
-        c.newWalkCmdSteps = 0;
-        if (++c.newWalkCmdSteps > 50)
-            c.newWalkCmdSteps = 0;
-        int k = c.getX() + i;
-        k -= c.mapRegionX * 8;
-        c.getNewWalkCmdX()[0] = c.getNewWalkCmdY()[0] = 0;
-        int l = c.getY() + j;
-        l -= c.mapRegionY * 8;
+        player.newWalkCmdSteps = 0;
+        if (++player.newWalkCmdSteps > 50)
+            player.newWalkCmdSteps = 0;
+        int k = player.getX() + i;
+        k -= player.mapRegionX * 8;
+        player.getNewWalkCmdX()[0] = player.getNewWalkCmdY()[0] = 0;
+        int l = player.getY() + j;
+        l -= player.mapRegionY * 8;
 
-        for (int n = 0; n < c.newWalkCmdSteps; n++) {
-            c.getNewWalkCmdX()[n] += k;
-            c.getNewWalkCmdY()[n] += l;
+        for (int n = 0; n < player.newWalkCmdSteps; n++) {
+            player.getNewWalkCmdX()[n] += k;
+            player.getNewWalkCmdY()[n] += l;
         }
     }
 
     public void walkTo2(int i, int j) {
-        if (c.freezeDelay > 0)
+        if (player.freezeDelay > 0)
             return;
-        c.newWalkCmdSteps = 0;
-        if (++c.newWalkCmdSteps > 50)
-            c.newWalkCmdSteps = 0;
-        int k = c.getX() + i;
-        k -= c.mapRegionX * 8;
-        c.getNewWalkCmdX()[0] = c.getNewWalkCmdY()[0] = 0;
-        int l = c.getY() + j;
-        l -= c.mapRegionY * 8;
+        player.newWalkCmdSteps = 0;
+        if (++player.newWalkCmdSteps > 50)
+            player.newWalkCmdSteps = 0;
+        int k = player.getX() + i;
+        k -= player.mapRegionX * 8;
+        player.getNewWalkCmdX()[0] = player.getNewWalkCmdY()[0] = 0;
+        int l = player.getY() + j;
+        l -= player.mapRegionY * 8;
 
-        for (int n = 0; n < c.newWalkCmdSteps; n++) {
-            c.getNewWalkCmdX()[n] += k;
-            c.getNewWalkCmdY()[n] += l;
+        for (int n = 0; n < player.newWalkCmdSteps; n++) {
+            player.getNewWalkCmdX()[n] += k;
+            player.getNewWalkCmdY()[n] += l;
         }
     }
 
     private void stopDiagonal(int otherX, int otherY) {
-        if (c.freezeDelay > 0)
+        if (player.freezeDelay > 0)
             return;
-        if (c.freezeTimer > 0) // player can't move
+        if (player.freezeTimer > 0) // player can't move
             return;
-        c.newWalkCmdSteps = 1;
-        int xMove = otherX - c.getX();
+        player.newWalkCmdSteps = 1;
+        int xMove = otherX - player.getX();
         int yMove = 0;
         if (xMove == 0)
-            yMove = otherY - c.getY();
+            yMove = otherY - player.getY();
         /*
          * if (!clipHor) { yMove = 0; } else if (!clipVer) { xMove = 0; }
          */
 
-        int k = c.getX() + xMove;
-        k -= c.mapRegionX * 8;
-        c.getNewWalkCmdX()[0] = c.getNewWalkCmdY()[0] = 0;
-        int l = c.getY() + yMove;
-        l -= c.mapRegionY * 8;
+        int k = player.getX() + xMove;
+        k -= player.mapRegionX * 8;
+        player.getNewWalkCmdX()[0] = player.getNewWalkCmdY()[0] = 0;
+        int l = player.getY() + yMove;
+        l -= player.mapRegionY * 8;
 
-        for (int n = 0; n < c.newWalkCmdSteps; n++) {
-            c.getNewWalkCmdX()[n] += k;
-            c.getNewWalkCmdY()[n] += l;
+        for (int n = 0; n < player.newWalkCmdSteps; n++) {
+            player.getNewWalkCmdX()[n] += k;
+            player.getNewWalkCmdY()[n] += l;
         }
 
     }
@@ -2839,8 +2813,8 @@ public class PlayerAssistant {
         // if (!c.initialized) {
         // return;
         // }
-        c.setUpdateRequired(true);
-        c.setAppearanceUpdateRequired(true);
+        player.setUpdateRequired(true);
+        player.setAppearanceUpdateRequired(true);
     }
 
     /*
@@ -2849,211 +2823,211 @@ public class PlayerAssistant {
      */
 
     public void levelUp(int skill) {
-        int totalLevel = (getLevelForXP(c.playerXP[0]) + getLevelForXP(c.playerXP[1]) + getLevelForXP(c.playerXP[2])
-                + getLevelForXP(c.playerXP[3]) + getLevelForXP(c.playerXP[4]) + getLevelForXP(c.playerXP[5])
-                + getLevelForXP(c.playerXP[6]) + getLevelForXP(c.playerXP[7]) + getLevelForXP(c.playerXP[8])
-                + getLevelForXP(c.playerXP[9]) + getLevelForXP(c.playerXP[10]) + getLevelForXP(c.playerXP[11])
-                + getLevelForXP(c.playerXP[12]) + getLevelForXP(c.playerXP[13]) + getLevelForXP(c.playerXP[14])
-                + getLevelForXP(c.playerXP[15]) + getLevelForXP(c.playerXP[16]) + getLevelForXP(c.playerXP[17])
-                + getLevelForXP(c.playerXP[18]) + getLevelForXP(c.playerXP[19]) + getLevelForXP(c.playerXP[20])
-                + getLevelForXP(c.playerXP[21]));
+        int totalLevel = (getLevelForXP(player.playerXP[0]) + getLevelForXP(player.playerXP[1]) + getLevelForXP(player.playerXP[2])
+                + getLevelForXP(player.playerXP[3]) + getLevelForXP(player.playerXP[4]) + getLevelForXP(player.playerXP[5])
+                + getLevelForXP(player.playerXP[6]) + getLevelForXP(player.playerXP[7]) + getLevelForXP(player.playerXP[8])
+                + getLevelForXP(player.playerXP[9]) + getLevelForXP(player.playerXP[10]) + getLevelForXP(player.playerXP[11])
+                + getLevelForXP(player.playerXP[12]) + getLevelForXP(player.playerXP[13]) + getLevelForXP(player.playerXP[14])
+                + getLevelForXP(player.playerXP[15]) + getLevelForXP(player.playerXP[16]) + getLevelForXP(player.playerXP[17])
+                + getLevelForXP(player.playerXP[18]) + getLevelForXP(player.playerXP[19]) + getLevelForXP(player.playerXP[20])
+                + getLevelForXP(player.playerXP[21]));
         sendFrame126("" + totalLevel, 3984);
         switch (skill) {
             case 0:
                 sendFrame126("Congratulations, you just advanced an attack level!", 6248);
-                sendFrame126("Your attack level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6249);
-                c.sendMessage("Congratulations, you just advanced an attack level.");
+                sendFrame126("Your attack level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6249);
+                player.sendMessage("Congratulations, you just advanced an attack level.");
                 sendChatboxInterface(6247);
-                if (c.combatLevel >= 126) {
-                    c.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
+                if (player.combatLevel >= 126) {
+                    player.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
                 }
                 break;
 
             case 1:
                 sendFrame126("Congratulations, you just advanced a defence level!", 6254);
-                sendFrame126("Your defence level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6255);
-                c.sendMessage("Congratulations, you just advanced a defence level.");
+                sendFrame126("Your defence level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6255);
+                player.sendMessage("Congratulations, you just advanced a defence level.");
                 sendChatboxInterface(6253);
-                if (c.combatLevel >= 126) {
-                    c.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
+                if (player.combatLevel >= 126) {
+                    player.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
                 }
                 break;
 
             case 2:
                 sendFrame126("Congratulations, you just advanced a strength level!", 6207);
-                sendFrame126("Your strength level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6208);
-                c.sendMessage("Congratulations, you just advanced a strength level.");
+                sendFrame126("Your strength level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6208);
+                player.sendMessage("Congratulations, you just advanced a strength level.");
                 sendChatboxInterface(6206);
-                if (c.combatLevel >= 126) {
-                    c.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
+                if (player.combatLevel >= 126) {
+                    player.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
                 }
                 break;
 
             case 3:
-                c.getHealth().setMaximumHealth(c.getLevelForXP(c.playerXP[Player.playerHitpoints]));
+                player.getHealth().setMaximumHealth(player.getLevelForXP(player.playerXP[Player.playerHitpoints]));
                 sendFrame126("Congratulations, you just advanced a hitpoints level!", 6217);
-                sendFrame126("Your hitpoints level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6218);
-                c.sendMessage("Congratulations, you just advanced a hitpoints level.");
+                sendFrame126("Your hitpoints level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6218);
+                player.sendMessage("Congratulations, you just advanced a hitpoints level.");
                 sendChatboxInterface(6216);
-                if (c.combatLevel >= 126) {
-                    c.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
+                if (player.combatLevel >= 126) {
+                    player.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
                 }
                 break;
 
             case 4:
-                c.sendMessage("Congratulations, you just advanced a ranging level.");
-                if (c.combatLevel >= 126) {
-                    c.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
+                player.sendMessage("Congratulations, you just advanced a ranging level.");
+                if (player.combatLevel >= 126) {
+                    player.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
                 }
                 break;
 
             case 5:
                 sendFrame126("Congratulations, you just advanced a prayer level!", 6243);
-                sendFrame126("Your prayer level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6244);
-                c.sendMessage("Congratulations, you just advanced a prayer level.");
+                sendFrame126("Your prayer level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6244);
+                player.sendMessage("Congratulations, you just advanced a prayer level.");
                 sendChatboxInterface(6242);
-                if (c.combatLevel >= 126) {
-                    c.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
+                if (player.combatLevel >= 126) {
+                    player.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
                 }
                 break;
 
             case 6:
                 sendFrame126("Congratulations, you just advanced a magic level!", 6212);
-                sendFrame126("Your magic level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6213);
-                c.sendMessage("Congratulations, you just advanced a magic level.");
+                sendFrame126("Your magic level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6213);
+                player.sendMessage("Congratulations, you just advanced a magic level.");
                 sendChatboxInterface(6211);
-                if (c.combatLevel >= 126) {
-                    c.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
+                if (player.combatLevel >= 126) {
+                    player.getEventCalendar().progress(EventChallenge.HAVE_126_COMBAT);
                 }
                 break;
 
             case 7:
                 sendFrame126("Congratulations, you just advanced a cooking level!", 6227);
-                sendFrame126("Your cooking level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6228);
-                c.sendMessage("Congratulations, you just advanced a cooking level.");
+                sendFrame126("Your cooking level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6228);
+                player.sendMessage("Congratulations, you just advanced a cooking level.");
                 sendChatboxInterface(6226);
                 break;
 
             case 8:
                 sendFrame126("Congratulations, you just advanced a woodcutting level!", 4273);
-                sendFrame126("Your woodcutting level is now " + getLevelForXP(c.playerXP[skill]) + ".", 4274);
-                c.sendMessage("Congratulations, you just advanced a woodcutting level.");
+                sendFrame126("Your woodcutting level is now " + getLevelForXP(player.playerXP[skill]) + ".", 4274);
+                player.sendMessage("Congratulations, you just advanced a woodcutting level.");
                 sendChatboxInterface(4272);
                 break;
 
             case 9:
                 sendFrame126("Congratulations, you just advanced a fletching level!", 6232);
-                sendFrame126("Your fletching level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6233);
-                c.sendMessage("Congratulations, you just advanced a fletching level.");
+                sendFrame126("Your fletching level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6233);
+                player.sendMessage("Congratulations, you just advanced a fletching level.");
                 sendChatboxInterface(6231);
                 break;
 
             case 10:
                 sendFrame126("Congratulations, you just advanced a fishing level!", 6259);
-                sendFrame126("Your fishing level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6260);
-                c.sendMessage("Congratulations, you just advanced a fishing level.");
+                sendFrame126("Your fishing level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6260);
+                player.sendMessage("Congratulations, you just advanced a fishing level.");
                 sendChatboxInterface(6258);
                 break;
 
             case 11:
                 sendFrame126("Congratulations, you just advanced a fire making level!", 4283);
-                sendFrame126("Your firemaking level is now " + getLevelForXP(c.playerXP[skill]) + ".", 4284);
-                c.sendMessage("Congratulations, you just advanced a fire making level.");
+                sendFrame126("Your firemaking level is now " + getLevelForXP(player.playerXP[skill]) + ".", 4284);
+                player.sendMessage("Congratulations, you just advanced a fire making level.");
                 sendChatboxInterface(4282);
                 break;
 
             case 12:
                 sendFrame126("Congratulations, you just advanced a crafting level!", 6264);
-                sendFrame126("Your crafting level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6265);
-                c.sendMessage("Congratulations, you just advanced a crafting level.");
+                sendFrame126("Your crafting level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6265);
+                player.sendMessage("Congratulations, you just advanced a crafting level.");
                 sendChatboxInterface(6263);
                 break;
 
             case 13:
                 sendFrame126("Congratulations, you just advanced a smithing level!", 6222);
-                sendFrame126("Your smithing level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6223);
-                c.sendMessage("Congratulations, you just advanced a smithing level.");
+                sendFrame126("Your smithing level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6223);
+                player.sendMessage("Congratulations, you just advanced a smithing level.");
                 sendChatboxInterface(6221);
                 break;
 
             case 14:
                 sendFrame126("Congratulations, you just advanced a mining level!", 4417);
-                sendFrame126("Your mining level is now " + getLevelForXP(c.playerXP[skill]) + ".", 4438);
-                c.sendMessage("Congratulations, you just advanced a mining level.");
+                sendFrame126("Your mining level is now " + getLevelForXP(player.playerXP[skill]) + ".", 4438);
+                player.sendMessage("Congratulations, you just advanced a mining level.");
                 sendChatboxInterface(4416);
                 break;
 
             case 15:
                 sendFrame126("Congratulations, you just advanced a herblore level!", 6238);
-                sendFrame126("Your herblore level is now " + getLevelForXP(c.playerXP[skill]) + ".", 6239);
-                c.sendMessage("Congratulations, you just advanced a herblore level.");
+                sendFrame126("Your herblore level is now " + getLevelForXP(player.playerXP[skill]) + ".", 6239);
+                player.sendMessage("Congratulations, you just advanced a herblore level.");
                 sendChatboxInterface(6237);
                 break;
 
             case 16:
                 sendFrame126("Congratulations, you just advanced a agility level!", 4278);
-                sendFrame126("Your agility level is now " + getLevelForXP(c.playerXP[skill]) + ".", 4279);
-                c.sendMessage("Congratulations, you just advanced an agility level.");
+                sendFrame126("Your agility level is now " + getLevelForXP(player.playerXP[skill]) + ".", 4279);
+                player.sendMessage("Congratulations, you just advanced an agility level.");
                 sendChatboxInterface(4277);
                 break;
 
             case 17:
                 sendFrame126("Congratulations, you just advanced a thieving level!", 4263);
-                sendFrame126("Your theiving level is now " + getLevelForXP(c.playerXP[skill]) + ".", 4264);
-                c.sendMessage("Congratulations, you just advanced a thieving level.");
+                sendFrame126("Your theiving level is now " + getLevelForXP(player.playerXP[skill]) + ".", 4264);
+                player.sendMessage("Congratulations, you just advanced a thieving level.");
                 sendChatboxInterface(4261);
                 break;
 
             case 18:
                 sendFrame126("Congratulations, you just advanced a slayer level!", 12123);
-                sendFrame126("Your slayer level is now " + getLevelForXP(c.playerXP[skill]) + ".", 12124);
-                c.sendMessage("Congratulations, you just advanced a slayer level.");
+                sendFrame126("Your slayer level is now " + getLevelForXP(player.playerXP[skill]) + ".", 12124);
+                player.sendMessage("Congratulations, you just advanced a slayer level.");
                 sendChatboxInterface(12122);
                 break;
 
             case 19:
-                c.sendMessage("Congratulations! You've just advanced a Farming level.");
+                player.sendMessage("Congratulations! You've just advanced a Farming level.");
                 break;
 
             case 20:
                 sendFrame126("Congratulations, you just advanced a runecrafting level!", 4268);
-                sendFrame126("Your runecrafting level is now " + getLevelForXP(c.playerXP[skill]) + ".", 4269);
-                c.sendMessage("Congratulations, you just advanced a runecrafting level.");
+                sendFrame126("Your runecrafting level is now " + getLevelForXP(player.playerXP[skill]) + ".", 4269);
+                player.sendMessage("Congratulations, you just advanced a runecrafting level.");
                 sendChatboxInterface(4267);
                 break;
 
             case 21:
             case 22:
-                c.sendMessage("Congratulations! You've just advanced a Hunter level.");
+                player.sendMessage("Congratulations! You've just advanced a Hunter level.");
                 break;
         }
-        if (c.totalLevel >= 2000) {
-            c.getEventCalendar().progress(EventChallenge.HAVE_2000_TOTAL_LEVEL);
+        if (player.totalLevel >= 2000) {
+            player.getEventCalendar().progress(EventChallenge.HAVE_2000_TOTAL_LEVEL);
         }
 
-        if (c.getRights().isNotAdmin()) {
-            if (getLevelForXP(c.playerXP[skill]) == 99) {
+        if (player.getRights().isNotAdmin()) {
+            if (getLevelForXP(player.playerXP[skill]) == 99) {
                 Skill s = Skill.forId(skill);
                 int iconId = Skill.iconForSkill(s) + 134;
                 PlayerHandler.executeGlobalMessage(
-                        "<col=6432a8>" + c.getDisplayNameFormatted() + " has reached level 99 <icon=" + iconId + "> " + s.toString() + " on " + c.getMode().getType().getFormattedName() + " mode!");
+                        "<col=6432a8>" + player.getDisplayNameFormatted() + " has reached level 99 <icon=" + iconId + "> " + s.toString() + " on " + player.getMode().getType().getFormattedName() + " mode!");
             }
 
-            if (c.maxRequirements(c)) {
-                PlayerHandler.executeGlobalMessage("<col=6432a8>" + c.getDisplayNameFormatted() + " has reached max total level on " + c.getMode().getType().getFormattedName() + " mode!");
+            if (player.maxRequirements(player)) {
+                PlayerHandler.executeGlobalMessage("<col=6432a8>" + player.getDisplayNameFormatted() + " has reached max total level on " + player.getMode().getType().getFormattedName() + " mode!");
             }
         }
 
-        c.dialogueAction = 0;
-        c.nextChat = 0;
+        player.dialogueAction = 0;
+        player.nextChat = 0;
     }
 
     public void refreshSkill(int i) {
-        c.combatLevel = c.calculateCombatLevel();
+        player.combatLevel = player.calculateCombatLevel();
         if (i == Player.playerHitpoints) {
-            setSkillLevel(i, c.getHealth().getCurrentHealth(), c.playerXP[i]);
+            setSkillLevel(i, player.getHealth().getCurrentHealth(), player.playerXP[i]);
         } else {
-            setSkillLevel(i, c.playerLevel[i], c.playerXP[i]);
+            setSkillLevel(i, player.playerLevel[i], player.playerXP[i]);
         }
     }
 
@@ -3070,7 +3044,7 @@ public class PlayerAssistant {
             points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
             if (lvl >= level)
                 return output;
-            output = (int) Math.floor(points / 4);
+            output = (int) (double) (points / 4);
         }
         return 0;
     }
@@ -3082,7 +3056,7 @@ public class PlayerAssistant {
             return 99;
         for (int lvl = 1; lvl <= 99; lvl++) {
             points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
-            output = (int) Math.floor(points / 4);
+            output = (int) (double) (points / 4);
             if (output >= exp) {
                 return lvl;
             }
@@ -3091,7 +3065,7 @@ public class PlayerAssistant {
     }
 
     public boolean hasSkillLevels(SkillLevel... skillLevels) {
-        return Arrays.stream(skillLevels).allMatch(skill -> getLevelForXP(c.playerXP[skill.skill().getId()]) >= skill.level());
+        return Arrays.stream(skillLevels).allMatch(skill -> getLevelForXP(player.playerXP[skill.skill().getId()]) >= skill.level());
     }
 
     public static class XpDrop {
@@ -3163,92 +3137,92 @@ public class PlayerAssistant {
         for (Iterator<XpDrop> i = send.iterator(); i.hasNext(); ) {
             XpDrop drop = i.next();
             i.remove();
-            c.getPA().sendExperienceDrop(true, drop.amount, drop.skill);
+            player.getPA().sendExperienceDrop(true, drop.amount, drop.skill);
         }
     }
 
     public boolean addSkillXPMultiplied(double amount, int skill, boolean dropExperience) {
-        return addSkillXP((int) (c.getMode().getType().getExperienceRate(Skill.forId(skill)) * amount), skill, dropExperience);
+        return addSkillXP((int) (player.getMode().getType().getExperienceRate(Skill.forId(skill)) * amount), skill, dropExperience);
     }
 
     public boolean addSkillXP(int amount, int skill, boolean dropExperience) {
         if (amount <= 0)
             return false;
-        if (c.skillLock[skill]) {
+        if (player.skillLock[skill]) {
             return false;
         }
-        if (TourneyManager.getSingleton().isInArena(c)) {
-            return false;
-        }
-
-        if (Boundary.isIn(c, Boundary.FOUNTAIN_OF_RUNE_BOUNDARY)) {
-            return false;
-        }
-        if (c.expLock && skill <= 6) {
-            return false;
-        }
-        if (amount + c.playerXP[skill] < 0) {
+        if (TourneyManager.getSingleton().isInArena(player)) {
             return false;
         }
 
-        List<? extends Booster<?>> boosts = Boosts.getBoostsOfType(c, Skill.forId(skill), BoostType.EXPERIENCE);
+        if (Boundary.isIn(player, Boundary.FOUNTAIN_OF_RUNE_BOUNDARY)) {
+            return false;
+        }
+        if (player.expLock && skill <= 6) {
+            return false;
+        }
+        if (amount + player.playerXP[skill] < 0) {
+            return false;
+        }
+
+        List<? extends Booster<?>> boosts = Boosts.getBoostsOfType(player, Skill.forId(skill), BoostType.EXPERIENCE);
         if (!boosts.isEmpty()) {
             amount *= 1.5; // All boosts are 1.5 for now!
         }
-        if (c.getMode().getType().isStandardRate(Skill.forId(skill))) {
-            LeaderboardUtils.addCount(LeaderboardType.STANDARD_XP, c, amount);
+        if (player.getMode().getType().isStandardRate(Skill.forId(skill))) {
+            LeaderboardUtils.addCount(LeaderboardType.STANDARD_XP, player, amount);
         } else {
-            LeaderboardUtils.addCount(LeaderboardType.ROGUE_XP, c, amount);
+            LeaderboardUtils.addCount(LeaderboardType.ROGUE_XP, player, amount);
         }
 
         if (dropExperience) {
             addXpDrop(new XpDrop(amount, skill));
         }
-        int oldLevel = getLevelForXP(c.playerXP[skill]);
-        int oldExperience = c.playerXP[skill];
+        int oldLevel = getLevelForXP(player.playerXP[skill]);
+        int oldExperience = player.playerXP[skill];
         if (oldExperience < Skill.MAX_EXP && oldExperience + amount >= Skill.MAX_EXP) {
             Skill s = Skill.forId(skill);
             int iconId = Skill.iconForSkill(s) + 134;
-            c.xpMaxSkills += 1;
-            if (c.getRights().isNotAdmin()) {
-                PlayerHandler.executeGlobalMessage("<col=6432a8>" + c.getDisplayNameFormatted() + " has reached 200M XP in " +
-                        "<icon=" + iconId + "> " + s.toString() + " on " + c.getMode().getType().getFormattedName() + " mode!");
-                c.sendMessage("@blu@You have now maxed 200m experience in @red@" + c.xpMaxSkills + " skills!");
+            player.xpMaxSkills += 1;
+            if (player.getRights().isNotAdmin()) {
+                PlayerHandler.executeGlobalMessage("<col=6432a8>" + player.getDisplayNameFormatted() + " has reached 200M XP in " +
+                        "<icon=" + iconId + "> " + s.toString() + " on " + player.getMode().getType().getFormattedName() + " mode!");
+                player.sendMessage("@blu@You have now maxed 200m experience in @red@" + player.xpMaxSkills + " skills!");
 
-                if (c.xpMaxSkills > 21) {
+                if (player.xpMaxSkills > 21) {
                     PlayerHandler.executeGlobalMessage(
-                            "<col=6432a8>" + c.getDisplayNameFormatted() + " has reached 200M XP in all skills on " + c.getMode().getType().getFormattedName() + " mode!");
+                            "<col=6432a8>" + player.getDisplayNameFormatted() + " has reached 200M XP in all skills on " + player.getMode().getType().getFormattedName() + " mode!");
                 }
             }
         }
 
-        if (c.playerXP[skill] + amount > Skill.MAX_EXP) {
-            c.playerXP[skill] = Skill.MAX_EXP;
+        if (player.playerXP[skill] + amount > Skill.MAX_EXP) {
+            player.playerXP[skill] = Skill.MAX_EXP;
         } else {
-            c.playerXP[skill] += amount;
+            player.playerXP[skill] += amount;
         }
 
-        if (c.playerXP[skill] >= Skill.MAX_EXP && c.gained200mTime[skill] == 0) {
-            c.gained200mTime[skill] = System.currentTimeMillis();
+        if (player.playerXP[skill] >= Skill.MAX_EXP && player.gained200mTime[skill] == 0) {
+            player.gained200mTime[skill] = System.currentTimeMillis();
         }
 
-        if (oldLevel < getLevelForXP(c.playerXP[skill])) {
-            int newLevel = getLevelForXP(c.playerXP[skill]);
-            if (c.playerLevel[skill] < newLevel && skill != 3 && skill != 5)
-                c.playerLevel[skill] = newLevel;
+        if (oldLevel < getLevelForXP(player.playerXP[skill])) {
+            int newLevel = getLevelForXP(player.playerXP[skill]);
+            if (player.playerLevel[skill] < newLevel && skill != 3 && skill != 5)
+                player.playerLevel[skill] = newLevel;
 
-            c.combatLevel = c.calculateCombatLevel();
-            c.totalLevel = c.getPA().calculateTotalLevel();
-            c.getPA().sendFrame126("Combat Level: " + c.combatLevel + "", 3983);
+            player.combatLevel = player.calculateCombatLevel();
+            player.totalLevel = player.getPA().calculateTotalLevel();
+            player.getPA().sendFrame126("Combat Level: " + player.combatLevel, 3983);
             levelUp(skill);
-            c.gfx100(199);
+            player.gfx100(199);
             if (skill == Skill.HITPOINTS.getId()) {
-                c.getHealth().setMaximumHealth(newLevel);
-                c.getHealth().increase(newLevel - oldLevel);
+                player.getHealth().setMaximumHealth(newLevel);
+                player.getHealth().increase(newLevel - oldLevel);
             }
             requestUpdates();
         }
-        setSkillLevel(skill, c.playerLevel[skill], c.playerXP[skill]);
+        setSkillLevel(skill, player.playerLevel[skill], player.playerXP[skill]);
         refreshSkill(skill);
         return true;
     }
@@ -3266,19 +3240,19 @@ public class PlayerAssistant {
      */
     public void drawHeadicon(int type, int index) {
         // synchronized(c) {
-        c.outStream.createFrame(254);
-        c.outStream.writeByte(type);
+        player.outStream.createFrame(254);
+        player.outStream.writeByte(type);
 
         int k = 0, l = 0;
 
         if (type == 1 || type == 10) {
-            c.outStream.writeUShort(index);
-            c.outStream.writeUShort(k);
-            c.outStream.writeByte(l);
+            player.outStream.writeUShort(index);
+            player.outStream.writeUShort(k);
+            player.outStream.writeByte(l);
         } else {
-            c.outStream.writeUShort(k);
-            c.outStream.writeUShort(l);
-            c.outStream.writeByte(index);
+            player.outStream.writeUShort(k);
+            player.outStream.writeUShort(l);
+            player.outStream.writeByte(index);
         }
     }
 
@@ -3287,25 +3261,25 @@ public class PlayerAssistant {
     }
 
     public void displayPlayerHintIcon(int index) {
-        c.outStream.createFrame(254);
-        c.outStream.writeByte(10);
-        c.outStream.writeUShort(index);
-        c.outStream.writeUShort(0);
-        c.outStream.writeByte(0);
+        player.outStream.createFrame(254);
+        player.outStream.writeByte(10);
+        player.outStream.writeUShort(index);
+        player.outStream.writeUShort(0);
+        player.outStream.writeByte(0);
     }
 
     public void displayStaticIcon(int type, int x, int y, int iconHeight) {
         if (iconHeight > 255)
             iconHeight = 255;
-        c.outStream.createFrame(254);
-        c.outStream.writeByte(type);
-        c.outStream.writeUShort(x);
-        c.outStream.writeUShort(y);
-        c.outStream.writeByte(iconHeight);
+        player.outStream.createFrame(254);
+        player.outStream.writeByte(type);
+        player.outStream.writeUShort(x);
+        player.outStream.writeUShort(y);
+        player.outStream.writeByte(iconHeight);
     }
 
     public void runClientScript(int scriptId, Object... params) {
-        if (c.getOutStream() != null) {
+        if (player.getOutStream() != null) {
 
             // Clear interface text
             if (scriptId == 4) {
@@ -3315,77 +3289,77 @@ public class PlayerAssistant {
                     interfaceText.put(i, new TinterfaceText("", i));
             }
 
-            c.getOutStream().createFrameVarSizeWord(13);
+            player.getOutStream().createFrameVarSizeWord(13);
             StringBuilder types = new StringBuilder();
             Arrays.stream(params).forEach(it -> types.append(it instanceof Integer ? "i" : "s"));
-            c.getOutStream().writeString(types.toString());
+            player.getOutStream().writeString(types.toString());
 
             for (Object param : params) {
                 if (param instanceof Integer) {
-                    c.getOutStream().writeDWord((int) param);
+                    player.getOutStream().writeDWord((int) param);
                 } else {
-                    c.getOutStream().writeNullTerminatedString(param.toString());
+                    player.getOutStream().writeNullTerminatedString(param.toString());
                 }
             }
 
-            c.getOutStream().writeUShort(scriptId);
-            c.getOutStream().endFrameVarSizeWord();
-            c.flushOutStream();
+            player.getOutStream().writeUShort(scriptId);
+            player.getOutStream().endFrameVarSizeWord();
+            player.flushOutStream();
         }
     }
 
     public void updateQuestTab() {
-        if (c.d1Complete == true) {
+        if (player.d1Complete) {
             sendFrame126("@gre@Varrock", 29480);
         } else {
             sendFrame126("@red@Varrock", 29480);
         }
-        if (c.d2Complete == true) {
+        if (player.d2Complete) {
             sendFrame126("@gre@Ardougne", 29481);
         } else {
             sendFrame126("@red@Ardougne", 29481);
         }
-        if (c.d3Complete == true) {
+        if (player.d3Complete) {
             sendFrame126("@gre@Desert", 29482);
         } else {
             sendFrame126("@red@Desert", 29482);
         }
-        if (c.d4Complete == true) {
+        if (player.d4Complete) {
             sendFrame126("@gre@Falador", 29483);
         } else {
             sendFrame126("@red@Falador", 29483);
         }
-        if (c.d5Complete == true) {
+        if (player.d5Complete) {
             sendFrame126("@gre@Fremnnik", 29484);
         } else {
             sendFrame126("@red@Fremnnik", 29484);
         }
-        if (c.d6Complete == true) {
+        if (player.d6Complete) {
             sendFrame126("@gre@Kandarin", 29485);
         } else {
             sendFrame126("@red@Kandarin", 29485);
         }
-        if (c.d7Complete == true) {
+        if (player.d7Complete) {
             sendFrame126("@gre@Karamja", 29486);
         } else {
             sendFrame126("@red@Karamja", 29486);
         }
-        if (c.d8Complete == true) {
+        if (player.d8Complete) {
             sendFrame126("@gre@Lumbridge & Draynor", 29487);
         } else {
             sendFrame126("@red@Lumbridge & Draynor", 29487);
         }
-        if (c.d9Complete == true) {
+        if (player.d9Complete) {
             sendFrame126("@gre@Morytania", 29488);
         } else {
             sendFrame126("@red@Morytania", 29488);
         }
-        if (c.d10Complete == true) {
+        if (player.d10Complete) {
             sendFrame126("@gre@Western", 29489);
         } else {
             sendFrame126("@red@Western", 29489);
         }
-        if (c.d11Complete == true) {
+        if (player.d11Complete) {
             sendFrame126("@gre@Wilderness", 29490);
         } else {
             sendFrame126("@red@Wilderness", 29490);
@@ -3393,70 +3367,70 @@ public class PlayerAssistant {
     }
 
     public void handleGlory() {
-        if (c.getPosition().inWild() && c.wildLevel > Configuration.JEWELERY_TELEPORT_MAX_WILD_LEVEL) {
+        if (player.getPosition().inWild() && player.wildLevel > Configuration.JEWELERY_TELEPORT_MAX_WILD_LEVEL) {
             return;
         }
-        if (Server.getMultiplayerSessionListener().inAnySession(c)) {
-            c.sendMessage("You cannot do that right now.");
+        if (Server.getMultiplayerSessionListener().inAnySession(player)) {
+            player.sendMessage("You cannot do that right now.");
             return;
         }
-        c.getDH().sendOption4("Edgeville", "Karamja", "Draynor", "Al Kharid");
-        c.sendMessage("You rub the amulet...");
-        c.usingGlory = true;
+        player.getDH().sendOption4("Edgeville", "Karamja", "Draynor", "Al Kharid");
+        player.sendMessage("You rub the amulet...");
+        player.usingGlory = true;
     }
 
     public void handleSkills() {
-        if (Server.getMultiplayerSessionListener().inAnySession(c)) {
-            c.sendMessage("You cannot do that right now.");
+        if (Server.getMultiplayerSessionListener().inAnySession(player)) {
+            player.sendMessage("You cannot do that right now.");
             return;
         }
-        c.getDH().sendOption4("Land's End", "Piscarilius Mining", "Resource Area", "Beach Bank");
-        c.sendMessage("You rub the amulet...");
-        c.usingSkills = true;
+        player.getDH().sendOption4("Land's End", "Piscarilius Mining", "Resource Area", "Beach Bank");
+        player.sendMessage("You rub the amulet...");
+        player.usingSkills = true;
     }
 
     public void resetVariables() {
-        if (c.playerIsCrafting) {
-            CraftingData.resetCrafting(c);
+        if (player.playerIsCrafting) {
+            CraftingData.resetCrafting(player);
         }
-        if (c.playerSkilling[9]) {
-            c.playerSkilling[9] = false;
+        if (player.playerSkilling[9]) {
+            player.playerSkilling[9] = false;
         }
-        if (c.isBanking) {
-            c.isBanking = false;
+        if (player.isBanking) {
+            player.isBanking = false;
         }
-        c.viewingRunePouch = false;
-        if (c.getLootingBag().isWithdrawInterfaceOpen() || c.getLootingBag().isDepositInterfaceOpen())
-            c.getLootingBag().closeLootbag();
-        c.viewingPresets = false;
-        c.usingGlory = false;
-        c.usingSkills = false;
-        c.smeltInterface = false;
-        if (c.dialogueAction > -1) {
-            c.dialogueAction = -1;
+        player.viewingRunePouch = false;
+        if (player.getLootingBag().isWithdrawInterfaceOpen() || player.getLootingBag().isDepositInterfaceOpen())
+            player.getLootingBag().closeLootbag();
+        player.viewingPresets = false;
+        player.usingGlory = false;
+        player.usingSkills = false;
+        player.smeltInterface = false;
+        if (player.dialogueAction > -1) {
+            player.dialogueAction = -1;
         }
-        if (c.teleAction > -1) {
-            c.teleAction = -1;
+        if (player.teleAction > -1) {
+            player.teleAction = -1;
         }
-        if (c.battlestaffDialogue) {
-            c.battlestaffDialogue = false;
+        if (player.battlestaffDialogue) {
+            player.battlestaffDialogue = false;
         }
-        if (c.craftDialogue) {
-            c.craftDialogue = false;
+        if (player.craftDialogue) {
+            player.craftDialogue = false;
         }
-        c.closedInterface();
-        CycleEventHandler.getSingleton().stopEvents(c, CycleEventHandler.Event.BONE_ON_ALTAR);
+        player.closedInterface();
+        CycleEventHandler.getSingleton().stopEvents(player, CycleEventHandler.Event.BONE_ON_ALTAR);
     }
 
     public boolean inPitsWait() {
-        return c.getX() <= 2404 && c.getX() >= 2394 && c.getY() <= 5175 && c.getY() >= 5169;
+        return player.getX() <= 2404 && player.getX() >= 2394 && player.getY() <= 5175 && player.getY() >= 5169;
     }
 
     public boolean checkForFlags() {
         int[][] itemsToCheck = {{995, 100000000}, {35, 5}, {667, 5}, {2402, 5}, {746, 5}, {4151, 150},
                 {565, 100000}, {560, 100000}, {555, 300000}, {11235, 10}};
         for (int[] anItemsToCheck : itemsToCheck) {
-            if (anItemsToCheck[1] < c.getItems().getTotalCount(anItemsToCheck[0]))
+            if (anItemsToCheck[1] < player.getItems().getTotalCount(anItemsToCheck[0]))
                 return true;
         }
         return false;
@@ -3466,13 +3440,13 @@ public class PlayerAssistant {
         int total = 0;
         for (int i = 0; i <= 21; i++) {
 
-            total += getLevelForXP(c.playerXP[i]);
+            total += getLevelForXP(player.playerXP[i]);
         }
         return total;
     }
 
     public long getTotalXP() {
-        return Arrays.stream(c.playerXP).asLongStream().sum();
+        return Arrays.stream(player.playerXP).asLongStream().sum();
     }
 
     public static boolean ringOfCharosTeleport(final Player player) {
@@ -3503,146 +3477,146 @@ public class PlayerAssistant {
         ItemDef def = ItemDef.forId(itemId);
         Optional<DegradableItem> d = DegradableItem.forId(itemId);
         if (d.isPresent()) {
-            Degrade.checkPercentage(c, itemId);
+            Degrade.checkPercentage(player, itemId);
             return;
         }
         switch (itemId) {
             case 9948: // Teleport to puro puro
             case 9949:
                 if (WheatPortalEvent.xLocation > 0 && WheatPortalEvent.yLocation > 0) {
-                    c.getPA().spellTeleport(WheatPortalEvent.xLocation + 1, WheatPortalEvent.yLocation + 1, 0, false);
+                    player.getPA().spellTeleport(WheatPortalEvent.xLocation + 1, WheatPortalEvent.yLocation + 1, 0, false);
                 } else {
-                    c.sendMessage("There is currently no portal available, wait 5 minutes.");
+                    player.sendMessage("There is currently no portal available, wait 5 minutes.");
                     return;
                 }
                 break;
             case 12904:
-                c.sendMessage(
-                        "The toxic staff of the dead has " + c.getToxicStaffOfTheDeadCharge() + " charges remaining.");
+                player.sendMessage(
+                        "The toxic staff of the dead has " + player.getToxicStaffOfTheDeadCharge() + " charges remaining.");
                 break;
             case 13199:
             case 13197:
-                c.sendMessage("The " + def.getName() + " has " + c.getSerpentineHelmCharge() + " charges remaining.");
+                player.sendMessage("The " + def.getName() + " has " + player.getSerpentineHelmCharge() + " charges remaining.");
                 break;
             case 11907:
             case 12899:
             case Items.SANGUINESTI_STAFF:
-                int charge = itemId == 11907 ? c.getTridentCharge() : itemId == Items.SANGUINESTI_STAFF ? c.getSangStaffCharge() : c.getToxicTridentCharge();
-                c.sendMessage("The " + def.getName() + " has " + charge + " charges remaining.");
+                int charge = itemId == 11907 ? player.getTridentCharge() : itemId == Items.SANGUINESTI_STAFF ? player.getSangStaffCharge() : player.getToxicTridentCharge();
+                player.sendMessage("The " + def.getName() + " has " + charge + " charges remaining.");
                 break;
             case 12926:
-                c.getCombatItems().checkBlowpipeShotsRemaining();
+                player.getCombatItems().checkBlowpipeShotsRemaining();
                 break;
             case 19675:
-                c.sendMessage("Your Arclight has " + c.getArcLightCharge() + " charges remaining.");
+                player.sendMessage("Your Arclight has " + player.getArcLightCharge() + " charges remaining.");
                 break;
             case 12931:
                 def = ItemDef.forId(itemId);
                 if (def == null) {
                     return;
                 }
-                c.sendMessage("The " + def.getName() + " has " + c.getSerpentineHelmCharge() + " charge remaining.");
+                player.sendMessage("The " + def.getName() + " has " + player.getSerpentineHelmCharge() + " charge remaining.");
                 break;
 
             case 13136:
-                if (c.getPosition().inClanWars() || c.getPosition().inClanWarsSafe()) {
-                    c.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
+                if (player.getPosition().inClanWars() || player.getPosition().inClanWarsSafe()) {
+                    player.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
                     return;
                 }
-                if (Server.getMultiplayerSessionListener().inAnySession(c)) {
-                    c.sendMessage("You cannot do that right now.");
+                if (Server.getMultiplayerSessionListener().inAnySession(player)) {
+                    player.sendMessage("You cannot do that right now.");
                     return;
                 }
-                if (c.wildLevel > Configuration.NO_TELEPORT_WILD_LEVEL) {
-                    c.sendMessage(
+                if (player.wildLevel > Configuration.NO_TELEPORT_WILD_LEVEL) {
+                    player.sendMessage(
                             "You can't teleport above level " + Configuration.NO_TELEPORT_WILD_LEVEL + " in the wilderness.");
                     return;
                 }
-                c.getPA().spellTeleport(3426, 2927, 0, false);
+                player.getPA().spellTeleport(3426, 2927, 0, false);
                 break;
 
             case 13125:
             case 13126:
             case 13127:
-                if (c.getRunEnergy() < 100) {
-                    if (c.getRechargeItems().useItem(itemId)) {
-                        c.getRechargeItems().replenishRun(50);
+                if (player.getRunEnergy() < 100) {
+                    if (player.getRechargeItems().useItem(itemId)) {
+                        player.getRechargeItems().replenishRun(50);
                     }
                 } else {
-                    c.sendMessage("You already have full run energy.");
+                    player.sendMessage("You already have full run energy.");
                     return;
                 }
                 break;
 
             case 13128:
-                if (c.getRunEnergy() < 100) {
-                    if (c.getRechargeItems().useItem(itemId)) {
-                        c.getRechargeItems().replenishRun(100);
+                if (player.getRunEnergy() < 100) {
+                    if (player.getRechargeItems().useItem(itemId)) {
+                        player.getRechargeItems().replenishRun(100);
                     }
                 } else {
-                    c.sendMessage("You already have full run energy.");
+                    player.sendMessage("You already have full run energy.");
                     return;
                 }
                 break;
 
             case 13117:
-                if (c.playerLevel[5] < c.getPA().getLevelForXP(c.playerXP[5])) {
-                    if (c.getRechargeItems().useItem(itemId)) {
-                        c.getRechargeItems().replenishPrayer(4);
+                if (player.playerLevel[5] < player.getPA().getLevelForXP(player.playerXP[5])) {
+                    if (player.getRechargeItems().useItem(itemId)) {
+                        player.getRechargeItems().replenishPrayer(4);
                     }
                 } else {
-                    c.sendMessage("You already have full prayer points.");
+                    player.sendMessage("You already have full prayer points.");
                     return;
                 }
                 break;
             case 13118:
-                if (c.playerLevel[5] < c.getPA().getLevelForXP(c.playerXP[5])) {
-                    if (c.getRechargeItems().useItem(itemId)) {
-                        c.getRechargeItems().replenishPrayer(2);
+                if (player.playerLevel[5] < player.getPA().getLevelForXP(player.playerXP[5])) {
+                    if (player.getRechargeItems().useItem(itemId)) {
+                        player.getRechargeItems().replenishPrayer(2);
                     }
                 } else {
-                    c.sendMessage("You already have full prayer points.");
+                    player.sendMessage("You already have full prayer points.");
                     return;
                 }
                 break;
             case 13119:
             case 13120:
-                if (c.playerLevel[5] < c.getPA().getLevelForXP(c.playerXP[5])) {
-                    if (c.getRechargeItems().useItem(itemId)) {
-                        c.getRechargeItems().replenishPrayer(1);
+                if (player.playerLevel[5] < player.getPA().getLevelForXP(player.playerXP[5])) {
+                    if (player.getRechargeItems().useItem(itemId)) {
+                        player.getRechargeItems().replenishPrayer(1);
                     }
                 } else {
-                    c.sendMessage("You already have full prayer points.");
+                    player.sendMessage("You already have full prayer points.");
                     return;
                 }
                 break;
             case 13111:
-                if (c.getRechargeItems().useItem(itemId)) {
-                    c.getPA().spellTeleport(3236, 3946, 0, false);
+                if (player.getRechargeItems().useItem(itemId)) {
+                    player.getPA().spellTeleport(3236, 3946, 0, false);
                 }
                 break;
             case 10507:
-                if (c.getItems().isWearingItem(10507)) {
-                    if (System.currentTimeMillis() - c.lastPerformedEmote < 2500)
+                if (player.getItems().isWearingItem(10507)) {
+                    if (System.currentTimeMillis() - player.lastPerformedEmote < 2500)
                         return;
-                    c.startAnimation(6382);
-                    c.gfx0(263);
-                    c.lastPerformedEmote = System.currentTimeMillis();
+                    player.startAnimation(6382);
+                    player.gfx0(263);
+                    player.lastPerformedEmote = System.currentTimeMillis();
                 }
                 break;
             case 10026:
-                if (c.getItems().isWearingItem(10026)) {
-                    if (System.currentTimeMillis() - c.lastPerformedEmote < 2500)
+                if (player.getItems().isWearingItem(10026)) {
+                    if (System.currentTimeMillis() - player.lastPerformedEmote < 2500)
                         return;
-                    c.startAnimation(2769);
-                    c.lastPerformedEmote = System.currentTimeMillis();
+                    player.startAnimation(2769);
+                    player.lastPerformedEmote = System.currentTimeMillis();
                 }
                 break;
             case 20243:
-                if (System.currentTimeMillis() - c.lastPerformedEmote < 2500)
+                if (System.currentTimeMillis() - player.lastPerformedEmote < 2500)
                     return;
-                c.startAnimation(7268);
-                c.lastPerformedEmote = System.currentTimeMillis();
+                player.startAnimation(7268);
+                player.lastPerformedEmote = System.currentTimeMillis();
                 break;
 
             case 4212:
@@ -3656,9 +3630,9 @@ public class PlayerAssistant {
             case 4221:
             case 4222:
             case 4223:
-                c.sendMessage("You currently have " + (250 - c.crystalBowArrowCount)
-                        + " charges left before degradation to " + (c.playerEquipment[3] == 4223 ? "Crystal seed"
-                        : ItemAssistant.getItemName(c.playerEquipment[3] + 1)));
+                player.sendMessage("You currently have " + (250 - player.crystalBowArrowCount)
+                        + " charges left before degradation to " + (player.playerEquipment[3] == 4223 ? "Crystal seed"
+                        : ItemAssistant.getItemName(player.playerEquipment[3] + 1)));
                 break;
 
             case 11864:
@@ -3669,52 +3643,52 @@ public class PlayerAssistant {
             case 19645:
             case 19647:
             case 19649:
-                if (!c.getSlayer().getTask().isPresent()) {
-                    c.sendMessage("You do not have a task!");
+                if (player.getSlayer().getTask().isEmpty()) {
+                    player.sendMessage("You do not have a task!");
                     return;
                 }
-                c.sendMessage("I currently have @blu@" + c.getSlayer().getTaskAmount() + " "
-                        + c.getSlayer().getTask().get().getPrimaryName() + "@bla@ to kill.");
-                c.getPA().closeAllWindows();
+                player.sendMessage("I currently have @blu@" + player.getSlayer().getTaskAmount() + " "
+                        + player.getSlayer().getTask().get().getPrimaryName() + "@bla@ to kill.");
+                player.getPA().closeAllWindows();
                 break;
 
             case 4202:
             case 9786:
             case 9787:
-                ringOfCharosTeleport(c);
+                ringOfCharosTeleport(player);
                 break;
 
             case 11283:
             case 11284:
-                if (Boundary.isIn(c, Boundary.ZULRAH) || Boundary.isIn(c, Boundary.CERBERUS_BOSSROOMS)
-                        || Boundary.isIn(c, Boundary.SKOTIZO_BOSSROOM)) {
+                if (Boundary.isIn(player, Boundary.ZULRAH) || Boundary.isIn(player, Boundary.CERBERUS_BOSSROOMS)
+                        || Boundary.isIn(player, Boundary.SKOTIZO_BOSSROOM)) {
                     return;
                 }
                 DragonfireShieldEffect dfsEffect = new DragonfireShieldEffect();
-                if (c.npcAttackingIndex <= 0 && c.playerAttackingIndex <= 0) {
+                if (player.npcAttackingIndex <= 0 && player.playerAttackingIndex <= 0) {
                     return;
                 }
-                if (c.getHealth().getCurrentHealth() <= 0 || c.isDead) {
+                if (player.getHealth().getCurrentHealth() <= 0 || player.isDead) {
                     return;
                 }
-                if (dfsEffect.isExecutable(c)) {
+                if (dfsEffect.isExecutable(player)) {
                     Damage damage = new Damage(Misc.random(25));
-                    if (c.playerAttackingIndex > 0) {
-                        Player target = PlayerHandler.players[c.playerAttackingIndex];
+                    if (player.playerAttackingIndex > 0) {
+                        Player target = PlayerHandler.players[player.playerAttackingIndex];
                         if (Objects.isNull(target)) {
                             return;
                         }
-                        c.attackTimer = 7;
-                        dfsEffect.execute(c, target, damage);
-                        c.setLastDragonfireShieldAttack(System.currentTimeMillis());
-                    } else if (c.npcAttackingIndex > 0) {
-                        NPC target = NPCHandler.npcs[c.npcAttackingIndex];
+                        player.attackTimer = 7;
+                        dfsEffect.execute(player, target, damage);
+                        player.setLastDragonfireShieldAttack(System.currentTimeMillis());
+                    } else if (player.npcAttackingIndex > 0) {
+                        NPC target = NPCHandler.npcs[player.npcAttackingIndex];
                         if (Objects.isNull(target)) {
                             return;
                         }
-                        c.attackTimer = 7;
-                        dfsEffect.execute(c, target, damage);
-                        c.setLastDragonfireShieldAttack(System.currentTimeMillis());
+                        player.attackTimer = 7;
+                        dfsEffect.execute(player, target, damage);
+                        player.setLastDragonfireShieldAttack(System.currentTimeMillis());
                     }
                 }
                 break;
@@ -3724,13 +3698,13 @@ public class PlayerAssistant {
             case 1708:
             case 1706:
             case 19707:
-                if (c.getPosition().inClanWars() || c.getPosition().inClanWarsSafe()) {
-                    c.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
+                if (player.getPosition().inClanWars() || player.getPosition().inClanWarsSafe()) {
+                    player.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
                     return;
                 }
-                c.getPA().handleGlory();
-                c.operateEquipmentItemId = itemId;
-                c.isOperate = true;
+                player.getPA().handleGlory();
+                player.operateEquipmentItemId = itemId;
+                player.isOperate = true;
                 break;
             case 11968:
             case 11970:
@@ -3738,13 +3712,13 @@ public class PlayerAssistant {
             case 11107:
             case 11109:
             case 11111:
-                if (c.getPosition().inClanWars() || c.getPosition().inClanWarsSafe()) {
-                    c.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
+                if (player.getPosition().inClanWars() || player.getPosition().inClanWarsSafe()) {
+                    player.sendMessage("@cr10@You can not teleport from here, speak to the doomsayer to leave.");
                     return;
                 }
-                c.getPA().handleSkills();
-                c.operateEquipmentItemId = itemId;
-                c.isOperate = true;
+                player.getPA().handleSkills();
+                player.operateEquipmentItemId = itemId;
+                player.isOperate = true;
                 break;
             case 2552:
             case 2554:
@@ -3754,7 +3728,7 @@ public class PlayerAssistant {
             case 2562:
             case 2564:
             case 2566:
-                c.getPA().spellTeleport(3304, 3130, 0, false);
+                player.getPA().spellTeleport(3304, 3130, 0, false);
                 break;
 
             /*
@@ -3776,7 +3750,7 @@ public class PlayerAssistant {
             case 21782:
             case 21784:
             case 21786:
-                c.getDH().sendDialogues(76, 1);
+                player.getDH().sendDialogues(76, 1);
                 break;
 
             /*
@@ -3784,7 +3758,7 @@ public class PlayerAssistant {
              */
             case 9780:
             case 9781:
-                c.getPA().startTeleport(2936, 3283, 0, "modern", false);
+                player.getPA().startTeleport(2936, 3283, 0, "modern", false);
                 break;
 
             /*
@@ -3792,78 +3766,78 @@ public class PlayerAssistant {
              */
             case 9762:
             case 9763:
-                if (!Boundary.isIn(c, Boundary.EDGEVILLE_PERIMETER)) {
-                    c.sendMessage("This cape can only be operated within the edgeville perimeter.");
+                if (!Boundary.isIn(player, Boundary.EDGEVILLE_PERIMETER)) {
+                    player.sendMessage("This cape can only be operated within the edgeville perimeter.");
                     return;
                 }
-                if (c.getPosition().inWild()) {
+                if (player.getPosition().inWild()) {
                     return;
                 }
-                if (c.playerMagicBook == 0) {
-                    c.playerMagicBook = 1;
-                    c.setSidebarInterface(6, 12855);
-                    c.autocasting = false;
-                    c.sendMessage("An ancient wisdomin fills your mind.");
-                    c.getPA().resetAutocast();
-                } else if (c.playerMagicBook == 1) {
-                    c.sendMessage("You switch to the lunar spellbook.");
-                    c.setSidebarInterface(6, 29999);
-                    c.playerMagicBook = 2;
-                    c.autocasting = false;
-                    c.autocastId = -1;
-                    c.getPA().resetAutocast();
-                } else if (c.playerMagicBook == 2) {
-                    c.setSidebarInterface(6, 1151);
-                    c.playerMagicBook = 0;
-                    c.autocasting = false;
-                    c.sendMessage("You feel a drain on your memory.");
-                    c.autocastId = -1;
-                    c.getPA().resetAutocast();
+                if (player.playerMagicBook == 0) {
+                    player.playerMagicBook = 1;
+                    player.setSidebarInterface(6, 12855);
+                    player.autocasting = false;
+                    player.sendMessage("An ancient wisdomin fills your mind.");
+                    player.getPA().resetAutocast();
+                } else if (player.playerMagicBook == 1) {
+                    player.sendMessage("You switch to the lunar spellbook.");
+                    player.setSidebarInterface(6, 29999);
+                    player.playerMagicBook = 2;
+                    player.autocasting = false;
+                    player.autocastId = -1;
+                    player.getPA().resetAutocast();
+                } else if (player.playerMagicBook == 2) {
+                    player.setSidebarInterface(6, 1151);
+                    player.playerMagicBook = 0;
+                    player.autocasting = false;
+                    player.sendMessage("You feel a drain on your memory.");
+                    player.autocastId = -1;
+                    player.getPA().resetAutocast();
                 }
                 break;
         }
     }
 
     public void getSpeared(int otherX, int otherY, int distance) {
-        int x = c.absX - otherX;
-        int y = c.absY - otherY;
+        int x = player.absX - otherX;
+        int y = player.absY - otherY;
         int xOffset = 0;
         int yOffset = 0;
-        DuelSession session = (DuelSession) Server.getMultiplayerSessionListener().getMultiplayerSession(c,
+        DuelSession session = (DuelSession) Server.getMultiplayerSessionListener().getMultiplayerSession(player,
                 MultiplayerSessionType.DUEL);
         if (Objects.nonNull(session) && session.getStage().getStage() == MultiplayerSessionStage.FURTHER_INTERATION) {
-            c.sendMessage("You cannot use this special whilst in the duel arena.");
+            player.sendMessage("You cannot use this special whilst in the duel arena.");
             return;
         }
         if (x > 0) {
-            if (c.getRegionProvider().getClipping(c.getX() + distance, c.getY(), c.heightLevel, 1, 0)) {
+            if (player.getRegionProvider().getClipping(player.getX() + distance, player.getY(), player.heightLevel, 1, 0)) {
                 xOffset = distance;
             }
         } else if (x < 0) {
-            if (c.getRegionProvider().getClipping(c.getX() - distance, c.getY(), c.heightLevel, -1, 0)) {
+            if (player.getRegionProvider().getClipping(player.getX() - distance, player.getY(), player.heightLevel, -1, 0)) {
                 xOffset = -distance;
             }
         }
         if (y > 0) {
-            if (c.getRegionProvider().getClipping(c.getX(), c.getY() + distance, c.heightLevel, 0, 1)) {
+            if (player.getRegionProvider().getClipping(player.getX(), player.getY() + distance, player.heightLevel, 0, 1)) {
                 yOffset = distance;
             }
         } else if (y < 0) {
-            if (c.getRegionProvider().getClipping(c.getX(), c.getY() - distance, c.heightLevel, 0, -1)) {
+            if (player.getRegionProvider().getClipping(player.getX(), player.getY() - distance, player.heightLevel, 0, -1)) {
                 yOffset = -distance;
             }
         }
         moveCheck(xOffset, yOffset);
-        c.lastSpear = System.currentTimeMillis();
+        player.lastSpear = System.currentTimeMillis();
     }
 
     private void moveCheck(int x, int y) {
-        PathFinder.getPathFinder().findRoute(c, c.getX() + x, c.getY() + y, true, 1, 1);
+        PathFinder.getPathFinder().findRoute(player, player.getX() + x, player.getY() + y, true, 1, 1);
     }
 
     /**
-     * @author Jason MacKeigan (http://www.rune-server.org/members/jason)
-     * @date Sep 26, 2014, 12:57:42 PM
+     * @author Jason MacKeigan (<a href="http://www.rune-server.org/members/jason">...</a>)
+     * @since Sep 26, 2014, 12:57:42 PM
      */
     public enum PointExchange {
         PK_POINTS, VOTE_POINTS, BLOOD_POINTS
@@ -3880,38 +3854,38 @@ public class PlayerAssistant {
      */
     public void exchangeItems(PointExchange pointVar, int itemId, int exchangeRate) {
         try {
-            int amount = c.getItems().getItemAmount(itemId);
+            int amount = player.getItems().getItemAmount(itemId);
             String pointAlias = Misc.capitalizeJustFirst(pointVar.name().toLowerCase().replaceAll("_", " "));
             if (exchangeRate <= 0 || itemId < 0) {
                 throw new IllegalStateException();
             }
             if (amount <= 0) {
-                c.getDH().sendStatement("You do not have the items required to exchange", "for " + pointAlias + ".");
-                c.nextChat = -1;
+                player.getDH().sendStatement("You do not have the items required to exchange", "for " + pointAlias + ".");
+                player.nextChat = -1;
                 return;
             }
             int exchange = amount * exchangeRate;
-            c.getItems().deleteItem2(itemId, amount);
+            player.getItems().deleteItem2(itemId, amount);
             switch (pointVar) {
                 case PK_POINTS:
-                    c.pkp += exchange;
-                    c.getQuestTab().updateInformationTab();
+                    player.pkp += exchange;
+                    player.getQuestTab().updateInformationTab();
                     break;
 
                 case VOTE_POINTS:
-                    c.votePoints += exchange;
-                    c.getQuestTab().updateInformationTab();
+                    player.votePoints += exchange;
+                    player.getQuestTab().updateInformationTab();
                     break;
                 case BLOOD_POINTS:
-                    c.bloodPoints += amount;
+                    player.bloodPoints += amount;
                     exchange = amount;
                     break;
             }
-            c.getDH().sendStatement("You exchange " + amount + " currency for " + exchange + " " + pointAlias + ".");
-            c.nextChat = -1;
+            player.getDH().sendStatement("You exchange " + amount + " currency for " + exchange + " " + pointAlias + ".");
+            player.nextChat = -1;
         } catch (IllegalStateException exception) {
             Misc.println("WARNING: Illegal state has been reached.");
-            exception.printStackTrace();
+            exception.printStackTrace(System.err);
             System.out.println("PlayerAssistant - Check for error");
         }
     }
@@ -3928,32 +3902,32 @@ public class PlayerAssistant {
      *                transparent to black. If the state is 0 all drawing is stopped.
      */
     public void sendScreenFade(String text, int state, int seconds) {
-        if (c == null || c.getOutStream() == null) {
+        if (player == null || player.getOutStream() == null) {
             return;
         }
         if (seconds < 1 && state != 0) {
             throw new IllegalArgumentException("The amount of seconds cannot be less than one.");
         }
-        c.getOutStream().createFrameVarSize(9);
-        c.getOutStream().writeString(text);
-        c.getOutStream().writeByte(state);
-        c.getOutStream().writeByte(seconds);
-        c.getOutStream().endFrameVarSize();
+        player.getOutStream().createFrameVarSize(9);
+        player.getOutStream().writeString(text);
+        player.getOutStream().writeByte(state);
+        player.getOutStream().writeByte(seconds);
+        player.getOutStream().endFrameVarSize();
     }
 
     public void stillCamera(int x, int y, int height, int speed, int angle) {
-        c.outStream.createFrame(177);
-        c.outStream.writeByte(x / 64);
-        c.outStream.writeByte(y / 64);
-        c.outStream.writeUShort(height);
-        c.outStream.writeByte(speed);
-        c.outStream.writeByte(angle);
+        player.outStream.createFrame(177);
+        player.outStream.writeByte(x / 64);
+        player.outStream.writeByte(y / 64);
+        player.outStream.writeUShort(height);
+        player.outStream.writeByte(speed);
+        player.outStream.writeByte(angle);
     }
 
     public void resetCamera() {
-        c.outStream.createFrame(107);
-        c.setUpdateRequired(true);
-        c.appearanceUpdateRequired = true;
+        player.outStream.createFrame(107);
+        player.setUpdateRequired(true);
+        player.appearanceUpdateRequired = true;
     }
 
     /*
@@ -4017,10 +3991,10 @@ public class PlayerAssistant {
     public void icePath() {
         int random = Misc.random(20);
         if (random == 5) {
-            c.startAnimation(767);
-            c.appendDamage(null, Misc.random(1) + 1, Hitmark.HIT);
-            c.resetWalkingQueue();
-            c.forcedChat("Ouch!");
+            player.startAnimation(767);
+            player.appendDamage(null, Misc.random(1) + 1, Hitmark.HIT);
+            player.resetWalkingQueue();
+            player.forcedChat("Ouch!");
         }
     }
 
@@ -4138,10 +4112,10 @@ public class PlayerAssistant {
     }
 
     public void sendEntityTarget(int state, Entity entity) {
-        if (c.isDisconnected() || c.getOutStream() == null) {
+        if (player.isDisconnected() || player.getOutStream() == null) {
             return;
         }
-        Stream stream = c.getOutStream();
+        Stream stream = player.getOutStream();
         stream.createFrameVarSize(222);
         stream.writeByte(state);
         if (state != 0) {
@@ -4157,29 +4131,29 @@ public class PlayerAssistant {
     }
 
     public void sendEnterAmount(int interfaceId, String header) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrameVarSizeWord(27);
-            c.getOutStream().writeString(header);
-            c.setEnterAmountInterfaceId(interfaceId);
-            c.getOutStream().endFrameVarSizeWord();
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrameVarSizeWord(27);
+            player.getOutStream().writeString(header);
+            player.setEnterAmountInterfaceId(interfaceId);
+            player.getOutStream().endFrameVarSizeWord();
         }
     }
 
     public void sendEnterAmount(String header, AmountInput amountInputHandler) {
-        if (c.getOutStream() != null) {
-            c.getOutStream().createFrameVarSizeWord(27);
-            c.getOutStream().writeString(header);
-            c.setEnterAmountInterfaceId(0);
-            c.getOutStream().endFrameVarSizeWord();
-            c.amountInputHandler = amountInputHandler;
+        if (player.getOutStream() != null) {
+            player.getOutStream().createFrameVarSizeWord(27);
+            player.getOutStream().writeString(header);
+            player.setEnterAmountInterfaceId(0);
+            player.getOutStream().endFrameVarSizeWord();
+            player.amountInputHandler = amountInputHandler;
         }
     }
 
     public void sendGameTimer(ClientGameTimer timer, TimeUnit unitOfTime, int duration) {
-        if (c == null || c.isDisconnected()) {
+        if (player == null || player.isDisconnected()) {
             return;
         }
-        Stream stream = c.getOutStream();
+        Stream stream = player.getOutStream();
         if (stream == null) {
             return;
         }
@@ -4190,18 +4164,18 @@ public class PlayerAssistant {
             stream.writeUShort(timer.getTimerId());
             stream.writeUShort(timer.getTimerId());
             stream.writeUShort(seconds);
-            c.flushOutStream();
+            player.flushOutStream();
         } else {
             int seconds = (int) Long.min(unitOfTime.toSeconds(duration), 65535);
             stream.createFrame(223);
             stream.writeByte(timer.getTimerId());
             stream.writeUShort(seconds);
-            c.flushOutStream();
+            player.flushOutStream();
         }
     }
 
     public void sendExperienceDrop(boolean increase, long amount, int... skills) {
-        if (c.isDisconnected() || c.getOutStream() == null) {
+        if (player.isDisconnected() || player.getOutStream() == null) {
             return;
         }
         List<Integer> illegalSkills = new ArrayList<>();
@@ -4214,16 +4188,16 @@ public class PlayerAssistant {
         }
         if (!illegalSkills.isEmpty()) {
             skills = ArrayUtils.removeAll(skills,
-                    ArrayUtils.toPrimitive(illegalSkills.toArray(new Integer[illegalSkills.size()])));
+                    ArrayUtils.toPrimitive(illegalSkills.toArray(new Integer[0])));
         }
         if (ArrayUtils.isEmpty(skills)) {
             return;
         }
         if (increase) {
-            c.setExperienceCounter(c.getExperienceCounter() + amount);
+            player.setExperienceCounter(player.getExperienceCounter() + amount);
         }
 
-        Stream stream = c.getOutStream();
+        Stream stream = player.getOutStream();
 
         stream.createFrameVarSize(11);
         stream.writeQWord(amount);
@@ -4235,33 +4209,30 @@ public class PlayerAssistant {
     }
 
     public void sendConfig(final int id, final int state) {
-        if (this.c.getOutStream() != null && this.c != null) {
+        if (this.player != null && this.player.getOutStream() != null) {
             if (state < 128) {
-                this.c.getOutStream().createFrame(36);
-                this.c.getOutStream().writeWordBigEndian(id);
-                this.c.getOutStream().writeByte(state);
+                this.player.getOutStream().createFrame(36);
+                this.player.getOutStream().writeWordBigEndian(id);
+                this.player.getOutStream().writeByte(state);
             } else {
-                this.c.getOutStream().createFrame(87);
-                this.c.getOutStream().writeWordBigEndian_dup(id);
-                this.c.getOutStream().writeDWord_v1(state);
+                this.player.getOutStream().createFrame(87);
+                this.player.getOutStream().writeWordBigEndian_dup(id);
+                this.player.getOutStream().writeDWord_v1(state);
             }
-            this.c.flushOutStream();
+            this.player.flushOutStream();
         }
     }
 
     public void sendTradingPost(int frame, int item, int slot, int amount) {
-        if (c.getOutStream() != null && c != null) {
-            c.getOutStream().createFrameVarSizeWord(34);
-            c.getOutStream().writeUShort(frame);
-            c.getOutStream().writeByte(slot);
-            c.getOutStream().writeUShort(item + 1);
-            c.getOutStream().writeByte(255);
-            c.getOutStream().writeDWord(amount);
-            c.getOutStream().endFrameVarSizeWord();
+        if (player != null && player.getOutStream() != null) {
+            player.getOutStream().createFrameVarSizeWord(34);
+            player.getOutStream().writeUShort(frame);
+            player.getOutStream().writeByte(slot);
+            player.getOutStream().writeUShort(item + 1);
+            player.getOutStream().writeByte(255);
+            player.getOutStream().writeDWord(amount);
+            player.getOutStream().endFrameVarSizeWord();
         }
     }
 
-    public Map<Integer, String> getPlayerOptions() {
-        return playerOptions;
-    }
 }

@@ -9,7 +9,6 @@ import io.xeros.content.displayname.ChangeDisplayName;
 import io.xeros.content.items.PvpWeapons;
 import io.xeros.content.items.RottenPotato;
 import io.xeros.content.items.item_combinations.Godswords;
-import io.xeros.content.lootbag.LootingBag;
 import io.xeros.content.skills.crafting.BryophytaStaff;
 import io.xeros.content.skills.hunter.impling.Impling;
 import io.xeros.content.skills.runecrafting.Pouches;
@@ -35,7 +34,7 @@ public class ItemOptionTwo implements PacketType {
 
 	@Override
 	public void processPacket(Player player, int packetType, int packetSize) {
-		if (player.getMovementState().isLocked())
+		if (player.getMovementState().locked())
 			return;
 		player.interruptActions();
 		int itemId = player.getInStream().readUnsignedWord();

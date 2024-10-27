@@ -1,6 +1,8 @@
 package io.xeros.model.cycleevent;
 
 import com.google.common.base.Preconditions;
+import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +20,13 @@ public class CycleEventContainer {
 
 	/**
 	 * Event owner
-	 */
-	private final Object owner;
+     * -- GETTER --
+     *  Returns the owner of the event
+     *
+
+     */
+	@Getter
+    private final Object owner;
 
 	/**
 	 * Is the event running or not
@@ -29,17 +36,24 @@ public class CycleEventContainer {
 	/**
 	 * The amount of cycles per event execution
 	 */
-	private int cyclesBetweenExecution;
+	@Getter
+    private int cyclesBetweenExecution;
 
 	/**
 	 * The actual event
 	 */
-	private final CycleEvent event;
+	@Getter
+    private final CycleEvent event;
 
 	/**
 	 * The current amount of cycles passed
-	 */
-	private int currentExecutionCycle;
+     * -- SETTER --
+     *  Sets the current execution cycle to a new value.
+     *
+
+     */
+	@Setter
+    private int currentExecutionCycle;
 
 	/**
 	 * The event ID
@@ -48,18 +62,29 @@ public class CycleEventContainer {
 
 	/**
 	 * The total sum of game ticks that have passed during the lifetime of the event
-	 */
-	private int totalTicks;
+     * -- GETTER --
+     *  The number of game ticks that have passed since the creation of the event.
+     *
+
+     */
+	@Getter
+    private int totalTicks;
 
 	/**
 	 * The total sum of executions that have happened to this event.
 	 */
-	private int totalExecutions;
+	@Getter
+    private int totalExecutions;
 
 	/**
 	 * Determines if this event should be randomized every cycle
-	 */
-	private boolean randomized;
+     * -- GETTER --
+     *  Randomization occurs during the process of the main game loop. Events that are randomized are swapped randomly in execution order until there are none left.
+     *
+
+     */
+	@Getter
+    private boolean randomized;
 
 	/**
 	 * Sets the event containers details
@@ -138,29 +163,7 @@ public class CycleEventContainer {
 		return false;
 	}
 
-	public CycleEvent getEvent() {
-		return event;
-	}
-
-	/**
-	 * Randomization occurs during the process of the main game loop. Events that are randomized are swapped randomly in execution order until there are none left.
-	 * 
-	 * @return
-	 */
-	public boolean isRandomized() {
-		return randomized;
-	}
-
-	/**
-	 * Returns the owner of the event
-	 * 
-	 * @return
-	 */
-	public Object getOwner() {
-		return owner;
-	}
-
-	/**
+    /**
 	 * Is the event running?
 	 * 
 	 * @return true yes false no
@@ -178,38 +181,13 @@ public class CycleEventContainer {
 		return eventID;
 	}
 
-	public int getCyclesBetweenExecution() {
-		return cyclesBetweenExecution;
-	}
-
-	/**
+    /**
 	 * Sets the cycles between each execution and resets the current position of the execution cycle.
 	 * @param cyclesBetweenExecution the amount of cycles between executions.
 	 */
 	public void setCyclesBetweenExecution(int cyclesBetweenExecution) {
 		this.currentExecutionCycle = 0;
 		this.cyclesBetweenExecution = cyclesBetweenExecution;
-	}
-
-	/**
-	 * Sets the current execution cycle to a new value.
-	 * @param currentExecutionCycle the current execution cycle to set
-	 */
-	public void setCurrentExecutionCycle(int currentExecutionCycle) {
-		this.currentExecutionCycle = currentExecutionCycle;
-	}
-
-	/**
-	 * The number of game ticks that have passed since the creation of the event.
-	 * 
-	 * @return game ticks
-	 */
-	public int getTotalTicks() {
-		return totalTicks;
-	}
-
-	public int getTotalExecutions() {
-		return totalExecutions;
 	}
 
 }

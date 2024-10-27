@@ -12,12 +12,10 @@ import io.xeros.content.item.lootable.impl.RaidsChestCommon;
 import io.xeros.content.item.lootable.impl.RaidsChestRare;
 import io.xeros.content.minigames.raids.Raids;
 import io.xeros.content.skills.FlaxPicking;
-import io.xeros.content.skills.agility.AgilityHandler;
 import io.xeros.content.skills.hunter.Hunter;
 import io.xeros.content.skills.smithing.CannonballSmelting;
 import io.xeros.content.skills.thieving.Thieving.Stall;
 import io.xeros.content.tradingpost.Listing;
-import io.xeros.model.Items;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Right;
@@ -47,7 +45,7 @@ public class ObjectOptionTwo extends ObjectAction {
 		Location3D location = new Location3D(obX, obY, c.heightLevel);
 		var def = CacheManager.INSTANCE.getObject(objectType);
 		 if ((def != null ? def.getName() : null) != null && def.getName().toLowerCase().contains("bank") && !Boundary.isIn(c, Boundary.OURIANA_ALTAR)) {
-			c.getPA().c.itemAssistant.openUpBank();
+			c.getPA().player.itemAssistant.openUpBank();
 			c.inBank = true;
 			return;
 		}
@@ -354,7 +352,7 @@ public class ObjectOptionTwo extends ObjectAction {
 		case 24347:
 		case 16700:
 			c.inBank = true;
-			c.getPA().c.itemAssistant.openUpBank();
+			c.getPA().player.itemAssistant.openUpBank();
 			break;
 
 		}

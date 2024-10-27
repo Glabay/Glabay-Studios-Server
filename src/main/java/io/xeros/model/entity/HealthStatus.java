@@ -1,6 +1,7 @@
 package io.xeros.model.entity;
 
 import com.google.common.base.Preconditions;
+import lombok.Getter;
 import org.apache.commons.lang3.text.WordUtils;
 
 /**
@@ -11,26 +12,23 @@ import org.apache.commons.lang3.text.WordUtils;
  * nothing is effecting it.
  * </p>
  */
+@Getter
 public enum HealthStatus {
 	NORMAL(0), POISON(1), VENOM(2);
 
-	private final byte mask;
+    /**
+     * -- GETTER --
+     *  Returns the mask id for the status
+     *
+     */
+    private final byte mask;
 
 	HealthStatus(final int mask) {
 		Preconditions.checkArgument(mask > -1 && mask <= Byte.MAX_VALUE, "mask [" + mask + "] is less than or greater than required.");
 		this.mask = (byte) mask;
 	}
 
-	/**
-	 * Returns the mask id for the status
-	 * 
-	 * @return the id
-	 */
-	public byte getMask() {
-		return mask;
-	}
-
-	/**
+    /**
 	 * Determines if this {@link HealthStatus} instance is equal to {@code #NORMAL}.
 	 * 
 	 * @return {@code true} if the status of the entities health is {@code #NORMAL}.

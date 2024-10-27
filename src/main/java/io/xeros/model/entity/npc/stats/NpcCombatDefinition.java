@@ -7,6 +7,8 @@ import io.xeros.content.commands.owner.Npc;
 import io.xeros.model.entity.npc.NPC;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -54,7 +56,6 @@ public class NpcCombatDefinition {
 
     /**
      * A deep copy of the Npc Combat definitions
-     * @param other
      */
     public NpcCombatDefinition(NpcCombatDefinition other) {
         this.id = other.id;
@@ -89,21 +90,28 @@ public class NpcCombatDefinition {
     /**
      * The ID of the NPC
      */
-    private int id;
+    @Getter
+    private final int id;
 
     /**
      * The Attack speed of the NPC
      */
+    @Getter
+    @Setter
     private int attackSpeed;
 
     /**
      * The Attack style of the NPC
      */
+    @Getter
+    @Setter
     private String attackStyle;
 
     /**
      * A flag that determines if the NPC is aggressive
      */
+    @Getter
+    @Setter
     private boolean aggressive;
     /**
      * A flag that determines if the NPC is isPoisonous
@@ -128,25 +136,23 @@ public class NpcCombatDefinition {
     /**
      * All the NPCs combat levels
      */
-    private Map<NpcCombatSkill, Integer> levels;
+    @Getter
+    private final Map<NpcCombatSkill, Integer> levels;
     /**
      * All the NPC's attack bonuses
      */
-    private Map<NpcBonus, Integer> attackBonuses;
+    @Getter
+    private final Map<NpcBonus, Integer> attackBonuses;
     /**
      * All the NPc's defensive bonuses
      */
-    private Map<NpcBonus, Integer> defensiveBonuses;
+    private final Map<NpcBonus, Integer> defensiveBonuses;
 
     public NpcCombatDefinition(int id) {
         this.id = id;
         this.levels = new HashMap<>();
         this.attackBonuses = new HashMap<>();
         this.defensiveBonuses = new HashMap<>();
-    }
-
-    public int getId() {
-        return this.id;
     }
 
     public void setLevel(NpcCombatSkill npcCombatSkill, int level) {
@@ -159,18 +165,6 @@ public class NpcCombatDefinition {
 
     public void setDefenceBonus(NpcBonus npcDefenceBonus, int bonus) {
         this.defensiveBonuses.put(npcDefenceBonus, bonus);
-    }
-
-    public void setAttackSpeed(int attackSpeed) {
-        this.attackSpeed = attackSpeed;
-    }
-
-    public void setAttackStyle(String attackStyle) {
-        this.attackStyle = attackStyle;
-    }
-
-    public void setAggressive(boolean aggressive) {
-        this.aggressive = aggressive;
     }
 
     public void setPoisonous(boolean isPoisonous) {
@@ -193,24 +187,8 @@ public class NpcCombatDefinition {
         return this.isImmuneToVenom;
     }
 
-    public boolean isAggressive() {
-        return this.aggressive;
-    }
-
     public boolean isPoisonous() {
         return this.isPoisonous;
-    }
-
-    public String getAttackStyle() {
-        return this.attackStyle;
-    }
-
-    public Map<NpcCombatSkill, Integer> getLevels() {
-        return this.levels;
-    }
-
-    public Map<NpcBonus, Integer> getAttackBonuses() {
-        return this.attackBonuses;
     }
 
     public Map<NpcBonus, Integer> getDefenceBonuses() {
@@ -227,10 +205,6 @@ public class NpcCombatDefinition {
 
     public int getDefenceBonus(NpcBonus npcBonus) {
         return this.defensiveBonuses.getOrDefault(npcBonus, 1);
-    }
-
-    public int getAttackSpeed() {
-        return this.attackSpeed;
     }
 
     public boolean isImmuneToCannons() {

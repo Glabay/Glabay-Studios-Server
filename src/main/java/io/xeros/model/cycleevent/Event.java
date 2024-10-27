@@ -1,24 +1,35 @@
 package io.xeros.model.cycleevent;
 
 import com.google.common.base.Preconditions;
+import lombok.Getter;
 
 /**
  * 
  * @author Jason MacKeigan
- * @date Jan 11, 2015, 3:59:45 PM
+ * @since Jan 11, 2015, 3:59:45 PM
  */
 public abstract class Event<T> {
 
 	/**
 	 * The name or signature of the event.
-	 */
-	protected String signature;
+     * -- GETTER --
+     *  The name or signature of the event
+     *
+
+     */
+	@Getter
+    protected String signature;
 
 	/**
 	 * The attachment serves as a lock to the event. If the object reference to the attachment is ever null, the lock is 'broken'. When broken, the event stops any and all further
 	 * execution of the event and is disposed of.
-	 */
-	protected T attachment;
+     * -- GETTER --
+     *  Returns the attachment to the event.
+     *
+
+     */
+	@Getter
+    protected T attachment;
 
 	/**
 	 * Represents whether or not the event is still running
@@ -27,8 +38,13 @@ public abstract class Event<T> {
 
 	/**
 	 * The current number of game ticks the event must wait before executing the context of the event.
-	 */
-	protected int ticks;
+     * -- GETTER --
+     *  Returns the number of ticks remaining until execution
+     *
+
+     */
+	@Getter
+    protected int ticks;
 
 	/**
 	 * The total amount of ticks that have elapsed since the creation of the event.
@@ -37,8 +53,13 @@ public abstract class Event<T> {
 
 	/**
 	 * The maximum number of ticks the event must wait before executing the context of the event.
-	 */
-	protected int maximumTicks;
+     * -- GETTER --
+     *  Returns the maximum number of ticks the event must wait before execution.
+     *
+
+     */
+	@Getter
+    protected int maximumTicks;
 
 	/**
 	 * Creates a new event with a specific context.
@@ -106,43 +127,7 @@ public abstract class Event<T> {
 		return false;
 	}
 
-	/**
-	 * The name or signature of the event
-	 * 
-	 * @return the signature
-	 */
-	public String getSignature() {
-		return signature;
-	}
-
-	/**
-	 * Returns the attachment to the event.
-	 * 
-	 * @return the attachment
-	 */
-	public T getAttachment() {
-		return attachment;
-	}
-
-	/**
-	 * Returns the number of ticks remaining until execution
-	 * 
-	 * @return the number of ticks is always positive. When the number of ticks reaches zero, the event will execute the context of the event.
-	 */
-	public int getTicks() {
-		return ticks;
-	}
-
-	/**
-	 * Returns the maximum number of ticks the event must wait before execution.
-	 * 
-	 * @return the number of ticks
-	 */
-	public int getMaximumTicks() {
-		return maximumTicks;
-	}
-
-	/**
+    /**
 	 * Removes a single tick from the amount remaining.
 	 * 
 	 * @return the number of ticks after subtracting a single tick.
@@ -168,9 +153,8 @@ public abstract class Event<T> {
 
 	/**
 	 * Determines if the event is still running. Unless the event has been stopped, the event will continue to run and execute when it should.
-	 * 
-	 * @return
-	 */
+	 *
+     */
 	public boolean isAlive() {
 		return running;
 	}

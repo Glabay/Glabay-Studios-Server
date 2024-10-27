@@ -2,67 +2,55 @@ package io.xeros.model.entity.player;
 
 import io.xeros.model.Direction;
 import io.xeros.model.entity.Entity;
-import io.xeros.model.multiplayersession.flowerpoker.FlowerPokerHand;
+import lombok.Getter;
 
 import java.util.LinkedList;
 
 public class PathFinder {
 
-	private static final PathFinder pathFinder = new PathFinder();
+	@Getter
+    private static final PathFinder pathFinder = new PathFinder();
 
-	public static PathFinder getPathFinder() {
-		return pathFinder;
-	}
-
-	public void findRoute(Player c, int destX, int destY, boolean moveNear, int xLength, int yLength) {
+    public void findRoute(Player c, int destX, int destY, boolean moveNear, int xLength, int yLength) {
 		findRoute(c, destX, destY, moveNear, xLength, yLength, false);
 	}
 
 	private static boolean walkable(Entity c, int curAbsX, int curAbsY, int height, Direction direction) {
-		switch (direction) {
-			case SOUTH:
-				return !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY - 1, height)
-						&& (c.getRegionProvider().getClipping(curAbsX, curAbsY - 1, height) & 0x1280102) == 0;
-			case WEST:
-				return !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX - 1, curAbsY, height)
-						&& (c.getRegionProvider().getClipping(curAbsX - 1, curAbsY, height) & 0x1280108) == 0;
-			case NORTH:
-				return !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY + 1, height)
-						&& (c.getRegionProvider().getClipping(curAbsX, curAbsY + 1, height) & 0x1280120) == 0;
-			case EAST:
-				return !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX + 1, curAbsY, height)
-						&& (c.getRegionProvider().getClipping(curAbsX + 1, curAbsY, height) & 0x1280180) == 0;
-			case SOUTH_WEST:
-				return !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX - 1, curAbsY - 1, height)
-						&& !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX - 1, curAbsY, height)
-						&& !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY - 1, height)
-						&& (c.getRegionProvider().getClipping(curAbsX - 1, curAbsY - 1, height) & 0x128010e) == 0
-						&& (c.getRegionProvider().getClipping(curAbsX - 1, curAbsY, height) & 0x1280108) == 0
-						&& (c.getRegionProvider().getClipping(curAbsX, curAbsY - 1, height) & 0x1280102) == 0;
-			case NORTH_WEST:
-				return !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX - 1, curAbsY + 1, height)
-						&& !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX - 1, curAbsY, height)
-						&& !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY + 1, height)
-						&& (c.getRegionProvider().getClipping(curAbsX - 1, curAbsY + 1, height) & 0x1280138) == 0
-						&& (c.getRegionProvider().getClipping(curAbsX - 1, curAbsY, height) & 0x1280108) == 0
-						&& (c.getRegionProvider().getClipping(curAbsX, curAbsY + 1, height) & 0x1280120) == 0;
-			case SOUTH_EAST:
-				return !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX + 1, curAbsY - 1, height)
-						&& !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX + 1, curAbsY, height)
-						&& !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY - 1, height)
-						&& (c.getRegionProvider().getClipping(curAbsX + 1, curAbsY - 1, height) & 0x1280183) == 0
-						&& (c.getRegionProvider().getClipping(curAbsX + 1, curAbsY, height) & 0x1280180) == 0
-						&& (c.getRegionProvider().getClipping(curAbsX, curAbsY - 1, height) & 0x1280102) == 0;
-			case NORTH_EAST:
-				return !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX + 1, curAbsY + 1, height)
-						&& !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX + 1, curAbsY, height)
-						&& !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY + 1, height)
-						&& (c.getRegionProvider().getClipping(curAbsX + 1, curAbsY + 1, height) & 0x12801e0) == 0
-						&& (c.getRegionProvider().getClipping(curAbsX + 1, curAbsY, height) & 0x1280180) == 0
-						&& (c.getRegionProvider().getClipping(curAbsX, curAbsY + 1, height) & 0x1280120) == 0;
-			default:
-				return true;
-		}
+        return switch (direction) {
+            case SOUTH -> !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY - 1, height)
+                && (c.getRegionProvider().getClipping(curAbsX, curAbsY - 1, height) & 0x1280102) == 0;
+            case WEST -> !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX - 1, curAbsY, height)
+                && (c.getRegionProvider().getClipping(curAbsX - 1, curAbsY, height) & 0x1280108) == 0;
+            case NORTH -> !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY + 1, height)
+                && (c.getRegionProvider().getClipping(curAbsX, curAbsY + 1, height) & 0x1280120) == 0;
+            case EAST -> !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX + 1, curAbsY, height)
+                && (c.getRegionProvider().getClipping(curAbsX + 1, curAbsY, height) & 0x1280180) == 0;
+            case SOUTH_WEST -> !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX - 1, curAbsY - 1, height)
+                && !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX - 1, curAbsY, height)
+                && !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY - 1, height)
+                && (c.getRegionProvider().getClipping(curAbsX - 1, curAbsY - 1, height) & 0x128010e) == 0
+                && (c.getRegionProvider().getClipping(curAbsX - 1, curAbsY, height) & 0x1280108) == 0
+                && (c.getRegionProvider().getClipping(curAbsX, curAbsY - 1, height) & 0x1280102) == 0;
+            case NORTH_WEST -> !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX - 1, curAbsY + 1, height)
+                && !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX - 1, curAbsY, height)
+                && !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY + 1, height)
+                && (c.getRegionProvider().getClipping(curAbsX - 1, curAbsY + 1, height) & 0x1280138) == 0
+                && (c.getRegionProvider().getClipping(curAbsX - 1, curAbsY, height) & 0x1280108) == 0
+                && (c.getRegionProvider().getClipping(curAbsX, curAbsY + 1, height) & 0x1280120) == 0;
+            case SOUTH_EAST -> !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX + 1, curAbsY - 1, height)
+                && !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX + 1, curAbsY, height)
+                && !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY - 1, height)
+                && (c.getRegionProvider().getClipping(curAbsX + 1, curAbsY - 1, height) & 0x1280183) == 0
+                && (c.getRegionProvider().getClipping(curAbsX + 1, curAbsY, height) & 0x1280180) == 0
+                && (c.getRegionProvider().getClipping(curAbsX, curAbsY - 1, height) & 0x1280102) == 0;
+            case NORTH_EAST -> !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX + 1, curAbsY + 1, height)
+                && !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX + 1, curAbsY, height)
+                && !c.getRegionProvider().isOccupiedByFullBlockNpc(curAbsX, curAbsY + 1, height)
+                && (c.getRegionProvider().getClipping(curAbsX + 1, curAbsY + 1, height) & 0x12801e0) == 0
+                && (c.getRegionProvider().getClipping(curAbsX + 1, curAbsY, height) & 0x1280180) == 0
+                && (c.getRegionProvider().getClipping(curAbsX, curAbsY + 1, height) & 0x1280120) == 0;
+            default -> true;
+        };
 	}
 
 	public void findRoute(Player c, int destX, int destY, boolean moveNear, int xLength, int yLength, boolean ignoreClipping) {

@@ -159,8 +159,8 @@ public class GroupIronmanDialogue extends DialogueBuilder {
             Player other = PlayerHandler.getPlayerByDisplayName(otherName);
 
             if (other == null) {
-                /**
-                 * doesn't exist.
+                /*
+                  doesn't exist.
                  */
                 npcn("Ehhh.. I couldn't find that person in your group..", "try again");
                 return;
@@ -206,8 +206,8 @@ public class GroupIronmanDialogue extends DialogueBuilder {
             }
             final Player other = PlayerHandler.getPlayerByDisplayName(otherName);
             if (other == null) {
-                /**
-                 * Is not online or doesn't exist.
+                /*
+                  Is not online or doesn't exist.
                  */
                 npcn("Ehhh.. I couldn't find that person..", "try again or invite another person");
                 return;
@@ -245,11 +245,11 @@ public class GroupIronmanDialogue extends DialogueBuilder {
 
             if (group.isFinalized()) {
                 db.npc("You've been invited to join the group '" + group.getName() + "'.",
-                        "Members: " + group.getOnline().stream().map(it -> it.getLoginName()).collect(Collectors.joining(", ")),
+                        "Members: " + group.getOnline().stream().map(Player::getLoginName).collect(Collectors.joining(", ")),
                         "@red@This group is formed already, when you accept you", "@red@won't be able to join any new groups!");
             } else {
                 db.npc("You've been invited to join the group '" + group.getName() + "'.",
-                        "Members: " + group.getOnline().stream().map(it -> it.getLoginName()).collect(Collectors.joining(", ")),
+                        "Members: " + group.getOnline().stream().map(Player::getLoginName).collect(Collectors.joining(", ")),
                         "Would you like to join the group?");
             }
 
@@ -397,9 +397,9 @@ public class GroupIronmanDialogue extends DialogueBuilder {
                 || it.id() == Items.COINS && it.amount() > 100_000
         );
 
-        List<SlottedItem> inventory = player.getItems().getInventoryItems().stream().filter(forfeit).collect(Collectors.toList());
-        List<SlottedItem> equipment = player.getItems().getEquipmentItems().stream().filter(forfeit).collect(Collectors.toList());
-        List<GameItem> bank = player.getItems().getBankItems().stream().filter(forfeit).collect(Collectors.toList());
+        List<SlottedItem> inventory = player.getItems().getInventoryItems().stream().filter(forfeit).toList();
+        List<SlottedItem> equipment = player.getItems().getEquipmentItems().stream().filter(forfeit).toList();
+        List<GameItem> bank = player.getItems().getBankItems().stream().filter(forfeit).toList();
 
         for (SlottedItem gameItem : inventory) {
             Optional<GameItem> remaining = into.add(gameItem.toGameItem());

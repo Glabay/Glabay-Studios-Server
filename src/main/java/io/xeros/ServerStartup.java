@@ -35,7 +35,6 @@ import io.xeros.model.collisionmap.Region;
 import io.xeros.model.collisionmap.doors.DoorDefinition;
 import io.xeros.model.cycleevent.impl.BonusApplianceEvent;
 import io.xeros.model.cycleevent.impl.DidYouKnowEvent;
-import io.xeros.model.cycleevent.impl.LeaderboardUpdateEvent;
 import io.xeros.model.cycleevent.impl.UpdateQuestTab;
 import io.xeros.model.definitions.*;
 import io.xeros.model.entity.grounditem.GameItemUpdateTask;
@@ -107,7 +106,6 @@ public class ServerStartup {
         Server.getEventHandler().submit(new GameItemUpdateTask());
         Server.getEventHandler().submit(new PunishmentCycleEvent(Server.getPunishments(), 50));
         Server.getEventHandler().submit(new UpdateQuestTab());
-        Server.getEventHandler().submit(new LeaderboardUpdateEvent());
         Listing.init();
         Wogw.init();
         PollTab.init();

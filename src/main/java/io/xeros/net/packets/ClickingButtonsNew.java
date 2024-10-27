@@ -18,7 +18,7 @@ public class ClickingButtonsNew implements PacketType {
 
     @Override
     public void processPacket(Player c, int packetType, int packetSize) {
-        if (c.getMovementState().isLocked())
+        if (c.getMovementState().locked())
             return;
         if (c.isFping()) {
             /**

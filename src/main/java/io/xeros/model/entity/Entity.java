@@ -64,6 +64,7 @@ public abstract class Entity {
     @Setter
     @Getter
     private InstancedArea instance;
+    @Setter
     @Getter
     private Raids raidsInstance;
     @Setter
@@ -575,9 +576,7 @@ public abstract class Entity {
                 totalDamage = damage;
                 killer = tempKiller;
             }
-            if (killer instanceof Player && this instanceof NPC) {
-                Player player = (Player) killer;
-                NPC npc = (NPC) this;
+            if (killer instanceof Player player && this instanceof NPC npc) {
                 if (player.getMode().isIronmanType() && !Boundary.isIn(player, Boundary.GODWARS_BOSSROOMS) && !Boundary.isIn(player, Boundary.CORPOREAL_BEAST_LAIR) && !Boundary.isIn(player, Boundary.DAGANNOTH_KINGS) && !Boundary.isIn(player, Boundary.TEKTON) && !Boundary.isIn(player, Boundary.SKELETAL_MYSTICS) && !Boundary.isIn(player, Boundary.RAID_MAIN)) {
                     double percentile = ((double) totalDamage / (double) npc.getHealth().getMaximumHealth()) * 100.0;
                     if (percentile < 75.0) killer = null;
@@ -653,11 +652,6 @@ public abstract class Entity {
 
     public Location getLocation() {
         return new Location(getX(), getY(), getHeight());
-    }
-
-    public Entity setRaidsInstance(Raids raids) {
-        this.raidsInstance = raids;
-        return this;
     }
 
     public int getBonus(Bonus bonus) {

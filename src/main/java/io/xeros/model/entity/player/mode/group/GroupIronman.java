@@ -50,7 +50,7 @@ public class GroupIronman {
     }
 
     public static String displayStats(GroupIronmanGroup group) {
-        /**
+        /*
          * P.I doesn't allow use of \n ???????????????????????????
          */
         StringBuilder s = new StringBuilder("- "+group.getName()+" Statistics - \n");
@@ -66,13 +66,13 @@ public class GroupIronman {
                 totalPkp += p.pkp;
             }
         }
-        s.append("\nMembers: ("+group.size()+"/"+MAXIMUM_MEMBERS+")");
-        s.append("\nXP: "+totalXp);
-        s.append("\nVote Points: "+totalVotePoints);
-        s.append("\nSlayer Points: "+totalSlayerPoints);
-        s.append("\nExchange Points: "+totalExchangePoints);
-        s.append("\nBoss Points: "+totalBossPoints);
-        s.append("\nPkp: "+totalPkp);
+        s.append("\nMembers: (").append(group.size()).append("/").append(MAXIMUM_MEMBERS).append(")");
+        s.append("\nXP: ").append(totalXp);
+        s.append("\nVote Points: ").append(totalVotePoints);
+        s.append("\nSlayer Points: ").append(totalSlayerPoints);
+        s.append("\nExchange Points: ").append(totalExchangePoints);
+        s.append("\nBoss Points: ").append(totalBossPoints);
+        s.append("\nPkp: ").append(totalPkp);
         return s.toString();
     }
 

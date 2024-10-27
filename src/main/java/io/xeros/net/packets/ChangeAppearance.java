@@ -77,7 +77,7 @@ public class ChangeAppearance implements PacketType {
 
 	@Override
 	public void processPacket(final Player c, final int packetType, final int packetSize) {
-		if (c.getMovementState().isLocked())
+		if (c.getMovementState().locked())
 			return;
 		if (c.isFping()) {
 			/**

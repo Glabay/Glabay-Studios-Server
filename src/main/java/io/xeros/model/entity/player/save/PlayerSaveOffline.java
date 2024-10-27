@@ -1,13 +1,13 @@
 package io.xeros.model.entity.player.save;
 
 import com.google.common.base.Preconditions;
-import io.xeros.Server;
 import io.xeros.util.Misc;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -20,7 +20,7 @@ public class PlayerSaveOffline {
     }
 
     public static File getCharacterFile(File directory, String name) {
-        for (File file : directory.listFiles()) {
+        for (File file : Objects.requireNonNull(directory.listFiles())) {
             if (file.getName().equalsIgnoreCase(name + ".txt")) {
                 return file;
             }
@@ -87,6 +87,6 @@ public class PlayerSaveOffline {
     public static boolean passwordMatches(String entered, String actual) {
         return entered.equals(actual)
                 || Misc.basicEncrypt(entered).equals(actual)
-                || Misc.md5Hash(entered).equals(actual);
+                || Objects.equals(Misc.md5Hash(entered), actual);
     }
 }

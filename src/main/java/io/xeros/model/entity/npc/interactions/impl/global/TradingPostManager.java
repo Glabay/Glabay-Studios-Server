@@ -40,7 +40,7 @@ public class TradingPostManager extends NpcOptionAction {
 
     @Override
     public Boolean handleActionThree(Player player, NPC npc) {
-        player.getPA().c.itemAssistant.openUpBank();
+        player.getPA().player.itemAssistant.openUpBank();
         return true;
     }
 }

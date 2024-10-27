@@ -21,11 +21,11 @@ public class TrouverParchmentPlayerSaveEntry implements PlayerSaveEntry {
 
     @Override
     public boolean decode(Player player, String key, String value) {
-        if (value.length() > 0) {
+        if (!value.isEmpty()) {
             List<Integer> items = new ArrayList<>();
             String[] split = value.split("-");
-            for (int i = 0; i < split.length; i++) {
-                items.add(Integer.parseInt(split[i]));
+            for (String s : split) {
+                items.add(Integer.parseInt(s));
             }
 
             player.getAttributes().set(KEY, items);

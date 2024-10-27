@@ -42,10 +42,10 @@ public class DidYouKnowEvent extends Event<Object> {
 			position = 0;
 		}
 		List<String> messages = Arrays.asList(WordUtils.wrap(MESSAGES.get(position), 90).split("\\n"));
-		messages.set(0, "[<col=255>News</col>] @red@" + messages.get(0));
+		messages.set(0, "[<col=255>News</col>] @red@" + messages.getFirst());
 		PlayerHandler.nonNullStream().forEach(player -> {
 			if (player.didYouKnow && PlayerHandler.getPlayerCount() > 5)
-				messages.forEach(m -> player.sendMessage(m));
+				messages.forEach(player::sendMessage);
 		});
 	}
 

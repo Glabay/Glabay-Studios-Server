@@ -1,7 +1,11 @@
 package io.xeros.model.entity.player;
 
 import io.xeros.model.Items;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+@Getter
+@RequiredArgsConstructor
 public enum ClientGameTimer {
 	VENGEANCE(0, true, false),
 	OVERLOAD(1, true, false),
@@ -23,25 +27,7 @@ public enum ClientGameTimer {
 	BONUS_CLUES(2722, false, true),
 	;
 
+	private final int timerId;
 	private final boolean resetOnDeath;
 	private final boolean item;
-	private final int timerId;
-
-	ClientGameTimer(int timerId, boolean resetOnDeath, boolean item) {
-		this.timerId = timerId;
-		this.resetOnDeath = resetOnDeath;
-		this.item = item;
-	}
-
-	public boolean isItem() {
-		return item;
-	}
-
-	public int getTimerId() {
-		return timerId;
-	}
-
-	public boolean isResetOnDeath() {
-		return resetOnDeath;
-	}
 }

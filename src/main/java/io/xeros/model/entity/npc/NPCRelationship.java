@@ -5,7 +5,7 @@ import java.util.Optional;
 
 /**
  * Establishes the relationships between npcs.
- * @author Michael Sasse (https://github.com/mikeysasse/)
+ * @author Michael Sasse (<a href="https://github.com/mikeysasse/">...</a>)
  */
 public class NPCRelationship {
 

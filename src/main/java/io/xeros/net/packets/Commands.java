@@ -108,7 +108,7 @@ public class Commands implements PacketType {
      */
     @Override
     public void processPacket(Player c, int packetType, int packetSize) {
-        if (c.getMovementState().isLocked())
+        if (c.getMovementState().locked())
             return;
         String playerCommand = null;
         try {

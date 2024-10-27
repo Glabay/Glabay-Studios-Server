@@ -2,7 +2,9 @@ package io.xeros.model.entity.player.mode.group.log;
 
 import io.xeros.model.entity.player.Position;
 import io.xeros.model.items.GameItem;
+import lombok.Getter;
 
+@Getter
 public class GimDropItemLog {
 
     private final String displayName;
@@ -26,15 +28,4 @@ public class GimDropItemLog {
         return getDisplayName() + " dropped " + getGameItem().getFormattedString() + " at " + getPosition().getFormattedString();
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public GameItem getGameItem() {
-        return gameItem;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
 }

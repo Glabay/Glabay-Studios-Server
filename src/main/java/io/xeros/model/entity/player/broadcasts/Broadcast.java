@@ -2,47 +2,31 @@ package io.xeros.model.entity.player.broadcasts;
 
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.model.entity.player.Position;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author Ynneh
  */
 public class Broadcast {
 
+    @Getter
     private String url;
 
+    @Getter
     private Position teleport;
 
+    @Getter
     private String message;
 
+    @Getter
     private BroadcastType type;
 
+    @Getter
+    @Setter
     public int index;
 
     public boolean sendChatMessage;
-
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public BroadcastType getType() {
-        return type;
-    }
-
-    public Position getTeleport() {
-        return teleport;
-    }
 
     public Broadcast(String message) {
         this.message = message;

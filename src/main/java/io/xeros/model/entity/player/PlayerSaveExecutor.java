@@ -7,10 +7,12 @@ import java.util.concurrent.Future;
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.xeros.model.entity.player.save.PlayerSave;
+import lombok.Getter;
 
 public class PlayerSaveExecutor {
 
     private static final ExecutorService executor = Executors.newFixedThreadPool(1, new ThreadFactoryBuilder().setNameFormat("player-save-%d").build());
+    @Getter
     private final Player player;
     private Future<?> saveFuture;
 
@@ -31,7 +33,4 @@ public class PlayerSaveExecutor {
         return saveFuture != null && saveFuture.isDone();
     }
 
-    public Player getPlayer() {
-        return player;
-    }
 }

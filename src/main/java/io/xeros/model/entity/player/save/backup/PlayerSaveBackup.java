@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -34,8 +32,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * http://www.devx.com/tips/Tip/14049
- * @author Michael Sasse (https://github.com/mikeysasse/)
+ * <a href="http://www.devx.com/tips/Tip/14049">...</a>
+ * @author Michael Sasse (<a href="https://github.com/mikeysasse/">...</a>)
  */
 public class PlayerSaveBackup {
 
@@ -124,7 +122,7 @@ public class PlayerSaveBackup {
     }
 
     private static void deleteOldDiskBackups(File backupFileDirectory) {
-        Arrays.stream(backupFileDirectory.listFiles()).forEach(file -> {
+        Arrays.stream(Objects.requireNonNull(backupFileDirectory.listFiles())).forEach(file -> {
             try {
                 PlayerSaveBackupFile backup = new PlayerSaveBackupFile(file.getName());
                 if (backup.expired(Configuration.PLAYER_SAVE_BACKUPS_DELETE_AFTER_DAYS)) {
@@ -157,8 +155,8 @@ public class PlayerSaveBackup {
         String[] dirList = zipDir.list();
         byte[] readBuffer = new byte[2156];
         int bytesIn = 0;
-        for (int i = 0; i < dirList.length; i++) {
-            File f = new File(zipDir, dirList[i]);
+        for (String s : dirList) {
+            File f = new File(zipDir, s);
             if (f.isDirectory()) {
                 String filePath = f.getPath();
                 zipDir(filePath, zos);
@@ -180,7 +178,7 @@ public class PlayerSaveBackup {
                 client.enterLocalPassiveMode();
                 FTPFile[] files = client.listFiles();
                 List<PlayerSaveBackupFile> backups = Arrays.stream(files).filter(it -> it.getName().endsWith(".zip")).map(it -> new PlayerSaveBackupFile(it.getName()))
-                        .collect(Collectors.toList());
+                        .toList();
 
                 for (PlayerSaveBackupFile backup : backups) {
                     if (backup.expired(Configuration.PLAYER_SAVE_BACKUPS_EXTERNAL_DELETE_AFTER_DAYS)) {

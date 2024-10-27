@@ -46,6 +46,7 @@ import io.xeros.util.Location3D;
 import io.xeros.util.Misc;
 import io.xeros.util.Stream;
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,19 +55,27 @@ public class NPC extends Entity {
 	private static final Logger logger = LoggerFactory.getLogger(NPC.class);
     public int parentIndex;
 
+    @Getter
+    @Setter
     private int npcId;
 	public int summonedBy;
 	public int absX, absY;
 	public int heightLevel;
-	private boolean unregister;
+	@Getter
+    @Setter
+    private boolean unregister;
 
 	public boolean isPet;
 
 	public int makeX;
 	public int makeY;
 	public int maxHit;
-	public Direction walkDirection = Direction.NONE;
-	public Direction runDirection = Direction.NONE;
+	@Getter
+    @Setter
+    public Direction walkDirection = Direction.NONE;
+	@Getter
+    @Setter
+    public Direction runDirection = Direction.NONE;
 	public int walkingType;
 
 	public int lastX, lastY;
@@ -89,13 +98,14 @@ public class NPC extends Entity {
 
 	public boolean spawnedMinions;
 
-	private CombatType attackType;
+	@Getter
+    @Setter
+    private CombatType attackType;
 	@Getter
 	private CombatMethod combatMethod;
 	public void setCombatMethod(CombatMethod combatMethod) {
 		this.combatMethod = combatMethod;
-		if (combatMethod instanceof CommonCombatMethod) {
-            CommonCombatMethod ccm = (CommonCombatMethod) combatMethod;
+		if (combatMethod instanceof CommonCombatMethod ccm) {
             ccm.set(this, null);
 			ccm.init(this);
 		}
@@ -105,7 +115,8 @@ public class NPC extends Entity {
 	public boolean applyDead;
 	public boolean needRespawn;
 	public boolean walkingHome, underAttack;
-	private int playerAttackingIndex;
+	@Getter
+    private int playerAttackingIndex;
 	public int killedBy;
 	public int oldIndex;
 	public int underAttackBy;
@@ -120,23 +131,51 @@ public class NPC extends Entity {
 	public int FocusPointX = -1, FocusPointY = -1;
 	public int face;
 	public int totalAttacks;
-	private boolean facePlayer = true;
-	private int projectileDelay;
+    /**
+     * -- SETTER --
+     *  Makes the npcs either able or unable to face other players
+     *
+     * @param facePlayer
+     *            {@code true} if the npc can face players
+     */
+    @Setter
+    private boolean facePlayer = true;
+	@Getter
+    @Setter
+    private int projectileDelay;
 
-	private NPCBehaviour behaviour = new NPCBehaviour();
-	private final NpcDef definition;
+	@Getter
+    private final NPCBehaviour behaviour = new NPCBehaviour();
+    /**
+     * -- GETTER --
+     *  An object containing specific information about the NPC such as the combat
+     *  level, default maximum health, the name, etcetera.
+     *
+     * @return the {@link NpcDef} object associated with this NPC
+     */
+    @Getter
+    private final NpcDef definition;
 
-	private long lastRandomWalk;
+	@Getter
+    @Setter
+    private long lastRandomWalk;
 	private long lastRandomWalkHome;
 
-	private long randomWalkDelay;
+	@Getter
+    @Setter
+    private long randomWalkDelay;
 	private long randomStopDelay;
 
-	private NpcStats defaultNpcStats;
-	private NpcStats npcStats;
+	@Getter
+    private NpcStats defaultNpcStats;
+	@Getter
+    @Setter
+    private NpcStats npcStats;
 
-	private List<NPCAutoAttack> npcAutoAttacks = Lists.newArrayList();
-	private NPCAutoAttack currentAttack;
+	@Setter
+    private List<NPCAutoAttack> npcAutoAttacks = Lists.newArrayList();
+	@Getter
+    private NPCAutoAttack currentAttack;
 
 	private NpcCombatDefinition npcCombatDefinition;
 
@@ -225,11 +264,7 @@ public class NPC extends Entity {
 		getHealth().reset();
 	}
 
-	public void setNpcStats(NpcStats npcStats) {
-		this.npcStats = npcStats;
-	}
-
-	public boolean canBeAttacked(Entity entity) {
+    public boolean canBeAttacked(Entity entity) {
 		return true;
 	}
 
@@ -371,27 +406,26 @@ public class NPC extends Entity {
 			}
 		}
 
-		switch (type) {
-			case MELEE:
-				if (attacker.isPlayer()) {
-					switch (attacker.asPlayer().getCombatConfigs().getWeaponMode().getCombatStyle()) {
-						case STAB:
-							return getNpcStats().getStabDef();
-						case SLASH:
-							return getNpcStats().getSlashDef();
-						case CRUSH:
-							return getNpcStats().getCrushDef();
-					}
-				}
-				return getNpcStats().getSlashDef();
-			case RANGE:
-				return getNpcStats().getRangeDef();
-			case MAGE:
-				return getNpcStats().getMagicDef();
-		}
+        return switch (type) {
+            case MELEE -> {
+                if (attacker.isPlayer()) {
+                    switch (attacker.asPlayer().getCombatConfigs().getWeaponMode().getCombatStyle()) {
+                        case STAB:
+                            yield getNpcStats().getStabDef();
+                        case SLASH:
+                            yield getNpcStats().getSlashDef();
+                        case CRUSH:
+                            yield getNpcStats().getCrushDef();
+                    }
+                }
+                yield getNpcStats().getSlashDef();
+            }
+            case RANGE -> getNpcStats().getRangeDef();
+            case MAGE -> getNpcStats().getMagicDef();
+            default -> 0;
+        };
 
-		return 0;
-	}
+    }
 
 	@Override
 	public void removeFromInstance() {
@@ -499,8 +533,8 @@ public class NPC extends Entity {
 	public void selectAutoAttack(Entity entity) {
 		Preconditions.checkState(!npcAutoAttacks.isEmpty(), "No auto attacks present!");
 		List<NPCAutoAttack> viable = npcAutoAttacks.stream().filter(autoAttack -> autoAttack.getSelectAutoAttack() == null
-				|| autoAttack.getSelectAutoAttack().apply(new NPCCombatAttack(this, entity))).collect(Collectors.toList());
-		Preconditions.checkState(!viable.isEmpty(), "No viable attacks can be found, npc: " + toString());
+				|| autoAttack.getSelectAutoAttack().apply(new NPCCombatAttack(this, entity))).toList();
+		Preconditions.checkState(!viable.isEmpty(), "No viable attacks can be found, npc: " + this);
 		currentAttack = viable.get(Misc.trueRand(viable.size()));
 	}
 
@@ -530,21 +564,12 @@ public class NPC extends Entity {
 			return;
 		}
 
-		/*if (getAttackType() == CombatType.MELEE) { // This fixes attacking throough walls
-			if (!PathChecker.raycast(this, c, false)) {
-				return;
-			}
-		}*/
-		if (NPCHandler.projectileClipping && !npcAutoAttack.isIgnoreProjectileClipping()) {
+        if (NPCHandler.projectileClipping && !npcAutoAttack.isIgnoreProjectileClipping()) {
 			if (getAttackType() == null || getAttackType() == CombatType.MAGE || getAttackType() == CombatType.RANGE) {
 				int x1 = absX;
 				int y1 = absY;
 				int z = heightLevel;
-				/*if (!PathChecker.isProjectilePathClear(this, c, x1, y1, z, c.absX, c.absY)
-						&& !PathChecker.isProjectilePathClear(this, c, c.absX, c.absY, z, x1, y1)) {
-					return;
-				}*/
-				if (!PathChecker.raycast(this, c, true)
+                if (!PathChecker.raycast(this, c, true)
 					&& !PathChecker.raycast(c, this, true))
 					return;
 			}
@@ -600,18 +625,14 @@ public class NPC extends Entity {
 	}
 
 	public Position getFollowPosition() {
-		switch (getNpcId()) {
-			case Skotizo.AWAKENED_ALTAR_EAST:
-				return new Position(1713, 9888);
-			case Skotizo.AWAKENED_ALTAR_NORTH:
-				return new Position(1694, 9903);
-			case Skotizo.AWAKENED_ALTAR_SOUTH:
-				return new Position(1696, 9872);
-			case Skotizo.AWAKENED_ALTAR_WEST:
-				return new Position(1679, 9888);
-		}
-		return null;
-	}
+        return switch (getNpcId()) {
+            case Skotizo.AWAKENED_ALTAR_EAST -> new Position(1713, 9888);
+            case Skotizo.AWAKENED_ALTAR_NORTH -> new Position(1694, 9903);
+            case Skotizo.AWAKENED_ALTAR_SOUTH -> new Position(1696, 9872);
+            case Skotizo.AWAKENED_ALTAR_WEST -> new Position(1679, 9888);
+            default -> null;
+        };
+    }
 
 	public Position getPosition() {
 		return new Position(absX, absY, heightLevel);
@@ -639,11 +660,8 @@ public class NPC extends Entity {
 
 	/**
 	 * Teleport
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 */
+	 *
+     */
 	public void teleport(int x, int y, int z) {
 		teleport(new Position(x, y, z));
 	}
@@ -665,17 +683,7 @@ public class NPC extends Entity {
 		}
 	}
 
-	/**
-	 * Makes the npcs either able or unable to face other players
-	 * 
-	 * @param facePlayer
-	 *            {@code true} if the npc can face players
-	 */
-	public void setFacePlayer(boolean facePlayer) {
-		this.facePlayer = facePlayer;
-	}
-
-	/**
+    /**
 	 * Sends the request to a client that the npc should be transformed into
 	 * another.
 	 */
@@ -754,21 +762,11 @@ public class NPC extends Entity {
 
 	@Override
 	public boolean isFreezable() {
-		switch (getNpcId()) {
-			case 2042:
-			case 2043:
-			case 2044:
-			case 7544:
-			case 5129:
-			case FragmentOfSeren.NPC_ID:
-			case 2205:
-			case 3129:
-			case 2215:
-			case 3162:
-				return false;
-		}
-		return true;
-	}
+        return switch (getNpcId()) {
+            case 2042, 2043, 2044, 7544, 5129, FragmentOfSeren.NPC_ID, 2205, 3129, 2215, 3162 -> false;
+            default -> true;
+        };
+    }
 
 	public void appendAnimUpdate(Stream str) {
 		str.writeWordBigEndian(getAnimation().getId());
@@ -1018,29 +1016,11 @@ public class NPC extends Entity {
 		return definition.getSize();
 	}
 
-	/**
-	 * An object containing specific information about the NPC such as the combat
-	 * level, default maximum health, the name, etcetera.
-	 * 
-	 * @return the {@link NpcDef} object associated with this NPC
-	 */
-	public NpcDef getDefinition() {
-		return definition;
-	}
-
-	public String getName() {
+    public String getName() {
 		return getDefinition().getName();
 	}
 
-	public int getProjectileDelay() {
-		return projectileDelay;
-	}
-
-	public void setProjectileDelay(int delay) {
-		projectileDelay = delay;
-	}
-
-	@Override
+    @Override
 	public void appendHeal(int amount, Hitmark hitmark) {
 		getHealth().increase(amount);
 		if (!hitUpdateRequired) {
@@ -1129,43 +1109,11 @@ public class NPC extends Entity {
 		return true;
 	}
 
-	public long getLastRandomWalk() {
-		return lastRandomWalk;
-	}
-
-	public void setLastRandomWalk(long lastRandomWalk) {
-		this.lastRandomWalk = lastRandomWalk;
-	}
-
-	public long getRandomWalkDelay() {
-		return randomWalkDelay;
-	}
-
-	public void setRandomWalkDelay(long randomWalkDelay) {
-		this.randomWalkDelay = randomWalkDelay;
-	}
-
-	public int getNpcId() {
-		return npcId;
-	}
-
-	public void setNpcId(int npcId) {
-		this.npcId = npcId;
-	}
-
-	public NPCAutoAttack getCurrentAttack() {
-		return currentAttack;
-	}
-
-	public List<NPCAutoAttack> getNpcAutoAttacks() {
+    public List<NPCAutoAttack> getNpcAutoAttacks() {
 		return Collections.unmodifiableList(npcAutoAttacks);
 	}
 
-	public void setNpcAutoAttacks(List<NPCAutoAttack> npcAutoAttacks) {
-		this.npcAutoAttacks = npcAutoAttacks;
-	}
-
-	public boolean isDeadOrDying() {
+    public boolean isDeadOrDying() {
 		return isDead() || needRespawn || getHealth().getCurrentHealth() == 0;
 	}
 
@@ -1177,31 +1125,7 @@ public class NPC extends Entity {
 		isDead = dead;
 	}
 
-	public NPCBehaviour getBehaviour() {
-		return behaviour;
-	}
-
-	public NpcStats getDefaultNpcStats() {
-		return defaultNpcStats;
-	}
-
-	public NpcStats getNpcStats() {
-		return npcStats;
-	}
-
-	public CombatType getAttackType() {
-		return attackType;
-	}
-
-	public void setAttackType(CombatType attackType) {
-		this.attackType = attackType;
-	}
-
-	public int getPlayerAttackingIndex() {
-		return playerAttackingIndex;
-	}
-
-	public boolean isAggro() {
+    public boolean isAggro() {
 		return playerAttackingIndex > 1;
 	}
 
@@ -1211,31 +1135,7 @@ public class NPC extends Entity {
 		}
 	}
 
-	public Direction getWalkDirection() {
-		return walkDirection;
-	}
-
-	public void setWalkDirection(Direction walkDirection) {
-		this.walkDirection = walkDirection;
-	}
-
-	public Direction getRunDirection() {
-		return runDirection;
-	}
-
-	public void setRunDirection(Direction runDirection) {
-		this.runDirection = runDirection;
-	}
-
-	public boolean isUnregister() {
-		return unregister;
-	}
-
-	public void setUnregister(boolean unregister) {
-		this.unregister = unregister;
-	}
-
-	public NpcCombatDefinition getCombatDefinition() {
+    public NpcCombatDefinition getCombatDefinition() {
 		return this.npcCombatDefinition;
 	}
 
@@ -1262,31 +1162,19 @@ public class NPC extends Entity {
 			return 0;
 		}
 
-		switch (bonus) {
-			case ATTACK_STAB:
-			case ATTACK_SLASH:
-			case ATTACK_CRUSH:
-				return definition.getAttackBonus(NpcBonus.ATTACK_BONUS);
-			case ATTACK_MAGIC:
-				return definition.getAttackBonus(NpcBonus.MAGIC_BONUS);
-			case ATTACK_RANGED:
-				return definition.getAttackBonus(NpcBonus.RANGE_BONUS);
+        return switch (bonus) {
+            case ATTACK_STAB, ATTACK_SLASH, ATTACK_CRUSH -> definition.getAttackBonus(NpcBonus.ATTACK_BONUS);
+            case ATTACK_MAGIC -> definition.getAttackBonus(NpcBonus.MAGIC_BONUS);
+            case ATTACK_RANGED -> definition.getAttackBonus(NpcBonus.RANGE_BONUS);
+            case DEFENCE_STAB -> definition.getDefenceBonus(NpcBonus.STAB_BONUS);
+            case DEFENCE_SLASH -> definition.getDefenceBonus(NpcBonus.SLASH_BONUS);
+            case DEFENCE_CRUSH -> definition.getDefenceBonus(NpcBonus.CRUSH_BONUS);
+            case DEFENCE_MAGIC -> definition.getDefenceBonus(NpcBonus.MAGIC_BONUS);
+            case DEFENCE_RANGED -> definition.getDefenceBonus(NpcBonus.RANGE_BONUS);
+            case MAGIC_DMG -> definition.getAttackBonus(NpcBonus.MAGIC_STRENGTH_BONUS);
+            default -> 0;
+        };
 
-			case DEFENCE_STAB:
-				return definition.getDefenceBonus(NpcBonus.STAB_BONUS);
-			case DEFENCE_SLASH:
-				return definition.getDefenceBonus(NpcBonus.SLASH_BONUS);
-			case DEFENCE_CRUSH:
-				return definition.getDefenceBonus(NpcBonus.CRUSH_BONUS);
-			case DEFENCE_MAGIC:
-				return definition.getDefenceBonus(NpcBonus.MAGIC_BONUS);
-			case DEFENCE_RANGED:
-				return definition.getDefenceBonus(NpcBonus.RANGE_BONUS);
-			case MAGIC_DMG:
-				return definition.getAttackBonus(NpcBonus.MAGIC_STRENGTH_BONUS);
-		}
-
-		return 0;
-	}
+    }
 
 }

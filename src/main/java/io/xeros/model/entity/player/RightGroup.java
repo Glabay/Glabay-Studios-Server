@@ -1,5 +1,7 @@
 package io.xeros.model.entity.player;
 
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,7 +13,8 @@ import java.util.stream.Collectors;
 public class RightGroup {
 
 	private final Player player;
-	private Right primary;
+	@Getter
+    private Right primary;
 	private final Set<Right> rights;
 
 	public RightGroup(Player player, Right primary) {
@@ -78,7 +81,7 @@ public class RightGroup {
 		StringBuilder builder = new StringBuilder();
 		for (Right right : getDisplayedRights()) {
 			if (right.getValue() > 0) {
-				builder.append("<img=" + (right.getValue() - 1) + "> ");
+				builder.append("<img=").append(right.getValue() - 1).append("> ");
 			}
 		}
 		return builder.toString();
@@ -89,7 +92,7 @@ public class RightGroup {
 			return;
 		}
 		Right prevPrimary = primary;
-		Set<Right> remove = rights.stream().filter(r -> toAdd.isOrInherits(r)).collect(Collectors.toSet());
+		Set<Right> remove = rights.stream().filter(toAdd::isOrInherits).collect(Collectors.toSet());
 		remove.forEach(this::remove);
 		if (prevPrimary != primary) {
 			updatePrimary();
@@ -116,11 +119,7 @@ public class RightGroup {
 		rights.stream().filter(r -> r.isOrInherits(toRemove)).forEach(this::remove);
 	}
 
-	public Right getPrimary() {
-		return primary;
-	}
-
-	public void setPrimary(Right primary) {
+    public void setPrimary(Right primary) {
 		this.primary = primary;
 		rights.add(primary);
 		player.getPA().requestUpdates();

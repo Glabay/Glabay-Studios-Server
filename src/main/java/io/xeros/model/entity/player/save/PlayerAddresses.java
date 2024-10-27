@@ -1,10 +1,14 @@
 package io.xeros.model.entity.player.save;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
 public class PlayerAddresses {
 
+    @Getter
     private final String ip;
+    @Getter
     private final String mac;
     private final String uuid;
 
@@ -36,14 +40,6 @@ public class PlayerAddresses {
     @Override
     public int hashCode() {
         return Objects.hash(ip, mac, uuid);
-    }
-
-    public String getIp() {
-        return ip;
-    }
-
-    public String getMac() {
-        return mac;
     }
 
     public String getUUID() {

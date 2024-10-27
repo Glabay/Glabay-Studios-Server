@@ -23,7 +23,7 @@ public class ItemOptionFour implements PacketType {
 
 	@Override
 	public void processPacket(Player c, int packetType, int packetSize) {
-		if (c.getMovementState().isLocked()) return;
+		if (c.getMovementState().locked()) return;
 		c.interruptActions();
 		int itemId11 = c.getInStream().readSignedWordBigEndianA();
 		int itemId1 = c.getInStream().readSignedWordA();

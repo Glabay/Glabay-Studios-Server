@@ -3,7 +3,7 @@ package io.xeros.model.definitions;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.google.common.base.Preconditions;
@@ -74,7 +74,7 @@ public class ShopDef {
 
     @Override
     public String toString() {
-        return "ShopDef{" + "id=" + id + ", name=\'" + name + '\'' + '}';
+        return "ShopDef{" + "id=" + id + ", name='" + name + '\'' + '}';
     }
 
     public int getPrice(int itemId) {

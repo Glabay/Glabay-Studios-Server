@@ -10,9 +10,9 @@ import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;
 
 /**
- * 
- * @author Jason http://www.rune-server.org/members/jason
- * @date Mar 2, 2014
+ *
+ * @author Jason <a href="http://www.rune-server.org/members/jason">...</a>
+ * @since Mar 2, 2014
  */
 public class Boundary {
 
@@ -118,8 +118,7 @@ public class Boundary {
 	/**
 	 * @param entity     The entity object
 	 * @param boundaries The array of Boundary objects
-	 * @return
-	 */
+     */
 	public static boolean isIn(Entity entity, Boundary... boundaries) {
 		Preconditions.checkState(boundaries.length > 0, "No boundaries specified.");
 		return isIn(entity.getPosition(), boundaries);
@@ -143,8 +142,7 @@ public class Boundary {
 	/**
 	 * @param player     The player object
 	 * @param boundaries The boundary object
-	 * @return
-	 */
+     */
 	public static boolean isIn(Player player, Boundary boundaries) {
 		if (boundaries.height >= 0) {
 			if (player.heightLevel != boundaries.height) {
@@ -157,8 +155,7 @@ public class Boundary {
 	/**
 	 * @param npc        The npc object
 	 * @param boundaries The boundary object
-	 * @return
-	 */
+     */
 	public static boolean isIn(NPC npc, Boundary boundaries) {
 		if (boundaries.height >= 0) {
 			if (npc.heightLevel != boundaries.height) {
@@ -183,9 +180,9 @@ public class Boundary {
 	}
 
 	public static boolean isInSameBoundary(Player player1, Player player2, Boundary[] boundaries) {
-		Optional<Boundary> boundary1 = Arrays.asList(boundaries).stream().filter(b -> isIn(player1, b)).findFirst();
-		Optional<Boundary> boundary2 = Arrays.asList(boundaries).stream().filter(b -> isIn(player2, b)).findFirst();
-		if (!boundary1.isPresent() || !boundary2.isPresent()) {
+		Optional<Boundary> boundary1 = Arrays.stream(boundaries).filter(b -> isIn(player1, b)).findFirst();
+		Optional<Boundary> boundary2 = Arrays.stream(boundaries).filter(b -> isIn(player2, b)).findFirst();
+		if (boundary1.isEmpty() || boundary2.isEmpty()) {
 			return false;
 		}
 		return Objects.equals(boundary1.get(), boundary2.get());
@@ -279,13 +276,13 @@ public class Boundary {
 	/**
 	 * 3118 3923
 	 * 3128 3942
-	 *
+	 * <p>
 	 * 3082 3922
 	 * 3095 3940
 	 */
 //3082 3921
 	//3217 3942
-	public static final boolean isInMageArena(Entity e) {
+	public static boolean isInMageArena(Entity e) {
 		return e.getX() >= 3095 && e.getX() <= 3117 && e.getY() >= 3912 && e.getY() <= 3954//center
 		|| e.getX() >= 3082 && e.getX() <= 3217 && e.getY() >= 3921 && e.getY() <= 3942//west
 

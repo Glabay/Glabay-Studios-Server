@@ -1,10 +1,7 @@
 package io.xeros.model.entity.npc;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import com.google.gson.Gson;
@@ -43,20 +40,11 @@ public class NpcSpawnLoader {
     }
 
 
-    private static class NpcSpawn {
-        private final int id;
-        private final Position position;
-        private final NpcWalkingType walkingType;
-
-        public NpcSpawn(int id, Position position, NpcWalkingType walkingType) {
-            this.id = id;
-            this.position = position;
-            this.walkingType = walkingType;
-        }
+    private record NpcSpawn(int id, Position position, NpcWalkingType walkingType) {
 
         @Override
-        public String toString() {
-            return "NpcSpawn{" + "id=" + id + ", position=" + position + ", walkingType=" + walkingType + '}';
+            public String toString() {
+                return "NpcSpawn{" + "id=" + id + ", position=" + position + ", walkingType=" + walkingType + '}';
+            }
         }
-    }
 }

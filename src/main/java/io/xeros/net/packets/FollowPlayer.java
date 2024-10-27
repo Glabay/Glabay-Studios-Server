@@ -7,7 +7,7 @@ public class FollowPlayer implements PacketType {
 
 	@Override
 	public void processPacket(Player c, int packetType, int packetSize) {
-		if (c.getMovementState().isLocked() || c.getLock().cannotInteract(c))
+		if (c.getMovementState().locked() || c.getLock().cannotInteract(c))
 			return;
 		if (c.isFping()) {
 			/**

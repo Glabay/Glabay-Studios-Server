@@ -13,8 +13,6 @@ import java.util.Map;
 
 public class GroupIronmanContest {
 
-    // https://www.xeros.io/index.php?/topic/281-xeros-3000-group-ironman-release-giveaway/
-
     public static void openInterface(Player c) {
         if (c.hitDatabaseRateLimit(true))
             return;
@@ -34,7 +32,7 @@ public class GroupIronmanContest {
                         int string = type.getListStartInterfaceId() + i;
                         if (list.size() > i) {
                             GimContestEntry entry = list.get(i);
-                            plr.getPA().sendString(string, entry.getRank() + ". " + entry.getGroupName() + " (" + entry.getValue() + ")");
+                            plr.getPA().sendString(string, entry.rank() + ". " + entry.groupName() + " (" + entry.value() + ")");
                         } else {
                             plr.getPA().sendString(string, (i + 1) + ". N/A");
                         }

@@ -24,7 +24,6 @@ import io.xeros.model.Items;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;
-import io.xeros.model.cycleevent.impl.LeaderboardUpdateEvent;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCDumbPathFinder;
@@ -75,10 +74,7 @@ public class Test extends Command {
 				break;
 			case "collect":
 				for (int i = 0; i < 20; i++)
-				player.getCollectionBox().add(player, new GameItem(4151));
-				break;
-			case "leaderboardsselect":
-				LeaderboardUpdateEvent.runUpdate(true);
+					player.getCollectionBox().add(player, new GameItem(4151));
 				break;
 			case "resetwildwarn":
 				WildWarning.resetWarningCount(player);

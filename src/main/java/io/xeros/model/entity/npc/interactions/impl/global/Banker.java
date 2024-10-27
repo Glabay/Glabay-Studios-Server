@@ -20,13 +20,13 @@ public class Banker extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getPA().c.itemAssistant.openUpBank();
+        player.getPA().player.itemAssistant.openUpBank();
         return true;
     }
 
     @Override
     public Boolean handleActionTwo(Player player, NPC npc) {
-        player.getPA().c.itemAssistant.openUpBank();
+        player.getPA().player.itemAssistant.openUpBank();
         return true;
     }
 }

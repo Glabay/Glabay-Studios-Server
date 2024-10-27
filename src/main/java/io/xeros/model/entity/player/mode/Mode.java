@@ -10,17 +10,10 @@ import io.xeros.model.entity.player.Player;
 public abstract class Mode {
 
 	public boolean isIronmanType() {
-		switch (type) {
-			case IRON_MAN:
-			case ULTIMATE_IRON_MAN:
-			case HC_IRON_MAN:
-			case ROGUE_HARDCORE_IRONMAN:
-			case ROGUE_IRONMAN:
-			case GROUP_IRONMAN:
-				return true;
-			default:
-				return false;
-		}
+        return switch (type) {
+            case IRON_MAN, ULTIMATE_IRON_MAN, HC_IRON_MAN, ROGUE_HARDCORE_IRONMAN, ROGUE_IRONMAN, GROUP_IRONMAN -> true;
+            default -> false;
+        };
 	}
 
 	public boolean isHardcoreIronman() {

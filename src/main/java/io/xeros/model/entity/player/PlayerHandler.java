@@ -157,23 +157,16 @@ public class PlayerHandler {
 	}
 
 	public static int getPlayerCount() {
-		int count = 0;
-		for (int i = 0; i < players.length; i++) {
-			if (players[i] != null) {
-				count++;
-			}
-		}
-		return (count + Configuration.PLAYERMODIFIER);
+		return (int) Arrays.stream(players).filter(Objects::nonNull).count();
 	}
 
 	/**
 	 * Create an int array of the specified length, containing all values between 0 and length once at random positions.
 	 *
-	 * @param length The size of the array.
 	 * @return The randomly shuffled array.
 	 */
-	private int[] shuffledList(int length) {
-		int[] array = new int[length];
+	private int[] shuffledList() {
+		int[] array = new int[Configuration.MAX_PLAYERS];
 		for (int i = 0; i < array.length; i++) {
 			array[i] = i;
 		}
@@ -187,11 +180,11 @@ public class PlayerHandler {
 		return array;
 	}
 
-	private List<Player> onlinePlayers = new ArrayList<>();
+	private final List<Player> onlinePlayers = new ArrayList<>();
 
 	public void updateOnlinePlayers() {
 		onlinePlayers.clear();
-		int[] randomOrder = shuffledList(Configuration.MAX_PLAYERS);
+		int[] randomOrder = shuffledList();
 		for (int i = 0; i < Configuration.MAX_PLAYERS; i++) {
 			Player player = players[randomOrder[i]];
 			if (player != null && player.isActive) {
@@ -399,7 +392,7 @@ public class PlayerHandler {
 			Server.UpdateServer = true;
 		}
 
-		if (updateRunning && (System.currentTimeMillis() - updateStartTime > (updateSeconds * 1000))) {
+		if (updateRunning && (System.currentTimeMillis() - updateStartTime > (updateSeconds * 1000L))) {
 			if (!kickAllPlayers) {
 				kickAllPlayers = true;
 				GroupIronmanRepository.serializeAllInstant();
@@ -604,8 +597,7 @@ public class PlayerHandler {
 	 * 				plr.playerInListBitmap[id >> 3] &= ~(1 << (id & 7));
 	 * 				str.writeBits(1, 1);
 	 * 				str.writeBits(2, 3);
-	 * @param message
-	 */
+     */
 
 	public static void executeGlobalStaffMessage(String message) {
 		for (Player player : players) {
@@ -658,9 +650,9 @@ public class PlayerHandler {
 		int online = 0;
 		for (Player p : players) {
 			if (p == null) continue;
-			if (macAddress.length() > 0 && p.getMacAddress().equals(macAddress)
+			if (!macAddress.isEmpty() && p.getMacAddress().equals(macAddress)
 					|| p.getIpAddress().equals(ipAddress)
-					|| uuid.length() > 0 && p.getUUID().equals(uuid)) {
+					|| !uuid.isEmpty() && p.getUUID().equals(uuid)) {
 				online++;
 			}
 		}
@@ -680,12 +672,12 @@ public class PlayerHandler {
 	public static List<Player> getPlayers() {
 		Player[] clients = new Player[players.length];
 		System.arraycopy(players, 0, clients, 0, players.length);
-		return Arrays.asList(clients).stream().filter(Objects::nonNull).collect(Collectors.toList());
+		return Arrays.stream(clients).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
 	@Deprecated
 	public static List<Player> getPlayerList() {
-		return Arrays.asList(players).stream().filter(Objects::nonNull).collect(Collectors.toList());
+		return Arrays.stream(players).filter(Objects::nonNull).collect(Collectors.toList());
 	}
 
 	public static java.util.stream.Stream<Player> stream() {

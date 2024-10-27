@@ -6,10 +6,10 @@ import io.xeros.model.multiplayersession.MultiplayerSessionType;
 import io.xeros.model.multiplayersession.duel.DuelSession;
 import io.xeros.model.multiplayersession.duel.DuelSessionRules;
 import io.xeros.util.Misc;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.Objects;
-import java.util.Optional;
 
 public class Food {
 
@@ -119,6 +119,7 @@ public class Food {
 
         private final int id;
         private final int heal;
+        @Getter
         private final String name;
         private final int replace;
         private final String type;
@@ -149,10 +150,6 @@ public class Food {
             return heal;
         }
 
-        public String getName() {
-            return name;
-        }
-
         public int replaceWith() {
             return replace;
         }
@@ -165,12 +162,7 @@ public class Food {
          * @return True if the food being eaten is a combo food
          */
         public static boolean isComboFood(FoodToEat foodToEat) {
-            switch(foodToEat) {
-                case KARAMBWAN:
-                    return true;
-                default:
-                    return false;
-            }
+            return Objects.requireNonNull(foodToEat) == FoodToEat.KARAMBWAN;
         }
 
         static {
@@ -256,7 +248,6 @@ public class Food {
         if (id != 13441) {
             player.getHealth().increase(foodToEat.getHeal());
         }
-        lastEaten = Optional.of(foodToEat);
 
         if (player.debugMessage) player.sendMessage("Food timer: " + player.getFoodTimer().elapsed());
     }
@@ -321,11 +312,7 @@ public class Food {
         player.getPA().refreshSkill(3);
         int offset = getAnglerCalculation(3, .20) + 3;
         int maximum = player.getHealth().getMaximumHealth() + offset;
-        if (player.getHealth().getCurrentHealth() + offset >= maximum) {
-            player.getHealth().setCurrentHealth(maximum);
-        } else {
-            player.getHealth().setCurrentHealth(player.getHealth().getCurrentHealth() + offset);
-        }
+        player.getHealth().setCurrentHealth(Math.min(player.getHealth().getCurrentHealth() + offset, maximum));
     }
 
     public int getAnglerCalculation(int skill, double amount) {
@@ -336,8 +323,4 @@ public class Food {
         return FoodToEat.food.containsKey(id);
     }
 
-    /**
-     * The last food the player has consumed
-     */
-    private Optional<FoodToEat> lastEaten = Optional.empty();
 }

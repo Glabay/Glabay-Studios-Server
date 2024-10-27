@@ -88,7 +88,7 @@ public class ClickObject implements PacketType {
 
     @Override
     public void processPacket(final Player c, int packetType, int packetSize) {
-        if (c.getMovementState().isLocked() || c.getLock().cannotInteract(c))
+        if (c.getMovementState().locked() || c.getLock().cannotInteract(c))
             return;
         c.interruptActions();
         c.clickObjectType = c.objectX = c.objectId = c.objectY = 0;

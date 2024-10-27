@@ -22,7 +22,7 @@ public class GrandExchangeClerk extends NpcOptionAction {
 
     @Override
     public Boolean handleActionOne(Player player, NPC npc) {
-        player.getPA().c.itemAssistant.openUpBank();
+        player.getPA().player.itemAssistant.openUpBank();
         return true;
     }
 

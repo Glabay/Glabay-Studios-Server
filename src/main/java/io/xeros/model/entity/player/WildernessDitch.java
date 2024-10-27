@@ -50,10 +50,7 @@ public class WildernessDitch {
 				}
 			}
 
-			@Override
-			public void onStopped() {
-			}
-		}, 1);
+        }, 1);
 		CycleEventHandler.getSingleton().addEvent(c, new CycleEvent() {
 			@Override
 			public void execute(CycleEventContainer container) {
@@ -90,10 +87,7 @@ public class WildernessDitch {
 				}
 			}
 
-			@Override
-			public void onStopped() {
-			}
-		}, 1);
+        }, 1);
 		CycleEventHandler.getSingleton().addEvent(c, new CycleEvent() {
 			@Override
 			public void execute(CycleEventContainer container) {

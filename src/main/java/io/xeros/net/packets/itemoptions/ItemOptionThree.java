@@ -1,6 +1,5 @@
 package io.xeros.net.packets.itemoptions;
 
-import java.util.Optional;
 import java.util.function.Consumer;
 
 import io.xeros.Server;
@@ -17,7 +16,6 @@ import io.xeros.content.items.PvpWeapons;
 import io.xeros.content.items.RottenPotato;
 import io.xeros.content.items.TomeOfFire;
 import io.xeros.content.items.pouch.RunePouch;
-import io.xeros.content.lootbag.LootingBag;
 import io.xeros.content.skills.crafting.BryophytaStaff;
 import io.xeros.content.teleportation.TeleportTablets;
 import io.xeros.model.Items;
@@ -40,7 +38,7 @@ public class ItemOptionThree implements PacketType {
 
     @Override
     public void processPacket(Player c, int packetType, int packetSize) {
-        if (c.getMovementState().isLocked())
+        if (c.getMovementState().locked())
             return;
         c.interruptActions();
         int itemId11 = c.getInStream().readSignedWordBigEndianA();

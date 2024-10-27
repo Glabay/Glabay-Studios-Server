@@ -17,7 +17,7 @@ public class Skill200mPlayerSaveEntry implements PlayerSaveEntry {
 
     @Override
     public boolean decode(Player player, String key, String value) {
-        Long[] array = Arrays.stream(value.split(",")).map(Long::parseLong).collect(Collectors.toList()).toArray(new Long[25]);
+        Long[] array = Arrays.stream(value.split(",")).map(Long::parseLong).toList().toArray(new Long[25]);
         player.gained200mTime = ArrayUtils.toPrimitive(array);
         return true;
     }

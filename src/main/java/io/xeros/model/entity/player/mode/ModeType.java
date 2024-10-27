@@ -16,61 +16,31 @@ public enum ModeType {
 	;
 
 	public double getExperienceRate(Skill skill) {
-		switch (this) {
-			case STANDARD:
-			case IRON_MAN:
-			case ULTIMATE_IRON_MAN:
-			case HC_IRON_MAN:
-			case GROUP_IRONMAN:
-				return skill.getExperienceRate();
-			case OSRS:
-				return 1d;
-			case ROGUE:
-			case ROGUE_HARDCORE_IRONMAN:
-			case ROGUE_IRONMAN:
-				return 5d;
-			default:
-				throw new IllegalStateException("No xp rate defined for " + toString());
-		}
+        return switch (this) {
+            case STANDARD, IRON_MAN, ULTIMATE_IRON_MAN, HC_IRON_MAN, GROUP_IRONMAN -> skill.getExperienceRate();
+            case OSRS -> 1d;
+            case ROGUE, ROGUE_HARDCORE_IRONMAN, ROGUE_IRONMAN -> 5d;
+            default -> throw new IllegalStateException("No xp rate defined for " + toString());
+        };
 	}
 	public boolean isStandardRate(Skill skill) {
-		switch (this) {
-			case STANDARD:
-			case IRON_MAN:
-			case ULTIMATE_IRON_MAN:
-			case HC_IRON_MAN:
-			case GROUP_IRONMAN:
-				return true;
-			case ROGUE:
-			case ROGUE_HARDCORE_IRONMAN:
-			case ROGUE_IRONMAN:
-				return false;
-			default:
-				return false;
-		}
+        return switch (this) {
+            case STANDARD, IRON_MAN, ULTIMATE_IRON_MAN, HC_IRON_MAN, GROUP_IRONMAN -> true;
+            default -> false;
+        };
 	}
 	public String getFormattedName() {
-		switch (this) {
-			case STANDARD:
-				return "Standard";
-			case IRON_MAN:
-				return "Ironman";
-			case ULTIMATE_IRON_MAN:
-				return "Ultimate Ironman";
-			case OSRS:
-				return "OSRS";
-			case HC_IRON_MAN:
-				return "Hardcore Ironman";
-			case ROGUE:
-				return "Rogue";
-			case ROGUE_HARDCORE_IRONMAN:
-				return "Rogue Hardcore Ironman";
-			case ROGUE_IRONMAN:
-				return "Rogue Ironman";
-			case GROUP_IRONMAN:
-				return "Group Ironman";
-			default:
-				throw new IllegalStateException("No format option for: " + this);
-		}
+        return switch (this) {
+            case STANDARD -> "Standard";
+            case IRON_MAN -> "Ironman";
+            case ULTIMATE_IRON_MAN -> "Ultimate Ironman";
+            case OSRS -> "OSRS";
+            case HC_IRON_MAN -> "Hardcore Ironman";
+            case ROGUE -> "Rogue";
+            case ROGUE_HARDCORE_IRONMAN -> "Rogue Hardcore Ironman";
+            case ROGUE_IRONMAN -> "Rogue Ironman";
+            case GROUP_IRONMAN -> "Group Ironman";
+            default -> throw new IllegalStateException("No format option for: " + this);
+        };
 	}
 }

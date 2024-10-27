@@ -107,7 +107,7 @@ public class ClickingButtons implements PacketType {
 			return;
 		}
 
-		if (c.getMovementState().isLocked())
+		if (c.getMovementState().locked())
 			return;
 		if (c.getLootingBag().handleButton(actionButtonId)) {
 			return;
@@ -629,26 +629,26 @@ public class ClickingButtons implements PacketType {
 
 		case 55095: // Destroy item yes
 			c.getPA().removeAllWindows();
-			if (c.destroyItem == null || c.destroyItem.getItemId() == -1 || c.isDead)
+			if (c.destroyItem == null || c.destroyItem.itemId() == -1 || c.isDead)
 				return;
 
-			if (!c.getItems().isItemInInventorySlot(c.destroyItem.getItemId(), c.destroyItem.getItemSlot()))
+			if (!c.getItems().isItemInInventorySlot(c.destroyItem.itemId(), c.destroyItem.itemSlot()))
 				return;
 
-			int itemId = c.destroyItem.getItemId();
-			switch (c.destroyItem.getType()) {
+			int itemId = c.destroyItem.itemId();
+			switch (c.destroyItem.type()) {
 				case DESTROY:
 					if (ItemDef.forId(itemId).isStackable())
 						return;
-					c.getItems().deleteItem(c.destroyItem.getItemId(), c.destroyItem.getItemSlot(), 1);
+					c.getItems().deleteItem(c.destroyItem.itemId(), c.destroyItem.itemSlot(), 1);
 					break;
 				case DROP:
-					DropItem.dropItem(c, c.destroyItem.getItemId(), c.destroyItem.getItemSlot());
+					DropItem.dropItem(c, c.destroyItem.itemId(), c.destroyItem.itemSlot());
 					break;
 				case LOW_ALCH:
 				case HIGH_ALCH:
 					c.usingMagic = true;
-					c.getPA().alchemy(itemId, c.destroyItem.getType() == DestroyType.HIGH_ALCH ? "high" : "low");
+					c.getPA().alchemy(itemId, c.destroyItem.type() == DestroyType.HIGH_ALCH ? "high" : "low");
 					break;
 			}
 
@@ -811,7 +811,7 @@ public class ClickingButtons implements PacketType {
 				return;
 			}
 			c.getBank().setCurrentBankTab(tab);
-			c.getPA().c.itemAssistant.openUpBank();
+			c.getPA().player.itemAssistant.openUpBank();
 			break;
 
 		case 226197:
@@ -864,7 +864,7 @@ public class ClickingButtons implements PacketType {
 			}
 			tab.getItems().clear();
 			c.getBank().openTab(0);
-			c.getPA().c.itemAssistant.openUpBank();
+			c.getPA().player.itemAssistant.openUpBank();
 			break;
 
 		case 226185:
@@ -926,7 +926,7 @@ public class ClickingButtons implements PacketType {
 
 		case 22024:
 		case 86008:
-			c.getPA().c.itemAssistant.openUpBank();
+			c.getPA().player.itemAssistant.openUpBank();
 			break;
 		case 140162:
 			c.getPA().removeAllWindows();

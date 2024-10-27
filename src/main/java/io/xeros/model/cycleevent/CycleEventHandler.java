@@ -1,5 +1,6 @@
 package io.xeros.model.cycleevent;
 
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +19,7 @@ public class CycleEventHandler {
     }
 
     private final Queue<CycleEventContainer> pending;
+    @Getter
     private final List<CycleEventContainer> events;
     private final Set<Object> owners = new HashSet<>();
 
@@ -99,7 +101,7 @@ public class CycleEventHandler {
 
         updateOwnerSet();
 
-        if (randomizedEvents.size() > 0) {
+        if (!randomizedEvents.isEmpty()) {
             Collections.shuffle(randomizedEvents);
             randomizedEvents.forEach(eventContainer -> {
                 try {
@@ -180,10 +182,6 @@ public class CycleEventHandler {
         return owners.contains(owner);
         //Optional<CycleEventContainer> op = events.stream().filter(Objects::nonNull).filter(container -> container.getOwner() != null && container.getOwner().equals(owner)).findFirst();
         //return op.isPresent();
-    }
-
-    public List<CycleEventContainer> getEvents() {
-        return events;
     }
 
     public interface Event {

@@ -15,6 +15,7 @@ import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.entity.player.save.PlayerSave;
 import io.xeros.model.items.GameItem;
 import io.xeros.util.Misc;
+import lombok.Getter;
 
 public class PetHandler {
 
@@ -226,9 +227,11 @@ public class PetHandler {
         DARK_RED_SEREN(30123, 2310, "Dark Seren", -1, "second");
 
         private final boolean rollOnNpcDeath;
+        @Getter
         private final int itemId;
         private final int npcId;
         private final String parent;
+        @Getter
         private final int droprate;
         private final String pickupOption;
 
@@ -245,13 +248,6 @@ public class PetHandler {
             this.pickupOption = pickupOption;
         }
 
-        public int getItemId() {
-            return itemId;
-        }
-
-        public int getDroprate() {
-            return droprate;
-        }
     }
 
     public static Pets forItem(int id) {
@@ -267,34 +263,23 @@ public class PetHandler {
         NpcDef def = NpcDef.forId(npcId);
 
         Optional<Pets> pet = PETS.stream().filter(p -> p.parent.equalsIgnoreCase(def.getName())).findFirst();
-        return pet.isPresent() ? pet.get() : null;
+        return pet.orElse(null);
     }
 
     public static Pets getPetForParentId(Pets pet) {
-        switch(pet.parent) {
-            case "Runecrafting":
-                return Pets.RIFT_GUARDIAN_AIR;
-            case "Alchemical Hydra":
-                return Pets.HYDRA;
-            case "Vetion":
-                return Pets.VETION;
-            case "Zulrah":
-                return Pets.ZULRAH;
-            case "Zombie":
-                return Pets.DEATH_JR_RED;
-            case "Mining":
-                return Pets.ROCK_GOLEM;
-            case "Vote Genie Pet":
-                return Pets.VOTE_GENIE_PET;
-            case "Hunnlef":
-                return Pets.YOUNGLEF;
-            case "The Nightmare":
-                return Pets.LITTLE_NIGHTMARE;
-            case "Kalphite Queen":
-                return Pets.KALPHITE_PRINCESS;
-            default:
-                return pet;
-        }
+        return switch (pet.parent) {
+            case "Runecrafting" -> Pets.RIFT_GUARDIAN_AIR;
+            case "Alchemical Hydra" -> Pets.HYDRA;
+            case "Vetion" -> Pets.VETION;
+            case "Zulrah" -> Pets.ZULRAH;
+            case "Zombie" -> Pets.DEATH_JR_RED;
+            case "Mining" -> Pets.ROCK_GOLEM;
+            case "Vote Genie Pet" -> Pets.VOTE_GENIE_PET;
+            case "Hunnlef" -> Pets.YOUNGLEF;
+            case "The Nightmare" -> Pets.LITTLE_NIGHTMARE;
+            case "Kalphite Queen" -> Pets.KALPHITE_PRINCESS;
+            default -> pet;
+        };
     }
 
     public static ArrayList<GameItem> getPetIds(boolean parent) {
@@ -422,8 +407,6 @@ public class PetHandler {
             PlayerSave.saveGame(player);
             NPCSpawning.spawnPet(player, pet.npcId, player.absX + offsetX, player.absY + offsetY,
                     player.heightLevel, 0, true, false, true);
-            if (!ignore) {
-            }
         }
     }
 

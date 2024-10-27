@@ -3,6 +3,7 @@ package io.xeros.model.entity.player.migration;
 import com.google.common.base.Preconditions;
 import io.xeros.annotate.Init;
 import io.xeros.model.entity.player.Player;
+import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ public class PlayerMigrationRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(PlayerMigration.class);
     private static final Map<Integer, PlayerMigration> migrations = new HashMap<>();
+    @Getter
     private static int latestVersion;
 
     @Init
@@ -67,7 +69,4 @@ public class PlayerMigrationRepository {
         return split(migration)[1];
     }
 
-    public static int getLatestVersion() {
-        return latestVersion;
-    }
 }

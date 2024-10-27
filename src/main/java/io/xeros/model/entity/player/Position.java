@@ -6,24 +6,22 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.xeros.Server;
 import io.xeros.content.bosses.godwars.Godwars;
 import io.xeros.content.bosses.nightmare.NightmareConstants;
 import io.xeros.content.commands.owner.Clipping;
 import io.xeros.content.minigames.tob.TobConstants;
 import io.xeros.model.Direction;
-import io.xeros.model.collisionmap.RegionProvider;
 import io.xeros.model.collisionmap.Tile;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPCClipping;
+import lombok.Getter;
 
+@Getter
 public final class Position {
 
-    private final int x;
-
-    private final int y;
-
-    private final int height;
+    public final int x;
+    public final int y;
+    public final int height;
 
     public Position(int x, int y, int height) {
         this.x = x;
@@ -230,11 +228,11 @@ public final class Position {
         int yDiff = b.getY() - y;
         if (xDiff > 0)
             xDiff = 1;
-        if (xDiff < 0) // TODO changed this from -1 to 0!
+        if (xDiff < 0)
             xDiff = -1;
         if (yDiff > 0)
             yDiff = 1;
-        if (yDiff < 0) // TODO changed this from -1 to 0!
+        if (yDiff < 0)
             yDiff = -1;
         return new Position(xDiff, yDiff, getHeight());
     }
@@ -245,27 +243,6 @@ public final class Position {
 
     public Position deltaAbsolute(Position b) {
         return new Position(Math.abs(b.getX() - getX()), Math.abs(b.getY() - getY()));
-    }
-
-    /**
-     * @return the x
-     */
-    public int getX() {
-        return x;
-    }
-
-    /**
-     * @return the y
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
-     * @return the height
-     */
-    public int getHeight() {
-        return height;
     }
 
     public Position getCenterPosition(int size) {

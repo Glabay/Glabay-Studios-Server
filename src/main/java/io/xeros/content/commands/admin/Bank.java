@@ -12,7 +12,7 @@ public class Bank extends Command {
 
 	@Override
 	public void execute(Player c, String commandName, String input) {
-		c.getPA().c.itemAssistant.openUpBank();
+		c.getPA().player.itemAssistant.openUpBank();
 		c.inBank = true;
 	}
 }

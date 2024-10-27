@@ -1,13 +1,5 @@
 package io.xeros.model.entity.player;
 
-import java.time.LocalDate;
-import java.util.*;
-import java.util.Objects;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Consumer;
-
 import com.google.common.collect.Lists;
 import dev.openrune.cache.CacheManager;
 import dev.openrune.cache.filestore.definition.data.ItemType;
@@ -17,12 +9,39 @@ import io.netty.channel.ChannelFutureListener;
 import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.*;
+import io.xeros.content.achievement.AchievementHandler;
 import io.xeros.content.achievement.AchievementType;
-import io.xeros.content.bosses.*;
+import io.xeros.content.achievement.Achievements;
+import io.xeros.content.achievement_diary.AchievementDiaryManager;
+import io.xeros.content.achievement_diary.RechargeItems;
+import io.xeros.content.bosses.Cerberus;
+import io.xeros.content.bosses.Skotizo;
+import io.xeros.content.bosses.Vorkath;
+import io.xeros.content.bosses.godwars.God;
+import io.xeros.content.bosses.godwars.Godwars;
+import io.xeros.content.bosses.godwars.GodwarsEquipment;
 import io.xeros.content.bosses.hespori.Hespori;
+import io.xeros.content.bosses.nightmare.NightmareConstants;
+import io.xeros.content.bosses.zulrah.Zulrah;
 import io.xeros.content.bosspoints.BossPoints;
+import io.xeros.content.cheatprevention.RandomEventInterface;
+import io.xeros.content.collection_log.CollectionLog;
+import io.xeros.content.combat.CombatItems;
+import io.xeros.content.combat.EntityDamageQueue;
+import io.xeros.content.combat.Hitmark;
+import io.xeros.content.combat.core.AttackEntity;
+import io.xeros.content.combat.death.PlayerDeath;
 import io.xeros.content.combat.effects.damageeffect.impl.amuletofthedamned.impl.ToragsEffect;
+import io.xeros.content.combat.formula.MeleeMaxHit;
+import io.xeros.content.combat.magic.CombatSpellData;
+import io.xeros.content.combat.melee.CombatPrayer;
+import io.xeros.content.combat.melee.MeleeData;
 import io.xeros.content.combat.melee.MeleeExtras;
+import io.xeros.content.combat.melee.QuickPrayers;
+import io.xeros.content.combat.pvp.Killstreak;
+import io.xeros.content.combat.stats.BossTimers;
+import io.xeros.content.combat.stats.NPCDeathTracker;
+import io.xeros.content.combat.weapon.CombatStyle;
 import io.xeros.content.combat.weapon.WeaponMode;
 import io.xeros.content.compromised.CompromisedAccounts;
 import io.xeros.content.dailyrewards.DailyRewards;
@@ -30,104 +49,19 @@ import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueOption;
 import io.xeros.content.donationrewards.DonationRewards;
 import io.xeros.content.dwarfmulticannon.Cannon;
-import io.xeros.content.events.eventcalendar.EventChallengeMonthlyReward;
-import io.xeros.content.item.lootable.impl.*;
-import io.xeros.content.items.PvpWeapons;
-import io.xeros.content.itemskeptondeath.perdu.PerduLostPropertyShop;
-import io.xeros.content.leaderboards.LeaderboardPeriodicity;
-import io.xeros.content.leaderboards.LeaderboardUtils;
-import io.xeros.content.minigames.tob.TobConstants;
-import io.xeros.content.minigames.tob.TobContainer;
-import io.xeros.content.minigames.tob.instance.TobInstance;
-import io.xeros.content.party.PlayerParty;
-import io.xeros.content.privatemessaging.FriendsList;
-import io.xeros.content.minigames.raids.Raids;
-import io.xeros.content.miniquests.magearenaii.MageArenaII;
-import io.xeros.content.questing.Questing;
-import io.xeros.content.teleportation.inter.TeleportInterface;
-import io.xeros.content.tournaments.OutlastLeaderboardEntry;
-import io.xeros.content.tutorial.ModeSelection;
-import io.xeros.content.tutorial.TutorialDialogue;
-import io.xeros.content.wogw.WogwContributeInterface;
-import io.xeros.model.*;
-import io.xeros.content.bosses.nightmare.NightmareConstants;
-import io.xeros.content.combat.core.AttackEntity;
-import io.xeros.content.combat.EntityDamageQueue;
-import io.xeros.content.combat.formula.MeleeMaxHit;
-import io.xeros.content.combat.melee.CombatPrayer;
-import io.xeros.content.combat.melee.MeleeData;
-import io.xeros.content.combat.weapon.CombatStyle;
-import io.xeros.content.miniquests.MageArena;
-import io.xeros.content.skills.Skill;
-import io.xeros.content.vote_panel.VotePanelManager;
-import io.xeros.content.vote_panel.VoteUser;
-import io.xeros.model.collisionmap.RegionProvider;
-import io.xeros.model.collisionmap.doors.Location;
-import io.xeros.model.controller.Controller;
-import io.xeros.model.controller.ControllerRepository;
-import io.xeros.model.entity.HitMark;
-import io.xeros.model.entity.grounditem.GroundItem;
-import io.xeros.model.entity.healthbar.StaticHealthBarUpdate;
-import io.xeros.model.entity.player.lock.PlayerLock;
-import io.xeros.model.entity.player.lock.Unlocked;
-import io.xeros.model.entity.player.migration.PlayerMigrationRepository;
-import io.xeros.model.entity.player.mode.ModeRevertType;
-import io.xeros.model.entity.player.mode.group.GroupIronmanGroup;
-import io.xeros.model.entity.player.mode.group.GroupIronmanRepository;
-import io.xeros.net.packets.ChangeAppearance;
-import io.xeros.model.entity.player.save.PlayerAddresses;
-import io.xeros.model.items.*;
-import io.xeros.model.StringInput;
-import io.xeros.model.multiplayersession.flowerpoker.FlowerPoker;
-import io.xeros.model.multiplayersession.flowerpoker.FlowerPokerHand;
-import io.xeros.model.tickable.Tickable;
-import io.xeros.model.tickable.TickableContainer;
-import io.xeros.model.definitions.ItemDef;
-import io.xeros.model.entity.EntityReference;
-import io.xeros.model.entity.player.save.PlayerSave;
-import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
-import io.xeros.model.timers.TickTimer;
-import io.xeros.net.PacketBuilder;
-import io.xeros.model.cycleevent.CycleEventHandler;
-import io.xeros.model.cycleevent.Event;
-import io.xeros.model.cycleevent.impl.MinigamePlayersEvent;
-import io.xeros.model.cycleevent.impl.RunEnergyEvent;
-import io.xeros.model.cycleevent.impl.SkillRestorationEvent;
-import io.xeros.content.item.lootable.unref.CoinBagBuldging;
-import io.xeros.content.achievement.AchievementHandler;
-import io.xeros.content.achievement.Achievements;
-import io.xeros.content.achievement_diary.AchievementDiaryManager;
-import io.xeros.content.achievement_diary.RechargeItems;
-import io.xeros.content.bosses.godwars.God;
-import io.xeros.content.bosses.godwars.Godwars;
-import io.xeros.content.bosses.godwars.GodwarsEquipment;
-import io.xeros.content.bosses.zulrah.Zulrah;
-import io.xeros.content.cheatprevention.RandomEventInterface;
-import io.xeros.content.collection_log.CollectionLog;
-import io.xeros.content.combat.CombatItems;
-import io.xeros.content.combat.Hitmark;
-import io.xeros.content.combat.death.PlayerDeath;
-import io.xeros.content.combat.magic.CombatSpellData;
-import io.xeros.content.combat.melee.QuickPrayers;
-import io.xeros.content.combat.stats.BossTimers;
-import io.xeros.content.combat.stats.NPCDeathTracker;
-import io.xeros.content.combat.pvp.Killstreak;
 import io.xeros.content.events.eventcalendar.EventCalendar;
 import io.xeros.content.events.eventcalendar.EventChallenge;
-import io.xeros.content.item.lootable.impl.VoteMysteryBox;
-import io.xeros.content.item.lootable.impl.NormalMysteryBox;
-import io.xeros.content.item.lootable.impl.PvmCasket;
-import io.xeros.content.item.lootable.impl.SuperMysteryBox;
-import io.xeros.content.item.lootable.impl.UltraMysteryBox;
-import io.xeros.content.item.lootable.unref.CoinBagLarge;
-import io.xeros.content.item.lootable.unref.CoinBagMedium;
-import io.xeros.content.item.lootable.unref.CoinBagSmall;
-import io.xeros.content.item.lootable.unref.DailyGearBox;
-import io.xeros.content.item.lootable.unref.DailySkillBox;
+import io.xeros.content.events.eventcalendar.EventChallengeMonthlyReward;
+import io.xeros.content.item.lootable.impl.*;
+import io.xeros.content.item.lootable.unref.*;
 import io.xeros.content.items.Degrade;
+import io.xeros.content.items.PvpWeapons;
 import io.xeros.content.items.pouch.GemBag;
 import io.xeros.content.items.pouch.HerbSack;
 import io.xeros.content.items.pouch.RunePouch;
+import io.xeros.content.itemskeptondeath.perdu.PerduLostPropertyShop;
+import io.xeros.content.leaderboards.LeaderboardPeriodicity;
+import io.xeros.content.leaderboards.LeaderboardUtils;
 import io.xeros.content.lootbag.LootingBag;
 import io.xeros.content.minigames.bounty_hunter.BountyHunter;
 import io.xeros.content.minigames.fight_cave.FightCave;
@@ -137,26 +71,27 @@ import io.xeros.content.minigames.pest_control.PestControlRewards;
 import io.xeros.content.minigames.pk_arena.Highpkarena;
 import io.xeros.content.minigames.pk_arena.Lowpkarena;
 import io.xeros.content.minigames.raids.RaidConstants;
+import io.xeros.content.minigames.raids.Raids;
+import io.xeros.content.minigames.tob.TobConstants;
+import io.xeros.content.minigames.tob.TobContainer;
+import io.xeros.content.minigames.tob.instance.TobInstance;
 import io.xeros.content.minigames.warriors_guild.WarriorsGuild;
 import io.xeros.content.minigames.xeric.XericLobby;
+import io.xeros.content.miniquests.MageArena;
+import io.xeros.content.miniquests.magearenaii.MageArenaII;
+import io.xeros.content.party.PlayerParty;
 import io.xeros.content.polls.PollTab;
 import io.xeros.content.preset.Preset;
 import io.xeros.content.prestige.PrestigeSkills;
+import io.xeros.content.privatemessaging.FriendsList;
+import io.xeros.content.questing.Questing;
 import io.xeros.content.skills.Agility;
 import io.xeros.content.skills.ExpLock;
+import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.SkillInterfaces;
 import io.xeros.content.skills.agility.AgilityHandler;
-import io.xeros.content.skills.agility.impl.BarbarianAgility;
-import io.xeros.content.skills.agility.impl.GnomeAgility;
-import io.xeros.content.skills.agility.impl.Lighthouse;
-import io.xeros.content.skills.agility.impl.Shortcuts;
-import io.xeros.content.skills.agility.impl.WildernessAgility;
-import io.xeros.content.skills.agility.impl.rooftop.RooftopAlkharid;
-import io.xeros.content.skills.agility.impl.rooftop.RooftopCanafis;
-import io.xeros.content.skills.agility.impl.rooftop.RooftopDraynor;
-import io.xeros.content.skills.agility.impl.rooftop.RooftopFalador;
-import io.xeros.content.skills.agility.impl.rooftop.RooftopPollnivneach;
-import io.xeros.content.skills.agility.impl.rooftop.RooftopRellekka;
+import io.xeros.content.skills.agility.impl.*;
+import io.xeros.content.skills.agility.impl.rooftop.*;
 import io.xeros.content.skills.farming.Farming;
 import io.xeros.content.skills.fletching.Fletching;
 import io.xeros.content.skills.herblore.Herblore;
@@ -168,30 +103,69 @@ import io.xeros.content.skills.smithing.Smelting;
 import io.xeros.content.skills.smithing.Smithing;
 import io.xeros.content.skills.smithing.SmithingInterface;
 import io.xeros.content.skills.thieving.Thieving;
+import io.xeros.content.teleportation.inter.TeleportInterface;
 import io.xeros.content.titles.Titles;
+import io.xeros.content.tournaments.OutlastLeaderboardEntry;
 import io.xeros.content.tournaments.TourneyManager;
 import io.xeros.content.trails.TreasureTrails;
+import io.xeros.content.tutorial.ModeSelection;
+import io.xeros.content.tutorial.TutorialDialogue;
+import io.xeros.content.vote_panel.VotePanelManager;
+import io.xeros.content.vote_panel.VoteUser;
+import io.xeros.content.wogw.WogwContributeInterface;
+import io.xeros.model.*;
+import io.xeros.model.collisionmap.RegionProvider;
+import io.xeros.model.collisionmap.doors.Location;
+import io.xeros.model.controller.Controller;
+import io.xeros.model.controller.ControllerRepository;
+import io.xeros.model.cycleevent.CycleEventHandler;
+import io.xeros.model.cycleevent.Event;
+import io.xeros.model.cycleevent.impl.MinigamePlayersEvent;
+import io.xeros.model.cycleevent.impl.RunEnergyEvent;
+import io.xeros.model.cycleevent.impl.SkillRestorationEvent;
+import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.Entity;
+import io.xeros.model.entity.EntityReference;
 import io.xeros.model.entity.HealthStatus;
+import io.xeros.model.entity.HitMark;
+import io.xeros.model.entity.grounditem.GroundItem;
+import io.xeros.model.entity.healthbar.StaticHealthBarUpdate;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.pets.PetHandler;
+import io.xeros.model.entity.player.lock.PlayerLock;
+import io.xeros.model.entity.player.lock.Unlocked;
+import io.xeros.model.entity.player.migration.PlayerMigrationRepository;
 import io.xeros.model.entity.player.mode.Mode;
+import io.xeros.model.entity.player.mode.ModeRevertType;
 import io.xeros.model.entity.player.mode.ModeType;
 import io.xeros.model.entity.player.mode.RegularMode;
+import io.xeros.model.entity.player.mode.group.GroupIronmanGroup;
+import io.xeros.model.entity.player.mode.group.GroupIronmanRepository;
+import io.xeros.model.entity.player.save.PlayerAddresses;
+import io.xeros.model.entity.player.save.PlayerSave;
+import io.xeros.model.items.*;
 import io.xeros.model.items.bank.Bank;
 import io.xeros.model.items.bank.BankPin;
 import io.xeros.model.lobby.LobbyManager;
 import io.xeros.model.lobby.LobbyType;
+import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
 import io.xeros.model.multiplayersession.MultiplayerSessionStage;
 import io.xeros.model.multiplayersession.MultiplayerSessionType;
 import io.xeros.model.multiplayersession.duel.Duel;
 import io.xeros.model.multiplayersession.duel.DuelSession;
+import io.xeros.model.multiplayersession.flowerpoker.FlowerPoker;
+import io.xeros.model.multiplayersession.flowerpoker.FlowerPokerHand;
 import io.xeros.model.multiplayersession.trade.Trade;
 import io.xeros.model.shops.ShopAssistant;
+import io.xeros.model.tickable.Tickable;
+import io.xeros.model.tickable.TickableContainer;
+import io.xeros.model.timers.TickTimer;
 import io.xeros.model.world.Clan;
 import io.xeros.net.Packet;
+import io.xeros.net.PacketBuilder;
 import io.xeros.net.outgoing.UnnecessaryPacketDropper;
+import io.xeros.net.packets.ChangeAppearance;
 import io.xeros.net.packets.PacketHandler;
 import io.xeros.sql.etc.HiscoresUpdateQuery;
 import io.xeros.sql.outlast.OutlastLeaderboardAdd;
@@ -206,9 +180,15 @@ import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Player extends Entity {
+import java.time.LocalDate;
+import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
-    private static Logger logger = LoggerFactory.getLogger(Player.class);
+public class Player extends Entity {
 
     public static final int playerHat = 0;
     public static final int playerCape = 1;
@@ -240,8 +220,220 @@ public class Player extends Entity {
     public static final int playerSlayer = 18;
     public static final int playerFarming = 19;
     public static final int playerRunecrafting = 20;
+    public static final int maxPlayerListSize = Configuration.MAX_PLAYERS;
+    public static final int maxNPCListSize = Configuration.MAX_NPCS_IN_LOCAL_LIST;
+    private static final Logger logger = LoggerFactory.getLogger(Player.class);
+    private static final Stream appearanceUpdateBlockCache;
+    public static int playerCrafting = 12;
+    public static int playerSmithing = 13;
+    public static boolean[] canUseReducingSpell = {true, true, true, true, true, true};
 
+    static {
+        appearanceUpdateBlockCache = new Stream(new byte[100]);
+    }
 
+    public final int walkingQueueSize = 50;
+    public final Stopwatch last_trap_layed = new Stopwatch();
+    /**
+     * -- GETTER --
+     * Gets a queue of the player'sprevious packets (50 maximum).
+     * These packets were not neccesarily handled by the server but
+     * they contain every packet that was sent from the client to the server.
+     */
+    @Getter
+    private final Queue<Integer> previousPackets = new ConcurrentLinkedQueue<>();
+    @Getter
+    private final int[] newWalkCmdX = new int[walkingQueueSize];
+    @Getter
+    private final int[] newWalkCmdY = new int[walkingQueueSize];
+    @Getter
+    public final HashSet<GroundItem> localGroundItems = new HashSet<>();
+    /**
+     * THe Combat configurations for the player
+     */
+    @Getter
+    private final CombatConfig combatConfigs = new CombatConfig(this);
+    @Getter
+    public final Inventory inventory = new Inventory(this);
+    @Getter
+    private final RooftopAlkharid rooftopAlkharid = new RooftopAlkharid();
+    @Getter
+    private final RooftopFalador rooftopFalador = new RooftopFalador();
+    private final RooftopDraynor rooftopDraynor = new RooftopDraynor();
+    @Getter
+    private final RooftopCanafis rooftopCanafis = new RooftopCanafis();
+    @Getter
+    private final RooftopPollnivneach rooftopPollnivneach = new RooftopPollnivneach();
+    @Getter
+    private final RooftopRellekka rooftopRellekka = new RooftopRellekka();
+    @Getter
+    private final BarbarianAgility barbarianAgility = new BarbarianAgility();
+    @Getter
+    private final YoutubeMysteryBox youtubeMysteryBox = new YoutubeMysteryBox(this);
+    @Getter
+    private final UltraMysteryBox ultraMysteryBox = new UltraMysteryBox(this);
+    @Getter
+    private final NormalMysteryBox normalMysteryBox = new NormalMysteryBox(this);
+    @Getter
+    private final SuperMysteryBox superMysteryBox = new SuperMysteryBox(this);
+    @Getter
+    private final FoeMysteryBox foeMysteryBox = new FoeMysteryBox(this);
+    @Getter
+    private final SlayerMysteryBox slayerMysteryBox = new SlayerMysteryBox(this);
+    @Getter
+    private final CoinBagSmall coinBagSmall = new CoinBagSmall(this);
+    @Getter
+    private final CoinBagMedium coinBagMedium = new CoinBagMedium(this);
+    @Getter
+    private final CoinBagLarge coinBagLarge = new CoinBagLarge(this);
+    @Getter
+    private final CoinBagBuldging coinBagBuldging = new CoinBagBuldging(this);
+    @Getter
+    private final VoteMysteryBox voteMysteryBox = new VoteMysteryBox();
+    @Getter
+    private final PvmCasket pvmCasket = new PvmCasket();
+    @Getter
+    private final DailyGearBox dailyGearBox = new DailyGearBox(this);
+    @Getter
+    private final DailySkillBox dailySkillBox = new DailySkillBox(this);
+    // Combat
+    private final EntityDamageQueue entityDamageQueue = new EntityDamageQueue(this);
+    private final Zulrah zulrah = new Zulrah(this);
+    // Minigames
+    @Getter
+    private final MageArena mageArena = new MageArena(this);
+    /**
+     * -- GETTER --
+     * The single instance of the
+     * class for this player
+     */
+    @Getter
+    private final PestControlRewards pestControlRewards = new PestControlRewards(this);
+    /**
+     * -- GETTER --
+     * The single
+     * instance for this player
+     */
+    @Getter
+    private final WarriorsGuild warriorsGuild = new WarriorsGuild(this);
+    @Getter
+    private final RechargeItems rechargeItems = new RechargeItems(this);
+    // Skilling
+    private final ExpLock explock = new ExpLock(this);
+    private final PrestigeSkills prestigeskills = new PrestigeSkills(this);
+    @Getter
+    private final Mining mining = new Mining(this);
+    @Getter
+    private final TobContainer tobContainer = new TobContainer(this);
+    @Getter
+    private final TeleportInterface teleportInterface = new TeleportInterface(this);
+    @Getter
+    private final Questing questing = new Questing(this);
+    @Getter
+    private final NotificationsTab notificationsTab = new NotificationsTab(this);
+    @Getter
+    private final DonationRewards donationRewards = new DonationRewards(this);
+    @Getter
+    private final WogwContributeInterface wogwContributeInterface = new WogwContributeInterface(this);
+    @Getter
+    private final Farming farming = new Farming(this);
+    @Getter
+    private final DailyRewards dailyRewards = new DailyRewards(this);
+    @Getter
+    private final QuickPrayers quick = new QuickPrayers();
+    @Getter
+    private final QuestTab questTab = new QuestTab(this);
+    @Getter
+    private final EventCalendar eventCalendar = new EventCalendar(this);
+    private final RandomEventInterface randomEventInterface = new RandomEventInterface(this);
+    /**
+     * -- GETTER --
+     * Returns the single instance of the
+     * class for this
+     * player.
+     */
+    @Getter
+    private final NPCDeathTracker npcDeathTracker = new NPCDeathTracker(this);
+    @Getter
+    private final BossTimers bossTimers = new BossTimers(this);
+    @Getter
+    private final UnnecessaryPacketDropper packetDropper = new UnnecessaryPacketDropper();
+    private final Duel duelSession = new Duel(this);
+    @Getter
+    private final ModeSelection modeSelection = new ModeSelection(this);
+    @Getter
+    private final Trade trade = new Trade(this);
+    private final ShopAssistant shopAssistant = new ShopAssistant(this);
+    @Getter
+    private final PlayerAssistant playerAssistant = new PlayerAssistant(this);
+    @Getter
+    private final CombatItems combatItems = new CombatItems(this);
+    private final ActionHandler actionHandler = new ActionHandler(this);
+    private final DialogueHandler dialogueHandler = new DialogueHandler(this);
+    @Getter
+    private final FriendsList friendsList = new FriendsList(this);
+    private final Queue<io.xeros.net.Packet> queuedPackets = new ConcurrentLinkedQueue<>();
+    private final Queue<Packet> priorityPackets = new ConcurrentLinkedQueue<>();
+    @Getter
+    private final Potions potions = new Potions(this);
+    @Getter
+    private final Food food = new Food(this);
+    private final SkillInterfaces skillInterfaces = new SkillInterfaces(this);
+    private final ChargeTrident chargeTrident = new ChargeTrident(this);
+    @Getter
+    private final AgilityHandler agilityHandler = new AgilityHandler();
+    private final PointItems pointItems = new PointItems(this);
+    @Getter
+    private final GnomeAgility gnomeAgility = new GnomeAgility();
+    @Getter
+    private final WildernessAgility wildernessAgility = new WildernessAgility();
+    private final Shortcuts shortcuts = new Shortcuts();
+    @Getter
+    private final Lighthouse lighthouse = new Lighthouse();
+    @Getter
+    private final Agility agility = new Agility(this);
+    /*
+     * public Fletching getFletching() { return fletching; }
+     */
+    @Getter
+    private final Prayer prayer = new Prayer(this);
+    private final Smithing smith = new Smithing(this);
+    private final SmithingInterface smithInt = new SmithingInterface(this);
+    @Getter
+    private final Herblore herblore = new Herblore(this);
+    @Getter
+    private final Thieving thieving = new Thieving(this);
+    @Getter
+    private final Fletching fletching = new Fletching(this);
+    @Getter
+    private final Godwars godwars = new Godwars(this);
+    @Getter
+    private final TreasureTrails trails = new TreasureTrails(this);
+    // Consumable item timers
+    @Getter
+    private final TickTimer foodTimer = new TickTimer();
+    @Getter
+    private final TickTimer potionTimer = new TickTimer();
+    /**
+     * The {@link TickTimer} associated with combo eating
+     * -- GETTER --
+     * Gets the combo timer associated with combo eating
+     */
+    @Getter
+    private final TickTimer comboTimer = new TickTimer();
+    @Getter
+    private final CollectionBox collectionBox = new CollectionBox();
+    @Getter
+    private final PerduLostPropertyShop perduLostPropertyShop = new PerduLostPropertyShop();
+    private final FlowerPoker flowerPoker = new FlowerPoker(this);
+    /**
+     * Actions queued from any thread.
+     */
+    private final Queue<Consumer<Player>> queuedActions = new ConcurrentLinkedQueue<>();
+    private final Queue<Consumer<Player>> queuedLoginActions = new ArrayDeque<>();
+    private final List<TickableContainer<Player>> tickables = new ArrayList<>();
+    @Getter
+    public final AchievementDiaryManager diaryManager = new AchievementDiaryManager(this);
     public int[] tempInventory = new int[28], tempInventoryN = new int[28], tempEquipment = new int[28], tempEquipmentN = new int[28];
     public boolean rubyBoltSpecial;
     public int bryophytaStaffCharges;
@@ -249,55 +441,13 @@ public class Player extends Entity {
     public int flowerPokerWins, flowerPokerLoses, flowerPokerGames;
     public long biggestFlowerPokerPotWon;
     public long biggestFlowerPokerPotLost;
-
-    public void saveItemsForMinigame() {
-        /**
-         * Clones items
-         */
-        this.tempInventory = this.playerItems.clone();
-        this.tempInventoryN = this.playerItemsN.clone();
-        this.tempEquipment = this.playerEquipment.clone();
-        this.tempEquipmentN = this.playerEquipmentN.clone();
-        /**
-         * Deletes
-         */
-        this.getItems().deleteAllItems();
-        /**
-         * Refreshes items
-         */
-        getItems().addContainerUpdate(ContainerUpdate.INVENTORY);
-        getItems().addContainerUpdate(ContainerUpdate.EQUIPMENT);
-    }
-
-    public void restoreItemsForMinigame() {
-        /**
-         * Clones items
-         */
-        this.playerItems = this.tempInventory.clone();
-        this.playerItemsN = this.tempInventoryN.clone();
-        this.playerEquipment = this.tempEquipment.clone();
-        this.playerEquipmentN = this.tempEquipmentN.clone();
-        /**
-         * Restores
-         */
-        this.tempInventory = new int[28];
-        this.tempInventoryN = new int[28];
-        this.tempEquipment = new int[14];
-        this.tempEquipmentN = new int[14];
-        /**
-         * Refreshes items
-         */
-        getItems().addContainerUpdate(ContainerUpdate.INVENTORY);
-        getItems().addContainerUpdate(ContainerUpdate.EQUIPMENT);
-    }
-
-    private Channel session;
+    @Getter
     public Stream inStream;
+    @Getter
     public Stream outStream;
-    private static final Stream appearanceUpdateBlockCache;
-    private long lastPacketReceived = System.currentTimeMillis();
-    private Queue<Integer> previousPackets = new ConcurrentLinkedQueue<>();
+    @Getter
     public int mapRegionX;
+    @Getter
     public int mapRegionY;
     public int absX;
     public int absY;
@@ -305,44 +455,27 @@ public class Player extends Entity {
     public int lastY;
     public int currentX;
     public int currentY;
+    @Getter
     public int heightLevel;
     public int dir1 = -1;
     public int dir2 = -1;
     public int poimiX;
+    // Collection log
     public int poimiY;
     public int playerListSize;
     public int wQueueReadPtr;
     public int wQueueWritePtr;
-    private int teleportToX = -1;
-    private int teleportToY = -1;
     public int face = -1;
     public int FocusPointX = -1;
     public int FocusPointY = -1;
     public int newWalkCmdSteps;
     public int playerMagicBook;
-    public final int walkingQueueSize = 50;
     public int[] walkingQueueX = new int[walkingQueueSize];
     public int[] walkingQueueY = new int[walkingQueueSize];
-    private int[] newWalkCmdX = new int[walkingQueueSize];
-    private int[] newWalkCmdY = new int[walkingQueueSize];
-    protected int[] travelBackX = new int[walkingQueueSize];
-    protected int[] travelBackY = new int[walkingQueueSize];
-
-    public static final int maxPlayerListSize = Configuration.MAX_PLAYERS;
-    public static final int maxNPCListSize = Configuration.MAX_NPCS_IN_LOCAL_LIST;
     public Player[] playerList = new Player[maxPlayerListSize];
     public byte[] playerInListBitmap = new byte[(Configuration.MAX_PLAYERS + 7) >> 3];
-
     public NPC[] npcList = new NPC[maxNPCListSize];
     public int npcListSize;
-
-    private final HashSet<GroundItem> localGroundItems = new HashSet<>();
-
-    private byte[] chatText = new byte[4096];
-    private byte chatTextSize;
-
-    private int migrationVersion;
-    public EntityReference lastAttackedEntity = EntityReference.getReference(null);
     public EntityReference lastDefend;
     public long lastDefendTime;
     public int oldNpcIndex;
@@ -354,52 +487,19 @@ public class Player extends Entity {
     public int prayerId = -1;
     public int headIcon = -1;
     public int headIconPk = -1;
-    protected RightGroup rights;
     public AttackEntity attacking = new AttackEntity(this);
-    private DialogueBuilder dialogueBuilder = null;
     public StringInput stringInputHandler;
     public AmountInput amountInputHandler;
-    private long aggressionTimer = System.currentTimeMillis();
-    private boolean printAttackStats = Server.isTest();
-    private boolean printDefenceStats = Server.isTest();
-    private boolean helpCcMuted = false;
-    private boolean gambleBanned = false;
     public long lastDialogueSkip = 0;
     public boolean lastDialogueNewSystem;
     public boolean gargoyleStairsUnlocked;
-    private Controller controller;
-    private Controller loadedController;
-    private boolean joinedIronmanGroup;
-    private long lastDatabaseAccess;
-
-    private PlayerLock lock = new Unlocked();
-
-    /**
-     * THe Combat configurations for the player
-     */
-    private final CombatConfig combatConfigs = new CombatConfig(this);
-
-    public CombatConfig getCombatConfigs() {
-        return this.combatConfigs;
-    }
-
-    public void resetAggressionTimer() {
-        aggressionTimer = System.currentTimeMillis();
-    }
-
-    public boolean isAggressionTimeout(Player player) {
-        if (Boundary.isIn(player, Boundary.GODWARS_AREA) || Boundary.isIn(player, Boundary.CERBERUS_BOSSROOMS)) {
-            return false;
-        }
-        return System.currentTimeMillis() - aggressionTimer >= TimeUnit.MINUTES.toMillis(15);
-    }
-
-    private boolean receivedCalendarCosmeticJune2021;
     public long serpHelmCombatTicks;
     //FOE
     public int currentExchangeItem;
     public int currentExchangeItemAmount;
     // Interface checks
+    @Setter
+    @Getter
     public boolean inTradingPost;
     public boolean inBank;
     public boolean inUimBank;
@@ -412,8 +512,6 @@ public class Player extends Entity {
     public int raidCount;
     public int tobCompletions;
     public int pollOption;
-    // Bank
-    private Bank bank;
     public boolean placeHolderWarning;
     public int lastPlaceHolderWarning;
     public boolean placeHolders;
@@ -431,14 +529,7 @@ public class Player extends Entity {
     public boolean viewingInitialPreset;
     public boolean viewingPresets;
     public long lastPresetClick;
-    // Tournaments
-    private List<SkillExperience> outlastSkillBackup = new ArrayList<>();
     public int magicBookBackup;
-    // Collection log
-
-    private CollectionLog viewingCollectionLog;
-    private CollectionLog collectionLog = new CollectionLog();
-
     public List<GameItem> dropItems;
     public CollectionLog.CollectionTabType collectionLogTab;
     public int previousSelectedCell;
@@ -460,13 +551,11 @@ public class Player extends Entity {
     public int teleX;
     public int teleY;
     public int teleAction;
-    private final Inventory inventory = new Inventory(this);
     // Config
     public boolean debugMessage = Server.isDebug(); // On by default on debug mode
     public boolean barbarian;
     public boolean breakVials;
     public boolean collectCoins;
-    private boolean runningToggled = true;
     // Trading post.
     public long lastTradingPostView;
     public boolean inSelecting;
@@ -485,142 +574,14 @@ public class Player extends Entity {
     public int[] historyItems = new int[15];
     public int[] historyItemsN = new int[15];
     public int[] historyPrice = new int[15];
-    private final RooftopAlkharid rooftopAlkharid = new RooftopAlkharid();
-    private final RooftopFalador rooftopFalador = new RooftopFalador();
-    private final RooftopDraynor rooftopDraynor = new RooftopDraynor();
-    private final RooftopCanafis rooftopCanafis = new RooftopCanafis();
-    private final RooftopPollnivneach rooftopPollnivneach = new RooftopPollnivneach();
-    private final RooftopRellekka rooftopRellekka = new RooftopRellekka();
-    private final BarbarianAgility barbarianAgility = new BarbarianAgility();
     // Boxes
     public int boxCurrentlyUsing;
-    private final YoutubeMysteryBox youtubeMysteryBox = new YoutubeMysteryBox(this);
-    private final UltraMysteryBox ultraMysteryBox = new UltraMysteryBox(this);
-    private final NormalMysteryBox normalMysteryBox = new NormalMysteryBox(this);
-    private final SuperMysteryBox superMysteryBox = new SuperMysteryBox(this);
-    private final FoeMysteryBox foeMysteryBox = new FoeMysteryBox(this);
-    private final SlayerMysteryBox slayerMysteryBox = new SlayerMysteryBox(this);
-    private final CoinBagSmall coinBagSmall = new CoinBagSmall(this);
-    private final CoinBagMedium coinBagMedium = new CoinBagMedium(this);
-    private final CoinBagLarge coinBagLarge = new CoinBagLarge(this);
-    private final CoinBagBuldging coinBagBuldging = new CoinBagBuldging(this);
-    private final VoteMysteryBox voteMysteryBox = new VoteMysteryBox();
-    private final PvmCasket pvmCasket = new PvmCasket();
-    private final DailyGearBox dailyGearBox = new DailyGearBox(this);
-    private final DailySkillBox dailySkillBox = new DailySkillBox(this);
-    // Combat
-    private final EntityDamageQueue entityDamageQueue = new EntityDamageQueue(this);
-    private BountyHunter bountyHunter = new BountyHunter(this);
-    private final Zulrah zulrah = new Zulrah(this);
-    private Entity targeted;
-    // Minigames
-    private final MageArena mageArena = new MageArena(this);
-    private final PestControlRewards pestControlRewards = new PestControlRewards(this);
-    private final WarriorsGuild warriorsGuild = new WarriorsGuild(this);
-    // Items
-    private RunePouch runePouch = new RunePouch(this);
-    private HerbSack herbSack = new HerbSack(this);
-    private GemBag gemBag = new GemBag(this);
-    private final RechargeItems rechargeItems = new RechargeItems(this);
-    private LootingBag lootingBag = new LootingBag(this);
     public int[] degradableItem = new int[Degrade.getMaximumItems()];
     public boolean[] claimDegradableItem = new boolean[Degrade.getMaximumItems()];
-    // Skilling
-    private final ExpLock explock = new ExpLock(this);
-    private final PrestigeSkills prestigeskills = new PrestigeSkills(this);
-    private final Mining mining = new Mining(this);
     public Smelting.Bars bar;
-    // Instances..
-    private PlayerParty party = null;
-    private final TobContainer tobContainer = new TobContainer(this);
-    private final TeleportInterface teleportInterface = new TeleportInterface(this);
-    private final Questing questing = new Questing(this);
-    private final NotificationsTab notificationsTab = new NotificationsTab(this);
-    private final DonationRewards donationRewards = new DonationRewards(this);
-    private final WogwContributeInterface wogwContributeInterface = new WogwContributeInterface(this);
-    private final Farming farming = new Farming(this);
-    private final DailyRewards dailyRewards = new DailyRewards(this);
-    private Cannon cannon;
-    public final Stopwatch last_trap_layed = new Stopwatch();
     public List<Integer> dropInterfaceSearchList = new ArrayList<>();
-    private final QuickPrayers quick = new QuickPrayers();
-    private final QuestTab questTab = new QuestTab(this);
-    private final EventCalendar eventCalendar = new EventCalendar(this);
-    private final RandomEventInterface randomEventInterface = new RandomEventInterface(this);
-    private final NPCDeathTracker npcDeathTracker = new NPCDeathTracker(this);
-    private final BossTimers bossTimers = new BossTimers(this);
-    private final UnnecessaryPacketDropper packetDropper = new UnnecessaryPacketDropper();
-    private LocalDate lastVote = LocalDate.of(1970, 1, 1);
-    private LocalDate lastVotePanelPoint = LocalDate.of(1970, 1, 1);
-    private long lastContainerSearch;
-    private AchievementHandler achievementHandler;
-    private String macAddress;
-    private String uuid = "";
-    private final Duel duelSession = new Duel(this);
-    private Player itemOnPlayer;
-    private Killstreak killstreaks;
-    private Mode mode = new RegularMode(ModeType.STANDARD);
-    private ModeRevertType modeRevertType = ModeRevertType.STANDARD;
-    private final ModeSelection modeSelection = new ModeSelection(this);
-    private final Trade trade = new Trade(this);
     public ItemAssistant itemAssistant = new ItemAssistant(this);
-    private final ShopAssistant shopAssistant = new ShopAssistant(this);
-    private final PlayerAssistant playerAssistant = new PlayerAssistant(this);
-    private final CombatItems combatItems = new CombatItems(this);
-    private final ActionHandler actionHandler = new ActionHandler(this);
-    private final DialogueHandler dialogueHandler = new DialogueHandler(this);
-    private final FriendsList friendsList = new FriendsList(this);
-    private final Queue<io.xeros.net.Packet> queuedPackets = new ConcurrentLinkedQueue<>();
-    private final Queue<Packet> priorityPackets = new ConcurrentLinkedQueue<>();
-    private final Potions potions = new Potions(this);
-    private final Food food = new Food(this);
-    private final SkillInterfaces skillInterfaces = new SkillInterfaces(this);
-    private final ChargeTrident chargeTrident = new ChargeTrident(this);
-    private PlayerMovementState movementState = PlayerMovementState.getDefault();
-    private Slayer slayer;
-    private final AgilityHandler agilityHandler = new AgilityHandler();
-    private final PointItems pointItems = new PointItems(this);
-    private final GnomeAgility gnomeAgility = new GnomeAgility();
-    private final WildernessAgility wildernessAgility = new WildernessAgility();
-    private final Shortcuts shortcuts = new Shortcuts();
-    private final Lighthouse lighthouse = new Lighthouse();
-    private final Agility agility = new Agility(this);
-    private final Prayer prayer = new Prayer(this);
-    private final Smithing smith = new Smithing(this);
-    private FightCave fightcave;
-    private final SmithingInterface smithInt = new SmithingInterface(this);
-    private final Herblore herblore = new Herblore(this);
-    private final Thieving thieving = new Thieving(this);
-    private final Fletching fletching = new Fletching(this);
-    private final Godwars godwars = new Godwars(this);
-    private final TreasureTrails trails = new TreasureTrails(this);
-    private Optional<ItemCombination> currentCombination = Optional.empty();
-    private List<God> equippedGodItems;
-    private Titles titles = new Titles(this);
-
-    // Consumable item timers
-    private final TickTimer foodTimer = new TickTimer();
-    private final TickTimer potionTimer = new TickTimer();
-
-    /**
-     * The {@link TickTimer} associated with combo eating
-     */
-    private final TickTimer comboTimer = new TickTimer();
-
     public Clan clan;
-    private final CollectionBox collectionBox = new CollectionBox();
-
-    private final PerduLostPropertyShop perduLostPropertyShop = new PerduLostPropertyShop();
-    private final FlowerPoker flowerPoker = new FlowerPoker(this);
-
-
-    /**
-     * Actions queued from any thread.
-     */
-    private final Queue<Consumer<Player>> queuedActions = new ConcurrentLinkedQueue<>();
-    private final Queue<Consumer<Player>> queuedLoginActions = new ArrayDeque<>();
-    private final List<TickableContainer<Player>> tickables = new ArrayList<>();
-    private TickableContainer<Player> tickable = null;
     public int diariesCompleted;
     // Combat vars
     public int underAttackByPlayer;
@@ -652,18 +613,6 @@ public class Player extends Entity {
     public int dreamSpellTimer;
     public double specAmount = 10;
     public double prayerPoint = 1.0;
-    // PvP Weapons
-
-    /**
-     * Manages PvP weapons for players
-     */
-    private PvpWeapons pvpWeapons = new PvpWeapons(this);
-
-    /**
-     * Manages the charges for the Tome of Fire
-     */
-    private TomeOfFire tomeOfFire = new TomeOfFire(this);
-
     public int braceletEtherCount;
     public int elvenCharge;
     public int crystalBowArrowCount;
@@ -680,6 +629,8 @@ public class Player extends Entity {
     public int bossPoints;
     public boolean bossPointsRefund;
     public int achievementPoints;
+    @Setter
+    @Getter
     public int raidPoints;
     public int votePoints;
     public int bloodPoints;
@@ -698,6 +649,8 @@ public class Player extends Entity {
     public int xInterfaceId;
     public int xRemoveId;
     public int xRemoveSlot;
+    @Setter
+    @Getter
     public int enterAmountInterfaceId;
     public int safeBoxSlots = 15;
     public int lootValue;
@@ -719,6 +672,7 @@ public class Player extends Entity {
     public int exchangePoints;
     public int totalEarnedExchangePoints;
     public int referallFlag;
+    // PvP Weapons
     public int amDonated;
     public int showcase;
     public int streak;
@@ -742,7 +696,6 @@ public class Player extends Entity {
     public int npcClickIndex;
     public int npcType;
     public int oldSpellId;
-    private int spellId = -1;
     public int hitDelay;
     public int bowSpecShot;
     public int clickNpcType;
@@ -770,7 +723,6 @@ public class Player extends Entity {
     public int objectXOffset;
     public int objectYOffset;
     public int objectDistance;
-
     public int tablet;
     public int wellItem = -1;
     public int wellItemPrice = -1;
@@ -778,39 +730,6 @@ public class Player extends Entity {
      * Combat
      */
     public int graniteMaulSpecialCharges;
-    private int chatTextColor;
-    private int chatTextEffects;
-    @Getter
-    @Setter
-    private int dragonfireShieldCharge;
-    private int runEnergy = 100;
-    private int x1 = -1;
-    private int y1 = -1;
-    private int x2 = -1;
-    private int y2 = -1;
-    private int privateChat;
-    private int shayPoints;
-    private int arenaPoints;
-    private int toxicStaffOfTheDeadCharge;
-    private int toxicBlowpipeCharge;
-    private int toxicBlowpipeAmmo;
-    private int toxicBlowpipeAmmoAmount;
-    private int serpentineHelmCharge;
-    private int tridentCharge;
-    private int toxicTridentCharge;
-    private int arcLightCharge;
-    private int sangStaffCharge;
-
-    public int getRunningDistanceTravelled() {
-        return runningDistanceTravelled;
-    }
-
-    private int runningDistanceTravelled;
-    private int openInterface;
-    public static int playerCrafting = 12;
-    public static int playerSmithing = 13;
-    protected int numTravelBackSteps;
-    protected AtomicInteger packetsReceived = new AtomicInteger();
     public AtomicInteger attemptedPackets = new AtomicInteger();
     /**
      * Arrays
@@ -830,12 +749,10 @@ public class Player extends Entity {
     public int[] pureEssencePouch = new int[3];
     public int[] prestigeLevel = new int[25];
     public boolean[] skillLock = new boolean[25];
-
     // This is done really badly
     // When your grabbing an item here and comparing it, e.g. playerItems[5] == 4151, do playerItems[5] == 4151 + 1
     // You can also do playerItems[5] - 1 == 4151
     public int[] playerItems = new int[28];
-
     public int[] playerItemsN = new int[28];
     public int[] counters = new int[20];
     public int[] raidsDamageCounters = new int[15];
@@ -849,18 +766,13 @@ public class Player extends Entity {
     public String CERBERUS_ATTACK_TYPE = "";
     public String forcedText = "null";
     public String connectedFrom = "";
-    private String loginName;
-    private String displayName;
-    private long displayNameLong;
     public String playerPass;
     public String barType = "";
     public String playerTitle = "";
     public String rottenPotatoOption = "";
-    private String lastClanChat = "";
-    private String revertOption = "";
-    private String konarSlayerLocation;
+    @Setter
+    @Getter
     public String lastTask = "";
-
     /**
      * Booleans
      */
@@ -904,8 +816,6 @@ public class Player extends Entity {
     public boolean isBanking = true;
     public boolean isCooking;
     public boolean initialized;
-    private boolean forceLogout;
-    private boolean disconnected;
     public boolean ruleAgreeButton;
     public boolean isActive;
     public boolean isOverloading;
@@ -919,9 +829,7 @@ public class Player extends Entity {
     public boolean autocastingDefensive;
     public boolean dbowSpec;
     public boolean properLogout;
-    private boolean destructed;
     public boolean vengOn;
-    private boolean completedTutorial;
     public boolean accountFlagged;
     public boolean doricOption;
     public boolean doricOption2;
@@ -933,6 +841,8 @@ public class Player extends Entity {
     public boolean rfdOption;
     public boolean spawned;
     public boolean hasBankpin;
+    @Setter
+    @Getter
     public boolean appearanceUpdateRequired = true;
     public boolean canChangeAppearance;
     public boolean isFullBody;
@@ -991,7 +901,9 @@ public class Player extends Entity {
     public boolean healthSkill;
     public boolean pkDistrict;
     public boolean crystalDrop;
+    @Setter
     public boolean hourlyBoxToggle = true;
+    @Setter
     public boolean fracturedCrystalToggle = true;
     public boolean boltTips;
     public boolean arrowTips;
@@ -1001,27 +913,7 @@ public class Player extends Entity {
     public boolean canHarvestHespori = false;
     public boolean canLeaveHespori = false;
     public boolean canEnterHespori;
-    private boolean dropWarning = true;
-    private boolean alchWarning = true;
-    private boolean chatTextUpdateRequired;
-    private boolean newWalkCmdIsRunning;
-    private boolean forceMovement;
-    @Setter
-    private boolean godmode;
-    @Setter
-    private boolean safemode;
-    private boolean forceMovementActive;
     public boolean insidePost;
-
-    /**
-     * @return the forceMovement
-     */
-    public boolean isForceMovementActive() {
-        return forceMovementActive;
-    }
-
-    protected boolean faceUpdateRequired;
-    private final AchievementDiaryManager diaryManager = new AchievementDiaryManager(this);
     public long totalGorillaDamage;
     public long totalMissedGorillaHits;
     public long totalHunllefDamage;
@@ -1077,74 +969,401 @@ public class Player extends Entity {
     public long logoutDelay = System.currentTimeMillis();
     public long cerbDelay = System.currentTimeMillis();
     public long chestDelay = System.currentTimeMillis();
-    private long revertModeDelay;
-    private long experienceCounter;
-    private long bestZulrahTime;
-    private long lastOverloadBoost;
-    private long nameAsLong;
-    @Setter
-    @Getter
-    private long lastDragonfireShieldAttack;
     public long clickDelay;
     public long lastHealChest = System.currentTimeMillis();
     public boolean hasPetSpawned;
-    private boolean receivedVoteStreakRefund; // TODO DELETE ME AFTER September 29th 2021
-    /**
-     * The amount of time before we are out of combat.
-     */
-    private long inCombatDelay = Configuration.IN_COMBAT_TIMER;
-
-    public void setInCombatDelay(long inCombatDelay) {
-        this.inCombatDelay = inCombatDelay;
-    }
-
     /**
      * Others
      */
     public ArrayList<String> lastConnectedFrom = new ArrayList<>();
-    public ArrayList<Integer> attackedPlayers = new ArrayList<Integer>();
-
-    @Override
-    public String toString() {
-        return String.format("player[loginName=%s, displayName=%s, ip=%s, mac=%s, uuid=%s]", getLoginName(),
-                getDisplayName(), getIpAddress(), getMacAddress(), getUUID());
-    }
-
-    public String getNamesDescription() {
-        return String.format("[login=%s, display=%s]", getLoginName(), getDisplayName());
-    }
-
-    /**
-     * Gets a description of a player including their state.
-     * Append to every logged error. Needs expanded to including other states.
-     *
-     * @return player state description string.
+    public ArrayList<Integer> attackedPlayers = new ArrayList<>();
+    public int tournamentWins, tournamentPoints, outlastKills, outlastDeaths, tournamentTotalGames;
+    public Player tournamentTarget;
+    public long tournamentTargetCooldown;
+    public boolean hunllefDead;
+    public int VERIFICATION;
+    public long disconnectTime;
+    public boolean firstMove;
+    public int totalRaidsFinished;
+    public int[] BLACK_MASKS = {Items.BLACK_MASK, Items.BLACK_MASK_1, Items.BLACK_MASK_2, Items.BLACK_MASK_3, Items.BLACK_MASK_4, Items.BLACK_MASK_5, Items.BLACK_MASK_6, Items.BLACK_MASK_7, Items.BLACK_MASK_8, Items.BLACK_MASK_9, Items.BLACK_MASK_10};
+    public int[] SLAYER_HELMETS = {11864, 11865, 19639, 19641, 19643, 19645, 19647, 19649, 21888, 21890, 21264, 21266, 23075, 24444, 24370};
+    public int[] IMBUED_SLAYER_HELMETS = {Items.SLAYER_HELMET_I, Items.TWISTED_SLAYER_HELMET_I, Items.TURQUOISE_SLAYER_HELMET_I, Items.RED_SLAYER_HELMET_I, Items.PURPLE_SLAYER_HELMET_I, Items.PURPLE_SLAYER_HELMET_I, Items.BLACK_SLAYER_HELMET_I, Items.GREEN_SLAYER_HELMET_I, Items.HYDRA_SLAYER_HELMET_I};
+    public int graceSum;
+    public int tournamentFogDuration;
+    public int tournamentDamageFromFog;
+    public boolean wasInRaids = false;
+    public FlowerPokerHand flowerPokerHand;
+    public long[] reduceSpellDelay = new long[6];
+    public int reduceSpellId;
+    public boolean usingPrayer;
+    public boolean isSelectingQuickprayers;
+    public boolean[] prayerActive = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
+    public int otherDirection;
+    public boolean invincible;
+    public int dropSize;
+    public boolean sellingX;
+    public int currentPrestigeLevel;
+    public int prestigeNumber;
+    public boolean canPrestige;
+    @Getter
+    public int prestigePoints;
+    public boolean newStarter;
+    public boolean spawnedbarrows;
+    public boolean absorption;
+    public boolean announce = true;
+    public boolean lootPickUp;
+    public boolean xpScroll;
+    public long xpScrollTicks;
+    public boolean skillingPetRateScroll;
+    public long skillingPetRateTicks;
+    public boolean fasterCluesScroll;
+    public long fasterCluesTicks;
+    public boolean augury;
+    public boolean rigour;
+    public boolean usedFc;
+    public int startDate = -1;
+    public int LastLoginYear;
+    public int LastLoginMonth;
+    public int LastLoginDate;
+    public int LoginStreak;
+    /*
+     * diary completion
      */
-    public String getStateDescription() {
-        return String.format("[loginName=%s, displayName=%s, position=%s]", getLoginName(), getDisplayName(), getPosition());
-    }
+    public boolean d1Complete;
+    public boolean d2Complete;
+    public boolean d3Complete;
+    public boolean d4Complete;
+    public boolean d5Complete;
+    public boolean d6Complete;
+    public boolean d7Complete;
+    public boolean d8Complete;
+    public boolean d9Complete;
+    public boolean d10Complete;
+    public boolean d11Complete;
+    public long lastWebSlash;
+    @Getter
+    @Setter
+    public boolean oneHit = false;
+    @Setter
+    @Getter
+    public boolean alwaysHit = false;
+    public int lastSymbolDistanceCheck;
+    public List<NPC> derwens_orbs = Lists.newArrayList();
+    public int[] activeMageArena2BossId = new int[3];
+    public Position[] mageArena2Spawns = null;
+    public int[] mageArena2SpawnsX = new int[3];
+    public int[] mageArena2SpawnsY = new int[3];
+    /**
+     * Saved
+     */
 
-    public Position getPosition() {
-        return new Position(absX, absY, heightLevel);
-    }
-
-    public boolean isManagement() {
-        return getRights().isOrInherits(Right.ADMINISTRATOR, Right.OWNER);
-    }
-
+    public boolean[] mageArenaBossKills = new boolean[3];
+    public boolean[] mageArena2Stages = new boolean[5];
+    public int flamesOfZamorakCasts, clawsOfGuthixCasts, saradominStrikeCasts;
+    protected int[] travelBackX = new int[walkingQueueSize];
+    protected int[] travelBackY = new int[walkingQueueSize];
+    protected RightGroup rights;
+    protected int numTravelBackSteps;
+    protected AtomicInteger packetsReceived = new AtomicInteger();
+    protected boolean faceUpdateRequired;
+    @Setter
+    @Getter
+    int ownerDamage;
+    @Getter
+    private Channel session;
+    private long lastPacketReceived = System.currentTimeMillis();
+    @Setter
+    @Getter
+    private int teleportToX = -1;
+    @Setter
+    @Getter
+    private int teleportToY = -1;
+    @Setter
+    @Getter
+    private byte[] chatText = new byte[4096];
+    @Setter
+    @Getter
+    private byte chatTextSize;
+    @Setter
+    @Getter
+    private int migrationVersion;
+    @Setter
+    @Getter
+    private DialogueBuilder dialogueBuilder = null;
+    private long aggressionTimer = System.currentTimeMillis();
+    @Setter
+    @Getter
+    private boolean printAttackStats = Server.isTest();
+    @Setter
+    @Getter
+    private boolean printDefenceStats = Server.isTest();
+    @Setter
+    @Getter
+    private boolean helpCcMuted = false;
+    @Setter
+    @Getter
+    private boolean gambleBanned = false;
+    @Getter
+    public Controller controller;
+    @Setter
+    private Controller loadedController;
+    @Setter
+    @Getter
+    private boolean joinedIronmanGroup;
+    private long lastDatabaseAccess;
+    @Getter
+    private PlayerLock lock = new Unlocked();
+    @Setter
+    @Getter
+    private boolean receivedCalendarCosmeticJune2021;
+    // Bank
+    private Bank bank;
+    // Tournaments
+    @Getter
+    private List<SkillExperience> outlastSkillBackup = new ArrayList<>();
+    @Setter
+    @Getter
+    private CollectionLog viewingCollectionLog;
+    @Getter
+    private CollectionLog collectionLog = new CollectionLog();
+    @Setter
+    @Getter
+    private boolean runningToggled = true;
+    private BountyHunter bountyHunter = new BountyHunter(this);
+    @Setter
+    @Getter
+    private Entity targeted;
+    // Items
+    @Getter
+    private RunePouch runePouch = new RunePouch(this);
+    @Getter
+    private HerbSack herbSack = new HerbSack(this);
+    @Getter
+    private GemBag gemBag = new GemBag(this);
+    @Getter
+    private LootingBag lootingBag = new LootingBag(this);
+    // Instances..
+    @Setter
+    @Getter
+    private PlayerParty party = null;
+    @Setter
+    @Getter
+    private Cannon cannon;
+    @Setter
+    @Getter
+    private LocalDate lastVote = LocalDate.of(1970, 1, 1);
+    @Setter
+    @Getter
+    private LocalDate lastVotePanelPoint = LocalDate.of(1970, 1, 1);
+    @Setter
+    @Getter
+    private long lastContainerSearch;
+    private AchievementHandler achievementHandler;
+    @Setter
+    @Getter
+    private String macAddress;
+    private String uuid = "";
+    @Setter
+    @Getter
+    private Player itemOnPlayer;
+    private Killstreak killstreaks;
+    @Setter
+    @Getter
+    private Mode mode = new RegularMode(ModeType.STANDARD);
+    @Setter
+    @Getter
+    private ModeRevertType modeRevertType = ModeRevertType.STANDARD;
+    @Setter
+    private PlayerMovementState movementState = PlayerMovementState.getDefault();
+    private Slayer slayer;
+    private FightCave fightcave;
+    @Setter
+    @Getter
+    private Optional<ItemCombination> currentCombination = Optional.empty();
+    @Getter
+    private List<God> equippedGodItems;
+    private Titles titles = new Titles(this);
+    private TickableContainer<Player> tickable = null;
+    /**
+     * Manages PvP weapons for players
+     */
+    @Getter
+    private PvpWeapons pvpWeapons = new PvpWeapons(this);
+    /**
+     * Manages the charges for the Tome of Fire
+     */
+    @Getter
+    private TomeOfFire tomeOfFire = new TomeOfFire(this);
+    @Setter
+    @Getter
+    private int spellId = -1;
+    @Setter
+    @Getter
+    private int chatTextColor;
+    @Setter
+    @Getter
+    private int chatTextEffects;
+    @Getter
+    @Setter
+    private int dragonfireShieldCharge;
+    @Getter
+    private int runEnergy = 100;
+    private int x1 = -1;
+    private int y1 = -1;
+    private int x2 = -1;
+    private int y2 = -1;
+    @Setter
+    @Getter
+    private int privateChat;
+    @Setter
+    @Getter
+    private int shayPoints;
+    @Setter
+    @Getter
+    private int arenaPoints;
+    @Setter
+    @Getter
+    private int toxicStaffOfTheDeadCharge;
+    @Setter
+    @Getter
+    private int toxicBlowpipeCharge;
+    @Setter
+    @Getter
+    private int toxicBlowpipeAmmo;
+    @Setter
+    @Getter
+    private int toxicBlowpipeAmmoAmount;
+    @Setter
+    @Getter
+    private int serpentineHelmCharge;
+    @Setter
+    @Getter
+    private int tridentCharge;
+    @Setter
+    @Getter
+    private int toxicTridentCharge;
+    @Setter
+    @Getter
+    private int arcLightCharge;
+    @Setter
+    @Getter
+    private int sangStaffCharge;
+    @Getter
+    private int runningDistanceTravelled;
+    /**
+     * -- GETTER --
+     * The interface that is opened
+     * <p>
+     * -- SETTER --
+     * Modifies the current interface open
+     */
+    @Setter
+    @Getter
+    private int openInterface;
+    @Setter
+    @Getter
+    private String loginName;
+    @Getter
+    public String displayName;
+    /**
+     * -- GETTER --
+     * Get the player's lowercased display name as a long value.
+     */
+    @Getter
+    private long displayNameLong;
+    @Setter
+    @Getter
+    private String lastClanChat = "";
+    @Setter
+    @Getter
+    private String revertOption = "";
+    @Setter
+    @Getter
+    private String konarSlayerLocation;
+    private boolean forceLogout;
+    @Setter
+    @Getter
+    private boolean disconnected;
+    private boolean destructed;
+    @Setter
+    @Getter
+    private boolean completedTutorial;
+    /**
+     * -- SETTER --
+     * Change whether a warning will be shown when dropping items.
+     */
+    @Setter
+    private boolean dropWarning = true;
+    @Setter
+    @Getter
+    private boolean alchWarning = true;
+    @Setter
+    @Getter
+    private boolean chatTextUpdateRequired;
+    @Setter
+    @Getter
+    private boolean newWalkCmdIsRunning;
+    private boolean forceMovement;
+    @Setter
+    private boolean godmode;
+    @Setter
+    private boolean safemode;
+    /**
+     * -- GETTER --
+     */
+    @Getter
+    private boolean forceMovementActive;
+    @Setter
+    @Getter
+    private long revertModeDelay;
+    @Setter
+    @Getter
+    private long experienceCounter;
+    @Setter
+    @Getter
+    private long bestZulrahTime;
+    private long lastOverloadBoost;
+    @Setter
+    @Getter
+    private long nameAsLong;
+    public EntityReference lastAttackedEntity = EntityReference.getReference(null);
+    @Setter
+    @Getter
+    private long lastDragonfireShieldAttack;
+    @Setter
+    @Getter
+    private boolean receivedVoteStreakRefund; // TODO DELETE ME AFTER September 29th 2021
+    /**
+     * The amount of time before we are out of combat.
+     */
+    @Setter
+    private long inCombatDelay = Configuration.IN_COMBAT_TIMER;
     @Getter
     private boolean bot = false;
+    private BankPin pin;
+    @Getter
+    private boolean requiresPinUnlock;
+    /**
+     * A cache of the side bar interfaces currently set for the player
+     */
+    private final Map<Integer, Integer> sideBarInterfaces = new HashMap<>();
+    @Setter
+    @Getter
+    private boolean protectionPrayersShiftRight;
+    /**
+     * Direction, 2 = South, 0 = North, 3 = West, 2 = East?
+     */
+    private int xOffsetWalk;
+    private int yOffsetWalk;
+    @Setter
+    private LeaderboardPeriodicity currentLeaderboardPeriod;
 
     public Player(Channel channel) {
         this.session = channel;
         freezeTimer = -6;
         rights = new RightGroup(this, Right.PLAYER);
-        for (int i = 0; i < playerItems.length; i++) {
-            playerItems[i] = 0;
-        }
-        for (int i = 0; i < playerItemsN.length; i++) {
-            playerItemsN[i] = 0;
-        }
+        Arrays.fill(playerItems, 0);
+        Arrays.fill(playerItemsN, 0);
         resetSkills();
 
         ChangeAppearance.generateRandomAppearance(this);
@@ -1175,13 +1394,98 @@ public class Player extends Entity {
         }
     }
 
+    public static boolean shouldHideBeard(int id) {
+        if (id == 8) return true;
+        return id == 11;
+    }
+
+    public void saveItemsForMinigame() {
+        /*
+          Clones items
+         */
+        this.tempInventory = this.playerItems.clone();
+        this.tempInventoryN = this.playerItemsN.clone();
+        this.tempEquipment = this.playerEquipment.clone();
+        this.tempEquipmentN = this.playerEquipmentN.clone();
+        /*
+          Deletes
+         */
+        this.getItems().deleteAllItems();
+        /*
+          Refreshes items
+         */
+        getItems().addContainerUpdate(ContainerUpdate.INVENTORY);
+        getItems().addContainerUpdate(ContainerUpdate.EQUIPMENT);
+    }
+
+    public void restoreItemsForMinigame() {
+        /*
+          Clones items
+         */
+        this.playerItems = this.tempInventory.clone();
+        this.playerItemsN = this.tempInventoryN.clone();
+        this.playerEquipment = this.tempEquipment.clone();
+        this.playerEquipmentN = this.tempEquipmentN.clone();
+        /*
+          Restores
+         */
+        this.tempInventory = new int[28];
+        this.tempInventoryN = new int[28];
+        this.tempEquipment = new int[14];
+        this.tempEquipmentN = new int[14];
+        /*
+          Refreshes items
+         */
+        getItems().addContainerUpdate(ContainerUpdate.INVENTORY);
+        getItems().addContainerUpdate(ContainerUpdate.EQUIPMENT);
+    }
+
+    public void resetAggressionTimer() {
+        aggressionTimer = System.currentTimeMillis();
+    }
+
+    public boolean isAggressionTimeout(Player player) {
+        if (Boundary.isIn(player, Boundary.GODWARS_AREA) || Boundary.isIn(player, Boundary.CERBERUS_BOSSROOMS)) {
+            return false;
+        }
+        return System.currentTimeMillis() - aggressionTimer >= TimeUnit.MINUTES.toMillis(15);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("player[loginName=%s, displayName=%s, ip=%s, mac=%s, uuid=%s]", getLoginName(),
+            getDisplayName(), getIpAddress(), getMacAddress(), getUUID());
+    }
+
+    public String getNamesDescription() {
+        return String.format("[login=%s, display=%s]", getLoginName(), getDisplayName());
+    }
+
+    /**
+     * Gets a description of a player including their state.
+     * Append to every logged error. Needs expanded to including other states.
+     *
+     * @return player state description string.
+     */
+    public String getStateDescription() {
+        return String.format("[loginName=%s, displayName=%s, position=%s]", getLoginName(), getDisplayName(), getPosition());
+    }
+
+    public Position getPosition() {
+        return new Position(absX, absY, heightLevel);
+    }
+
+    public boolean isManagement() {
+        return getRights().isOrInherits(Right.ADMINISTRATOR, Right.OWNER);
+    }
+
     public PlayerAddresses getValidAddresses() {
         String ip = getIpAddress();
         String mac = null;
         String uuid = null;
-        if (getMacAddress() != null && getMacAddress().length() > 0 && !getMacAddress().equals(getIpAddress()))
+        if (getMacAddress() != null && !getMacAddress().isEmpty() && !getMacAddress().equals(getIpAddress()))
             mac = getMacAddress();
-        if (getUUID() != null && getUUID().length() > 0)
+        if (getUUID() != null && !getUUID().isEmpty())
             uuid = getUUID();
         return new PlayerAddresses(ip, mac, uuid);
     }
@@ -1193,14 +1497,16 @@ public class Player extends Entity {
         for (int i = 0; i < playerLevel.length; i++) {
             if (i == 3) {
                 playerLevel[i] = 10;
-            } else {
+            }
+            else {
                 playerLevel[i] = 1;
             }
         }
         for (int i = 0; i < playerXP.length; i++) {
             if (i == 3) {
                 playerXP[i] = 1300;
-            } else {
+            }
+            else {
                 playerXP[i] = 0;
             }
         }
@@ -1214,7 +1520,8 @@ public class Player extends Entity {
             String message = Misc.replaceBracketsWithArguments("{} changed {} address", getNamesDescription(), type);
             if (staffAlertMessage) {
                 Discord.writeAddressSwapMessage(message);
-            } else {
+            }
+            else {
                 Discord.writeServerSyncMessage(message);
             }
 
@@ -1237,10 +1544,6 @@ public class Player extends Entity {
         debug("Unlocked.");
     }
 
-    public PlayerLock getLock() {
-        return lock;
-    }
-
     /**
      * Check if the player has hit the database access rate limit. If not it will set the database access time.
      *
@@ -1261,16 +1564,13 @@ public class Player extends Entity {
 
     public boolean isInIronmanGroupWith(final Player other) {
         var group = GroupIronmanRepository.getGroupForOnline(this);
-        if (group.isEmpty()) {
-            return false;
-        }
-        return group.get().getOnline().contains(other);
+        return group.map(groupIronmanGroup -> groupIronmanGroup.getOnline().contains(other)).orElse(false);
     }
 
     public long getTotalXp() {
         long temp = 0;
-        for (int i = 0; i < playerXP.length; i++) {
-            temp += playerXP[i];
+        for (int j : playerXP) {
+            temp += j;
         }
         return temp;
     }
@@ -1283,7 +1583,7 @@ public class Player extends Entity {
         }
 
         return withinDistance(npc) && !npc.isInvisible() && npc.getInstance() == getInstance()
-                && !npc.needRespawn && npc.getIndex() > 0;
+            && !npc.needRespawn && npc.getIndex() > 0;
     }
 
     /**
@@ -1308,7 +1608,7 @@ public class Player extends Entity {
 
     public boolean ignoreNewPlayerRestriction(Player other) {
         return getRights().ignoreNewPlayerRestriction() || other.getRights().ignoreNewPlayerRestriction()
-                || getMode().isGroupIronman() || other.getMode().isGroupIronman();
+            || getMode().isGroupIronman() || other.getMode().isGroupIronman();
     }
 
     public boolean hasNewPlayerRestriction() {
@@ -1330,9 +1630,6 @@ public class Player extends Entity {
         return bank;
     }
 
-    private BankPin pin;
-    private boolean requiresPinUnlock;
-
     public BankPin getBankPin() {
         if (pin == null) pin = new BankPin(this);
         return pin;
@@ -1341,11 +1638,6 @@ public class Player extends Entity {
     public void sendMessage(String s, int color) {
         sendMessage("<col=" + color + ">" + s + "</col>");
     }
-
-    public int tournamentWins, tournamentPoints, outlastKills, outlastDeaths, tournamentTotalGames;
-    public Player tournamentTarget;
-
-    public long tournamentTargetCooldown;
 
     public void resetVengeance() {
         vengOn = false;
@@ -1362,14 +1654,11 @@ public class Player extends Entity {
         getOutStream().currentOffset = 0;
     }
 
-    public void setLoadedController(Controller loadedController) {
-        this.loadedController = loadedController;
-    }
-
     private void loadController() {
         if (loadedController != null && loadedController.inBoundaryOrNoBoundaries(this)) {
             setController(loadedController);
-        } else {
+        }
+        else {
             setController(ControllerRepository.getOrDefault(this));
         }
         loadedController = null;
@@ -1382,10 +1671,6 @@ public class Player extends Entity {
         controller.added(this);
         if (!isBot())
             logger.debug("Set controller to {}, {}", controller.getKey(), controller);
-    }
-
-    public Controller getController() {
-        return controller;
     }
 
     /**
@@ -1402,10 +1687,6 @@ public class Player extends Entity {
         }
     }
 
-    public int getSpellId() {
-        return spellId;
-    }
-
     public boolean usingGodSpell() {
         return oldSpellId >= 28 && oldSpellId <= 30;
     }
@@ -1418,10 +1699,6 @@ public class Player extends Entity {
         else if (spell == 30)
             return flamesOfZamorakCasts >= 100;
         return true;
-    }
-
-    public void setSpellId(int spellId) {
-        this.spellId = spellId;
     }
 
     public boolean isWearingWeapon(int id) {
@@ -1456,22 +1733,6 @@ public class Player extends Entity {
         });
     }
 
-    public int getTeleportToX() {
-        return teleportToX;
-    }
-
-    public void setTeleportToX(int teleportToX) {
-        this.teleportToX = teleportToX;
-    }
-
-    public int getTeleportToY() {
-        return teleportToY;
-    }
-
-    public void setTeleportToY(int teleportToY) {
-        this.teleportToY = teleportToY;
-    }
-
     public boolean protectingRange() {
         return this.prayerActive[17];
     }
@@ -1484,30 +1745,9 @@ public class Player extends Entity {
         return this.prayerActive[18];
     }
 
-    public boolean isProtectionPrayersShiftRight() {
-        return protectionPrayersShiftRight;
-    }
-
-    public void setProtectionPrayersShiftRight(boolean protectionPrayersShiftRight) {
-        this.protectionPrayersShiftRight = protectionPrayersShiftRight;
-    }
-
-    public boolean isDisconnected() {
-        return disconnected;
-    }
-
-    public void setDisconnected(boolean disconnected) {
-        this.disconnected = disconnected;
-    }
-
-    public boolean hunllefDead;
-    public int VERIFICATION;
-
     public void TournamentHiscores(Player c) {
         c.getDH().sendDialogues(983, 311);
     }
-
-    public long disconnectTime;
 
     public void start(DialogueBuilder dialogueBuilder) {
         this.dialogueBuilder = dialogueBuilder;
@@ -1540,11 +1780,11 @@ public class Player extends Entity {
             }
         }
         if (!isIdle && underAttackByNpc > 0) {
-            sendMessage("You can\'t log out until 10 seconds after the end of combat.");
+            sendMessage("You can't log out until 10 seconds after the end of combat.");
             return;
         }
         if (underAttackByPlayer > 0) {
-            sendMessage("You can\'t log out until 10 seconds after the end of combat.");
+            sendMessage("You can't log out until 10 seconds after the end of combat.");
             return;
         }
 
@@ -1567,7 +1807,6 @@ public class Player extends Entity {
         forceLogout = true;
     }
 
-
     public void setDisconnected() {
         setDisconnected(true);
         disconnectTime = System.currentTimeMillis();
@@ -1579,9 +1818,9 @@ public class Player extends Entity {
         if (getLock().cannotLogout(this))
             return false;
         return properLogout
-                || isDisconnected() && System.currentTimeMillis() - logoutDelay > 10000
-                || isDisconnected() && disconnectTime != 0 && (System.currentTimeMillis() - disconnectTime >= 30000)
-                || !bot && System.currentTimeMillis() - lastPacketReceived > 30000;
+            || isDisconnected() && System.currentTimeMillis() - logoutDelay > 10000
+            || isDisconnected() && disconnectTime != 0 && (System.currentTimeMillis() - disconnectTime >= 30000)
+            || !bot && System.currentTimeMillis() - lastPacketReceived > 30000;
     }
 
     public void destruct() {
@@ -1631,7 +1870,8 @@ public class Player extends Entity {
             if (Highpkarena.getState(this) != null) {
                 Highpkarena.removePlayer(this, true);
             }
-        } else if (combatLevel >= 80 && combatLevel <= 99) {
+        }
+        else if (combatLevel >= 80) {
             if (Lowpkarena.getState(this) != null) {
                 Lowpkarena.removePlayer(this, true);
             }
@@ -1678,8 +1918,8 @@ public class Player extends Entity {
         //outStream = null;
         playerListSize = 0;
         npcListSize = 0;
-        for (int i = 0; i < maxPlayerListSize; i++) playerList[i] = null;
-        for (int i = 0; i < maxNPCListSize; i++) npcList[i] = null;
+        Arrays.fill(playerList, null);
+        Arrays.fill(npcList, null);
         if (Server.isTest() && !isBot()) {
             logger.info(Misc.formatPlayerName(getLoginName()) + " is logging out..");
         }
@@ -1698,7 +1938,8 @@ public class Player extends Entity {
         if (Objects.nonNull(duelSession) && duelSession.getStage().getStage() > MultiplayerSessionStage.REQUEST) {
             if (duelSession.getStage().getStage() < MultiplayerSessionStage.FURTHER_INTERATION) {
                 duelSession.finish(MultiplayerSessionFinalizeType.WITHDRAW_ITEMS);
-            } else {
+            }
+            else {
                 Player winner = duelSession.getOther(this);
                 duelSession.setWinner(winner);
                 duelSession.finish(MultiplayerSessionFinalizeType.GIVE_ITEMS);
@@ -1775,15 +2016,18 @@ public class Player extends Entity {
 
         if (completedTutorial) {
             sendMessage("@bla@Welcome back to " + Configuration.SERVER_NAME + ", " + getDisplayNameFormatted() + ".");
-        } else {
+        }
+        else {
             sendMessage("@bla@Welcome to " + Configuration.SERVER_NAME + ", don't forget to join the <col=255>::discord</col>!");
         }
 
         if (Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY || Calendar.getInstance().get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY) {
             sendMessage("@bla@Bonus XP Weekend is currently [@gre@ACTIVE@bla@]");
-        } else if (bonusXpTime > 0) {
+        }
+        else if (bonusXpTime > 0) {
             getPA().sendGameTimer(ClientGameTimer.BONUS_XP, TimeUnit.MINUTES, VotePanelManager.getBonusXPTimeInMinutes(this));
-        } else if (xpScrollTicks > 0) {
+        }
+        else if (xpScrollTicks > 0) {
             getPA().sendGameTimer(ClientGameTimer.BONUS_XP, TimeUnit.MINUTES, (int) (xpScrollTicks / 100));
         }
         if (skillingPetRateTicks > 0) {
@@ -1797,13 +2041,17 @@ public class Player extends Entity {
         }
         if (getRights().getPrimary().equals(Right.HELPER)) {
             PlayerHandler.executeGlobalMessage("[@red@Staff@bla@] <col=255>" + getDisplayNameFormatted() + "@bla@ has just logged in!");
-        } else if (getRights().getPrimary().equals(Right.MODERATOR)) {
+        }
+        else if (getRights().getPrimary().equals(Right.MODERATOR)) {
             PlayerHandler.executeGlobalMessage("[@red@Staff@bla@] <col=255>" + getDisplayNameFormatted() + "@bla@ has just logged in!");
-        } else if (getRights().getPrimary().equals(Right.GAME_DEVELOPER)) {
+        }
+        else if (getRights().getPrimary().equals(Right.GAME_DEVELOPER)) {
             PlayerHandler.executeGlobalMessage("[@red@Staff@bla@] <col=255>" + getDisplayNameFormatted() + "@bla@ has just logged in!");
-        } else if (getRights().getPrimary().equals(Right.ADMINISTRATOR)) {
+        }
+        else if (getRights().getPrimary().equals(Right.ADMINISTRATOR)) {
             PlayerHandler.executeGlobalMessage("[@red@Staff@bla@] <col=255>" + getDisplayNameFormatted() + "@bla@ has just logged in!");
-        } else if (getRights().getPrimary().equals(Right.OWNER)) {
+        }
+        else if (getRights().getPrimary().equals(Right.OWNER)) {
             PlayerHandler.executeGlobalMessage("[@red@Staff@bla@] <col=255>" + getDisplayNameFormatted() + "@bla@ has just logged in!");
         }
         if (getSlayer().superiorSpawned) {
@@ -1817,7 +2065,7 @@ public class Player extends Entity {
                 Right right = rank.rights;
                 if (!rights.contains(right)) {
                     sendMessage("@blu@Congratulations, your rank has been upgraded to " + right.toString() + ".");
-                    sendMessage("@blu@This rank is hidden, but you will have all it\'s perks.");
+                    sendMessage("@blu@This rank is hidden, but you will have all it's perks.");
                     rights.add(right);
                 }
             });
@@ -1858,9 +2106,7 @@ public class Player extends Entity {
                 }
             }
         }
-        for (int m = 0; m < activeMageArena2BossId.length; m++) {
-            activeMageArena2BossId[m] = 0;
-        }
+        Arrays.fill(activeMageArena2BossId, 0);
 
         if (mageArena2Spawns == null)
             MageArenaII.assignSpawns(this);
@@ -1912,11 +2158,11 @@ public class Player extends Entity {
         flushOutStream();
         totalLevel = getPA().calculateTotalLevel();
         getPA().updateQuestTab(); //diary tab
-        /**
-         * Welcome messages
+        /*
+          Welcome messages
          */
         getQuestTab().updateInformationTab();
-        getPA().sendFrame126("Combat Level: " + combatLevel + "", 3983);
+        getPA().sendFrame126("Combat Level: " + combatLevel, 3983);
         getPA().sendFrame126("Total level:", 19209);
         getPA().sendFrame126(totalLevel + "", 3984);
         getPA().resetFollow();
@@ -1958,7 +2204,8 @@ public class Player extends Entity {
             mode = Mode.forType(ModeType.STANDARD);
             receivedVoteStreakRefund = true;
             setMigrationVersion(PlayerMigrationRepository.getLatestVersion());
-        } else {
+        }
+        else {
             if (mode == null) {
                 mode = Mode.forType(ModeType.STANDARD);
             }
@@ -2005,7 +2252,8 @@ public class Player extends Entity {
         for (int i = 0; i < getQuick().getNormal().length; i++) {
             if (getQuick().getNormal()[i]) {
                 getPA().sendConfig(QuickPrayers.CONFIG + i, 1);
-            } else {
+            }
+            else {
                 getPA().sendConfig(QuickPrayers.CONFIG + i, 0);
             }
         }
@@ -2062,7 +2310,7 @@ public class Player extends Entity {
 
     public void sendMessage(String s) {
         if (s.length() >= 220) {
-            logger.error("String is greater than a 130 characters! ({}), player={} {}", s.length(), this, new Exception());
+            logger.error("String is greater than a 130 characters! ({}), player={} Exception={}", s.length(), this, new Exception().getMessage());
         }
 
         if (getOutStream() != null) {
@@ -2075,11 +2323,6 @@ public class Player extends Entity {
     public void sendStatement(String... statement) {
         start(new DialogueBuilder(this).statement(statement));
     }
-
-    /**
-     * A cache of the side bar interfaces currently set for the player
-     */
-    private Map<Integer, Integer> sideBarInterfaces = new HashMap<>();
 
     public void setSidebarInterface(int menuId, int form) {
         if (getOutStream() != null) {
@@ -2094,8 +2337,6 @@ public class Player extends Entity {
             sideBarInterfaces.put(menuId, form);
         }
     }
-
-    public boolean firstMove;
 
     public void addEvents() {
         Server.getEventHandler().submit(new MinigamePlayersEvent(this));
@@ -2126,8 +2367,7 @@ public class Player extends Entity {
 
     public void heal(int amount) {
         setRunEnergy(100, true);
-        int heal = amount;
-        if (heal > getHealth().getMaximumHealth()) {
+        if (amount > getHealth().getMaximumHealth()) {
             getHealth().reset();
         }
         getHealth().increase(amount);
@@ -2152,7 +2392,7 @@ public class Player extends Entity {
         getPA().requestUpdates();
         tradeResetNeeded = true;
         MeleeData.setWeaponAnimations(this);
-        Arrays.stream(ClientGameTimer.values()).filter(timer -> timer.isResetOnDeath()).forEach(timer -> getPA().sendGameTimer(timer, TimeUnit.SECONDS, 0));
+        Arrays.stream(ClientGameTimer.values()).filter(ClientGameTimer::isResetOnDeath).forEach(timer -> getPA().sendGameTimer(timer, TimeUnit.SECONDS, 0));
     }
 
     /**
@@ -2170,16 +2410,6 @@ public class Player extends Entity {
             }
         }
     }
-
-    public List<God> getEquippedGodItems() {
-        return equippedGodItems;
-    }
-
-    public int totalRaidsFinished;
-    public int[] BLACK_MASKS = {Items.BLACK_MASK, Items.BLACK_MASK_1, Items.BLACK_MASK_2, Items.BLACK_MASK_3, Items.BLACK_MASK_4, Items.BLACK_MASK_5, Items.BLACK_MASK_6, Items.BLACK_MASK_7, Items.BLACK_MASK_8, Items.BLACK_MASK_9, Items.BLACK_MASK_10};
-    public int[] SLAYER_HELMETS = {11864, 11865, 19639, 19641, 19643, 19645, 19647, 19649, 21888, 21890, 21264, 21266, 23075, 24444, 24370};
-    public int[] IMBUED_SLAYER_HELMETS = {Items.SLAYER_HELMET_I, Items.TWISTED_SLAYER_HELMET_I, Items.TURQUOISE_SLAYER_HELMET_I, Items.RED_SLAYER_HELMET_I, Items.PURPLE_SLAYER_HELMET_I, Items.PURPLE_SLAYER_HELMET_I, Items.BLACK_SLAYER_HELMET_I, Items.GREEN_SLAYER_HELMET_I, Items.HYDRA_SLAYER_HELMET_I};
-    public int graceSum;
 
     public void graceSum() {
         graceSum = 0;
@@ -2254,21 +2484,18 @@ public class Player extends Entity {
         if (tickable != null) {
             this.tickable = addTickable(tickable);
             return this.tickable;
-        } else {
+        }
+        else {
             this.tickable = null;
             return null;
         }
     }
 
-    public int tournamentFogDuration;
-    public int tournamentDamageFromFog;
-
-    public boolean wasInRaids = false;
-
     public void raidsClipFix() {
         if (Boundary.RAIDS.in(this)) {
             wasInRaids = true;
-        } else if ((wasInRaids)) {
+        }
+        else if ((wasInRaids)) {
             Raids raidInstance = this.getRaidsInstance();
             if (raidInstance != null) {
                 sendMessage("@blu@Sending you back to starting room...");
@@ -2282,8 +2509,8 @@ public class Player extends Entity {
     }
 
     public void interruptActions(boolean stopWalk, boolean closeInterfaces, boolean stopAll) {
-        /**
-         * Just an idea
+        /*
+          Just an idea
          */
         if (stopAll) {
             getPA().stopSkilling();
@@ -2306,9 +2533,7 @@ public class Player extends Entity {
      * Reset things like skilling (tickables, combat, etc) when needed.
      */
     public void interruptActions() {
-        for (int i = 0; i < playerSkilling.length; i++) {
-            playerSkilling[i] = false;
-        }
+        Arrays.fill(playerSkilling, false);
         setTickable(null);
     }
 
@@ -2324,8 +2549,8 @@ public class Player extends Entity {
         }
         // If player hasn't completed tutorial, no dialogues are open and mode selection interface isn't open, then we open it.
         if (!isCompletedTutorial()
-                && (getDialogueBuilder() == null || getDialogueBuilder().getCurrent() == null)
-                && !isInterfaceOpen(ModeSelection.INTERFACE_ID)) {
+            && (getDialogueBuilder() == null || getDialogueBuilder().getCurrent() == null)
+            && !isInterfaceOpen(ModeSelection.INTERFACE_ID)) {
             modeSelection.openInterface();
         }
         if (teleBlockStartMillis > 0 && System.currentTimeMillis() - teleBlockStartMillis >= teleBlockLength) {
@@ -2346,7 +2571,6 @@ public class Player extends Entity {
         if (xpScrollTicks > 0) {
             xpScrollTicks--;
             if (xpScrollTicks <= 0) {
-                xpScrollTicks = 0;
                 xpScroll = false;
                 sendMessage("@red@Your xp scroll has run out!");
             }
@@ -2354,7 +2578,6 @@ public class Player extends Entity {
         if (fasterCluesTicks > 0) {
             fasterCluesTicks--;
             if (fasterCluesTicks <= 0) {
-                fasterCluesTicks = 0;
                 fasterCluesScroll = false;
                 sendMessage("@red@Your faster clue scroll has run out!");
             }
@@ -2362,7 +2585,6 @@ public class Player extends Entity {
         if (skillingPetRateTicks > 0) {
             skillingPetRateTicks--;
             if (skillingPetRateTicks <= 0) {
-                skillingPetRateTicks = 0;
                 skillingPetRateScroll = false;
                 sendMessage("@red@Your skilling pet rate bonus has ran out!");
             }
@@ -2398,7 +2620,8 @@ public class Player extends Entity {
         if (respawnTimer == 9) {
             respawnTimer = -6;
             PlayerDeath.giveLife(this);
-        } else if (respawnTimer == 12) {
+        }
+        else if (respawnTimer == 12) {
             // Set killer in combat delay
             if (underAttackByPlayer > 0 && underAttackByPlayer < PlayerHandler.players.length && PlayerHandler.players[underAttackByPlayer] != null) {
                 PlayerHandler.players[underAttackByPlayer].setInCombatDelay(Configuration.IN_COMBAT_TIMER);
@@ -2491,7 +2714,8 @@ public class Player extends Entity {
                 if (frozenByReference == null) {
                     freezeTimer = -1;
                     frozenBy = null;
-                } else if (distance(frozenByReference.getPosition()) > 13) {
+                }
+                else if (distance(frozenByReference.getPosition()) > 13) {
                     freezeTimer = -1;
                     frozenBy = null;
                 }
@@ -2504,16 +2728,14 @@ public class Player extends Entity {
                     teleTimer = 0;
                 }
                 if (teleTimer == 5) {
-                    if (isDead) {
-                        return;
-                    }
                     setTeleportToX(teleX);
                     setTeleportToY(teleY);
                     heightLevel = teleHeight;
                     if (teleEndAnimation > 0) {
                         startAnimation(teleEndAnimation);
                         teleTimer = 2;
-                    } else {
+                    }
+                    else {
                         teleTimer = 0;
                     }
                 }
@@ -2522,7 +2744,8 @@ public class Player extends Entity {
                     gfx100(teleGfx);
                     if (teleSound != 0) Server.playerHandler.sendSound(teleSound, this);
                 }
-            } else {
+            }
+            else {
                 teleTimer = 0;
             }
         }
@@ -2560,17 +2783,21 @@ public class Player extends Entity {
         // Player options in this if-else
         if (Boundary.isIn(this, FlowerPoker.BOUNDARIES)) {
             getPA().showOption(1, 0, "<img=29>Gamble with");
-        } else if (getPosition().inDuelArena() || Boundary.isIn(this, Boundary.DUEL_ARENA)) {
+        }
+        else if (getPosition().inDuelArena() || Boundary.isIn(this, Boundary.DUEL_ARENA)) {
             if (Boundary.isIn(this, Boundary.DUEL_ARENA)) {
                 getPA().showOption(3, 0, "Attack");
                 getPA().showOption(1, 0, "null");
-            } else {
+            }
+            else {
                 getPA().showOption(1, 0, "Challenge");
                 getPA().showOption(3, 0, "null");
             }
-        } else if (getPosition().inWild() || getPosition().inClanWars() && getPosition().inWild() || inPits) {
+        }
+        else if (getPosition().inWild() || getPosition().inClanWars() && getPosition().inWild() || inPits) {
             getPA().showOption(3, 0, "Attack");
-        } else {
+        }
+        else {
             getPA().showOption(3, 0, "null");
             getPA().showOption(1, 0, "null");
         }
@@ -2582,7 +2809,8 @@ public class Player extends Entity {
             if (Configuration.SINGLE_AND_MULTI_ZONES) {
                 //System.out.println("ATTEMPTING TO SEND LEVEL: " + wildLevel);
                 getPA().sendFrame126("@yel@Level: " + wildLevel, 199);
-            } else {
+            }
+            else {
                 getPA().multiWay(-1);
                 getPA().sendFrame126("@yel@Level: " + wildLevel, 199);
             }
@@ -2590,68 +2818,75 @@ public class Player extends Entity {
                 getPA().walkableInterface(28000);
                 getPA().sendInterfaceHidden(1, 28070);
                 getPA().sendInterfaceHidden(0, 196);
-            } else {
+            }
+            else {
                 getPA().walkableInterface(197);
             }
             if (Boundary.isIn(this, Boundary.DEEP_WILDY_CAVES)) {
                 getPA().sendFrame126("", 199);
                 getPA().sendFrame126("@yel@Level: " + wildLevel, 250);
-            } else {
+            }
+            else {
                 getPA().sendFrame126("", 250);
             }
-        } else if (getPosition().inClanWars() && getPosition().inWild()) {
+        }
+        else if (getPosition().inClanWars() && getPosition().inWild()) {
             getPA().walkableInterface(197);
             getPA().sendFrame126("@yel@3-126", 199);
             wildLevel = 126;
-        } else if (Boundary.isIn(this, Boundary.SCORPIA_LAIR)) {
+        }
+        else if (Boundary.isIn(this, Boundary.SCORPIA_LAIR)) {
             getPA().sendFrame126("@yel@Level: 54", 199);
             // getPA().walkableInterface(197);
             wildLevel = 54;
-        } else if (getItems().isWearingItem(10501, 3) && !getPosition().inWild()) {
+        }
+        else if (getItems().isWearingItem(10501, 3) && !getPosition().inWild()) {
             getPA().showOption(3, 0, "Throw-At");
-        } else if (getPosition().inEdgeville()) {
+        }
+        else if (getPosition().inEdgeville()) {
             if (Configuration.BOUNTY_HUNTER_ACTIVE) {
                 if (bountyHunter.hasTarget()) {
                     getPA().walkableInterface(28000);
                     getPA().sendInterfaceHidden(0, 28070);
                     getPA().sendInterfaceHidden(1, 196);
                     bountyHunter.updateOutsideTimerUI();
-                } else {
+                }
+                else {
                     getPA().walkableInterface(-1);
                 }
-            } else {
+            }
+            else {
                 getPA().sendFrame99(0);
                 getPA().walkableInterface(-1);
                 getPA().showOption(3, 0, "Null");
             }
             getPA().showOption(3, 0, "null");
-        } else if (Boundary.isIn(this, PestControl.LOBBY_BOUNDARY)) {
+        }
+        else if (Boundary.isIn(this, PestControl.LOBBY_BOUNDARY)) {
             getPA().walkableInterface(21119);
             PestControl.drawInterface(this, "lobby");
-        } else if (Boundary.isIn(this, PestControl.GAME_BOUNDARY)) {
+        }
+        else if (Boundary.isIn(this, PestControl.GAME_BOUNDARY)) {
             getPA().walkableInterface(21100);
             PestControl.drawInterface(this, "game");
-        } else if ((getPosition().inDuelArena() || Boundary.isIn(this, Boundary.DUEL_ARENA))) {
+        }
+        else if ((getPosition().inDuelArena() || Boundary.isIn(this, Boundary.DUEL_ARENA))) {
             getPA().walkableInterface(201);
             wildLevel = 126;
-        } else if (getPosition().inGodwars()) {
+        }
+        else if (getPosition().inGodwars()) {
             godwars.drawInterface();
             getPA().walkableInterface(16210);
-        } else if (Boundary.isIn(this, Boundary.SKOTIZO_BOSSROOM)) {
+        }
+        else if (Boundary.isIn(this, Boundary.SKOTIZO_BOSSROOM)) {
             getPA().walkableInterface(29230);
-        } else if (getPosition().inRaidLobby()) {
+        }
+        else if (getPosition().inRaidLobby()) {
             getPA().walkableInterface(6673);
-        } else if (getInstance() == null || !getInstance().handleInterfaceUpdating(this)) {
+        }
+        else if (getInstance() == null || !getInstance().handleInterfaceUpdating(this)) {
             getPA().walkableInterface(-1);
         }
-    }
-
-    public Stream getInStream() {
-        return inStream;
-    }
-
-    public Stream getOutStream() {
-        return outStream;
     }
 
     public ItemAssistant getItems() {
@@ -2660,10 +2895,6 @@ public class Player extends Entity {
 
     public PlayerAssistant getPA() {
         return playerAssistant;
-    }
-
-    public CollectionLog getCollectionLog() {
-        return collectionLog;
     }
 
     public CollectionLog getGroupIronmanCollectionLog() {
@@ -2675,14 +2906,6 @@ public class Player extends Entity {
         }
 
         return null;
-    }
-
-    public CollectionLog getViewingCollectionLog() {
-        return viewingCollectionLog;
-    }
-
-    public void setViewingCollectionLog(CollectionLog viewingCollectionLog) {
-        this.viewingCollectionLog = viewingCollectionLog;
     }
 
     public DialogueHandler getDH() {
@@ -2697,28 +2920,8 @@ public class Player extends Entity {
         return shopAssistant;
     }
 
-    public CombatItems getCombatItems() {
-        return combatItems;
-    }
-
     public ActionHandler getActions() {
         return actionHandler;
-    }
-
-    public Channel getSession() {
-        return session;
-    }
-
-    public Potions getPotions() {
-        return potions;
-    }
-
-    public Food getFood() {
-        return food;
-    }
-
-    public PlayerAssistant getPlayerAssistant() {
-        return playerAssistant;
     }
 
     public SkillInterfaces getSI() {
@@ -2748,84 +2951,20 @@ public class Player extends Entity {
         return slayer;
     }
 
-    public Agility getAgility() {
-        return agility;
-    }
-
-    public Thieving getThieving() {
-        return thieving;
-    }
-
-    public Herblore getHerblore() {
-        return herblore;
-    }
-
-    public Godwars getGodwars() {
-        return godwars;
-    }
-
-    public TreasureTrails getTrails() {
-        return trails;
-    }
-
-    public GnomeAgility getGnomeAgility() {
-        return gnomeAgility;
-    }
-
     public PointItems getPoints() {
         return pointItems;
-    }
-
-    public void setMovementState(PlayerMovementState movementState) {
-        this.movementState = movementState;
     }
 
     public PlayerMovementState getMovementState() {
         return movementState == null ? PlayerMovementState.getDefault() : movementState;
     }
 
-    public WildernessAgility getWildernessAgility() {
-        return wildernessAgility;
-    }
-
     public Shortcuts getAgilityShortcuts() {
         return shortcuts;
     }
 
-    public RooftopPollnivneach getRooftopPollnivneach() {
-        return this.rooftopPollnivneach;
-    }
-
-    public RooftopCanafis getRooftopCanafis() {
-        return this.rooftopCanafis;
-    }
-
-    public RooftopAlkharid getRooftopAlkharid() {
-        return this.rooftopAlkharid;
-    }
-
-    public RooftopFalador getRooftopFalador() {
-        return this.rooftopFalador;
-    }
-
     public RooftopDraynor getRoofTopDraynor() {
         return this.rooftopDraynor;
-    }
-
-    public RooftopRellekka getRooftopRellekka() {
-        return this.rooftopRellekka;
-    }
-
-    public Lighthouse getLighthouse() {
-        return lighthouse;
-    }
-
-    public BarbarianAgility getBarbarianAgility() {
-        return barbarianAgility;
-    }
-
-    public AgilityHandler getAgilityHandler() {
-        return agilityHandler;
     }
 
     public Smithing getSmithing() {
@@ -2847,17 +2986,6 @@ public class Player extends Entity {
 
     public SmithingInterface getSmithingInt() {
         return smithInt;
-    }
-
-    public int getPrestigePoints() {
-        return prestigePoints;
-    }
-
-    /*
-     * public Fletching getFletching() { return fletching; }
-     */
-    public Prayer getPrayer() {
-        return prayer;
     }
 
     public void queueMessage(Packet packet, boolean priority) {
@@ -2988,13 +3116,14 @@ public class Player extends Entity {
 
         if (amDonated >= 50 && amDonated < 100) {
             if (getRights().isOrInherits(Right.YOUTUBER) || getRights().isOrInherits(Right.IRONMAN)
-                    || getRights().isOrInherits(Right.ULTIMATE_IRONMAN)
-                    || getRights().isOrInherits(Right.OSRS)
-                    || getRights().isOrInherits(Right.HELPER)
-                    || getRights().isOrInherits(Right.MODERATOR)
-                    || getRights().isOrInherits(Right.HC_IRONMAN)) {
+                || getRights().isOrInherits(Right.ULTIMATE_IRONMAN)
+                || getRights().isOrInherits(Right.OSRS)
+                || getRights().isOrInherits(Right.HELPER)
+                || getRights().isOrInherits(Right.MODERATOR)
+                || getRights().isOrInherits(Right.HC_IRONMAN)) {
                 getRights().add(Right.REGULAR_DONATOR);
-            } else
+            }
+            else
             //sendMessage("Your hidden donator rank is now active.");
             {
                 getRights().setPrimary(Right.REGULAR_DONATOR);
@@ -3004,7 +3133,8 @@ public class Player extends Entity {
         if (amDonated >= 100 && amDonated < 250) {
             if (getRights().isOrInherits(Right.YOUTUBER) || getRights().isOrInherits(Right.IRONMAN) || getRights().isOrInherits(Right.ULTIMATE_IRONMAN) || getRights().isOrInherits(Right.OSRS) || getRights().isOrInherits(Right.HELPER) || getRights().isOrInherits(Right.MODERATOR) || getRights().isOrInherits(Right.HC_IRONMAN)) {
                 getRights().add(Right.EXTREME_DONOR);
-            } else
+            }
+            else
             //sendMessage("Your hidden extreme donator rank is now active.");
             {
                 getRights().setPrimary(Right.EXTREME_DONOR);
@@ -3014,7 +3144,8 @@ public class Player extends Entity {
         if (amDonated >= 250 && amDonated < 500) {
             if (getRights().isOrInherits(Right.YOUTUBER) || getRights().isOrInherits(Right.IRONMAN) || getRights().isOrInherits(Right.ULTIMATE_IRONMAN) || getRights().isOrInherits(Right.OSRS) || getRights().isOrInherits(Right.HELPER) || getRights().isOrInherits(Right.MODERATOR) || getRights().isOrInherits(Right.HC_IRONMAN)) {
                 getRights().add(Right.LEGENDARY_DONATOR);
-            } else
+            }
+            else
             //sendMessage("Your hidden legendary donator rank is now active.");
             {
                 getRights().setPrimary(Right.LEGENDARY_DONATOR);
@@ -3024,7 +3155,8 @@ public class Player extends Entity {
         if (amDonated >= 500 && amDonated < 1000) {
             if (getRights().isOrInherits(Right.YOUTUBER) || getRights().isOrInherits(Right.IRONMAN) || getRights().isOrInherits(Right.ULTIMATE_IRONMAN) || getRights().isOrInherits(Right.OSRS) || getRights().isOrInherits(Right.HELPER) || getRights().isOrInherits(Right.MODERATOR) || getRights().isOrInherits(Right.HC_IRONMAN)) {
                 getRights().add(Right.DIAMOND_CLUB);
-            } else
+            }
+            else
             //sendMessage("Your hidden diamond club rank is now active.");
             {
                 getRights().setPrimary(Right.DIAMOND_CLUB);
@@ -3034,7 +3166,8 @@ public class Player extends Entity {
         if (amDonated >= 1000) {
             if (getRights().isOrInherits(Right.YOUTUBER) || getRights().isOrInherits(Right.IRONMAN) || getRights().isOrInherits(Right.ULTIMATE_IRONMAN) || getRights().isOrInherits(Right.OSRS) || getRights().isOrInherits(Right.HELPER) || getRights().isOrInherits(Right.MODERATOR) || getRights().isOrInherits(Right.HC_IRONMAN)) {
                 getRights().add(Right.ONYX_CLUB);
-            } else
+            }
+            else
             //sendMessage("Your hidden onyx club donator rank is now active.");
             {
                 getRights().setPrimary(Right.ONYX_CLUB);
@@ -3043,20 +3176,6 @@ public class Player extends Entity {
         }
         //sendMessage("Your updated total amount donated is now $" + amDonated + ".");
     }
-
-    public int getPrivateChat() {
-        return privateChat;
-    }
-
-    public void setPrivateChat(int option) {
-        this.privateChat = option;
-    }
-
-    public Trade getTrade() {
-        return trade;
-    }
-
-    public FlowerPokerHand flowerPokerHand;
 
     public FlowerPoker getFlowerPokerRequest() {
         return flowerPoker;
@@ -3077,69 +3196,9 @@ public class Player extends Entity {
         return achievementHandler;
     }
 
-    public long getLastContainerSearch() {
-        return lastContainerSearch;
-    }
-
-    public void setLastContainerSearch(long lastContainerSearch) {
-        this.lastContainerSearch = lastContainerSearch;
-    }
-
-    public CoinBagSmall getCoinBagSmall() {
-        return coinBagSmall;
-    }
-
-    public CoinBagMedium getCoinBagMedium() {
-        return coinBagMedium;
-    }
-
-    public CoinBagLarge getCoinBagLarge() {
-        return coinBagLarge;
-    }
-
-    public CoinBagBuldging getCoinBagBuldging() {
-        return coinBagBuldging;
-    }
-
-    public SuperMysteryBox getSuperMysteryBox() {
-        return superMysteryBox;
-    }
-
-    public FoeMysteryBox getFoeMysteryBox() {
-        return foeMysteryBox;
-    }
-
-    public SlayerMysteryBox getSlayerMysteryBox() {
-        return slayerMysteryBox;
-    }
-
-    public VoteMysteryBox getVoteMysteryBox() {
-        return voteMysteryBox;
-    }
-
-    public PvmCasket getPvmCasket() {
-        return pvmCasket;
-    }
-
-    public DailyGearBox getDailyGearBox() {
-        return dailyGearBox;
-    }
-
-    public DailySkillBox getDailySkillBox() {
-        return dailySkillBox;
-    }
-
     public EntityDamageQueue getDamageQueue() {
         return entityDamageQueue;
     }
-
-    public long[] reduceSpellDelay = new long[6];
-    public int reduceSpellId;
-    public static boolean[] canUseReducingSpell = {true, true, true, true, true, true};
-    public boolean usingPrayer;
-    public boolean isSelectingQuickprayers;
-    public boolean[] prayerActive = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
-    private boolean protectionPrayersShiftRight;
 
     /**
      * Retrieves the bounty hunter instance for this client object. We use lazy
@@ -3156,26 +3215,6 @@ public class Player extends Entity {
         return bountyHunter;
     }
 
-    public UnnecessaryPacketDropper getPacketDropper() {
-        return packetDropper;
-    }
-
-    public Optional<ItemCombination> getCurrentCombination() {
-        return currentCombination;
-    }
-
-    public void setCurrentCombination(Optional<ItemCombination> combination) {
-        this.currentCombination = combination;
-    }
-
-    public String getMacAddress() {
-        return macAddress;
-    }
-
-    public void setMacAddress(String macAddress) {
-        this.macAddress = macAddress;
-    }
-
     public String getIpAddress() {
         return connectedFrom;
     }
@@ -3188,29 +3227,11 @@ public class Player extends Entity {
         return duelSession;
     }
 
-    public void setItemOnPlayer(Player player) {
-        this.itemOnPlayer = player;
-    }
-
-    public Player getItemOnPlayer() {
-        return itemOnPlayer;
-    }
-
     public Killstreak getKillstreak() {
         if (killstreaks == null) {
             killstreaks = new Killstreak(this);
         }
         return killstreaks;
-    }
-
-    /**
-     * Returns the single instance of the {@link NPCDeathTracker} class for this
-     * player.
-     *
-     * @return the tracker clas
-     */
-    public NPCDeathTracker getNpcDeathTracker() {
-        return npcDeathTracker;
     }
 
     /**
@@ -3222,39 +3243,13 @@ public class Player extends Entity {
         return zulrah;
     }
 
-    /**
-     * The single {@link WarriorsGuild} instance for this player
-     *
-     * @return warriors guild
-     */
-    public WarriorsGuild getWarriorsGuild() {
-        return warriorsGuild;
-    }
-
-    /**
-     * The single instance of the {@link PestControlRewards} class for this player
-     *
-     * @return the reward class
-     */
-    public PestControlRewards getPestControlRewards() {
-        return pestControlRewards;
-    }
-
-    public Mining getMining() {
-        return mining;
-    }
-
     public SpellBook getSpellBook() {
-        switch (playerMagicBook) {
-            case 0:
-                return SpellBook.MODERN;
-            case 1:
-                return SpellBook.ANCIENT;
-            case 2:
-                return SpellBook.LUNAR;
-            default:
-                throw new IllegalArgumentException("Book out of bounds: " + playerMagicBook);
-        }
+        return switch (playerMagicBook) {
+            case 0 -> SpellBook.MODERN;
+            case 1 -> SpellBook.ANCIENT;
+            case 2 -> SpellBook.LUNAR;
+            default -> throw new IllegalArgumentException("Book out of bounds: " + playerMagicBook);
+        };
     }
 
     public void setSpellBook(SpellBook spellBook) {
@@ -3297,7 +3292,8 @@ public class Player extends Entity {
                 if (c.autocastingDefensive) {
                     c.getPA().sendFrame36(109, 1);
                     c.getPA().sendFrame36(108, 0);
-                } else {
+                }
+                else {
                     c.getPA().sendFrame36(108, 1);
                     c.getPA().sendFrame36(109, 0);
                 }
@@ -3415,10 +3411,6 @@ public class Player extends Entity {
         return deltaX <= 15 && deltaX >= -16 && deltaY <= 15 && deltaY >= -16;
     }
 
-    public int getHeightLevel() {
-        return heightLevel;
-    }
-
     public int distanceToPoint(int pointX, int pointY) {
         return (int) Math.sqrt(Math.pow(absX - pointX, 2) + Math.pow(absY - pointY, 2));
     }
@@ -3444,9 +3436,6 @@ public class Player extends Entity {
         return Misc.goodDistance(objectX, objectY, playerX, playerY, distance);
     }
 
-    public int otherDirection;
-    public boolean invincible;
-
     public boolean isWalkingQueueEmpty() {
         return wQueueReadPtr == wQueueWritePtr || Misc.direction(currentX, currentY, walkingQueueX[wQueueReadPtr], walkingQueueY[wQueueReadPtr]) == -1;
     }
@@ -3461,7 +3450,8 @@ public class Player extends Entity {
             }
             if (dir == -1) {
                 wQueueReadPtr = (wQueueReadPtr + 1) % walkingQueueSize;
-            } else if ((dir & 1) != 0) {
+            }
+            else if ((dir & 1) != 0) {
                 println_debug("Invalid waypoint in walking queue!");
                 resetWalkingQueue();
                 return -1;
@@ -3482,7 +3472,8 @@ public class Player extends Entity {
 
         if (this.getRegionProvider().isOccupiedByNpc(absX, absY, this.getHeight())) {
             this.getRegionProvider().removeNpcClipping(RegionProvider.NPC_TILE_FLAG, absX, absY, this.getHeight());
-        } else {
+        }
+        else {
             this.getRegionProvider().addNpcClipping(RegionProvider.NPC_TILE_FLAG, absX, absY, this.getHeight());
         }
 
@@ -3523,8 +3514,9 @@ public class Player extends Entity {
                         break;
                     }
                 } while (ptr != wQueueWritePtr);
-            } else found = true;
-            if (!found) println_debug("Fatal: couldn\'t find connection vertex! Dropping packet.");
+            }
+            else found = true;
+            if (!found) println_debug("Fatal: couldn't find connection vertex! Dropping packet.");
             else {
                 wQueueWritePtr = wQueueReadPtr;
                 addToWalkingQueue(currentX, currentY);
@@ -3539,14 +3531,16 @@ public class Player extends Entity {
                     if (numTravelBackSteps == 1) {
                         wayPointX1 = currentX;
                         wayPointY1 = currentY;
-                    } else {
+                    }
+                    else {
                         wayPointX1 = travelBackX[numTravelBackSteps - 2];
                         wayPointY1 = travelBackY[numTravelBackSteps - 2];
                     }
                     dir = Misc.direction(wayPointX1, wayPointY1, wayPointX2, wayPointY2);
                     if (dir == -1 || (dir & 1) != 0) {
                         println_debug("Fatal: The walking queue is corrupt! wp1=(" + wayPointX1 + ", " + wayPointY1 + "), " + "wp2=(" + wayPointX2 + ", " + wayPointY2 + ")");
-                    } else {
+                    }
+                    else {
                         dir >>= 1;
                         found = false;
                         int x = wayPointX1;
@@ -3561,9 +3555,11 @@ public class Player extends Entity {
                         }
                         if (!found) {
                             println_debug("Fatal: Internal error: unable to determine connection vertex!" + "  wp1=(" + wayPointX1 + ", " + wayPointY1 + "), wp2=(" + wayPointX2 + ", " + wayPointY2 + "), " + "first=(" + firstX + ", " + firstY + ")");
-                        } else addToWalkingQueue(wayPointX1, wayPointY1);
+                        }
+                        else addToWalkingQueue(wayPointX1, wayPointY1);
                     }
-                } else {
+                }
+                else {
                     for (int i = 0; i < numTravelBackSteps; i++) {
                         addToWalkingQueue(travelBackX[i], travelBackY[i]);
                     }
@@ -3607,7 +3603,8 @@ public class Player extends Entity {
             didTeleport = true;
             postTeleportProcessing();
             runningDistanceTravelled = 0;
-        } else {
+        }
+        else {
             if (freezeTimer > 0) {
                 resetWalkingQueue();
                 return;
@@ -3617,10 +3614,11 @@ public class Player extends Entity {
                 runningDistanceTravelled = 0;
                 return;
             }
-            if (isRunningToggled() && getMovementState().isRunningEnabled()) {
+            if (isRunningToggled() && getMovementState().runningEnabled()) {
                 dir2 = getNextWalkingDirection();
                 runningDistanceTravelled++;
-            } else {
+            }
+            else {
                 runningDistanceTravelled = 0;
             }
             int deltaX = 0;
@@ -3629,7 +3627,8 @@ public class Player extends Entity {
                 deltaX = 4 * 8;
                 mapRegionX -= 4;
                 mapRegionDidChange = true;
-            } else if (currentX >= 11 * 8) {
+            }
+            else if (currentX >= 11 * 8) {
                 deltaX = -4 * 8;
                 mapRegionX += 4;
                 mapRegionDidChange = true;
@@ -3638,7 +3637,8 @@ public class Player extends Entity {
                 deltaY = 4 * 8;
                 mapRegionY -= 4;
                 mapRegionDidChange = true;
-            } else if (currentY >= 11 * 8) {
+            }
+            else if (currentY >= 11 * 8) {
                 deltaY = -4 * 8;
                 mapRegionY += 4;
                 mapRegionDidChange = true;
@@ -3688,7 +3688,8 @@ public class Player extends Entity {
             if (equippedGodItems == null) {
                 updateGodItems();
             }
-        } else if (equippedGodItems != null) {
+        }
+        else if (equippedGodItems != null) {
             equippedGodItems = null;
             godwars.initialize();
         }
@@ -3717,10 +3718,12 @@ public class Player extends Entity {
                 // tell client there's an update block appended at the end
                 str.writeBits(1, 1);
                 str.writeBits(2, 0);
-            } else {
+            }
+            else {
                 str.writeBits(1, 0);
             }
-        } else {
+        }
+        else {
             str.createFrameVarSizeWord(81);
             str.initBitAccess();
             str.writeBits(1, 1);
@@ -3730,7 +3733,8 @@ public class Player extends Entity {
                 str.writeBits(3, Misc.xlateDirectionToClient[dir1]);
                 if (isUpdateRequired()) str.writeBits(1, 1);
                 else str.writeBits(1, 0);
-            } else {
+            }
+            else {
                 isMoving = true;
                 str.writeBits(2, 2);
                 str.writeBits(3, Misc.xlateDirectionToClient[dir1]);
@@ -3747,13 +3751,16 @@ public class Player extends Entity {
             if (isUpdateRequired() || isChatTextUpdateRequired()) {
                 str.writeBits(1, 1);
                 str.writeBits(2, 0);
-            } else str.writeBits(1, 0);
-        } else if (dir2 == -1) {
+            }
+            else str.writeBits(1, 0);
+        }
+        else if (dir2 == -1) {
             str.writeBits(1, 1);
             str.writeBits(2, 1);
             str.writeBits(3, Misc.xlateDirectionToClient[dir1]);
             str.writeBits(1, (isUpdateRequired() || isChatTextUpdateRequired()) ? 1 : 0);
-        } else {
+        }
+        else {
             str.writeBits(1, 1);
             str.writeBits(2, 2);
             str.writeBits(3, Misc.xlateDirectionToClient[dir1]);
@@ -3775,9 +3782,11 @@ public class Player extends Entity {
         boolean pet = PetHandler.getItemIdForNpcId(npc.getNpcId()) != 0;
         if (pet && npc.spawnedBy == getIndex()) {
             str.writeBits(2, 2);
-        } else if (pet) {
+        }
+        else if (pet) {
             str.writeBits(2, 1);
-        } else {
+        }
+        else {
             str.writeBits(2, 0);
         }
         boolean savedUpdateRequired = npc.isUpdateRequired();
@@ -3833,69 +3842,82 @@ public class Player extends Entity {
         if (!isNpc) {
             if (playerEquipment[playerHat] > 1) {
                 appearanceUpdateBlockCache.writeUShort(512 + playerEquipment[playerHat]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeByte(0);
             }
             if (playerEquipment[playerCape] > 1) {
                 appearanceUpdateBlockCache.writeUShort(512 + playerEquipment[playerCape]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeByte(0);
             }
             if (playerEquipment[playerAmulet] > 1) {
                 appearanceUpdateBlockCache.writeUShort(512 + playerEquipment[playerAmulet]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeByte(0);
             }
             if (playerEquipment[playerWeapon] > 1) {
                 appearanceUpdateBlockCache.writeUShort(512 + playerEquipment[playerWeapon]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeByte(0);
             }
             if (playerEquipment[playerChest] > 1) {
                 appearanceUpdateBlockCache.writeUShort(512 + playerEquipment[playerChest]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[2]);
             }
             if (playerEquipment[playerShield] > 1) {
                 appearanceUpdateBlockCache.writeUShort(512 + playerEquipment[playerShield]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeByte(0);
             }
             if (CacheManager.INSTANCE.getItem(playerEquipment[playerChest]).getAppearanceOverride1() != arms) {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[3]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeByte(0);
             }
             if (playerEquipment[playerLegs] > 1) {
                 appearanceUpdateBlockCache.writeUShort(512 + playerEquipment[playerLegs]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[5]);
             }
 
             if (CacheManager.INSTANCE.getItem(playerEquipment[playerHat]).getAppearanceOverride1() != hair) {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[1]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeByte(0);
             }
             if (playerEquipment[playerHands] > 1) {
                 appearanceUpdateBlockCache.writeUShort(512 + playerEquipment[playerHands]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[4]);
             }
             if (playerEquipment[playerFeet] > 1) {
                 appearanceUpdateBlockCache.writeUShort(512 + playerEquipment[playerFeet]);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[6]);
             }
 
             ItemType headEquipType = CacheManager.INSTANCE.getItem(playerEquipment[playerHat]);
             if (playerAppearance[0] != 0 || shouldHideBeard(headEquipType.getAppearanceOverride1()) && shouldHideBeard(headEquipType.getAppearanceOverride2())) {
                 appearanceUpdateBlockCache.writeByte(0);
-            } else {
+            }
+            else {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[7]);
             }
 
-        } else {
+        }
+        else {
             appearanceUpdateBlockCache.writeUShort(-1);
             appearanceUpdateBlockCache.writeUShort(npcId2);
         }
@@ -3925,12 +3947,6 @@ public class Player extends Entity {
         str.writeBytes(appearanceUpdateBlockCache.buffer, appearanceUpdateBlockCache.currentOffset, 0);
     }
 
-    public static boolean shouldHideBeard(int id) {
-        if (id == 8) return true;
-        return id == 11;
-    }
-
-
     public int calculateCombatLevel() {
         int j = getLevelForXP(playerXP[playerAttack]);
         int k = getLevelForXP(playerXP[playerDefence]);
@@ -3939,15 +3955,17 @@ public class Player extends Entity {
         int j1 = getLevelForXP(playerXP[playerPrayer]);
         int k1 = getLevelForXP(playerXP[playerRanged]);
         int l1 = getLevelForXP(playerXP[playerMagic]);
-        int combatLevel = (int) (((k + i1) + Math.floor(j1 / 2)) * 0.24798) + 1;
+        int combatLevel = (int) (((k + i1) + (double) (j1 / 2)) * 0.24798) + 1;
         double d = (j + l) * 0.325;
         double d1 = Math.floor(k1 * 1.5) * 0.325;
         double d2 = Math.floor(l1 * 1.5) * 0.325;
         if (d >= d1 && d >= d2) {
             combatLevel += d;
-        } else if (d1 >= d && d1 >= d2) {
+        }
+        else if (d1 >= d && d1 >= d2) {
             combatLevel += d1;
-        } else if (d2 >= d && d2 >= d1) {
+        }
+        else if (d2 >= d && d2 >= d1) {
             combatLevel += d2;
         }
         return combatLevel;
@@ -4001,7 +4019,7 @@ public class Player extends Entity {
         int output = 0;
         for (int lvl = 1; lvl <= 99; lvl++) {
             points += Math.floor(lvl + 300.0 * Math.pow(2.0, lvl / 7.0));
-            output = (int) Math.floor(points / 4);
+            output = (int) (double) (points / 4);
             if (output >= exp) return lvl;
         }
         return 99;
@@ -4113,17 +4131,18 @@ public class Player extends Entity {
             if (!invincible) {
                 getHealth().increase(amount);
             }
-            if (amount > 0 && h != null && h == Hitmark.MISS) {
+            if (amount > 0 && h == Hitmark.MISS) {
                 h = Hitmark.HIT;
             }
             if (!hitUpdateRequired) {
                 hitUpdateRequired = true;
-                updateHitMark(new HitMark(h,amount,0));
-            } else if (!hitUpdateRequired2) {
-                hitUpdateRequired2 = false;
-                updateHitMark(new HitMark(h,amount,0));
+                updateHitMark(new HitMark(h, amount, 0));
             }
-        } else {
+            else if (!hitUpdateRequired2) {
+                updateHitMark(new HitMark(h, amount, 0));
+            }
+        }
+        else {
             if (hitUpdateRequired) {
                 hitUpdateRequired = false;
             }
@@ -4183,13 +4202,14 @@ public class Player extends Entity {
             }
             if (!hitUpdateRequired) {
                 hitUpdateRequired = true;
-                updateHitMark(new HitMark(h,damage,0));
-            } else if (!hitUpdateRequired2) {
-                hitUpdateRequired2 = false;
-                updateHitMark(new HitMark(h,damage,0));
+                updateHitMark(new HitMark(h, damage, 0));
+            }
+            else if (!hitUpdateRequired2) {
+                updateHitMark(new HitMark(h, damage, 0));
             }
             lastDamageTaken = damage;
-        } else {
+        }
+        else {
             if (hitUpdateRequired) {
                 hitUpdateRequired = false;
             }
@@ -4225,58 +4245,6 @@ public class Player extends Entity {
     }
 
     /**
-     * Direction, 2 = South, 0 = North, 3 = West, 2 = East?
-     *
-     * @param xOffset
-     * @param yOffset
-     * @param speed1
-     * @param speed2
-     * @param direction
-     * @param emote
-     */
-    private int xOffsetWalk;
-    private int yOffsetWalk;
-    public int dropSize;
-    public boolean sellingX;
-    public int currentPrestigeLevel;
-    public int prestigeNumber;
-    public boolean canPrestige;
-    public int prestigePoints;
-    public boolean newStarter;
-    public boolean spawnedbarrows;
-    public boolean absorption;
-    public boolean announce = true;
-    public boolean lootPickUp;
-    public boolean xpScroll;
-    public long xpScrollTicks;
-    public boolean skillingPetRateScroll;
-    public long skillingPetRateTicks;
-    public boolean fasterCluesScroll;
-    public long fasterCluesTicks;
-    public boolean augury;
-    public boolean rigour;
-    public boolean usedFc;
-    public int startDate = -1;
-    public int LastLoginYear;
-    public int LastLoginMonth;
-    public int LastLoginDate;
-    public int LoginStreak;
-    /*
-     * diary completion
-     */
-    public boolean d1Complete;
-    public boolean d2Complete;
-    public boolean d3Complete;
-    public boolean d4Complete;
-    public boolean d5Complete;
-    public boolean d6Complete;
-    public boolean d7Complete;
-    public boolean d8Complete;
-    public boolean d9Complete;
-    public boolean d10Complete;
-    public boolean d11Complete;
-
-    /**
      * 0 North 1 East 2 South 3 West
      */
     public void setForceMovement(int xOffset, int yOffset, int speedOne, int speedTwo, String directionSet, int animation) {
@@ -4292,7 +4260,7 @@ public class Player extends Entity {
         forceMovementActive = true;
         getPA().requestUpdates();
         setAppearanceUpdateRequired(true);
-        Server.getEventHandler().submit(new Event<Player>("force_movement", this, 2) {
+        Server.getEventHandler().submit(new Event<>("force_movement", this, 2) {
             @Override
             public void execute() {
                 if (attachment == null || attachment.isDisconnected()) {
@@ -4307,13 +4275,13 @@ public class Player extends Entity {
                 attachment.y2 = currentY + yOffsetWalk;
                 attachment.mask400Var1 = speedOne;
                 attachment.mask400Var2 = speedTwo;
-                attachment.forceMovementDirection = directionSet == null ? -1 : directionSet == "NORTH" ? 0 : directionSet == "EAST" ? 1 : directionSet == "SOUTH" ? 2 : directionSet == "WEST" ? 3 : 0;
+                attachment.forceMovementDirection = directionSet == null ? -1 : directionSet.equals("NORTH") ? 0 : directionSet.equals("EAST") ? 1 : directionSet.equals("SOUTH") ? 2 : directionSet.equals("WEST") ? 3 : 0;
                 super.stop();
             }
         });
         int ticks = Math.abs(xOffsetWalk) + Math.abs(yOffsetWalk);
         if (ticks <= 0) ticks = 1;
-        Server.getEventHandler().submit(new Event<Player>("force_movement", this, ticks) {
+        Server.getEventHandler().submit(new Event<>("force_movement", this, ticks) {
             @Override
             public void execute() {
                 if (attachment == null || attachment.isDisconnected()) {
@@ -4330,7 +4298,8 @@ public class Player extends Entity {
                     attachment.playerTurn90CWIndex = 821;
                     attachment.playerTurn90CCWIndex = 822;
                     attachment.playerRunIndex = 824;
-                } else {
+                }
+                else {
                     MeleeData.setWeaponAnimations(attachment);
                 }
                 forceMovement = false;
@@ -4386,7 +4355,8 @@ public class Player extends Entity {
             updateMask |= 64;
             str.writeByte(updateMask & 255);
             str.writeByte(updateMask >> 8);
-        } else {
+        }
+        else {
             str.writeByte(updateMask);
         }
         if (forceMovement) {
@@ -4436,18 +4406,8 @@ public class Player extends Entity {
         resetAfterUpdate();
     }
 
-    public long lastWebSlash;
-
     public int getPacketsReceived() {
         return packetsReceived.get();
-    }
-
-    public int getMapRegionX() {
-        return mapRegionX;
-    }
-
-    public int getMapRegionY() {
-        return mapRegionY;
     }
 
     public int getX() {
@@ -4476,7 +4436,7 @@ public class Player extends Entity {
 
     @Override
     public void setHeight(int height) {
-        this.heightLevel = heightLevel;
+        this.heightLevel = height;
     }
 
     @Override
@@ -4488,9 +4448,11 @@ public class Player extends Entity {
     public int getDefenceBonus(CombatType combatType, Entity attacker) {
         if (combatType == CombatType.RANGE) {
             return getItems().getBonus(Bonus.DEFENCE_RANGED);
-        } else if (combatType == CombatType.MAGE) {
+        }
+        else if (combatType == CombatType.MAGE) {
             return getItems().getBonus(Bonus.DEFENCE_MAGIC);
-        } else if (combatType == CombatType.MELEE && attacker.isPlayer()) {
+        }
+        else if (combatType == CombatType.MELEE && attacker.isPlayer()) {
             WeaponMode weaponMode = attacker.asPlayer().getCombatConfigs().getWeaponMode();
 
             CombatStyle style = weaponMode.getCombatStyle();
@@ -4539,7 +4501,8 @@ public class Player extends Entity {
             playerFollowingIndex = entity.getIndex();
             npcAttackingIndex = 0;
             npcFollowingIndex = 0;
-        } else {
+        }
+        else {
             npcAttackingIndex = entity.getIndex();
             npcFollowingIndex = entity.getIndex();
             playerAttackingIndex = 0;
@@ -4555,100 +4518,36 @@ public class Player extends Entity {
         return new Coordinate(absX, absY, heightLevel);
     }
 
-    public void setAppearanceUpdateRequired(boolean appearanceUpdateRequired) {
-        this.appearanceUpdateRequired = appearanceUpdateRequired;
-    }
-
-    public boolean isAppearanceUpdateRequired() {
-        return appearanceUpdateRequired;
-    }
-
-    public void setChatTextEffects(int chatTextEffects) {
-        this.chatTextEffects = chatTextEffects;
-    }
-
-    public int getChatTextEffects() {
-        return chatTextEffects;
-    }
-
-    public void setChatTextSize(byte chatTextSize) {
-        this.chatTextSize = chatTextSize;
-    }
-
-    public byte getChatTextSize() {
-        return chatTextSize;
-    }
-
-    public void setChatTextUpdateRequired(boolean chatTextUpdateRequired) {
-        this.chatTextUpdateRequired = chatTextUpdateRequired;
-    }
-
-    public boolean isChatTextUpdateRequired() {
-        return chatTextUpdateRequired;
-    }
-
-    public byte[] getChatText() {
-        return chatText;
-    }
-
-    public void setChatText(byte[] chatText) {
-        this.chatText = chatText;
-    }
-
-    public void setChatTextColor(int chatTextColor) {
-        this.chatTextColor = chatTextColor;
-    }
-
-    public int getChatTextColor() {
-        return chatTextColor;
-    }
-
-    public int[] getNewWalkCmdX() {
-        return newWalkCmdX;
-    }
-
-    public int[] getNewWalkCmdY() {
-        return newWalkCmdY;
-    }
-
-    public void setNewWalkCmdIsRunning(boolean newWalkCmdIsRunning) {
-        this.newWalkCmdIsRunning = newWalkCmdIsRunning;
-    }
-
-    public boolean isNewWalkCmdIsRunning() {
-        return newWalkCmdIsRunning;
-    }
-
     public boolean getRingOfLifeEffect() {
         return maxCape[0];
     }
 
-    public boolean setRingOfLifeEffect(boolean effect) {
-        return maxCape[0] = effect;
+    public void setRingOfLifeEffect(boolean effect) {
+        maxCape[0] = effect;
     }
 
     public boolean getFishingEffect() {
         return maxCape[1];
     }
 
-    public boolean setFishingEffect(boolean effect) {
-        return maxCape[1] = effect;
+    public void setFishingEffect(boolean effect) {
+        maxCape[1] = effect;
     }
 
     public boolean getMiningEffect() {
         return maxCape[2];
     }
 
-    public boolean setMiningEffect(boolean effect) {
-        return maxCape[2] = effect;
+    public void setMiningEffect(boolean effect) {
+        maxCape[2] = effect;
     }
 
     public boolean getWoodcuttingEffect() {
         return maxCape[3];
     }
 
-    public boolean setWoodcuttingEffect(boolean effect) {
-        return maxCape[3] = effect;
+    public void setWoodcuttingEffect(boolean effect) {
+        maxCape[3] = effect;
     }
 
     public int getSkeletalMysticDamageCounter() {
@@ -4747,22 +4646,6 @@ public class Player extends Entity {
         this.counters[6] = counters;
     }
 
-    public String getLastClanChat() {
-        return lastClanChat;
-    }
-
-    public void setLastClanChat(String founder) {
-        lastClanChat = founder;
-    }
-
-    public long getNameAsLong() {
-        return nameAsLong;
-    }
-
-    public void setNameAsLong(long hash) {
-        this.nameAsLong = hash;
-    }
-
     public void setStopPlayer(boolean stopPlayer) {
     }
 
@@ -4772,16 +4655,6 @@ public class Player extends Entity {
 
     public void setTrading(boolean trading) {
     }
-
-    @Getter
-    @Setter
-    public boolean oneHit = false;
-    @Setter
-    @Getter
-    public boolean alwaysHit = false;
-    @Setter
-    @Getter
-    int ownerDamage;
 
     public boolean inGodmode() {
         return godmode;
@@ -4836,24 +4709,6 @@ public class Player extends Entity {
     }
 
     /**
-     * Modifies the current interface open
-     *
-     * @param openInterface the interface id
-     */
-    public void setOpenInterface(int openInterface) {
-        this.openInterface = openInterface;
-    }
-
-    /**
-     * The interface that is opened
-     *
-     * @return the interface id
-     */
-    public int getOpenInterface() {
-        return openInterface;
-    }
-
-    /**
      * Determines whether a warning will be shown when dropping an item.
      *
      * @return True if it's the case, False otherwise.
@@ -4862,65 +4717,12 @@ public class Player extends Entity {
         return dropWarning;
     }
 
-    /**
-     * Change whether a warning will be shown when dropping items.
-     *
-     * @param shown True in case a warning must be shown, False otherwise.
-     */
-    public void setDropWarning(boolean shown) {
-        dropWarning = shown;
-    }
-
-    public boolean isAlchWarning() {
-        return alchWarning;
-    }
-
-    public void setAlchWarning(boolean alchWarning) {
-        this.alchWarning = alchWarning;
-    }
-
     public boolean getHourlyBoxToggle() {
         return hourlyBoxToggle;
     }
 
-    public void setHourlyBoxToggle(boolean toggle) {
-        hourlyBoxToggle = toggle;
-    }
-
     public boolean getFracturedCrystalToggle() {
         return fracturedCrystalToggle;
-    }
-
-    public void setFracturedCrystalToggle(boolean toggle1) {
-        fracturedCrystalToggle = toggle1;
-    }
-
-    public long setBestZulrahTime(long bestZulrahTime) {
-        return this.bestZulrahTime = bestZulrahTime;
-    }
-
-    public long getBestZulrahTime() {
-        return bestZulrahTime;
-    }
-
-    public int getArcLightCharge() {
-        return arcLightCharge;
-    }
-
-    public void setArcLightCharge(int chargeArc) {
-        this.arcLightCharge = chargeArc;
-    }
-
-    public int getToxicBlowpipeCharge() {
-        return toxicBlowpipeCharge;
-    }
-
-    public void setToxicBlowpipeCharge(int charge) {
-        this.toxicBlowpipeCharge = charge;
-    }
-
-    public int getToxicBlowpipeAmmo() {
-        return toxicBlowpipeAmmo;
     }
 
     public void increaseSlaughterCharge(int slaughterCharge) {
@@ -4931,81 +4733,8 @@ public class Player extends Entity {
         this.slaughterCharge -= slaughterCharge;
     }
 
-    public int getToxicBlowpipeAmmoAmount() {
-        return toxicBlowpipeAmmoAmount;
-    }
-
-    public void setToxicBlowpipeAmmoAmount(int amount) {
-        this.toxicBlowpipeAmmoAmount = amount;
-    }
-
-    public void setToxicBlowpipeAmmo(int ammo) {
-        this.toxicBlowpipeAmmo = ammo;
-    }
-
-    public int getSerpentineHelmCharge() {
-        return this.serpentineHelmCharge;
-    }
-
-    public void setSerpentineHelmCharge(int charge) {
-        this.serpentineHelmCharge = charge;
-    }
-
-    public int getTridentCharge() {
-        return tridentCharge;
-    }
-
-    public void setTridentCharge(int tridentCharge) {
-        this.tridentCharge = tridentCharge;
-    }
-
-    public int getToxicTridentCharge() {
-        return toxicTridentCharge;
-    }
-
-    public void setToxicTridentCharge(int toxicTridentCharge) {
-        this.toxicTridentCharge = toxicTridentCharge;
-    }
-
-    public int getSangStaffCharge() {
-        return sangStaffCharge;
-    }
-
-    public void setSangStaffCharge(int sangStaffCharge) {
-        this.sangStaffCharge = sangStaffCharge;
-    }
-
-    public Fletching getFletching() {
-        return fletching;
-    }
-
-    public Mode getMode() {
-        return mode;
-    }
-
-    public Mode setMode(Mode mode) {
-        return this.mode = mode;
-    }
-
-    public String getRevertOption() {
-        return revertOption;
-    }
-
-    public void setRevertOption(String revertOption) {
-        this.revertOption = revertOption;
-    }
-
-    public long getRevertModeDelay() {
-        return revertModeDelay;
-    }
-
-    public void setRevertModeDelay(long revertModeDelay) {
-        this.revertModeDelay = revertModeDelay;
-    }
-
     /**
-     * @param skillId
-     * @param amount
+     *
      */
     public void replenishSkill(int skillId, int amount) {
         if (skillId < 0 || skillId > playerLevel.length - 1) {
@@ -5021,25 +4750,6 @@ public class Player extends Entity {
         }
         playerAssistant.refreshSkill(skillId);
     }
-
-    public int lastSymbolDistanceCheck;
-
-    public List<NPC> derwens_orbs = Lists.newArrayList();
-
-    public int[] activeMageArena2BossId = new int[3];
-
-    public Position[] mageArena2Spawns = null;
-    public int[] mageArena2SpawnsX = new int[3];
-    public int[] mageArena2SpawnsY = new int[3];
-    /**
-     * Saved
-     */
-
-    public boolean[] mageArenaBossKills = new boolean[3];
-
-    public boolean[] mageArena2Stages = new boolean[5];
-
-    public int flamesOfZamorakCasts, clawsOfGuthixCasts, saradominStrikeCasts;
 
     public boolean completedMageArena2() {
         int count = 0;
@@ -5085,56 +4795,12 @@ public class Player extends Entity {
         }
     }
 
-    public void setArenaPoints(int arenaPoints) {
-        this.arenaPoints = arenaPoints;
-    }
-
-    public int getArenaPoints() {
-        return arenaPoints;
-    }
-
-    public String getKonarSlayerLocation() {
-        return konarSlayerLocation;
-    }
-
-    public void setKonarSlayerLocation(String location) {
-        this.konarSlayerLocation = location;
-    }
-
-    public String getLastTask() {
-        return lastTask;
-    }
-
-    public void setLastTask(String location) {
-        this.lastTask = location;
-    }
-
-    public void setShayPoints(int shayPoints) {
-        this.shayPoints = shayPoints;
-    }
-
-    public int getShayPoints() {
-        return shayPoints;
-    }
-
-    public void setRaidPoints(int raidPoints) {
-        this.raidPoints = raidPoints;
-    }
-
-    public int getRaidPoints() {
-        return raidPoints;
-    }
-
     public void braceletDecrease(int ether) {
         this.braceletEtherCount -= ether;
     }
 
     public void braceletIncrease(int ether) {
         this.braceletEtherCount += ether;
-    }
-
-    static {
-        appearanceUpdateBlockCache = new Stream(new byte[100]);
     }
 
     @Override
@@ -5154,26 +4820,6 @@ public class Player extends Entity {
         return 1;
     }
 
-    public int getToxicStaffOfTheDeadCharge() {
-        return toxicStaffOfTheDeadCharge;
-    }
-
-    public void setToxicStaffOfTheDeadCharge(int toxicStaffOfTheDeadCharge) {
-        this.toxicStaffOfTheDeadCharge = toxicStaffOfTheDeadCharge;
-    }
-
-    public long getExperienceCounter() {
-        return experienceCounter;
-    }
-
-    public void setExperienceCounter(long experienceCounter) {
-        this.experienceCounter = experienceCounter;
-    }
-
-    public int getRunEnergy() {
-        return runEnergy;
-    }
-
     public void setRunEnergy(int runEnergy, boolean update) {
         if (runEnergy < 0) {
             runEnergy = 0;
@@ -5184,18 +4830,6 @@ public class Player extends Entity {
         }
     }
 
-    public Entity getTargeted() {
-        return targeted;
-    }
-
-    public void setTargeted(Entity targeted) {
-        this.targeted = targeted;
-    }
-
-    public LootingBag getLootingBag() {
-        return lootingBag;
-    }
-
     public PrestigeSkills getPrestige() {
         return prestigeskills;
     }
@@ -5204,96 +4838,12 @@ public class Player extends Entity {
         return explock;
     }
 
-    public RunePouch getRunePouch() {
-        return runePouch;
-    }
-
-    public HerbSack getHerbSack() {
-        return herbSack;
-    }
-
-    public GemBag getGemBag() {
-        return gemBag;
-    }
-
-    public AchievementDiaryManager getDiaryManager() {
-        return diaryManager;
-    }
-
-    public QuickPrayers getQuick() {
-        return quick;
-    }
-
     public void setInfernoBestTime(long infernoBestTime) {
-    }
-
-    public QuestTab getQuestTab() {
-        return questTab;
-    }
-
-    public EventCalendar getEventCalendar() {
-        return eventCalendar;
-    }
-
-    public LocalDate getLastVote() {
-        return lastVote;
-    }
-
-    public void setLastVote(LocalDate lastVote) {
-        this.lastVote = lastVote;
-    }
-
-    public LocalDate getLastVotePanelPoint() {
-        return lastVotePanelPoint;
-    }
-
-    public void setLastVotePanelPoint(LocalDate lastVotePanelPoint) {
-        this.lastVotePanelPoint = lastVotePanelPoint;
-    }
-
-    public int getEnterAmountInterfaceId() {
-        return enterAmountInterfaceId;
-    }
-
-    public void setEnterAmountInterfaceId(int enterAmountInterfaceId) {
-        this.enterAmountInterfaceId = enterAmountInterfaceId;
     }
 
     public void updateRunningToggled(boolean runningToggled) {
         this.runningToggled = runningToggled;
         getPA().updateRunningToggle();
-    }
-
-    public void setRunningToggled(boolean runningToggled) {
-        this.runningToggled = runningToggled;
-    }
-
-    public boolean isRunningToggled() {
-        return runningToggled;
-    }
-
-    public RechargeItems getRechargeItems() {
-        return rechargeItems;
-    }
-
-    public UltraMysteryBox getUltraMysteryBox() {
-        return ultraMysteryBox;
-    }
-
-    public YoutubeMysteryBox getYoutubeMysteryBox() {
-        return youtubeMysteryBox;
-    }
-
-    public NormalMysteryBox getNormalMysteryBox() {
-        return normalMysteryBox;
-    }
-
-    public boolean isInTradingPost() {
-        return inTradingPost;
-    }
-
-    public void setInTradingPost(boolean inTradingPost) {
-        this.inTradingPost = inTradingPost;
     }
 
     public Inferno getInferno() {
@@ -5303,142 +4853,12 @@ public class Player extends Entity {
         return null;
     }
 
-
-    public MageArena getMageArena() {
-        return mageArena;
-    }
-
-    public Cannon getCannon() {
-        return cannon;
-    }
-
-    public void setCannon(Cannon cannon) {
-        this.cannon = cannon;
-    }
-
-    public Inventory getInventory() {
-        return inventory;
-    }
-
-    public DialogueBuilder getDialogueBuilder() {
-        return dialogueBuilder;
-    }
-
-    public void setDialogueBuilder(DialogueBuilder dialogueBuilder) {
-        this.dialogueBuilder = dialogueBuilder;
-    }
-
-    public DailyRewards getDailyRewards() {
-        return dailyRewards;
-    }
-
-    public Farming getFarming() {
-        return farming;
-    }
-
-    public ModeSelection getModeSelection() {
-        return modeSelection;
-    }
-
-    public ModeRevertType getModeRevertType() {
-        return modeRevertType;
-    }
-
-    public void setModeRevertType(ModeRevertType modeRevertType) {
-        this.modeRevertType = modeRevertType;
-    }
-
-    public BossTimers getBossTimers() {
-        return bossTimers;
-    }
-
-    public WogwContributeInterface getWogwContributeInterface() {
-        return wogwContributeInterface;
-    }
-
-    public DonationRewards getDonationRewards() {
-        return donationRewards;
-    }
-
-    public TobContainer getTobContainer() {
-        return tobContainer;
-    }
-
     public boolean inParty(String type) {
         return getParty() != null && getParty().isType(type);
     }
 
-    public PlayerParty getParty() {
-        return party;
-    }
-
-    public void setParty(PlayerParty party) {
-        this.party = party;
-    }
-
-    public NotificationsTab getNotificationsTab() {
-        return notificationsTab;
-    }
-
-    public boolean isPrintAttackStats() {
-        return printAttackStats;
-    }
-
-    public void setPrintAttackStats(boolean printAttackStats) {
-        this.printAttackStats = printAttackStats;
-    }
-
-    public boolean isPrintDefenceStats() {
-        return printDefenceStats;
-    }
-
-    public void setPrintDefenceStats(boolean printDefenceStats) {
-        this.printDefenceStats = printDefenceStats;
-    }
-
-    public TickTimer getPotionTimer() {
-        return potionTimer;
-    }
-
-    /**
-     * Gets the combo timer associated with combo eating
-     *
-     * @return The {@link TickTimer} associated with Combo eating
-     */
-    public TickTimer getComboTimer() {
-        return this.comboTimer;
-    }
-
-    public TickTimer getFoodTimer() {
-        return foodTimer;
-    }
-
-    public Questing getQuesting() {
-        return questing;
-    }
-
-    public boolean isHelpCcMuted() {
-        return helpCcMuted;
-    }
-
-    public void setHelpCcMuted(boolean helpCcMuted) {
-        this.helpCcMuted = helpCcMuted;
-    }
-
-    public boolean isGambleBanned() {
-        return gambleBanned;
-    }
-
-    public void setGambleBanned(boolean gambleBanned) {
-        this.gambleBanned = gambleBanned;
-    }
-
-    public TeleportInterface getTeleportInterface() {
-        return teleportInterface;
-    }
-
     public boolean isValidUUID() {
-        return getUUID() != null && getUUID().length() > 0;
+        return getUUID() != null && !getUUID().isEmpty();
     }
 
     public String getUUID() {
@@ -5449,47 +4869,12 @@ public class Player extends Entity {
         this.uuid = uuid;
     }
 
-    /**
-     * Gets a queue of the player'sprevious packets (50 maximum).
-     * These packets were not neccesarily handled by the server but
-     * they contain every packet that was sent from the client to the server.
-     *
-     * @return
-     */
-    public Queue<Integer> getPreviousPackets() {
-        return previousPackets;
-    }
-
-    public boolean isJoinedIronmanGroup() {
-        return joinedIronmanGroup;
-    }
-
-    public void setJoinedIronmanGroup(boolean joinedIronmanGroup) {
-        this.joinedIronmanGroup = joinedIronmanGroup;
-    }
-
     public void drainPrayer() {
         sendMessage("You have run out of prayer points!");
         playerLevel[5] = 0;
         CombatPrayer.resetPrayers(this);
         prayerId = -1;
         getPA().refreshSkill(5);
-    }
-
-    public boolean isReceivedCalendarCosmeticJune2021() {
-        return receivedCalendarCosmeticJune2021;
-    }
-
-    public void setReceivedCalendarCosmeticJune2021(boolean receivedCalendarCosmeticJune2021) {
-        this.receivedCalendarCosmeticJune2021 = receivedCalendarCosmeticJune2021;
-    }
-
-    public HashSet<GroundItem> getLocalGroundItems() {
-        return localGroundItems;
-    }
-
-    public String getDisplayName() {
-        return displayName;
     }
 
     public String getDisplayNameLower() {
@@ -5509,37 +4894,10 @@ public class Player extends Entity {
     }
 
     /**
-     * Get the player's lowercased display name as a long value.
-     */
-    public long getDisplayNameLong() {
-        return displayNameLong;
-    }
-
-    public boolean isCompletedTutorial() {
-        return completedTutorial;
-    }
-
-    public void setCompletedTutorial(boolean completedTutorial) {
-        this.completedTutorial = completedTutorial;
-    }
-
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
-    /**
      * @return {@link Player#getLoginName()} lowercase.
      */
     public String getLoginNameLower() {
         return getLoginName().toLowerCase();
-    }
-
-    public FriendsList getFriendsList() {
-        return friendsList;
     }
 
     public void sendDestroyItem(int itemId) {
@@ -5555,20 +4913,15 @@ public class Player extends Entity {
         final String itemName = def.getName();
 
         this.start(new DialogueBuilder(this).option(
-                "Destroy " + itemName + "?",
-                new DialogueOption("Yes", player -> {
-                    this.getPA().closeAllWindows();
-                    this.getItems().deleteItem(itemId, 1);
-                }),
-                new DialogueOption("No", player -> {
-                    this.getPA().closeAllWindows();
-                })
+            "Destroy " + itemName + "?",
+            new DialogueOption("Yes", player -> {
+                this.getPA().closeAllWindows();
+                this.getItems().deleteItem(itemId, 1);
+            }),
+            new DialogueOption("No", player -> {
+                this.getPA().closeAllWindows();
+            })
         ).send());
-        return;
-    }
-
-    public boolean isRequiresPinUnlock() {
-        return requiresPinUnlock;
     }
 
     public void setRequiresPinUnlock(boolean requiresPinUnlock) {
@@ -5577,32 +4930,10 @@ public class Player extends Entity {
             logger.debug("Requires account pin unlock.");
     }
 
-    public List<SkillExperience> getOutlastSkillBackup() {
-        return outlastSkillBackup;
-    }
-
-    public PerduLostPropertyShop getPerduLostPropertyShop() {
-        return perduLostPropertyShop;
-    }
-
     public LeaderboardPeriodicity getCurrentLeaderboardPeriod() {
         if (currentLeaderboardPeriod == null)
             return LeaderboardPeriodicity.TODAY;
         return currentLeaderboardPeriod;
-    }
-
-    public void setCurrentLeaderboardPeriod(LeaderboardPeriodicity currentLeaderboardPeriod) {
-        this.currentLeaderboardPeriod = currentLeaderboardPeriod;
-    }
-
-    private LeaderboardPeriodicity currentLeaderboardPeriod;
-
-    public CollectionBox getCollectionBox() {
-        return collectionBox;
-    }
-
-    public PvpWeapons getPvpWeapons() {
-        return pvpWeapons;
     }
 
     @Override
@@ -5610,23 +4941,4 @@ public class Player extends Entity {
         return this.getItems().getBonus(bonus);
     }
 
-    public TomeOfFire getTomeOfFire() {
-        return this.tomeOfFire;
-    }
-
-    public boolean isReceivedVoteStreakRefund() {
-        return receivedVoteStreakRefund;
-    }
-
-    public void setReceivedVoteStreakRefund(boolean receivedVoteStreakRefund) {
-        this.receivedVoteStreakRefund = receivedVoteStreakRefund;
-    }
-
-    public int getMigrationVersion() {
-        return migrationVersion;
-    }
-
-    public void setMigrationVersion(int migrationVersion) {
-        this.migrationVersion = migrationVersion;
-    }
 }

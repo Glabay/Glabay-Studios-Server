@@ -38,7 +38,7 @@ class TeleportInterface(private val player: Player) {
     private fun openTab(tab: TeleportTab? = null) {
         val displayTab = tab ?: currentTab
 
-        TeleportTab.values().forEach {
+        TeleportTab.entries.forEach {
             player.pa.sendSprite(it.button, 2230,2231)
         }
         player.pa.sendSprite(displayTab.button, 2232)
@@ -52,13 +52,13 @@ class TeleportInterface(private val player: Player) {
     }
 
     private fun getTeleportsForTab(teleportTab: TeleportTab) : List<TeleportEntry> = when (teleportTab) {
-        TeleportTab.CITIES -> Cities.values().toList()
-        TeleportTab.TRAINING -> Training.values().toList()
-        TeleportTab.DUNGEONS -> Dungeons.values().toList()
-        TeleportTab.BOSSES -> Bosses.values().toList()
-        TeleportTab.MINIGAMES -> Minigames.values().toList()
-        TeleportTab.WILDERNESS -> Wilderness.values().toList()
-        else -> Cities.values().toList()
+        TeleportTab.CITIES -> Cities.entries
+        TeleportTab.TRAINING -> Training.entries
+        TeleportTab.DUNGEONS -> Dungeons.entries
+        TeleportTab.BOSSES -> Bosses.entries
+        TeleportTab.MINIGAMES -> Minigames.entries
+        TeleportTab.WILDERNESS -> Wilderness.entries
+        else -> Cities.entries
 
     }
 
@@ -132,7 +132,7 @@ class TeleportInterface(private val player: Player) {
     fun onButton(buttonID: Int) {
         when (buttonID) {
             24515 -> player.pa.closeAllWindows()
-            in TeleportTab.values().map { it.button } -> handleTabSwitch(TeleportTab.fromButtonId(buttonID))
+            in TeleportTab.entries.map { it.button } -> handleTabSwitch(TeleportTab.fromButtonId(buttonID))
             in 28231..28291 -> teleport(teleports[buttonID - 28231])
             in 28471..28531 -> toggleFavorite(buttonID - 28471)
             59514 -> resetWarning()

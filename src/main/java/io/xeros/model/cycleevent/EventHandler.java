@@ -9,7 +9,7 @@ import java.util.function.Predicate;
  * A class that manages events that are pulsed every game cycle.
  * 
  * @author Jason MacKeigan
- * @date Jan 12, 2015, 5:15:04 PM
+ * @since Jan 12, 2015, 5:15:04 PM
  */
 public class EventHandler {
 
@@ -40,9 +40,8 @@ public class EventHandler {
 
 	/**
 	 * Attempts to stop any and all events that have a common attachment
-	 * 
-	 * @param attachment
-	 */
+	 *
+     */
 	public <T> void stop(T attachment) {
 		Predicate<Event<?>> equalTo = event -> event.getAttachment().equals(attachment);
 		active.stream().filter(equalTo).forEach(pendingRemoval::add);
@@ -89,7 +88,7 @@ public class EventHandler {
 	 * Processes each of the events that are currently running.
 	 */
 	public void process() {
-		if (pendingAddition.size() > 0) {
+		if (!pendingAddition.isEmpty()) {
 			pendingAddition.stream().filter(Objects::nonNull).forEach(active::add);
 			pendingAddition.clear();
 		}
@@ -125,8 +124,8 @@ public class EventHandler {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Events Active");
-		pendingAddition.forEach(e -> sb.append("--> " + e.getAttachment().toString() + " : " + e.getSignature() + "\n"));
-		sb.append("[adding = " + pendingAddition.size() + ", active = " + active.size() + ", removing = " + pendingRemoval.size() + "]");
+		pendingAddition.forEach(e -> sb.append("--> ").append(e.getAttachment().toString()).append(" : ").append(e.getSignature()).append("\n"));
+		sb.append("[adding = ").append(pendingAddition.size()).append(", active = ").append(active.size()).append(", removing = ").append(pendingRemoval.size()).append("]");
 		return sb.toString();
 	}
 }

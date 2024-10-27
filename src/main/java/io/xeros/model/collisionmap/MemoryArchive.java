@@ -18,7 +18,7 @@ public class MemoryArchive {
 			index.setOffset(dataIndex * INDEX_DATA_CHUNK_SIZE);
 			long fileOffset = index.getLong();
 			int fileSize = index.getInt();
-			cache.setOffset(fileOffset);
+			cache.setOffset((int) fileOffset);
             return cache.read(fileSize);
 		} catch (Exception e) {
 			System.out.println("MemoryArchive - Check for error");

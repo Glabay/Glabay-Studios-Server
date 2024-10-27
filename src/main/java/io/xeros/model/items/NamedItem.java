@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class NamedItem {
 
     private int id;

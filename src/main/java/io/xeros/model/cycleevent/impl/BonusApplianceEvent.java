@@ -54,7 +54,7 @@ public class BonusApplianceEvent extends Event<Object> {
 			}
 		}
 
-		/**
+		/*
 		 * Hespori Seeds
 		 */
 		if (Hespori.ATTAS_TIMER > 0) {

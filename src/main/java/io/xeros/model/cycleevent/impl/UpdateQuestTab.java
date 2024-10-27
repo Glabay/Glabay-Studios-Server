@@ -18,8 +18,6 @@ public class UpdateQuestTab extends Event<Object> {
 
 	@Override
 	public void execute() {
-		PlayerHandler.nonNullStream().forEach(player -> { 
-			player.getQuestTab().updateInformationTab();
-		});
+		PlayerHandler.nonNullStream().forEach(player -> player.getQuestTab().updateInformationTab());
 	}
 } 

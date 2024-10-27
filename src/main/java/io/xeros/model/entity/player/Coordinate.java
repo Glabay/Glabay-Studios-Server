@@ -1,11 +1,14 @@
 package io.xeros.model.entity.player;
 
+import lombok.Getter;
+
 /**
  * Representing a specific location.
  * 
  * @author Emiel
  *
  */
+@Getter
 public class Coordinate {
 
 	private final int x;
@@ -24,19 +27,7 @@ public class Coordinate {
 		this.h = h;
 	}
 
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public int getH() {
-		return h;
-	}
-
-	/**
+    /**
 	 * Absolute distance between this Coordiante and another.
 	 * 
 	 * @param other The other Coordiante.
@@ -72,9 +63,8 @@ public class Coordinate {
 		if (obj == null) {
 			return false;
 		}
-		if (obj instanceof Coordinate) {
-			Coordinate other = (Coordinate) obj;
-			return x == other.x && y == other.y && h == other.h;
+		if (obj instanceof Coordinate other) {
+            return x == other.x && y == other.y && h == other.h;
 		}
 		return false;
 	}

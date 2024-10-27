@@ -8,6 +8,8 @@ import io.xeros.model.entity.player.Right;
 import io.xeros.model.entity.player.mode.group.log.GimDropItemLog;
 import io.xeros.model.entity.player.mode.group.log.GimWithdrawItemLog;
 import io.xeros.model.items.GameItem;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.collections4.ListUtils;
 
 import java.util.*;
@@ -17,21 +19,33 @@ public class GroupIronmanGroup {
 
     private static final int LOG_MAX_SIZE = 200;
 
+    @Getter
     private final String name;
+    @Getter
     private final List<String> members;
+    @Setter
+    @Getter
     private boolean finalized;
     private final List<Player> online = Lists.newArrayList();
     private final GroupIronmanGroupStats stats = new GroupIronmanGroupStats(this);
+    @Getter
     private final GroupIronmanBank bank = new GroupIronmanBank(this);
+    @Getter
     private final List<String> mergedCollectionLogs = Lists.newArrayList();
+    @Setter
+    @Getter
     private CollectionLog collectionLog;
+    @Getter
     private final Deque<GimWithdrawItemLog> withdrawItemLog = new ArrayDeque<>();
+    @Getter
     private final Deque<GimDropItemLog> dropItemLog = new ArrayDeque<>();
 
     /**
      * Total amount of joined members after you leave tutorial islands,
      * includes all people present at finalization and all subsequent invites.
      */
+    @Setter
+    @Getter
     private int joined = 0;
 
     public GroupIronmanGroup(String name, List<String> members) {
@@ -45,7 +59,7 @@ public class GroupIronmanGroup {
             return false;
         }
 
-        if (members.size() == 0) {
+        if (members.isEmpty()) {
             checking.sendStatement("Group is no longer forming.");
             return false;
         }
@@ -106,7 +120,7 @@ public class GroupIronmanGroup {
         return Collections.unmodifiableList(offlineUsernames);
     }
     public boolean isLeader(Player player) {
-        return !members.isEmpty() && members.get(0).equals(player.getLoginNameLower());
+        return !members.isEmpty() && members.getFirst().equals(player.getLoginNameLower());
     }
 
     public void sendGroupChat(Player player, String message) {
@@ -154,52 +168,8 @@ public class GroupIronmanGroup {
         return members.size();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getMembers() {
-        return members;
-    }
-
-    public boolean isFinalized() {
-        return finalized;
-    }
-
-    public void setFinalized(boolean finalized) {
-        this.finalized = finalized;
-    }
-
     public GroupIronmanGroupStats getStatistics() {
         return stats;
-    }
-
-    public GroupIronmanBank getBank() {
-        return bank;
-    }
-
-    public int getJoined() {
-        return joined;
-    }
-
-    public void setJoined(int joined) {
-        this.joined = joined;
-    }
-
-    public CollectionLog getCollectionLog() {
-        return collectionLog;
-    }
-
-    public void setCollectionLog(CollectionLog collectionLog) {
-        this.collectionLog = collectionLog;
-    }
-
-    public Deque<GimWithdrawItemLog> getWithdrawItemLog() {
-        return withdrawItemLog;
-    }
-
-    public Deque<GimDropItemLog> getDropItemLog() {
-        return dropItemLog;
     }
 
     @Override
@@ -225,7 +195,4 @@ public class GroupIronmanGroup {
                 Objects.equals(members, that.members);
     }
 
-    public List<String> getMergedCollectionLogs() {
-        return mergedCollectionLogs;
-    }
 }

@@ -5,13 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import com.google.common.base.Preconditions;
-import dev.openrune.cache.CacheManager;
-import dev.openrune.cache.filestore.definition.data.NpcType;
 import io.xeros.content.SkillcapePerks;
 import io.xeros.content.achievement.AchievementType;
 import io.xeros.content.achievement.Achievements;
@@ -30,7 +27,6 @@ import io.xeros.content.combat.core.HitDispatcher;
 import io.xeros.content.combat.formula.rework.MagicCombatFormula;
 import io.xeros.content.combat.formula.rework.RangeCombatFormula;
 import io.xeros.content.combat.melee.MeleeExtras;
-import io.xeros.content.commands.test.Hit;
 import io.xeros.content.instances.InstancedArea;
 import io.xeros.content.minigames.barrows.brothers.Brother;
 import io.xeros.content.minigames.fight_cave.Wave;
@@ -46,15 +42,14 @@ import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;
 import io.xeros.model.definitions.NpcDef;
 import io.xeros.model.definitions.NpcStats;
-import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.actions.LoadSpell;
-import io.xeros.model.entity.npc.actions.NPCHitPlayer;
 import io.xeros.model.entity.npc.combat.CombatMethod;
 import io.xeros.model.entity.npc.combat.CommonCombatMethod;
 import io.xeros.model.entity.npc.data.AttackAnimation;
 import io.xeros.model.entity.player.*;
 import io.xeros.model.projectile.ProjectileEntity;
 import io.xeros.util.Misc;
+import lombok.Getter;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,6 +80,7 @@ public class NPCHandler {
      * Queen variables
      */
     public static String queenAttack = "MAGIC";
+    @Getter
     private final NPCProcess npcProcess = new NPCProcess(this);
 
     public NPCHandler() {
@@ -103,42 +99,42 @@ public class NPCHandler {
         }
         int random_spawn = Misc.random(2);
         int x = 0;
-        int y = 0;
-        switch (random_spawn) {
-            case 0:
+        int y = switch (random_spawn) {
+            case 0 -> {
                 x = 2620;
-                y = 4347;
-                break;
-            case 1:
+                yield 4347;
+            }
+            case 1 -> {
                 x = 2607;
-                y = 4321;
-                break;
-            case 2:
+                yield 4321;
+            }
+            case 2 -> {
                 x = 2589;
-                y = 4292;
-                break;
-        }
+                yield 4292;
+            }
+            default -> 0;
+        };
         newNPC(7302, x, y, 0, 1, -1);
     }
 
     /**
      * Random spawns
      */
-    public boolean ringOfLife(Player c) {
-        boolean defenceCape = SkillcapePerks.DEFENCE.isWearing(c);
-        boolean maxCape = SkillcapePerks.isWearingMaxCape(c);
-        if (c.getItems().isWearingItem(2570) || defenceCape || (maxCape && c.getRingOfLifeEffect())) {
-            if (c.isTeleblocked()) {
-                c.sendMessage("The ring of life effect does not work as you are teleblocked.");
+    public boolean ringOfLife(Player player) {
+        boolean defenceCape = SkillcapePerks.DEFENCE.isWearing(player);
+        boolean maxCape = SkillcapePerks.isWearingMaxCape(player);
+        if (player.getItems().isWearingItem(2570) || defenceCape || (maxCape && player.getRingOfLifeEffect())) {
+            if (player.isTeleblocked()) {
+                player.sendMessage("The ring of life effect does not work as you are teleblocked.");
                 return false;
             }
             if (defenceCape || maxCape) {
-                c.sendMessage("Your cape activated the ring of life effect and saved you!");
+                player.sendMessage("Your cape activated the ring of life effect and saved you!");
             } else {
-                c.getItems().deleteEquipment(Player.playerRing);
-                c.sendMessage("Your ring of life saved you!");
+                player.getItems().deleteEquipment(Player.playerRing);
+                player.sendMessage("Your ring of life saved you!");
             }
-            c.getPA().spellTeleport(3087, 3499, 0, false);
+            player.getPA().spellTeleport(3087, 3499, 0, false);
             return true;
         }
         return false;
@@ -193,44 +189,11 @@ public class NPCHandler {
     }
 
     public boolean switchesAttackers(NPC npc) {
-        switch (npc.getNpcId()) {
-            case 963:
-            case 965:
-            case 3129:
-            case 2208:
-            case 239:
-            case 6611:
-            case 6612:
-            case 494:
-            case 319:
-            case 7554:
-            case 320:
-            case 5535:
-            case 2551:
-            case 6609:
-            case 2552:
-            case 2553:
-            case 2559:
-            case 2560:
-            case 2561:
-            case 2563:
-            case 2564:
-            case 2565:
-            case 2892:
-            case 2894:
-            case 1046:
-            case 6615:
-            case 6616:
-            case 7604:
-            case 7605:
-            case 7606:
-            case 7544:
-            case 5129:
-            case FragmentOfSeren.NPC_ID:
-            case 8781:
-                return true;
-        }
-        return false;
+        return switch (npc.getNpcId()) {
+            case 963, 965, 3129, 2208, 239, 6611, 6612, 494, 319, 7554, 320, 5535, 2551, 6609, 2552, 2553, 2559, 2560, 2561, 2563, 2564, 2565, 2892,
+                 2894, 1046, 6615, 6616, 7604, 7605, 7606, 7544, 5129, FragmentOfSeren.NPC_ID, 8781 -> true;
+            default -> false;
+        };
     }
 
     public static boolean isSpawnedBy(Player player, NPC npc) {
@@ -241,80 +204,40 @@ public class NPCHandler {
 
     public static boolean isFightCaveNpc(NPC npc) {
         if (npc == null) return false;
-        switch (npc.getNpcId()) {
-            case io.xeros.content.minigames.fight_cave.Wave.TZ_KEK_SPAWN:
-            case io.xeros.content.minigames.fight_cave.Wave.TZ_KIH:
-            case io.xeros.content.minigames.fight_cave.Wave.TZ_KEK:
-            case io.xeros.content.minigames.fight_cave.Wave.TOK_XIL:
-            case io.xeros.content.minigames.fight_cave.Wave.YT_MEJKOT:
-            case io.xeros.content.minigames.fight_cave.Wave.KET_ZEK:
-            case Wave.TZTOK_JAD:
-                return true;
-        }
-        return false;
+        return switch (npc.getNpcId()) {
+            case Wave.TZ_KEK_SPAWN, Wave.TZ_KIH, Wave.TZ_KEK, Wave.TOK_XIL, Wave.YT_MEJKOT, Wave.KET_ZEK, Wave.TZTOK_JAD -> true;
+            default -> false;
+        };
     }
 
     public static boolean isInfernoNpc(NPC npc) {
         if (npc == null) return false;
-        switch (npc.getNpcId()) {
-            case InfernoWaveData.JAL_NIB:
-            case InfernoWaveData.JAL_MEJRAH:
-            case InfernoWaveData.JAL_AK:
-            case InfernoWaveData.JAL_AKREK_MEJ:
-            case InfernoWaveData.JAL_AKREK_XIL:
-            case InfernoWaveData.JAL_AKREK_KET:
-            case InfernoWaveData.JAL_IMKOT:
-            case InfernoWaveData.JAL_XIL:
-            case InfernoWaveData.JAL_ZEK:
-            case InfernoWaveData.JALTOK_JAD:
-            case InfernoWaveData.YT_HURKOT:
-            case InfernoWaveData.TZKAL_ZUK:
-            case InfernoWaveData.ANCESTRAL_GLYPH:
-            case InfernoWaveData.JAL_MEJJAK:
-                return true;
-        }
-        return false;
+        return switch (npc.getNpcId()) {
+            case InfernoWaveData.JAL_NIB, InfernoWaveData.JAL_MEJRAH, InfernoWaveData.JAL_AK, InfernoWaveData.JAL_AKREK_MEJ,
+                 InfernoWaveData.JAL_AKREK_XIL, InfernoWaveData.JAL_AKREK_KET, InfernoWaveData.JAL_IMKOT, InfernoWaveData.JAL_XIL,
+                 InfernoWaveData.JAL_ZEK, InfernoWaveData.JALTOK_JAD, InfernoWaveData.YT_HURKOT, InfernoWaveData.TZKAL_ZUK,
+                 InfernoWaveData.ANCESTRAL_GLYPH, InfernoWaveData.JAL_MEJJAK -> true;
+            default -> false;
+        };
     }
 
     public static boolean isXericNpc(NPC npc) {
         if (npc == null) return false;
-        switch (npc.getNpcId()) {
-            case XericWave.RUNT:
-            case XericWave.BEAST:
-            case XericWave.RANGER:
-            case XericWave.MAGE:
-            case XericWave.SHAMAN:
-            case XericWave.LIZARD:
-            case XericWave.VESPINE:
-            case XericWave.AIR_CRAB:
-            case XericWave.FIRE_CRAB:
-            case XericWave.EARTH_CRAB:
-            case XericWave.WATER_CRAB:
-            case XericWave.ICE_FIEND:
-            case XericWave.VANGUARD:
-            case XericWave.VESPULA:
-            case XericWave.TEKTON:
-            case XericWave.MUTTADILE:
-            case XericWave.VASA:
-            case XericWave.ICE_DEMON:
-                return true;
-        }
-        return false;
+        return switch (npc.getNpcId()) {
+            case XericWave.RUNT, XericWave.BEAST, XericWave.RANGER, XericWave.MAGE, XericWave.SHAMAN, XericWave.LIZARD, XericWave.VESPINE,
+                 XericWave.AIR_CRAB, XericWave.FIRE_CRAB, XericWave.EARTH_CRAB, XericWave.WATER_CRAB, XericWave.ICE_FIEND, XericWave.VANGUARD,
+                 XericWave.VESPULA, XericWave.TEKTON, XericWave.MUTTADILE, XericWave.VASA, XericWave.ICE_DEMON -> true;
+            default -> false;
+        };
     }
 
     public static boolean isSkotizoNpc(NPC npc) {
         if (npc == null) return false;
-        switch (npc.getNpcId()) {
-            case Skotizo.SKOTIZO_ID:
-            case Skotizo.AWAKENED_ALTAR_NORTH:
-            case Skotizo.AWAKENED_ALTAR_SOUTH:
-            case Skotizo.AWAKENED_ALTAR_WEST:
-            case Skotizo.AWAKENED_ALTAR_EAST:
-            case Skotizo.REANIMATED_DEMON:
-            case Skotizo.DARK_ANKOU:
-                return true;
-        }
-        return false;
+        return switch (npc.getNpcId()) {
+            case Skotizo.SKOTIZO_ID, Skotizo.AWAKENED_ALTAR_NORTH, Skotizo.AWAKENED_ALTAR_SOUTH, Skotizo.AWAKENED_ALTAR_WEST,
+                 Skotizo.AWAKENED_ALTAR_EAST, Skotizo.REANIMATED_DEMON, Skotizo.DARK_ANKOU -> true;
+            default -> false;
+        };
     }
 
     /**
@@ -332,85 +255,21 @@ public class NPCHandler {
      * @return the delay were setting
      */
     public int getNpcDelay(NPC npc) {
-        switch (npc.getNpcId()) {
-            case InfernoWaveData.JAL_NIB:
-                return 4;
-            case InfernoWaveData.JAL_MEJRAH:
-                return 7;
-            case InfernoWaveData.JAL_AK:
-                return 4;
-            case InfernoWaveData.JAL_AKREK_KET:
-                return 4;
-            case InfernoWaveData.JAL_AKREK_MEJ:
-                return 4;
-            case InfernoWaveData.JAL_AKREK_XIL:
-                return 4;
-            case InfernoWaveData.JAL_IMKOT:
-                return 6;
-            case InfernoWaveData.JAL_XIL:
-                return 6;
-            case InfernoWaveData.JAL_ZEK:
-                return 6;
-            case InfernoWaveData.YT_HURKOT:
-                return 6;
-            case InfernoWaveData.JALTOK_JAD:
-                return 9;
-            case InfernoWaveData.JAL_MEJJAK:
-                return 7;
-            case 499:
-                return 4;
-            case 498:
-                return 7;
-            case 6611:
-            case 6612:
-                return npc.getAttackType() == CombatType.MAGE ? 6 : 5;
-            case 6607:
-                return 5;
-            case 319:
-                return npc.getAttackType() == CombatType.MAGE ? 7 : 6;
-            case 7554:
-                return npc.getAttackType() == CombatType.MAGE ? 4 : 6;
-            case 2025:
-            case 2028:
-            case 963:
-            case 965:
-                return 7;
-            case 3127:
-                return 8;
-            case 8030:
-            case 8031:
-                return 5;
-            case 2205:
-                return 4;
-            case Brother.AHRIM:
-                return 6;
-            case Brother.DHAROK:
-                return 7;
-            case Brother.GUTHAN:
-                return 5;
-            case Brother.KARIL:
-                return 4;
-            case Brother.TORAG:
-                return 5;
-            case Brother.VERAC:
-                return 5;
-            case 3167:
-            case 2558:
-            case 2559:
-            case 2560:
-            case 2561:
-            case 2215:
-                return 6;
+        return switch (npc.getNpcId()) {
+            case InfernoWaveData.JAL_NIB, Brother.KARIL, 2205, 499, InfernoWaveData.JAL_AKREK_XIL, InfernoWaveData.JAL_AKREK_MEJ,
+                 InfernoWaveData.JAL_AKREK_KET, InfernoWaveData.JAL_AK -> 4;
+            case InfernoWaveData.JAL_MEJRAH, 3162, Brother.DHAROK, 2025, 2028, 963, 965, 498, InfernoWaveData.JAL_MEJJAK -> 7;
+            case InfernoWaveData.JAL_IMKOT, 3167, 2558, 2559, 2560, 2561, 2215, Brother.AHRIM, InfernoWaveData.YT_HURKOT, InfernoWaveData.JAL_ZEK,
+                 InfernoWaveData.JAL_XIL -> 6;
+            case InfernoWaveData.JALTOK_JAD -> 9;
+            case 6611, 6612 -> npc.getAttackType() == CombatType.MAGE ? 6 : 5;
+            case 319 -> npc.getAttackType() == CombatType.MAGE ? 7 : 6;
+            case 7554 -> npc.getAttackType() == CombatType.MAGE ? 4 : 6;
+            case 3127 -> 8;
             // saradomin gw boss
-            case 2562:
-            case 7597:
-            case 7547:
-                return 2;
-            case 3162:
-                return 7;
-            default:
-                return 5;
-        }
+            case 2562, 7597, 7547 -> 2;
+            default -> 5;
+        };
     }
 
     /**
@@ -418,7 +277,6 @@ public class NPCHandler {
      *
      * @param npcType      the npc to perform the projectile
      * @param projectileId the projectile to be performed
-     * @return
      */
     private int getProjectileStartHeight(int npcType, int projectileId) {
         switch (npcType) {
@@ -450,7 +308,6 @@ public class NPCHandler {
      *
      * @param npcType      the npc to perform the projectile
      * @param projectileId the projectile to be performed
-     * @return
      */
     private int getProjectileEndHeight(int npcType, int projectileId) {
         switch (npcType) {
@@ -486,9 +343,7 @@ public class NPCHandler {
             case 1607:
             case 1608:
             case 1609:
-            case 499:
-                return 4;
-            case 498:
+            case 499, 498:
                 return 4;
             case 6611:
             case 6612:
@@ -652,26 +507,19 @@ public class NPCHandler {
      * @return the amount of damage the poison will begin on
      */
     public int getPoisonDamage(NPC npc) {
-        switch (npc.getNpcId()) {
-            case 3129:
-                return 16;
-            case 319:
-                return 0;
-            case 3021:
-                return 5;
-            case 957:
-                return 4;
-            case 959:
-                return 6;
-            case 6615:
-                return 10;
-        }
-        return 0;
+        return switch (npc.getNpcId()) {
+            case 3129 -> 16;
+            case 3021 -> 5;
+            case 957 -> 4;
+            case 959 -> 6;
+            case 6615 -> 10;
+            default -> 0;
+        };
     }
 
     public static Optional<AlchemicalHydra> getHydraInstance(NPC npc) {
         if (npc.getInstance() != null && npc.getInstance() instanceof AlchemicalHydra)
-            return Optional.ofNullable((AlchemicalHydra) npc.getInstance());
+            return Optional.of((AlchemicalHydra) npc.getInstance());
         return Optional.empty();
     }
 
@@ -685,28 +533,20 @@ public class NPCHandler {
         if (npc == null) {
             return 0;
         }
-        switch (npc.getNpcId()) {
-            case 319:
-            case 239:
-            case 8031:
-            case 8030:
-                return 35;
-            case 7554:
-                return 30;
-            case TheUnbearable.NPC_ID:
-            case FragmentOfSeren.NPC_ID:
-            case Hespori.NPC_ID:
-                return 25;
-        }
-        return 15;
+        return switch (npc.getNpcId()) {
+            case 319, 239, 8031, 8030 -> 35;
+            case 7554 -> 30;
+            case TheUnbearable.NPC_ID, FragmentOfSeren.NPC_ID, Hespori.NPC_ID -> 25;
+            default -> 15;
+        };
     }
 
     /**
      * Multi attack damage
      */
     public void multiAttackDamage(NPC npc) {
-        int damage = 0;
-        Hitmark hitmark = damage > 0 ? Hitmark.HIT : Hitmark.MISS;
+        int damage;
+        Hitmark hitmark = Hitmark.MISS;
         for (int j = 0; j < PlayerHandler.players.length; j++) {
             if (PlayerHandler.players[j] != null) {
                 Player c = PlayerHandler.players[j];
@@ -764,7 +604,7 @@ public class NPCHandler {
                             if (!(c.absX > npc.absX - 5 && c.absX < npc.absX + 5 && c.absY > npc.absY - 5 && c.absY < npc.absY + 5)) {
                                 continue;
                             }
-                            c.sendMessage("Vet\'ion pummels the ground sending a shattering earthquake shockwave through you.");
+                            c.sendMessage("Vet'ion pummels the ground sending a shattering earthquake shockwave through you.");
                             createVetionEarthquake(c);
                         }
                         if (npc.getNpcId() == 319) {
@@ -817,10 +657,7 @@ public class NPCHandler {
                                 case Hespori.NPC_ID:
                                     damage *= 0.6;
                                     break;
-                                case 7554:
-                                    if (c.protectingMagic()) damage /= 2;
-                                    break;
-                                case 319:
+                                case 7554, 319:
                                     if (c.protectingMagic()) damage /= 2;
                                     break;
                                 default:
@@ -839,15 +676,8 @@ public class NPCHandler {
                             } else {
                                 c.appendDamage(npc, 0, Hitmark.MISS);
                             }
-                            if (npc.getNpcId() == 2215) {
-                                damage /= 1;
-                            }
                         } else {
-                            switch (npc.getNpcId()) {
-                                default:
-                                    damage = 0;
-                                    break;
-                            }
+                            damage = 0;
                             c.appendDamage(npc, damage, Hitmark.MISS);
                         }
                     }
@@ -869,7 +699,7 @@ public class NPCHandler {
         switch (npc.getNpcId()) {
             case 7554:
                 return npc.getAttackType() == CombatType.SPECIAL || npc.getAttackType() == CombatType.MAGE || npc.getAttackType() == CombatType.RANGE;
-            case FragmentOfSeren.NPC_ID:
+            case FragmentOfSeren.NPC_ID, 2558, Hespori.NPC_ID:
                 return true;
             case 6611:
             case 6612:
@@ -880,29 +710,16 @@ public class NPCHandler {
             case 6768:
             case 7617:
                 return npc.getAttackType() == CombatType.SPECIAL || npc.getAttackType() == CombatType.MAGE;
-            case 8609:
+            case 8609, 7604, 7605, 7606, 8781:
                 return npc.getAttackType() == CombatType.SPECIAL;
-            case TheUnbearable.NPC_ID:
+            case TheUnbearable.NPC_ID, 3162, 6610:
                 return npc.getAttackType() == CombatType.MAGE;
-            case Hespori.NPC_ID:
-                return true;
-            case 7604:
-            case 7605:
-            case 7606:
-            case 8781:
-                return npc.getAttackType() == CombatType.SPECIAL;
             case 1046:
                 return npc.getAttackType() == CombatType.MAGE || npc.getAttackType() == CombatType.SPECIAL && Misc.random(3) == 0;
-            case 6610:
-                return npc.getAttackType() == CombatType.MAGE;
-            case 2558:
-                return true;
             case 2562:
                 if (npc.getAttackType() == CombatType.MAGE) return true;
             case 2215:
                 return npc.getAttackType() == CombatType.RANGE;
-            case 3162:
-                return npc.getAttackType() == CombatType.MAGE;
             case 963:
             case 965:
                 return npc.getAttackType() == CombatType.MAGE || npc.getAttackType() == CombatType.RANGE;
@@ -1191,32 +1008,26 @@ public class NPCHandler {
             return npc.getCurrentAttack().getDistanceRequiredForAttack();
         }
         switch (npc.getNpcId()) {
-            case Npcs.ABYSSAL_SIRE:
+            case Npcs.ABYSSAL_SIRE, 1443:
                 return npc.getAttackType() == CombatType.MELEE ? 3 : 14;
-            case 1443:
-                return npc.getAttackType() == CombatType.MELEE ? 3 : 14;
-            case InfernoWaveData.TZKAL_ZUK:
+            case InfernoWaveData.TZKAL_ZUK, 5867, 5868, 5869, 7617:
                 return 30;
             case InfernoWaveData.JALTOK_JAD:
             case InfernoWaveData.JAL_XIL:
-            case InfernoWaveData.JAL_ZEK:
+            case InfernoWaveData.JAL_ZEK, 1046, 6610, 3163, 2208, InfernoWaveData.JAL_AK:
                 return 8;
             case InfernoWaveData.JAL_IMKOT:
                 return 1;
-            case InfernoWaveData.JAL_AK:
-                return 8;
             case InfernoWaveData.JAL_AKREK_XIL:
             case InfernoWaveData.JAL_AKREK_MEJ:
-            case InfernoWaveData.JAL_MEJRAH:
+            case InfernoWaveData.JAL_MEJRAH, 1610, 1611, 1612, 2209, 2211, 2212, 2242, 2244, 3160, 3161, 3174:
                 return 4;
-            case TheUnbearable.NPC_ID:
+            case TheUnbearable.NPC_ID, 3131, 3132, 494, 492, 6609, 5535, 6370, 7559, 7560, 8028:
                 return 10;
             case Hespori.NPC_ID:
                 return 18;
             case Skotizo.SKOTIZO_ID:
                 return npc.getAttackType() == CombatType.MAGE ? 25 : 3;
-            case 8028:
-                return 10;
             /* Hydra */
             case 8609:
                 return 26;
@@ -1250,14 +1061,6 @@ public class NPCHandler {
             case 9024:
                 //death
                 return npc.getAttackType() == CombatType.MELEE ? 2 : 7;
-            case 5867:
-            case 5868:
-            case 5869:
-            case 7617:
-                return 30;
-            case 7559:
-            case 7560:
-                return 10;
             case 7604:
                 // Skeletal mystic
             case 7605:
@@ -1267,7 +1070,6 @@ public class NPCHandler {
             case FragmentOfSeren.NPC_ID:
                 return 8;
             case 319:
-                if (npc.getAttackType() == CombatType.MAGE) if (npc.getAttackType() == CombatType.SPECIAL) return 20;
                 if (npc.getAttackType() == CombatType.MELEE) return 4;
                 //case 5890:
             case 7544:
@@ -1303,10 +1105,8 @@ public class NPCHandler {
             case 6378:
                 if (npc.getAttackType() == CombatType.MAGE || npc.getAttackType() == CombatType.RANGE) return 8;
                 else return 4;
-            case 6370:
-                return 10;
             case 498:
-            case 499:
+            case 499, 8781, 2025, 2028, 2218:
                 return 6;
             case 1672:
                 // Ahrim
@@ -1321,29 +1121,14 @@ public class NPCHandler {
             case 986:
             case 988:
                 return 3;
-            case 2209:
-            case 2211:
-            case 2212:
-            case 2242:
-            case 2244:
-            case 3160:
-            case 3161:
-            case 3174:
-                return 4;
             case 3162:
             case 3167:
-            case 3168:
+            case 3168, 2552, 2553, 2556, 2557, 2558, 2559, 2560, 2564, 2565, 2217:
                 return 9;
-            case 1610:
-            case 1611:
-            case 1612:
-                return 4;
             case 2205:
                 return npc.getAttackType() == CombatType.MAGE ? 4 : 1;
-            case Zulrah.SNAKELING:
+            case Zulrah.SNAKELING, 3130, 2206, 2207, 2267, 2562:
                 return 2;
-            case 2208:
-                return 8;
             case 2215:
                 return npc.getAttackType() == CombatType.MELEE ? 3 : 12;
             case 7936:
@@ -1358,44 +1143,17 @@ public class NPCHandler {
             case 7938:
             case 7933:
                 return npc.getAttackType() == CombatType.MELEE ? 2 : 8;
-            case 2217:
-                return 9;
-            case 2218:
-                return 6;
             case 2042:
             case 2043:
             case 2044:
             case 7554:
                 return 25;
-            case 3163:
-                return 8;
             case 3164:
-            case 1049:
+            case 1049, 3129:
                 return 5;
             case 6611:
             case 6612:
                 return npc.getAttackType() == CombatType.SPECIAL || npc.getAttackType() == CombatType.MAGE ? 12 : 3;
-            case 1046:
-            case 6610:
-                return 8;
-            case 494:
-            case 492:
-            case 6609:
-            case 5535:
-                return 10;
-            case 2025:
-            case 2028:
-                return 6;
-            case 2562:
-                return 2;
-            case 3131:
-            case 3132:
-                return 10;
-            case 3130:
-            case 2206:
-            case 2207:
-            case 2267:
-                return 2;
             case 2054:
                 // chaos ele
             case 3125:
@@ -1403,29 +1161,15 @@ public class NPCHandler {
             case 2167:
             case 3127:
                 return npc.getAttackType() == CombatType.MELEE ? 2 : 8;
-            case 3129:
-                return 5;
             case 2265:
                 // dag kings
             case 2266:
                 return 4;
-            case 8781:
-                return 6;
             case 239:
                 return npc.getAttackType() == CombatType.DRAGON_FIRE ? 18 : 4;
             case 8030:
             case 8031:
                 return npc.getAttackType() == CombatType.DRAGON_FIRE ? 20 : 3;
-            case 2552:
-            case 2553:
-            case 2556:
-            case 2557:
-            case 2558:
-            case 2559:
-            case 2560:
-            case 2564:
-            case 2565:
-                return 9;
             // things around dags
             case 2892:
             case 2894:
@@ -1445,175 +1189,43 @@ public class NPCHandler {
         if (Boundary.isIn(npc, Boundary.XERIC)) {
             return 128;
         }
-        switch (npc.getNpcId()) {
-            case 8622:
-            case 8621:
-            case 8620:
-            case 8619:
-            case 8615:
-                return 40;
-            case 2045:
-                return 20;
-            case 6615:
-                return 30;
+        return switch (npc.getNpcId()) {
+            case 8622, 8621, 8620, 8619, 8615, 239, 8031, 8030 -> 40;
+            case 2045 -> 20;
+            case 6615 -> 30;
             /* Hydra */
-            case 8609:
-                return 30;
-            case 1739:
-            case 1740:
-            case 1741:
-            case 1742:
-            case 7413:
-            case 7288:
-            case 7290:
-            case 7292:
-            case 7294:
-            case Npcs.HESPORI:
-                return -1;
-            case 1678:
-                // Barrows tunnel NPCs
-            case 1679:
-            case 1680:
-            case 1683:
-            case 1684:
-            case 1685:
-            case 484:
-            case 7276:
-            case 135:
-            case 6914:
-                // Lizardman, Lizardman brute
-            case 6915:
-            case 6916:
-            case 6917:
-            case 6918:
-            case 6919:
-                return 4;
-            case 2209:
-            case 2211:
-            case 2212:
-            case 2233:
-            case 2234:
-            case 2235:
-            case 2237:
-            case 2241:
-            case 2242:
-            case 2243:
-            case 2244:
-            case 2245:
-            case 3133:
-            case 3134:
-            case 3135:
-            case 3137:
-            case 3138:
-            case 3139:
-            case 3140:
-            case 3141:
-            case 3159:
-            case 3160:
-            case 3161:
-            case 3166:
-            case 3167:
-            case 3168:
-            case 7936:
-                //start of revs
-            case 7940:
-            case 7931:
-            case 7932:
-            case 7937:
-            case 7939:
-            case 7935:
-            case 7934:
-            case 7938:
-            case 7933:
-                return 4;
-            case 2205:
-            case 2206:
-            case 2207:
-            case 2208:
-            case 2215:
-            case 2216:
-            case 2217:
-            case 2218:
-            case 3129:
-            case 3130:
-            case 3131:
-            case 3132:
-            case 3162:
-            case 3163:
-            case 3164:
-            case 3165:
-                return 22;
-            case 239:
-            case 8031:
-            case 8030:
-                return 40;
-            case 6611:
-            case 6612:
-            case 963:
-            case 965:
-            case 7544:
-                return 15;
-            case 5129:
-                return 9;
-            case TheUnbearable.NPC_ID:
-            case FragmentOfSeren.NPC_ID:
-                return 10;
-            case 319:
-                return 9;
-            case 2551:
-            case 2562:
-            case 2563:
-                return 8;
-            case 2054:
-            case 5890:
-            case 5916:
-                return 10;
-            case 2265:
-            case 2266:
-            case 2267:
-                return 8;
-            case 8781:
-                return 3;
-            default:
-                return 10;
-        }
+            case 8609 -> 30;
+            case 1739, 1740, 1741, 1742, 7413, 7288, 7290, 7292, 7294, Npcs.HESPORI -> -1;
+            // Barrows tunnel NPCs
+            // Lizardman, Lizardman brute
+            case 1678, 1679, 1680, 1683, 1684, 1685, 484, 7276, 135, 6914, 6915, 6916, 6917, 6918, 6919 -> 4;
+            //start of revs
+            case 2209, 2211, 2212, 2233, 2234, 2235, 2237, 2241, 2242, 2243, 2244, 2245, 3133, 3134, 3135, 3137, 3138, 3139, 3140, 3141, 3159, 3160,
+                 3161, 3166, 3167, 3168, 7936, 7940, 7931, 7932, 7937, 7939, 7935, 7934, 7938, 7933 -> 4;
+            case 2205, 2206, 2207, 2208, 2215, 2216, 2217, 2218, 3129, 3130, 3131, 3132, 3162, 3163, 3164, 3165 -> 22;
+            case 6611, 6612, 963, 965, 7544 -> 15;
+            case 5129, 319 -> 9;
+            case 2551, 2562, 2563, 2265, 2266, 2267 -> 8;
+            case 8781 -> 3;
+            default -> 10;
+        };
     }
 
     public int getProjectileSpeed(NPC npc) {
-        switch (npc.getNpcId()) {
-            case 498:
-                return 120;
-            case 499:
-                return 105;
-            case 2265:
-            case 2266:
-            case 2054:
-                return 85;
-            case 8781:
-                return 75;
-            case 3127:
-            case InfernoWaveData.JALTOK_JAD:
-            case 7617:
-                return 130;
-            case 1672:
-            case 239:
-            case 8030:
-            case 8031:
-                return 90;
-            case 8609:
+        return switch (npc.getNpcId()) {
+            case 498 -> 120;
+            case 499 -> 105;
+            case 8781 -> 75;
+            case 3127, InfernoWaveData.JALTOK_JAD, 7617 -> 130;
+            case 1672, 239, 8030, 8031 -> 90;
+            case 8609 ->
                 //Hydra
-                return 110;
-            case 2025:
-                return 85;
-            case 6607:
-                return 70;
-            case 2028:
-                return 80;
-            case 3162:
-                return 100;
-            default:
-                return 85;
-        }
+                110;
+            case 6607 -> 70;
+            case 2028 -> 80;
+            case 3162 -> 100;
+            default -> 85;
+        };
     }
 
     /**
@@ -1623,45 +1235,15 @@ public class NPCHandler {
      */
     public static boolean ignoresProjectile(NPC npc) {
         if (npc == null) return false;
-        switch (npc.getNpcId()) {
-            case 6611:
-            case 6612:
-            case 319:
-            case 6618:
-            case 6766:
-            case 6768:
-            case 5862:
-            case 963:
-            case 965:
-            case 7706:
-            case 7144:
-            case 8028:
-            case 7145:
-            case 7146:
-            case 9021:
-                //melee
-            case 9022:
-                //range
-            case 9023:
-                //mage
-            case 9024:
-                //death
-            case 5890:
-            case 8609:
-            case 7566:
-            case 7563:
-            case 7585:
-            case 7544:
-            case 7554:
-            case 8781:
-            case Hespori.NPC_ID:
-            case TheUnbearable.NPC_ID:
-            case FragmentOfSeren.NPC_ID:
-            case 8031:
-            case 8030:
-                return true;
-        }
-        return false;
+        return switch (npc.getNpcId()) {
+            //melee
+            //range
+            //mage
+            //death
+            case 6611, 6612, 319, 6618, 6766, 6768, 5862, 963, 965, 7706, 7144, 8028, 7145, 7146, 9021, 9022, 9023, 9024, 5890, 8609, 7566, 7563,
+                 7585, 7544, 7554, 8781, Hespori.NPC_ID, TheUnbearable.NPC_ID, FragmentOfSeren.NPC_ID, 8031, 8030 -> true;
+            default -> false;
+        };
     }
 
     /**
@@ -1804,8 +1386,7 @@ public class NPCHandler {
 
                     npc.attackTimer = getNpcDelay(npc);
 
-                    if (method instanceof CommonCombatMethod) {
-                        CommonCombatMethod ccm = (CommonCombatMethod) method;
+                    if (method instanceof CommonCombatMethod ccm) {
                         if (npc.getCombatMethod() != null) {
                             ccm.set(npc, c);
                             ccm.prepareAttack(npc, c);
@@ -1886,28 +1467,12 @@ public class NPCHandler {
     }
 
     public int offset(NPC npc) {
-        switch (npc.getNpcId()) {
-            case 2044:
-                return 0;
-            case 6611:
-            case 6612:
-                return 3;
-            case 6610:
-                return 2;
-            case 239:
-            case 8031:
-            case 8030:
-                return 2;
-            case 2265:
-            case 2266:
-                return 1;
-            case 3127:
-            case 3125:
-            case InfernoWaveData.JALTOK_JAD:
-                return 1;
-            default:
-                return 0;
-        }
+        return switch (npc.getNpcId()) {
+            case 6611, 6612 -> 3;
+            case 6610, 239, 8031, 8030 -> 2;
+            case 2265, 2266, 3127, 3125, InfernoWaveData.JALTOK_JAD -> 1;
+            default -> 0;
+        };
     }
 
     public boolean retaliates(int npcType) {
@@ -1915,24 +1480,12 @@ public class NPCHandler {
     }
 
     public boolean prayerProtectionIgnored(NPC npc) {
-        switch (npc.getNpcId()) {
-            case 1610:
-            case 1611:
-            case 1612:
-            case 8028:
-            case 3129:
-                return true;
-            case 1672:
-                return false;
-            case 6611:
-            case 6612:
-            case 6609:
-                return npc.getAttackType() == CombatType.MAGE || npc.getAttackType() == CombatType.SPECIAL;
-            case 465:
-                return npc.getAttackType() == CombatType.DRAGON_FIRE;
-            default:
-                return false;
-        }
+        return switch (npc.getNpcId()) {
+            case 1610, 1611, 1612, 8028, 3129 -> true;
+            case 6611, 6612, 6609 -> npc.getAttackType() == CombatType.MAGE || npc.getAttackType() == CombatType.SPECIAL;
+            case 465 -> npc.getAttackType() == CombatType.DRAGON_FIRE;
+            default -> false;
+        };
     }
 
     public void handleSpecialEffects(Player c, NPC npc, int damage) {
@@ -2024,7 +1577,7 @@ public class NPCHandler {
             case 6916:
             case 6917:
                 return 7;
-            case 7617:
+            case 7617, 6610, 7144, 7145, 7146, 5867, 5868, 5869:
                 return 30;
             case 6918:
             case 6919:
@@ -2045,10 +1598,6 @@ public class NPCHandler {
                 return 21;
             case 498:
                 return 12;
-            case 5867:
-            case 5868:
-            case 5869:
-                return 30;
             case 273:
                 return npc.getAttackType() == CombatType.MELEE ? 20 : 18;
             case 239:
@@ -2076,11 +1625,6 @@ public class NPCHandler {
                 return npc.getAttackType() == CombatType.MELEE ? 30 : npc.getAttackType() == CombatType.MAGE ? 34 : 46;
             case 1046:
                 return npc.getAttackType() == CombatType.MAGE ? 40 : 50;
-            case 6610:
-            case 7144:
-            case 7145:
-            case 7146:
-                return 30;
             case 9021:
                 //melee
             case 9022:
@@ -2264,8 +1808,8 @@ public class NPCHandler {
     }
 
     public static void despawn(int npcType, int height) {
-        List<NPC> npcs = Arrays.stream(NPCHandler.npcs).filter(Objects::nonNull).filter(n -> n.getNpcId() == npcType && n.heightLevel == height).collect(Collectors.toList());
-        npcs.forEach(npc -> npc.unregister());
+        List<NPC> npcs = Arrays.stream(NPCHandler.npcs).filter(Objects::nonNull).filter(n -> n.getNpcId() == npcType && n.heightLevel == height).toList();
+        npcs.forEach(NPC::unregister);
     }
 
     public static void kill(int npcType, int height) {
@@ -2290,8 +1834,6 @@ public class NPCHandler {
     /**
      * Handles transforming npcs when clicked on to attack
      *
-     * @param npc
-     * @return
      * @author Grant_ | www.rune-server.ee/members/grant_ | 10/18/19
      */
     public static boolean transformOnAttack(NPC npc) {
@@ -2323,9 +1865,5 @@ public class NPCHandler {
             default:
                 return false;
         }
-    }
-
-    public NPCProcess getNpcProcess() {
-        return npcProcess;
     }
 }

@@ -1,7 +1,9 @@
 package io.xeros.model.entity.player.mode.group.log;
 
 import io.xeros.model.items.GameItem;
+import lombok.Getter;
 
+@Getter
 public class GimWithdrawItemLog {
 
     private final String displayName;
@@ -22,11 +24,4 @@ public class GimWithdrawItemLog {
         gameItem = null;
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public GameItem getGameItem() {
-        return gameItem;
-    }
 }

@@ -21,8 +21,7 @@ public class StaffOfTheDeadEvent extends Event<Player> {
 		}
 		if (super.getElapsedTicks() > 100) {
 			super.stop();
-			return;
-		}
+        }
 	}
 
 }

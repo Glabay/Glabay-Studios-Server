@@ -12,7 +12,7 @@ public class SelectItemOnInterface implements PacketType {
 
 	@Override
 	public void processPacket(Player player, int packetType, int packetSize) {
-		if (player.getMovementState().isLocked() || player.getLock().cannotInteract(player))
+		if (player.getMovementState().locked() || player.getLock().cannotInteract(player))
 			return;
 		if (player.isFping()) {
 			/**

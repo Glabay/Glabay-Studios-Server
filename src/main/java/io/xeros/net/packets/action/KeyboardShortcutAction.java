@@ -12,7 +12,7 @@ public class KeyboardShortcutAction implements PacketType {
 
 	@Override
 	public void processPacket(Player player, int packetType, int packetSize) {
-		if (player.getMovementState().isLocked() || player.getLock().cannotInteract(player))
+		if (player.getMovementState().locked() || player.getLock().cannotInteract(player))
 			return;
 		int action = player.getInStream().readUnsignedByte();
 		player.debug(String.format("KeyboardShortcutAction action=%d", action));

@@ -76,7 +76,7 @@ public class ThreeOptions {
 			break;
 		}
 		if (c.dialogueAction == 137) {
-			c.getPA().c.itemAssistant.openUpBank();
+			c.getPA().player.itemAssistant.openUpBank();
 			return;
 		}
 		if (c.dialogueAction == 126) {
@@ -112,7 +112,7 @@ public class ThreeOptions {
 			return;
 		}
 		if (c.dialogueAction == 251) {
-			c.getPA().c.itemAssistant.openUpBank();
+			c.getPA().player.itemAssistant.openUpBank();
 		}
 		if (c.teleAction == 200) {
 			c.getPA().spellTeleport(2662, 2652, 0, false);

@@ -1,8 +1,11 @@
 package io.xeros.model.entity.player;
 
+import lombok.Getter;
+
 /**
  * @author Chris | 8/8/21
  */
+@Getter
 public enum DestroyType {
     DESTROY("destroy"),
     DROP("drop"),
@@ -16,7 +19,4 @@ public enum DestroyType {
         this.text = text;
     }
 
-    public String getText() {
-        return text;
-    }
 }

@@ -18,33 +18,31 @@ public class AutocastPlayerSaveEntry implements PlayerSaveEntry {
 
     @Override
     public boolean decode(Player player, String key, String value) {
-        switch (key) {
-            case "autocast":
+        return switch (key) {
+            case "autocast" -> {
                 player.autocasting = Boolean.parseBoolean(value);
-                return true;
-            case "autocast_defensive":
+                yield true;
+            }
+            case "autocast_defensive" -> {
                 player.autocastingDefensive = Boolean.parseBoolean(value);
-                return true;
-            case "autocast_id":
+                yield true;
+            }
+            case "autocast_id" -> {
                 player.autocastId = Integer.parseInt(value);
-                return true;
-            default:
-                return false;
-        }
+                yield true;
+            }
+            default -> false;
+        };
     }
 
     @Override
     public String encode(Player player, String key) {
-        switch (key) {
-            case "autocast":
-                return String.valueOf(player.autocasting);
-            case "autocast_defensive":
-                return String.valueOf(player.autocastingDefensive);
-            case "autocast_id":
-                return String.valueOf(player.autocastId);
-            default:
-                return null;
-        }
+        return switch (key) {
+            case "autocast" -> String.valueOf(player.autocasting);
+            case "autocast_defensive" -> String.valueOf(player.autocastingDefensive);
+            case "autocast_id" -> String.valueOf(player.autocastId);
+            default -> null;
+        };
     }
 
     @Override

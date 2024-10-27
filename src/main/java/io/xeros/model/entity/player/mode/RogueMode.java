@@ -56,11 +56,8 @@ public class RogueMode extends Mode {
 
     @Override
     public boolean isItemPurchasable(int shopId, int itemId) {
-        switch (shopId) {
-            case 171:
-                if (itemId == 8866 || itemId == 8868) {
-                    return false;
-                }
+        if (shopId == 171) {
+            return itemId != 8866 && itemId != 8868;
         }
         return true;
     }

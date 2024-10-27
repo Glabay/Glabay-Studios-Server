@@ -1,6 +1,5 @@
 package io.xeros.net.packets.objectoptions;
 
-import com.google.common.collect.Lists;
 import dev.openrune.cache.CacheManager;
 import io.xeros.Server;
 import io.xeros.content.Obelisks;
@@ -21,7 +20,6 @@ import io.xeros.content.dialogue.impl.OutlastLeaderboard;
 import io.xeros.content.dialogue.impl.SkillingPortalDialogue;
 import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.item.lootable.impl.*;
-import io.xeros.content.leaderboards.LeaderboardInterface;
 import io.xeros.content.minigames.pest_control.PestControl;
 import io.xeros.content.minigames.pk_arena.Highpkarena;
 import io.xeros.content.minigames.pk_arena.Lowpkarena;
@@ -38,7 +36,6 @@ import io.xeros.content.skills.crafting.JewelryMaking;
 import io.xeros.content.skills.hunter.Hunter;
 import io.xeros.content.skills.runecrafting.Runecrafting;
 import io.xeros.content.skills.smithing.CannonballSmelting;
-import io.xeros.content.skills.thieving.Thieving.Stall;
 import io.xeros.content.skills.woodcutting.Tree;
 import io.xeros.content.skills.woodcutting.Woodcutting;
 import io.xeros.content.tournaments.ViewingOrb;
@@ -52,12 +49,8 @@ import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;
 import io.xeros.model.entity.HealthStatus;
 import io.xeros.model.entity.player.*;
-import io.xeros.model.entity.player.mode.group.GroupIronmanBank;
-import io.xeros.model.entity.player.mode.group.GroupIronmanGroup;
-import io.xeros.model.entity.player.mode.group.GroupIronmanRepository;
 import io.xeros.model.entity.player.save.PlayerSave;
 import io.xeros.model.items.EquipmentSet;
-import io.xeros.model.items.GameItem;
 import io.xeros.model.lobby.LobbyManager;
 import io.xeros.model.lobby.LobbyType;
 import io.xeros.model.multiplayersession.MultiplayerSessionType;
@@ -69,10 +62,8 @@ import io.xeros.net.packets.objectoptions.impl.Overseer;
 import io.xeros.net.packets.objectoptions.impl.RaidObjects;
 import io.xeros.net.packets.objectoptions.impl.TrainCart;
 import io.xeros.util.Location3D;
-import io.xeros.util.Misc;
 
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.IntStream;
 
 /*
@@ -123,7 +114,7 @@ public class ObjectOptionOne extends ObjectAction {
         var def = CacheManager.INSTANCE.getObject(objectType);
 
         if ((def != null ? def.getName() : null) != null && def.getName().toLowerCase().contains("bank") && !Boundary.isIn(c, Boundary.OURIANA_ALTAR)) {
-            c.getPA().c.itemAssistant.openUpBank();
+            c.getPA().player.itemAssistant.openUpBank();
             c.inBank = true;
             return;
         }
@@ -1993,7 +1984,7 @@ public class ObjectOptionOne extends ObjectAction {
             case 6943:
             case 3194:
             case 10661:
-                c.getPA().c.itemAssistant.openUpBank();
+                c.getPA().player.itemAssistant.openUpBank();
                 c.inBank = true;
                 break;
             case 13287:
@@ -2007,7 +1998,7 @@ public class ObjectOptionOne extends ObjectAction {
                     c.inUimBank = true;
                     c.getItems().deleteItem2(8866, 1);
                     c.inBank = true;
-                    c.getPA().c.itemAssistant.openUpBank();
+                    c.getPA().player.itemAssistant.openUpBank();
                 }
                 else if (!c.getMode().isBankingPermitted() && !c.getItems().playerHasItem(8866))
                     c.sendMessage("You must use a key from the FoE shop to unlock this chest.");

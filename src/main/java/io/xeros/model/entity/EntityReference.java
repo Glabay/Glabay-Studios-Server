@@ -6,7 +6,9 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
+import lombok.Getter;
 
+@Getter
 public class EntityReference {
 
     public static EntityReference getReference(Entity entity) {
@@ -55,15 +57,4 @@ public class EntityReference {
         }
     }
 
-    public boolean isNpc() {
-        return npc;
-    }
-
-    public int getIndex() {
-        return index;
-    }
-
-    public long getId() {
-        return id;
-    }
 }

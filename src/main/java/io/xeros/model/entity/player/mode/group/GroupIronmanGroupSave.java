@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import io.xeros.model.entity.player.mode.group.log.GimDropItemLog;
 import io.xeros.model.entity.player.mode.group.log.GimWithdrawItemLog;
 import io.xeros.model.items.GameItem;
+import lombok.Getter;
 
 import java.util.*;
 
@@ -21,6 +22,7 @@ public class GroupIronmanGroupSave {
         );
     }
 
+    @Getter
     private final String name;
     private final List<String> members;
     private final boolean finalized;
@@ -58,7 +60,4 @@ public class GroupIronmanGroupSave {
         return group;
     }
 
-    public String getName() {
-        return name;
-    }
 }

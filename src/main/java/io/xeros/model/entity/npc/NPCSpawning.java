@@ -81,7 +81,7 @@ public class NPCSpawning {
             newNPC.gfx100(86);
         }
         if (newNPC.getNpcId() == 1606) {
-            newNPC.forceChat("This is only the beginning, you can\'t beat me!");
+            newNPC.forceChat("This is only the beginning, you can't beat me!");
             newNPC.gfx100(86);
         }
         if (newNPC.getNpcId() == 1607) {

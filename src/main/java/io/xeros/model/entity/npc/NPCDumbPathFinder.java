@@ -4,18 +4,13 @@ import com.google.common.base.Preconditions;
 import io.xeros.model.Direction;
 import io.xeros.model.Npcs;
 import io.xeros.model.collisionmap.PathChecker;
-import io.xeros.model.collisionmap.Region;
 import io.xeros.model.collisionmap.Tile;
 import io.xeros.model.collisionmap.TileControl;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.Position;
 import io.xeros.util.Misc;
-import org.apache.commons.lang3.Range;
-import org.reflections.vfs.Vfs;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class NPCDumbPathFinder {
 
@@ -90,9 +85,8 @@ private static final int NORTH = 0, EAST = 1,  SOUTH = 2, WEST = 3;
 
 		int[] npcLocation = TileControl.currentLocation(npcPosition.toTile());
 		int[] followingLocation = TileControl.currentLocation(following);
-	
-		/** test 4 movements **/
-		boolean[] moves = new boolean[4];
+
+        boolean[] moves = new boolean[4];
 		
 		Direction dir = Direction.NONE;
 		
@@ -109,13 +103,10 @@ private static final int NORTH = 0, EAST = 1,  SOUTH = 2, WEST = 3;
 		}
 		
 		if (distance > 1) {
-			
-			for (int i = 0; i < moves.length; i++) {
-				moves[i] = true;
-			}
-			
-			/** remove false moves **/
-			if (npcLocation[0] < followingLocation[0]) {
+
+            Arrays.fill(moves, true);
+
+            if (npcLocation[0] < followingLocation[0]) {
 				moves[EAST] = true;	
 				moves[WEST] = false;
 			} else if (npcLocation[0] > followingLocation[0]) {
@@ -307,9 +298,7 @@ private static final int NORTH = 0, EAST = 1,  SOUTH = 2, WEST = 3;
 				}
 			}
 		} else if (distance == 0) {
-			for (int i = 0; i < moves.length; i++) {
-				moves[i] = true;
-			}
+            Arrays.fill(moves, true);
 			for (Tile tiles : npcTiles) {
 				if (npc.getRegionProvider().blockedNorth(tiles.getTileX(), tiles.getTileY(), tiles.getTileHeight(), true)) {
 					moves[NORTH] = false;
@@ -483,56 +472,11 @@ private static final int NORTH = 0, EAST = 1,  SOUTH = 2, WEST = 3;
 		if (mob.revokeWalkingPrivilege)
 			return false;
 
-		if (true) {
-			Direction dir = Direction.get(direction);
-			Position nextPosition = mob.getCenterPosition().translate(dir.x(), dir.y());
-			return PathChecker.raycast(mob, mob.getPosition(), nextPosition, false);
-		}
+        Direction dir = Direction.get(direction);
+        Position nextPosition = mob.getCenterPosition().translate(dir.x(), dir.y());
+        return PathChecker.raycast(mob, mob.getPosition(), nextPosition, false);
 
-		final int x = source.getX();
-		final int y = source.getY();
-		final int z = source.getHeight() > 3 ? source.getHeight() % 4 : source.getHeight();
-
-		final int x5 = source.getX() + NPCClipping.DIR[direction][0];
-		final int y5 = source.getY() + NPCClipping.DIR[direction][1];
-
-		final int size = mob.getSize();
-
-		for (int i = 1; i < size + 1; i++) {
-			for (int k = 0; k < NPCClipping.SIZES[i].length; k++) {
-				int x3 = x + NPCClipping.SIZES[i][k][0];
-				int y3 = y + NPCClipping.SIZES[i][k][1];
-
-				int x2 = x5 + NPCClipping.SIZES[i][k][0];
-				int y2 = y5 + NPCClipping.SIZES[i][k][1];
-
-				if (NPCClipping.withinBlock(x, y, size, x2, y2)) {
-					continue;
-				}
-
-				Region region = mob.getRegionProvider().get(x3, y3);
-				if (region == null)
-					return false;
-
-				if (!mob.getRegionProvider().canMove(x3, y3, z, direction, !mob.walkingHome)) {
-					return false;
-				}
-
-				for (int j = 0; j < 8; j++) {
-					int x6 = x3 + NPCClipping.DIR[j][0];
-					int y6 = y3 + NPCClipping.DIR[j][1];
-
-					if (NPCClipping.withinBlock(x5, y5, size, x6, y6)) {
-						if (!mob.getRegionProvider().canMove(x3, y3, z, j, !mob.walkingHome)) {
-							return false;
-						}
-					}
-				}
-			}
-		}
-
-		return true;
-	}
+    }
 
 	
 

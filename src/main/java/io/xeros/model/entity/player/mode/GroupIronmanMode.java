@@ -29,16 +29,8 @@ public class GroupIronmanMode extends IronmanMode {
     }
 
     @Override
-    public boolean isItemScavengingPermitted() {
-        return false;
-    }
-
-    @Override
     public boolean isDonatingPermitted() {
-        if (!LocalDate.now().isAfter(DONATION_DATE)) {
-            return false;
-        }
-        return true;
+        return LocalDate.now().isAfter(DONATION_DATE);
     }
 
 }
