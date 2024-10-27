@@ -48,7 +48,7 @@ dependencies {
     implementation(lib.js5.server)
     implementation(lib.logback.classic)
     implementation(kotlin("stdlib"))
-    implementation("dev.openrune:filestore-tools:1.3.6")
+    implementation("dev.openrune:filestore-tools:1.3.7")
     implementation("org.projectlombok:lombok:1.18.34")
     annotationProcessor("org.projectlombok:lombok:1.18.34")
     implementation("com.github.petitparser.java-petitparser:petitparser-core:2.0.0")
