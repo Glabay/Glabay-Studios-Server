@@ -15,6 +15,7 @@ import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
 import io.xeros.model.multiplayersession.MultiplayerSessionStage;
 import io.xeros.model.multiplayersession.MultiplayerSessionType;
 import io.xeros.model.multiplayersession.duel.DuelSession;
+import lombok.Getter;
 
 /**
  * Performing player available animations
@@ -55,7 +56,8 @@ public class PlayerEmotes {
 		return true;
 	}
 
-	public enum PLAYER_ANIMATION_DATA {
+	@Getter
+    public enum PLAYER_ANIMATION_DATA {
 		YES(168, 855, -1),
 		NO(169, 856, -1),
 		BOW(164, 858, -1),
@@ -98,25 +100,13 @@ public class PlayerEmotes {
 			this.animation = animation;
 			this.graphic = graphic;
 		}
-		
-		public int getButton() {
-			return button;
-		}
-
-		public int getAnimation() {
-			return animation;
-		}
-
-		public int getGraphic() {
-			return graphic;
-		}
 
 
-	}
+    }
 
 	public static void performEmote(final Player player, int button) {
 		if (player.isFping()) {
-			/**
+			/*
 			 * Cannot do action while fping
 			 */
 			return;
@@ -124,8 +114,12 @@ public class PlayerEmotes {
 		if (!canPerform(player)) {
 			return;
 		}
-		if (Boundary.isIn(player, Boundary.RAIDS_LOBBY) || Boundary.isIn(player, Boundary.RAIDS_LOBBY_ENTRANCE) || Boundary.isIn(player, Boundary.RAIDS_LOBBY)
-				|| Boundary.isIn(player, Boundary.OUTLAST_AREA) || Boundary.isIn(player, Boundary.LUMBRIDGE_OUTLAST_AREA) || Boundary.isIn(player, Boundary.LUMBRIDGE_OUTLAST_LOBBY)) {
+		if (Boundary.isIn(player, Boundary.RAIDS_LOBBY) ||
+			Boundary.isIn(player, Boundary.RAIDS_LOBBY_ENTRANCE) ||
+			Boundary.isIn(player, Boundary.OUTLAST_AREA) ||
+			Boundary.isIn(player, Boundary.LUMBRIDGE_OUTLAST_AREA) ||
+			Boundary.isIn(player, Boundary.LUMBRIDGE_OUTLAST_LOBBY)
+		) {
 			return;
 		}
 		for (PLAYER_ANIMATION_DATA animation : PLAYER_ANIMATION_DATA.values()) {
@@ -213,11 +207,10 @@ public class PlayerEmotes {
 		if (!canPerform(player)) {
 			return;
 		}
-		GameItem cape = skillcape;
-		SKILLCAPE_ANIMATION_DATA data = SKILLCAPE_ANIMATION_DATA.SKILLCAPE_DATA.get(cape.id());
+        SKILLCAPE_ANIMATION_DATA data = SKILLCAPE_ANIMATION_DATA.SKILLCAPE_DATA.get(skillcape.id());
 		if (data != null) {
 			String name = data.name().toLowerCase().replaceAll("_", " ");
-			if (System.currentTimeMillis() - player.lastPerformedEmote < data.delay * 500)
+			if (System.currentTimeMillis() - player.lastPerformedEmote < data.delay * 500L)
 				return;
 			if (name.contains("max")) {
 				if (Boundary.isIn(player, Boundary.DRAYNOR_BOUNDARY)) {
@@ -231,7 +224,6 @@ public class PlayerEmotes {
 			player.stopMovement();
 		} else {
 			player.sendMessage("You must be wearing a skillcape in order to do this emote.");
-			return;
-		}
+        }
 	}
 }

@@ -46,8 +46,8 @@ public enum SkillcapePerks {
 
 	;
 
-	public static int MAX_CAPE_ID = 13280;
-	public static int MAX_CAPE_HOOD = 13281;
+	public static final int MAX_CAPE_ID = 13280;
+	public static final int MAX_CAPE_HOOD = 13281;
 
 	private final int[] skillcapes;
 
@@ -63,9 +63,7 @@ public enum SkillcapePerks {
 
 	/**
 	 * Allows us to check wether or not a player is wearing one of the capes
-	 * @param player
-	 * @return
-	 */
+     */
 	public boolean isWearing(Player player) {
 		return Arrays.stream(skillcapes).anyMatch(it -> player.getItems().isWearingItem(it, Player.playerCape));
 	}

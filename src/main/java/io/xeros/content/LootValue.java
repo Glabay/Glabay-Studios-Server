@@ -15,14 +15,14 @@ public class LootValue {
 			if (player.lootValue > 0)
 			player.sendMessage("You've set the lootvalue to: @blu@"+ Misc.getValueWithoutRepresentation(player.lootValue));
 			else
-			player.sendMessage("You have not set your lootvalue.");
+				player.sendMessage("You have not set your lootvalue.");
 			break;
 
 		case "checkvalue":
 			if (player.lootValue > 0)
 				player.sendMessage("You've set the lootvalue to: @blu@"+ Misc.getValueWithoutRepresentation(player.lootValue));
 			else
-			player.sendMessage("You have not set your lootvalue.");
+				player.sendMessage("You have not set your lootvalue.");
 			break;
 
 		case "resetvalue":

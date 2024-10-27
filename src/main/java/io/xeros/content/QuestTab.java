@@ -180,7 +180,7 @@ public class QuestTab {
     private int addBoostsInformation(List<Integer> lines, int index) {
         List<? extends Booster<?>> boosts = Boosts.getBoostsOfType(player, null, BoostType.EXPERIENCE);
         if (!boosts.isEmpty()) {
-            player.getPA().sendFrame126("<col=00c0ff> " + boosts.get(0).getDescription(), lines.get(index++));
+            player.getPA().sendFrame126("<col=00c0ff> " + boosts.getFirst().getDescription(), lines.get(index++));
         }
 
         boosts = Boosts.getBoostsOfType(player, null, BoostType.GENERIC);
@@ -260,7 +260,7 @@ public class QuestTab {
                         List<Player> staff = PlayerHandler.nonNullStream().filter(Objects::nonNull).filter(p -> p.getRights().isOrInherits(Right.HELPER))
                                 .collect(Collectors.toList());
                         player.sendMessage("@red@You can also type ::help to report something.");
-                        if (staff.size() > 0) {
+                        if (!staff.isEmpty()) {
                             String message = "@blu@[Help] " + player.getDisplayName()
                                     + " needs help, PM or TELEPORT and help them.";
                             Discord.writeServerSyncMessage(message);

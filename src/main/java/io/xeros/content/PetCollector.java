@@ -37,95 +37,19 @@ public class PetCollector {
      * Gp exchange rate for pet
      */
     public static int getExchangeGpRate(int id) {
-        switch (id) {
+        return switch (id) {
             //skilling pets start
-            case 13320:
-            case 13321:
-            case 21187:
-            case 21188:
-            case 21189:
-            case 21192:
-            case 21193:
-            case 21194:
-            case 21196:
-            case 21197:
-            case 13322:
-            case 13323:
-            case 13324:
-            case 13325:
-            case 13326:
-            case 20659:
-            case 20661:
-            case 20663:
-            case 20665:
-            case 20667:
-            case 20669:
-            case 20671:
-            case 20673:
-            case 20675:
-            case 20677:
-            case 20679:
-            case 20681:
-            case 20683:
-            case 20685:
-            case 20687:
-            case 20689:
-            case 20691:
-            case 20693:
-                return 5_000_000;
+            case 13320, 13321, 21187, 21188, 21189, 21192, 21193, 21194, 21196, 21197, 13322, 13323, 13324, 13325, 13326, 20659, 20661, 20663, 20665,
+                 20667, 20669, 20671, 20673, 20675, 20677, 20679, 20681, 20683, 20685, 20687, 20689, 20691, 20693 -> 5_000_000;
             //skilling end
 
             //boss pet start
-            case 12650:
-            case 12649:
-            case 12651:
-            case 12652:
-            case 12644:
-            case 12645:
-            case 12643:
-            case 11995:
-            case 12653:
-            case 12655:
-            case 13178:
-            case 12646:
-            case 13179:
-            case 13180:
-            case 13177:
-            case 12648:
-            case 13225:
-            case 13247:
-            case 21273:
-            case 12921:
-            case 12939:
-            case 12940:
-            case 21992:
-            case 13181:
-            case 12816:
-            case 12654:
-            case 22318:
-            case 12647:
-            case 13262:
-            case 19730:
-            case 22376:
-            case 22378:
-            case 22380:
-            case 22382:
-            case 22384:
-            case 20851:
-            case 22473:
-            case 21291:
-            case 22319:
-            case 22746:
-            case 22748:
-            case 22750:
-            case 22752:
-            case 23760:
-            case 23757:
-            case 23759:
-            case 24491:
+            case 12650, 12649, 12651, 12652, 12644, 12645, 12643, 11995, 12653, 12655, 13178, 12646, 13179, 13180, 13177, 12648, 13225, 13247, 21273,
+                 12921, 12939, 12940, 21992, 13181, 12816, 12654, 22318, 12647, 13262, 19730, 22376, 22378, 22380, 22382, 22384, 20851, 22473, 21291,
+                 22319, 22746, 22748, 22750, 22752, 23760, 23757, 23759, 24491 ->
                 //boss pet end
-                return 10_000_000;
-        }
-        return -1;
+                10_000_000;
+            default -> -1;
+        };
     }
 }

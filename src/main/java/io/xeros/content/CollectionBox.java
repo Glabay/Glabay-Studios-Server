@@ -62,13 +62,13 @@ public class CollectionBox {
 
         @Override
         public boolean decode(Player player, String key, String value) {
-            if (value == null || value.length() == 0)
+            if (value == null || value.isEmpty())
                 return true;
             String[] data = value.split(";");
             List<GameItem> items = Arrays.stream(data).map(it -> {
                 String[] split = it.split(":");
                 return new GameItem(Integer.parseInt(split[0]), Integer.parseInt(split[1]));
-            }).collect(Collectors.toList());
+            }).toList();
 
             GameItem[] itemArray = new GameItem[items.size()]; // :)
             items.toArray(itemArray);

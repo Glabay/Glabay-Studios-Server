@@ -30,13 +30,5 @@ public class Sounds {
         return itemEquipSound.map(soundId -> soundId.soundId).orElse(DEFAULT_EQUIP_SOUND);
     }
 
-    private static class SoundId {
-        private final String[] identifier;
-        private final int soundId;
-
-        public SoundId(int soundId, String...identifier) {
-            this.identifier = identifier;
-            this.soundId = soundId;
-        }
-    }
+    private record SoundId(int soundId, String... identifier) {}
 }

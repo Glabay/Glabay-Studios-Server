@@ -17,6 +17,7 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.util.Misc;
+import lombok.Getter;
 
 /**
  * Obelisks are the objects that exist in the wilderness that aid player teleportation. Once activated, any player within the obelisk boundary is moved to another obelisk.
@@ -45,9 +46,6 @@ public class Obelisks {
 		return INSTANCE;
 	}
 
-	/**
-	 * Stores the obelisk object ids with the default state, false, in a map.
-	 */
 	static {
 		for (Location location : Location.values()) {
 			state.put(location.objectId, false);
@@ -89,7 +87,8 @@ public class Obelisks {
 				new Boundary(3033, 3730, 3037, 3734)), LEVEL_35(14828, new Boundary(3104, 3792, 3108, 3796)), LEVEL_44(14826, new Boundary(2978, 3864, 2982, 3868)), LEVEL_50(14831,
 						new Boundary(3305, 3914, 3309, 3918));
 
-		private final int objectId;
+		@Getter
+        private final int objectId;
 		private final Boundary boundary;
 
 		Location(int objectId, Boundary boundary) {
@@ -97,11 +96,7 @@ public class Obelisks {
 			this.boundary = boundary;
 		}
 
-		public int getObjectId() {
-			return objectId;
-		}
-
-		public Boundary getBoundaries() {
+        public Boundary getBoundaries() {
 			return boundary;
 		}
 
@@ -136,8 +131,8 @@ public class Obelisks {
 			container.stop();
 			Boundary boundary = new Boundary(location.boundary.getMinimumX() + 1, location.boundary.getMinimumY() + 1, location.boundary.getMinimumX() + 3,
 					location.boundary.getMinimumY() + 3);
-			List<Player> players = PlayerHandler.nonNullStream().filter(Objects::nonNull).filter(player -> Boundary.isIn(player, boundary)).collect(Collectors.toList());
-			if (players.size() > 0) {
+			List<Player> players = PlayerHandler.nonNullStream().filter(Objects::nonNull).filter(player -> Boundary.isIn(player, boundary)).toList();
+			if (!players.isEmpty()) {
 				Location randomObelisk = Location.getRandom(location);
 				int x = randomObelisk.getBoundaries().getMinimumX() + 1;
 				int y = randomObelisk.getBoundaries().getMinimumY() + 1;
