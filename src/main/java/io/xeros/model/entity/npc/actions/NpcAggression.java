@@ -25,9 +25,8 @@ public class NpcAggression {
 
     private static final int[] REVS = {7931, 7932, 7933, 7934, 7935, 7936, 7937, 7938, 7939, 7940};
 
-    private static List<Integer> none_aggressive_npcs = Arrays.asList(
-            7514//Energy orb from Mage Arena2
-
+    private static final List<Integer> none_aggressive_npcs = List.of(
+        7514//Energy orb from Mage Arena2
     );
 
     public static void doAggression(NPC npc, NPCHandler npcHandler) {
@@ -55,7 +54,7 @@ public class NpcAggression {
                     continue;
                 }
 
-                if (none_aggressive_npcs.stream().filter(Objects::nonNull).anyMatch(i -> i.intValue() == npc.getNpcId()))
+                if (none_aggressive_npcs.stream().filter(Objects::nonNull).anyMatch(i -> i == npc.getNpcId()))
                     continue;
 
                 if (player.getInstance() != npc.getInstance() || player.isIdle || player.isAggressionTimeout(player)|| player.isInvisible()
@@ -123,7 +122,7 @@ public class NpcAggression {
                         continue;
                     }
                 }
-                /**
+                /*
                  * Skips attacking a player if mode set to invisible
                  */
                 if (PlayerHandler.players[j].isInvisible()) {
@@ -143,7 +142,7 @@ public class NpcAggression {
                 }
             }
         }
-        if (players.size() > 0)
+        if (!players.isEmpty())
             return players.get(Misc.random(players.size() - 1));
         else
             return 0;
@@ -160,10 +159,7 @@ public class NpcAggression {
             return 25;
         }
         if (npc.getNpcId() > 0)
-            switch (npc.getNpcId()) {
-                case 135:
-                    return 8;
-            }
+            if (npc.getNpcId() == 135) return 8;
         return baseDistance;
     }
 
@@ -173,12 +169,12 @@ public class NpcAggression {
 
         int npcId = npc.getNpcId();
         if (npcId == 2098 //hill giant
-                || npcId == 7283 //npc
-                || npcId == 85 //ghost
-                || npcId == 7268//possessed pickaxe
-                || npcId == 891//moss giant
-                || npcId == 70//skeleton
-                || npcId == 273//iron dragon
+            || npcId == 7283 //npc
+            || npcId == 85 //ghost
+            || npcId == 7268//possessed pickaxe
+            || npcId == 891//moss giant
+            || npcId == 70//skeleton
+            || npcId == 273//iron dragon
         ) {
             return false;
         }

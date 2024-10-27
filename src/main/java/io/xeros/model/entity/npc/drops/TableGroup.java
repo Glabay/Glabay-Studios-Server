@@ -11,13 +11,19 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;
 import io.xeros.model.shops.ShopAssistant;
 import io.xeros.util.Misc;
+import lombok.Getter;
 import org.apache.commons.lang3.Range;
 
-@SuppressWarnings("serial")
+@Getter
 public class TableGroup extends ArrayList<Table> {
 
     /**
      * The non-playable character that has access to this group of tables
+     * -- GETTER --
+     *  The non-playable character identification values that have access to this group of tables.
+     *
+     * @return the non-playable character id values
+
      */
     private final List<Integer> npcIds;
 
@@ -38,13 +44,14 @@ public class TableGroup extends ArrayList<Table> {
         List<GameItem> items = new ArrayList<>();
         for (Table table : this) {
             TablePolicy policy = table.getPolicy();
+            boolean rareTableDrop = policy.equals(TablePolicy.VERY_RARE) || policy.equals(TablePolicy.RARE);
 
-            if (npc instanceof Nightmare) {
-                Nightmare nightmare = (Nightmare) npc;
+            if (npc instanceof Nightmare nightmare) {
                 if (nightmare.getRareRollPlayers().isEmpty()) {
                     int players = nightmare.getInstance() == null ? 0 : nightmare.getInstance().getPlayers().size();
                     System.err.println("No players on nightmare roll table, but " + players + " in instance.");
-                } else if (!nightmare.getRareRollPlayers().contains(player) && (policy == TablePolicy.RARE || policy == TablePolicy.VERY_RARE)) {
+                }
+                else if (!nightmare.getRareRollPlayers().contains(player) && rareTableDrop) {
                     continue;
                 }
             }
@@ -52,136 +59,35 @@ public class TableGroup extends ArrayList<Table> {
             if (policy.equals(TablePolicy.CONSTANT)) {
                 for (Drop drop : table) {
                     int minimumAmount = drop.getMinimumAmount();
-
                     items.add(new GameItem(drop.getItemId(), minimumAmount + Misc.random(drop.getMaximumAmount() - minimumAmount)));
                 }
             } else {
                 for (int i = 0; i < repeats; i++) {
                     double chance = (1.0 / (table.getAccessibility() * modifier)) * 100D;
+                    double roll = Misc.preciseRandom(Range.of(0.0, 100.0));
 
-                    double roll = Misc.preciseRandom(Range.between(0.0, 100.0));
-
-                    if (chance > 100.0) {
+                    if (chance > 100.0)
                         chance = 100.0;
-                    }
+
                     if (roll <= chance) {
                         Drop drop = table.fetchRandom();
                         int minimumAmount = drop.getMinimumAmount();
                         GameItem item = new GameItem(drop.getItemId(),
                                 minimumAmount + Misc.random(drop.getMaximumAmount() - minimumAmount));
 
-                        if (policy.equals(TablePolicy.VERY_RARE) || policy.equals(TablePolicy.RARE)) {
-                            player.getCollectionLog().handleDrop(player, drop.getNpcIds().get(0), item.id(), item.amount());
-                        }
-
+                        if (rareTableDrop)
+                            player.getCollectionLog().handleDrop(player, drop.getNpcIds().getFirst(), item.id(), item.amount());
                         // Rare drop announcements
-
                         // Any item names here will always announce when dropped
-                        String itemNameLowerCase = ItemDef.forId(item.id()).getName().toLowerCase();
-                        if (itemNameLowerCase.contains("archer ring") || itemNameLowerCase.contains("vasa minirio")
-                        		|| itemNameLowerCase.contains("hydra") || itemNameLowerCase.contains("skeletal visage")) {
-                            NPCDeath.announce(player, item, npcId);
-                        }
+                        var itemNameLowerCase = ItemDef.forId(item.id()).getName().toLowerCase();
 
-                        if (itemNameLowerCase.contains("crystalline")) {
+                        if (itemNameLowerCase.contains("crystalline"))
                             player.sendMessage("@pur@You notice a @blu@crystalline key@pur@ in the pile of shards!");
-                        }
 
                         items.add(item);
-                        if (policy.equals(TablePolicy.VERY_RARE) || policy.equals(TablePolicy.RARE)) {
-
-                            String name = itemNameLowerCase;
-
-                            // Any item names here will never announce
-                            if (
-                                    name.contains("cowhide")
-                                    || ShopAssistant.getItemShopValue(item.id()) <= 100_000
-                                    || name.contains("feather")
-                                    || name.contains("dharok")
-                                    || name.contains("guthan")
-                                    || name.contains("karil")
-                                    || name.contains("ahrim")
-                                    || name.contains("verac")
-                                    || name.contains("torag")
-                                    || name.contains("arrow")
-                                    || name.contains("sq shield")
-                                    || name.contains("dragon dagger")
-                                    || name.contains("rune warhammer")
-                                    || name.contains("rock-shell")
-                                    || name.contains("eye of newt")
-                                    || name.contains("dragon spear")
-                                    || name.contains("rune battleaxe")
-                                    || name.contains("casket")
-                                    || name.contains("silver ore")
-                                    || name.contains("spined")
-                                    || name.contains("wine of zamorak")
-                                    || name.contains("rune spear")
-                                    || name.contains("grimy")
-                                    || name.contains("skeletal")
-                                    || name.contains("jangerberries")
-                                    || name.contains("goat horn dust")
-                                    || name.contains("yew roots")
-                                    || name.contains("white berries")
-                                    || name.contains("bars")
-                                    || name.contains("blue dragonscales")
-                                    || name.contains("kebab")
-                                    || name.contains("potato")
-                                    || name.contains("shark")
-                                    || name.contains("red")
-                                    || name.contains("spined body")
-                                    || name.contains("prayer")
-                                    || name.contains("anchovy")
-                                    || name.contains("runite")
-                                    || name.contains("adamant")
-                                    || name.contains("magic roots")
-                                    || name.contains("earth battlestaff")
-                                    || name.contains("torstol")
-                                    || name.contains("dragon battle axe")
-                                    || name.contains("helm of neitiznot")
-                                    || name.contains("mithril")
-                                    || name.contains("sapphire")
-                                    || name.contains("rune")
-                                    || name.contains("toktz")
-                                    || name.contains("steal")
-                                    || name.contains("seed")
-                                    || name.contains("ancient")
-                                    || name.contains("monk")
-                                    || name.contains("splitbark")
-                                    || name.contains("pure")
-                                    || name.contains("zamorak robe")
-                                    || name.contains("null")
-                                    || name.contains("coins")
-                                    || name.contains("essence")
-                                    || name.contains("crushed")
-                                    || name.contains("snape")
-                                    || name.contains("unicorn")
-                                    || name.contains("mystic")
-                                    || name.contains("eye patch")
-                                    || name.contains("steel darts")
-                                    || name.contains("steel bar")
-                                    || name.contains("limp")
-                                    || name.contains("darts")
-                                    || name.contains("dragon longsword")
-                                    || name.contains("dust battlestaff")
-                                    || name.contains("granite")
-                                    || name.contains("coal")
-                                    || name.contains("crystalline key")
-                                    || name.contains("leaf-bladed sword")
-                                    || name.contains("dragon plateskirt")
-                                    || name.contains("dragon platelegs")
-                                    || name.contains("dragon scimitar")
-                                    || name.contains("abyssal head")
-                                    || name.contains("cockatrice head")
-                                    || name.contains("dragon chainbody")
-                                    || name.contains("dragon battleaxe")
-                                    || name.contains("dragon boots")
-                                    || name.contains("overload")
-                                    || name.contains("bones")
-                                            || name.contains("amulet of the damned")
-                            || item.id() >= 23490 && item.id() <= 23491 || item.id() >= 23083 && item.id() <= 23084) {
-                            } else {
-                                NPCDeath.announce(player, item, npcId);
-                            }
+                        if (rareTableDrop && !applyFilter(itemNameLowerCase, item)) {
+                            NPCDeath.announce(player, item, npcId);
+                            // TODO: Discord Integration; AnnouncedDrop
                         }
                     }
                 }
@@ -190,12 +96,97 @@ public class TableGroup extends ArrayList<Table> {
         return items;
     }
 
-    /**
-     * The non-playable character identification values that have access to this group of tables.
-     *
-     * @return the non-playable character id values
-     */
-    public List<Integer> getNpcIds() {
-        return npcIds;
+    private boolean applyFilter(String itemNameLowerCase, GameItem item) {
+        // Any item names here will never announce
+        return itemKeywords.stream().anyMatch(itemNameLowerCase::contains)
+            || ShopAssistant.getItemShopValue(item.id()) <= 100_000
+            || item.id() >= 23490 && item.id() <= 23491
+            || item.id() >= 23083 && item.id() <= 23084;
     }
+
+    private final List<String> itemKeywords = List.of(
+        "cowhide",
+        "feather",
+        "dharok",
+        "guthan",
+        "karil",
+        "ahrim",
+        "verac",
+        "torag",
+        "arrow",
+        "sq shield",
+        "dragon dagger",
+        "rune warhammer",
+        "rock-shell",
+        "eye of newt",
+        "dragon spear",
+        "rune battleaxe",
+        "casket",
+        "silver ore",
+        "spined",
+        "wine of zamorak",
+        "rune spear",
+        "grimy",
+        "skeletal",
+        "jangerberries",
+        "goat horn dust",
+        "yew roots",
+        "white berries",
+        "bars",
+        "blue dragonscales",
+        "kebab",
+        "potato",
+        "shark",
+        "red",
+        "spined body",
+        "prayer",
+        "anchovy",
+        "runite",
+        "adamant",
+        "magic roots",
+        "earth battlestaff",
+        "torstol",
+        "dragon battle axe",
+        "helm of neitiznot",
+        "mithril",
+        "sapphire",
+        "rune",
+        "toktz",
+        "steal",
+        "seed",
+        "ancient",
+        "monk",
+        "splitbark",
+        "pure",
+        "zamorak robe",
+        "null",
+        "coins",
+        "essence",
+        "crushed",
+        "snape",
+        "unicorn",
+        "mystic",
+        "eye patch",
+        "steel darts",
+        "steel bar",
+        "limp",
+        "darts",
+        "dragon longsword",
+        "dust battlestaff",
+        "granite",
+        "coal",
+        "crystalline key",
+        "leaf-bladed sword",
+        "dragon plateskirt",
+        "dragon platelegs",
+        "dragon scimitar",
+        "abyssal head",
+        "cockatrice head",
+        "dragon chainbody",
+        "dragon battleaxe",
+        "dragon boots",
+        "overload",
+        "bones",
+        "amulet of the damned"
+    );
 }

@@ -32,7 +32,7 @@ public class LoadSpell {
     }
 
     public static void loadSpell(Player player, NPC npc) {
-        int chance = 0;
+        int chance;
         switch (npc.getNpcId()) {
             case 7931:
             case 7932:
@@ -58,11 +58,13 @@ public class LoadSpell {
                         npc.setAttackType(CombatType.MELEE);
                         npc.projectileId = -1;
                         npc.endGfx = -1;
-                    } else if (randomHit > 5 && randomHit <= 10 || distance) {
+                    }
+                    else if (randomHit > 5 && randomHit <= 10 || distance) {
                         npc.setAttackType(CombatType.MAGE);
                         npc.projectileId = 1415;
                         npc.endGfx = -1;
-                    } else if (randomHit > 10 && randomHit <= 15 || distance) {
+                    }
+                    else if (randomHit <= 15 || distance) {
                         npc.setAttackType(CombatType.RANGE);
                         npc.projectileId = 1415;
                         npc.endGfx = -1;
@@ -197,13 +199,15 @@ public class LoadSpell {
                     npc.hitDelayTimer = 4;
                     npc.attackTimer = 8;
                     break;
-                } else if (random122 > 2 && random122 <= 5) {
+                }
+                else if (random122 <= 5) {
                     npc.setAttackType(CombatType.MELEE);
                     npc.maxHit = 20;
                     npc.projectileId = -1;
                     npc.endGfx = -1;
                     break;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.SPECIAL);
                     handler().groundAttack(npc, player, 1744, 1736, 1743, 5);
                     npc.maxHit = 25;
@@ -230,7 +234,8 @@ public class LoadSpell {
                     npc.setAttackType(CombatType.MAGE);
                     npc.endGfx = -1;
                     npc.projectileId = -1;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MELEE);
                     npc.endGfx = -1;
                     npc.projectileId = -1;
@@ -275,7 +280,8 @@ public class LoadSpell {
                     npc.setAttackType(CombatType.RANGE);
                     npc.projectileId = 174;
                     npc.endGfx = -1;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
@@ -328,7 +334,8 @@ public class LoadSpell {
                 if (Misc.trueRand(2) == 0) {
                     npc.setAttackType(CombatType.MAGE);
                     npc.projectileId = 1200;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.RANGE);
                     npc.projectileId = 1199;
                 }
@@ -402,7 +409,8 @@ public class LoadSpell {
                     npc.endGfx = -1;
                     npc.hitDelayTimer = 3;
                     npc.attackTimer = 4;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MAGE);
                     npc.projectileId = 156;
                     npc.endGfx = -1;
@@ -430,7 +438,8 @@ public class LoadSpell {
                     npc.endGfx = -1;
                     npc.hitDelayTimer = 3;
                     npc.attackTimer = 4;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.RANGE);
                     npc.projectileId = 1044;
                     npc.endGfx = -1;
@@ -445,7 +454,8 @@ public class LoadSpell {
                     npc.projectileId = 1046;
                     npc.endGfx = -1;
                     npc.hitDelayTimer = 3;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MELEE);
                 }
                 break;
@@ -495,7 +505,8 @@ public class LoadSpell {
                     npc.attackTimer = 6;
                     npc.endGfx = 369;
                     npc.forceChat("Semolina-Go!");
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.RANGE);
                     npc.attackTimer = 3;
                     npc.endGfx = -1;
@@ -536,28 +547,33 @@ public class LoadSpell {
                         npc.attackTimer = 7;
                         npc.hitDelayTimer = 4;
                         handler().groundSpell(npc, player, 280, 281, "vetion", 4);
-                    } else if (chance > 90 && System.currentTimeMillis() - npc.lastSpecialAttack > 15000) {
+                    }
+                    else if (chance > 90 && System.currentTimeMillis() - npc.lastSpecialAttack > 15000) {
                         npc.setAttackType(CombatType.SPECIAL);
                         npc.attackTimer = 5;
                         npc.hitDelayTimer = 2;
                         npc.lastSpecialAttack = System.currentTimeMillis();
-                    } else {
+                    }
+                    else {
                         npc.setAttackType(CombatType.MELEE);
                         npc.attackTimer = 5;
                         npc.hitDelayTimer = 2;
                     }
-                } else {
+                }
+                else {
                     if (chance < 71) {
                         npc.setAttackType(CombatType.MAGE);
                         npc.attackTimer = 7;
                         npc.hitDelayTimer = 4;
                         handler().groundSpell(npc, player, 280, 281, "vetion", 4);
-                    } else if (System.currentTimeMillis() - npc.lastSpecialAttack > 15000) {
+                    }
+                    else if (System.currentTimeMillis() - npc.lastSpecialAttack > 15000) {
                         npc.setAttackType(CombatType.SPECIAL);
                         npc.attackTimer = 5;
                         npc.hitDelayTimer = 2;
                         npc.lastSpecialAttack = System.currentTimeMillis();
-                    } else {
+                    }
+                    else {
                         npc.setAttackType(CombatType.MAGE);
                         npc.attackTimer = 7;
                         npc.hitDelayTimer = 4;
@@ -567,8 +583,8 @@ public class LoadSpell {
                 break;
             case 6914:
                 // Lizardman, Lizardman brute
-                /**
-                 * Demonic Gorillas attack
+                /*
+                  Demonic Gorillas attack
                  */
             case 6915:
             case 6916:
@@ -583,14 +599,15 @@ public class LoadSpell {
                     if (Misc.random(10) == 5) {
                         player.getHealth().proposeStatus(HealthStatus.POISON, 3, Optional.of(npc));
                     }
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
                 }
                 break;
-            /**
-             * Lizardman Shaman<
+            /*
+              Lizardman Shaman<
              */
             case 6766:
             case 6768:
@@ -601,7 +618,8 @@ public class LoadSpell {
                     npc.hitDelayTimer = 2;
                     npc.projectileId = -1;
                     npc.endGfx = -1;
-                } else if (randomAttack3 > 89) {
+                }
+                else if (randomAttack3 > 89) {
                     npc.setAttackType(CombatType.MAGE);
                     npc.hitDelayTimer = 3;
                     npc.projectileId = 1293;
@@ -609,7 +627,8 @@ public class LoadSpell {
                     if (Misc.random(5) == 5) {
                         player.getHealth().proposeStatus(HealthStatus.POISON, 10, Optional.of(npc));
                     }
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.SPECIAL);
                     npc.attackTimer = 10;
                     npc.projectileId = -1;
@@ -618,12 +637,12 @@ public class LoadSpell {
                     handler().groundSpell(npc, player, -1, 1295, "spawns", 10);
                 }
                 break;
-            /**
-             * Crazy Archaeologist
+            /*
+              Crazy Archaeologist
              */
             case 6618:
                 int randomAttack = Misc.random(10);
-                String[] shout = {"I\'m Bellock - respect me!", "Get off my site!", "No-one messes with Bellock\'s dig!", "These ruins are mine!", "Taste my knowledge!", "You belong in a museum!"};
+                String[] shout = {"I'm Bellock - respect me!", "Get off my site!", "No-one messes with Bellock's dig!", "These ruins are mine!", "Taste my knowledge!", "You belong in a museum!"};
                 String randomShout = (shout[new Random().nextInt(shout.length)]);
                 if (player.distanceToPoint(npc.absX, npc.absY) < 2) {
                     npc.forceChat(randomShout);
@@ -633,12 +652,14 @@ public class LoadSpell {
                         npc.hitDelayTimer = 2;
                         npc.projectileId = -1;
                         npc.endGfx = -1;
-                    } else if (randomAttack > 6) {
+                    }
+                    else if (randomAttack > 6) {
                         npc.setAttackType(CombatType.RANGE);
                         npc.hitDelayTimer = 3;
                         npc.projectileId = 1259;
                         npc.endGfx = 140;
-                    } else {
+                    }
+                    else {
                         npc.forceChat("Rain of knowledge!");
                         npc.setAttackType(CombatType.SPECIAL);
                         npc.projectileId = -1;
@@ -646,13 +667,15 @@ public class LoadSpell {
                         npc.hitDelayTimer = 3;
                         handler().groundSpell(npc, player, 1260, 131, "archaeologist", 4);
                     }
-                } else {
+                }
+                else {
                     if (randomAttack > 3) {
                         npc.forceChat(randomShout);
                         npc.setAttackType(CombatType.RANGE);
                         npc.projectileId = 1259;
                         npc.endGfx = 140;
-                    } else {
+                    }
+                    else {
                         npc.forceChat("Rain of knowledge!");
                         npc.setAttackType(CombatType.SPECIAL);
                         npc.projectileId = -1;
@@ -673,19 +696,22 @@ public class LoadSpell {
                         npc.hitDelayTimer = 3;
                         npc.projectileId = 1044;
                         npc.endGfx = 140;
-                    } else {
+                    }
+                    else {
                         npc.setAttackType(CombatType.SPECIAL);
                         npc.projectileId = -1;
                         npc.endGfx = -1;
                         npc.hitDelayTimer = 3;
                         handler().groundSpell(npc, player, 1045, 131, "fanatic", 4);
                     }
-                } else {
+                }
+                else {
                     if (randomAttack2 > 3) {
                         npc.setAttackType(CombatType.MAGE);
                         npc.projectileId = 1044;
                         npc.endGfx = 140;
-                    } else {
+                    }
+                    else {
                         npc.setAttackType(CombatType.SPECIAL);
                         npc.projectileId = -1;
                         npc.endGfx = -1;
@@ -701,11 +727,13 @@ public class LoadSpell {
                     npc.setAttackType(CombatType.RANGE);
                     npc.projectileId = 258;
                     npc.endGfx = -1;
-                } else if (distanceToWyvern && newRandom == 1) {
+                }
+                else if (distanceToWyvern && newRandom == 1) {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.DRAGON_FIRE);
                     npc.projectileId = 162;
                     npc.endGfx = 163;
@@ -755,14 +783,16 @@ public class LoadSpell {
                     npc.projectileId = 1634;
                     npc.hitDelayTimer = 6;
                     npc.maxHit = 13;
-                } else {
+                }
+                else {
                     npc.projectileId = -1;
                     npc.maxHit = 13;
                 }
                 if (npc.getDistance(player.getX(), player.getY()) <= 3) {
                     npc.setAttackType(CombatType.getRandom(CombatType.MAGE, CombatType.MELEE));
                     npc.maxHit = 13;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MAGE);
                     npc.maxHit = 13;
                 }
@@ -773,17 +803,20 @@ public class LoadSpell {
                     npc.projectileId = 1636;
                     npc.hitDelayTimer = 6;
                     npc.maxHit = 15;
-                } else {
+                }
+                else {
                     npc.projectileId = -1;
                     npc.maxHit = 15;
                 }
                 if (npc.totalAttacks == 7) {
                     npc.setAttackType(CombatType.SPECIAL);
                     npc.maxHit = 15;
-                } else if (npc.getDistance(player.getX(), player.getY()) <= 3 && npc.getAttackType() != CombatType.SPECIAL) {
+                }
+                else if (npc.getDistance(player.getX(), player.getY()) <= 3 && npc.getAttackType() != CombatType.SPECIAL) {
                     npc.setAttackType(CombatType.getRandom(CombatType.RANGE, CombatType.MELEE));
                     npc.maxHit = 15;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.RANGE);
                     npc.maxHit = 15;
                 }
@@ -814,7 +847,8 @@ public class LoadSpell {
                     npc.projectileId = 258;
                     npc.endGfx = -1;
                     npc.maxHit = 24;
-                } else
+                }
+                else
                     /*
                      * Handles the melee attack if the player is within 1 tile and 1
                      * is rolled for randomAttack
@@ -824,7 +858,8 @@ public class LoadSpell {
                         npc.projectileId = -1;
                         npc.endGfx = -1;
                         npc.maxHit = 30;
-                    } else
+                    }
+                    else
                         /*
                          * Handles the magic attack if 2 is rolled for randomAttack
                          */
@@ -833,7 +868,8 @@ public class LoadSpell {
                             npc.projectileId = -1;
                             npc.endGfx = -1;
                             npc.maxHit = 38;
-                        } else
+                        }
+                        else
                             /*
                              * Handles the first special attack if a 2 is rolled for
                              * randomAttack + adds 100% dmg dealt to the Rune Dragons hp
@@ -846,11 +882,13 @@ public class LoadSpell {
                                 // TODO REAL Special gfx / special 1 / healing isnt working
                                 if (hp >= maxHp) {
                                     return;
-                                } else if (npc != null && hp < maxHp) {
+                                }
+                                else if (npc != null && hp < maxHp) {
                                     npc.getHealth().increase(hit / 2);
                                     player.sendMessage("You feel the dragon leeching your life force.");
                                 }
-                            } else
+                            }
+                            else
                                 /*
                                  * Handles the second special attack if a 3 is rolled for the
                                  * randomAttack + does dmg per tick if hit
@@ -863,6 +901,7 @@ public class LoadSpell {
                                     npc.endGfx = 1196;
                                     CycleEventHandler.getSingleton().addEvent(player, new CycleEvent() {
                                         int ticks;
+
                                         @Override
                                         public void execute(CycleEventContainer container) {
                                             if (player.isDisconnected()) {
@@ -895,15 +934,12 @@ public class LoadSpell {
                                                     break;
                                             }
                                         }
-                                        @Override
-                                        public void onStopped() {
-                                        }
                                     }, 1); //handles delay between ticks
-                                } else
+                                }
+                                else
                                     /*
                                      * handles the dragonfire breathe
-                                     */
-                                {
+                                     */ {
                                     npc.setAttackType(CombatType.DRAGON_FIRE);
                                     npc.projectileId = 162;
                                     npc.endGfx = 163;
@@ -916,7 +952,8 @@ public class LoadSpell {
                     npc.gfx100(194);
                     npc.projectileId = 195;
                     npc.endGfx = 196;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.SPECIAL);
                     npc.gfx100(194);
                     npc.projectileId = 195;
@@ -933,7 +970,8 @@ public class LoadSpell {
                     if (!player.getHealth().getStatus().isPoisoned()) {
                         player.sendMessage("You have been poisoned!");
                     }
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.SPECIAL);
                     npc.gfx0(164);
                     npc.projectileId = 165;
@@ -959,11 +997,13 @@ public class LoadSpell {
                         npc.setAttackType(CombatType.MELEE);
                         npc.projectileId = -1;
                         npc.endGfx = -1;
-                    } else if (randomHit >= 15 && randomHit < 20 || distance) {
+                    }
+                    else if (randomHit >= 15 && randomHit < 20 || distance) {
                         npc.setAttackType(CombatType.MAGE);
                         npc.projectileId = 395;
                         npc.endGfx = 431;
-                    } else {
+                    }
+                    else {
                         npc.setAttackType(CombatType.SPECIAL);
                         npc.projectileId = -1;
                         npc.endGfx = -1;
@@ -978,7 +1018,8 @@ public class LoadSpell {
                     npc.gfx0(161);
                     npc.projectileId = 162;
                     npc.endGfx = 163;
-                } else {
+                }
+                else {
                     npc.gfx0(155);
                     npc.projectileId = 156;
                     npc.endGfx = 157;
@@ -1006,7 +1047,8 @@ public class LoadSpell {
                     npc.projectileId = 393;
                     npc.endGfx = 430;
                     npc.setAttackType(CombatType.DRAGON_FIRE);
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
@@ -1021,7 +1063,8 @@ public class LoadSpell {
                     npc.projectileId = 393;
                     npc.endGfx = 430;
                     npc.setAttackType(CombatType.DRAGON_FIRE);
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
@@ -1037,11 +1080,13 @@ public class LoadSpell {
                     npc.projectileId = 396;
                     npc.endGfx = 428;
                     npc.setAttackType(CombatType.MAGE);
-                } else if (distanceToBrutal <= 4) {
+                }
+                else if (distanceToBrutal <= 4) {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
-                } else {
+                }
+                else {
                     npc.projectileId = 393;
                     npc.endGfx = 430;
                     npc.setAttackType(CombatType.DRAGON_FIRE);
@@ -1057,11 +1102,13 @@ public class LoadSpell {
                     npc.projectileId = 396;
                     npc.endGfx = 428;
                     npc.setAttackType(CombatType.MAGE);
-                } else if (distanceToBrutalR <= 4) {
+                }
+                else if (distanceToBrutalR <= 4) {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
-                } else {
+                }
+                else {
                     npc.projectileId = 393;
                     npc.endGfx = 430;
                     npc.setAttackType(CombatType.DRAGON_FIRE);
@@ -1077,11 +1124,13 @@ public class LoadSpell {
                     npc.projectileId = 396;
                     npc.endGfx = 428;
                     npc.setAttackType(CombatType.MAGE);
-                } else if (distanceToBrutalB <= 4) {
+                }
+                else if (distanceToBrutalB <= 4) {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
-                } else {
+                }
+                else {
                     npc.projectileId = 393;
                     npc.endGfx = 430;
                     npc.setAttackType(CombatType.DRAGON_FIRE);
@@ -1094,19 +1143,23 @@ public class LoadSpell {
                     npc.projectileId = 394; // green
                     npc.endGfx = 429;
                     npc.setAttackType(CombatType.DRAGON_FIRE);
-                } else if (random >= 65 && random < 75) {
+                }
+                else if (random >= 65 && random < 75) {
                     npc.projectileId = 395; // white
                     npc.endGfx = 431;
                     npc.setAttackType(CombatType.DRAGON_FIRE);
-                } else if (random >= 75 && random < 80) {
+                }
+                else if (random >= 75 && random < 80) {
                     npc.projectileId = 396; // blue
                     npc.endGfx = 428;
                     npc.setAttackType(CombatType.DRAGON_FIRE);
-                } else if (random >= 80 && distance <= 4) {
+                }
+                else if (random >= 80 && distance <= 4) {
                     npc.projectileId = -1; // melee
                     npc.endGfx = -1;
                     npc.setAttackType(CombatType.MELEE);
-                } else {
+                }
+                else {
                     npc.projectileId = 393; // red
                     npc.endGfx = 430;
                     npc.setAttackType(CombatType.DRAGON_FIRE);
@@ -1125,11 +1178,11 @@ public class LoadSpell {
                 npc.projectileId = 1203;
                 break;
             case 2558:
-                random = Misc.random(1);
                 npc.setAttackType(CombatType.getRandom(CombatType.RANGE, CombatType.MAGE));
                 if (npc.getAttackType() == CombatType.RANGE) {
                     npc.projectileId = 1197;
-                } else {
+                }
+                else {
                     npc.projectileId = 1198;
                 }
                 break;
@@ -1141,7 +1194,8 @@ public class LoadSpell {
                     npc.setAttackType(CombatType.MAGE);
                     npc.endGfx = 1224;
                     npc.projectileId = -1;
-                } else if (random == 1) npc.setAttackType(CombatType.MELEE);
+                }
+                else if (random == 1) npc.setAttackType(CombatType.MELEE);
                 break;
             case 2563:
                 // star
@@ -1222,7 +1276,8 @@ public class LoadSpell {
                     npc.startAnimation(-1);
                     npc.projectileId = 1380;
                     npc.endGfx = 431;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.SPECIAL);
                     npc.projectileId = 395;
                     npc.startAnimation(-1);
@@ -1231,7 +1286,7 @@ public class LoadSpell {
                     player.lastSpear = System.currentTimeMillis();
                     player.getPA().getSpeared(npc.absX, npc.absY, 3);
                     player.freezeTimer = 3;
-                    player.sendMessage("The Queen\'s magic pushes you out of her way.");
+                    player.sendMessage("The Queen's magic pushes you out of her way.");
                 }
                 break;
             case 2054:
@@ -1241,7 +1296,8 @@ public class LoadSpell {
                     npc.gfx100(550);
                     npc.projectileId = 551;
                     npc.endGfx = 552;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MAGE);
                     npc.gfx100(553);
                     npc.projectileId = 554;
@@ -1273,23 +1329,26 @@ public class LoadSpell {
                 if (random == 0) {
                     npc.setAttackType(CombatType.SPECIAL);
                     npc.projectileId = -1;
-                } else if (random > 0 && random < 7) {
+                }
+                else if (random > 0 && random < 7) {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MAGE);
                     npc.projectileId = 1211;
                 }
                 break;
             case 3209:
                 // cave horror
-                /**
-                 * Chaos fanatic
+                /*
+                  Chaos fanatic
                  */
                 random = Misc.random(3);
                 if (random == 0 || random == 1) {
                     npc.setAttackType(CombatType.MELEE);
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MAGE);
                 }
                 break;
@@ -1297,20 +1356,23 @@ public class LoadSpell {
                 int r3 = 0;
                 if (handler().goodDistance(npc.absX, npc.absY, PlayerHandler.players[npc.spawnedBy].absX, PlayerHandler.players[npc.spawnedBy].absY, 1)) {
                     r3 = Misc.random(2);
-                } else {
+                }
+                else {
                     r3 = Misc.random(1);
                 }
                 if (r3 == 0) {
                     npc.setAttackType(CombatType.MAGE);
                     npc.projectileId = 448;
                     npc.endGfx = 157;
-                } else if (r3 == 1) {
+                }
+                else if (r3 == 1) {
                     npc.setAttackType(CombatType.RANGE);
                     npc.endGfx = 451;
                     npc.projectileId = -1;
                     npc.hitDelayTimer = 6;
                     npc.attackTimer = 9;
-                } else if (r3 == 2) {
+                }
+                else if (r3 == 2) {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
@@ -1320,18 +1382,21 @@ public class LoadSpell {
                 int r4 = 0;
                 if (handler().goodDistance(npc.absX, npc.absY, PlayerHandler.players[npc.spawnedBy].absX, PlayerHandler.players[npc.spawnedBy].absY, 1)) {
                     r4 = Misc.random(2);
-                } else {
+                }
+                else {
                     r4 = Misc.random(1);
                 }
                 if (r4 == 0) {
                     npc.setAttackType(CombatType.MAGE);
                     npc.projectileId = 448;
                     npc.endGfx = 157;
-                } else if (r4 == 1) {
+                }
+                else if (r4 == 1) {
                     npc.setAttackType(CombatType.RANGE);
                     npc.projectileId = -1;
                     npc.endGfx = 451;
-                } else if (r4 == 2) {
+                }
+                else if (r4 == 2) {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
@@ -1342,7 +1407,8 @@ public class LoadSpell {
                     npc.setAttackType(CombatType.MAGE);
                     npc.projectileId = 445;
                     npc.endGfx = 446;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MELEE);
                     npc.projectileId = -1;
                     npc.endGfx = -1;
@@ -1394,11 +1460,13 @@ public class LoadSpell {
                     if (x == 0) {
                         npc.projectileId = -1;
                         npc.setAttackType(CombatType.MELEE);
-                    } else {
+                    }
+                    else {
                         npc.projectileId = 1376;
                         npc.setAttackType(CombatType.RANGE);
                     }
-                } else {
+                }
+                else {
                     npc.projectileId = 1376;
                     npc.setAttackType(CombatType.RANGE);
                 }
@@ -1409,11 +1477,13 @@ public class LoadSpell {
                     if (x == 0) {
                         npc.projectileId = -1;
                         npc.setAttackType(CombatType.MELEE);
-                    } else {
+                    }
+                    else {
                         npc.projectileId = 1378;
                         npc.setAttackType(CombatType.MAGE);
                     }
-                } else {
+                }
+                else {
                     npc.projectileId = 1378;
                     npc.setAttackType(CombatType.MAGE);
                 }
@@ -1438,44 +1508,52 @@ public class LoadSpell {
                     if (x == 0) {
                         npc.setAttackType(CombatType.MELEE);
                         npc.projectileId = -1;
-                    } else if (x == 1) {
+                    }
+                    else if (x == 1) {
                         if (player.protectingMagic()) {
                             npc.setAttackType(CombatType.RANGE);
                             npc.hitDelayTimer = 3;
                             npc.projectileId = 1378;
-                        } else if (player.protectingRange()) {
+                        }
+                        else if (player.protectingRange()) {
                             npc.setAttackType(CombatType.MAGE);
                             npc.hitDelayTimer = 3;
                             npc.projectileId = 1380;
-                        } else {
+                        }
+                        else {
                             int y = Misc.random(0, 1);
                             if (y == 0) {
                                 npc.setAttackType(CombatType.RANGE);
                                 npc.hitDelayTimer = 3;
                                 npc.projectileId = 1378;
-                            } else if (y == 1) {
+                            }
+                            else if (y == 1) {
                                 npc.setAttackType(CombatType.MAGE);
                                 npc.hitDelayTimer = 3;
                                 npc.projectileId = 1380;
                             }
                         }
                     }
-                } else {
+                }
+                else {
                     if (player.protectingMagic()) {
                         npc.setAttackType(CombatType.RANGE);
                         npc.hitDelayTimer = 3;
                         npc.projectileId = 1378;
-                    } else if (player.protectingRange()) {
+                    }
+                    else if (player.protectingRange()) {
                         npc.setAttackType(CombatType.MAGE);
                         npc.hitDelayTimer = 3;
                         npc.projectileId = 1380;
-                    } else {
+                    }
+                    else {
                         int y = Misc.random(0, 1);
                         if (y == 0) {
                             npc.setAttackType(CombatType.RANGE);
                             npc.hitDelayTimer = 3;
                             npc.projectileId = 1378;
-                        } else if (y == 1) {
+                        }
+                        else if (y == 1) {
                             npc.setAttackType(CombatType.MAGE);
                             npc.hitDelayTimer = 3;
                             npc.projectileId = 1380;
@@ -1497,8 +1575,8 @@ public class LoadSpell {
                     player.getPA().setSkillLevel(tD, player.playerLevel[tD], player.playerXP[tD]);
                 }
                 break;
-            /**
-             * Kalphite Queen Stage One
+            /*
+              Kalphite Queen Stage One
              */
             case 963:
             case 965:
@@ -1523,13 +1601,14 @@ public class LoadSpell {
                         break;
                 }
                 break;
-            /**
-             * Tekton
+            /*
+              Tekton
              */
             case 7544:
                 if (Objects.equals(tektonAttack, "MELEE")) {
                     npc.setAttackType(CombatType.MELEE);
-                } else if (Objects.equals(tektonAttack, "SPECIAL")) {
+                }
+                else if (Objects.equals(tektonAttack, "SPECIAL")) {
                     npc.setAttackType(CombatType.SPECIAL);
                     Tekton.tektonSpecial(player);
                     tektonAttack = "MELEE";
@@ -1537,33 +1616,32 @@ public class LoadSpell {
                     npc.attackTimer = 8;
                 }
                 break;
-            /**
-             * theunbearable
+            /*
+              theunbearable
              */
             case TheUnbearable.NPC_ID:
                 if (npc.getAttackType() != null) {
                     int randomNum = Misc.random(100);
                     if (randomNum >= 20) {
                         npc.setAttackType(CombatType.MELEE);
-                    } else {
+                    }
+                    else {
                         npc.setAttackType(CombatType.MAGE);
                     }
-                    switch (npc.getAttackType()) {
-                        case MAGE:
-                            npc.endGfx = 379;//157
-                            npc.projectileId = 448;
-                            npc.hitDelayTimer = 4;
-                            break;
-                        default:
-                            npc.setAttackType(CombatType.MELEE);
-                            npc.endGfx = -1;
-                            npc.projectileId = -1;
-                            break;
+                    if (Objects.requireNonNull(npc.getAttackType()) == CombatType.MAGE) {
+                        npc.endGfx = 379;//157
+                        npc.projectileId = 448;
+                        npc.hitDelayTimer = 4;
+                    }
+                    else {
+                        npc.setAttackType(CombatType.MELEE);
+                        npc.endGfx = -1;
+                        npc.projectileId = -1;
                     }
                 }
                 break;
-            /**
-             * Fragment Of Seren
+            /*
+              Fragment Of Seren
              */
             case FragmentOfSeren.NPC_ID:
                 if (Objects.equals(queenAttack, "MAGIC")) {
@@ -1572,7 +1650,8 @@ public class LoadSpell {
                     npc.endGfx = 196;
                     npc.hitDelayTimer = 4;
 
-                } else if (Objects.equals(queenAttack, "SPECIAL")) {
+                }
+                else if (Objects.equals(queenAttack, "SPECIAL")) {
                     npc.setAttackType(CombatType.SPECIAL);
                     FragmentOfSeren.handleSpecialAttack(player);
                     queenAttack = "MAGIC";
@@ -1593,7 +1672,8 @@ public class LoadSpell {
                     npc.projectileId = 1348;
                     npc.endGfx = 1345;
                     npc.hitDelayTimer = 4;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MAGE);
                     npc.projectileId = 1348;
                     npc.endGfx = 1345;
@@ -1607,7 +1687,8 @@ public class LoadSpell {
                     npc.endGfx = 1328;
                     npc.hitDelayTimer = 3;
                     npc.maxHit = 35;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.SPECIAL);
                     npc.projectileId = 1329;
                     npc.endGfx = 1330;
@@ -1627,7 +1708,8 @@ public class LoadSpell {
                     player.freezeTimer = 5;
                     player.gfx100(Hespori.SPECIAL_HIT_GFX);
                     break;
-                } else if (hesporiRandom > 5 && hesporiRandom <= 55) {
+                }
+                else if (hesporiRandom <= 55) {
                     npc.setAttackType(CombatType.MAGE);
                     npc.projectileId = Hespori.MAGIC_PROJECTILE;
                     npc.endGfx = 196;
@@ -1635,7 +1717,8 @@ public class LoadSpell {
                     npc.attackTimer = 10;
                     npc.maxHit = 3;
                     break;
-                } else if (hesporiRandom > 55) {
+                }
+                else {
                     npc.setAttackType(CombatType.RANGE);
                     npc.projectileId = Hespori.RANGE_PROJECTILE;
                     //npc.endGfx = 196;
@@ -1644,7 +1727,6 @@ public class LoadSpell {
                     npc.maxHit = 3;
                     break;
                 }
-                break;
             case 7554:
                 //great olm
                 int randomStyle1 = Misc.random(12);
@@ -1678,7 +1760,7 @@ public class LoadSpell {
                         npc.maxHit = 45;
                         npc.hitDelayTimer = 2;
                         player.getHealth().proposeStatus(HealthStatus.POISON, Misc.random(3, 10), Optional.of(npc));
-                        player.sendMessage("You have been poisoned by Olm\'s acid attack!");
+                        player.sendMessage("You have been poisoned by Olm's acid attack!");
                         break;
                     case 8:
                         //dragon fire
@@ -1691,8 +1773,8 @@ public class LoadSpell {
                         break;
                     case 10:
                         //burn
-                        /**
-                         * Tekton magers
+                        /*
+                          Tekton magers
                          */
                     case 11:
                         npc.setAttackType(CombatType.SPECIAL);
@@ -1712,7 +1794,8 @@ public class LoadSpell {
                     npc.projectileId = 1348;
                     npc.endGfx = 1345;
                     npc.hitDelayTimer = 3;
-                } else {
+                }
+                else {
                     npc.setAttackType(CombatType.MAGE);
                     npc.projectileId = 1348;
                     npc.endGfx = 1345;
@@ -1738,6 +1821,7 @@ public class LoadSpell {
                     player.CERBERUS_ATTACK_TYPE = "MELEE";
                     CycleEventHandler.getSingleton().addEvent(player, new CycleEvent() {
                         int ticks;
+
                         @Override
                         public void execute(CycleEventContainer container) {
                             if (player.isDisconnected() || npc.isDeadOrDying()) {
@@ -1763,11 +1847,10 @@ public class LoadSpell {
                                     break;
                             }
                         }
-                        @Override
-                        public void onStopped() {
-                        }
+
                     }, 2);
-                } else {
+                }
+                else {
                     int randomStyle = Misc.random(2);
                     switch (randomStyle) {
                         case 0:
@@ -1801,7 +1884,8 @@ public class LoadSpell {
                 if (player.getSkotizo().firstHit) {
                     randomStyle = 1;
                     player.getSkotizo().firstHit = false;
-                } else {
+                }
+                else {
                     randomStyle = Misc.random(1);
                 }
                 switch (randomStyle) {

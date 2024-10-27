@@ -3,14 +3,11 @@ package io.xeros.model.entity.healthbar;
 import io.xeros.model.entity.Entity;
 import lombok.Getter;
 
+@Getter
 public class StaticHealthBarUpdate extends HealthBarUpdate {
-    @Getter
     private final int curHealth;
-    @Getter
     private final int maxHealth;
-    @Getter
     private final int delay;
-    @Getter
     private final int barWidth;
 
 

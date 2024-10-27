@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.fasterxml.jackson.databind.introspect.POJOPropertiesCollector;
 import com.google.common.base.Preconditions;
 import io.xeros.Server;
 import io.xeros.content.bosses.Scorpia;
@@ -44,19 +43,18 @@ import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.util.Misc;
-import org.apache.commons.net.io.SocketOutputStream;
 
 public class NPCHitPlayer {
 
-    public static boolean rollAccuracy(NPC npc, Player c, CombatType combatType) {
+    public static boolean rollAccuracy(NPC npc, Player player, CombatType combatType) {
         int attackLevel = attackLevel(npc, combatType);
         int attackBonus = attackBonus(npc, combatType);
         int effectiveAttack = getEffectLevel(attackLevel + 150, attackBonus);
-        int effectiveDefence = combatType == CombatType.RANGE ? RangeMaxHit.calculateRangeDefence(c)
-                : combatType == CombatType.MAGE ? MagicMaxHit.mageDefence(c) : MeleeMaxHit.calculateMeleeDefence(c, npc);
-        if (c.isPrintDefenceStats()) {
+        int effectiveDefence = combatType == CombatType.RANGE ? RangeMaxHit.calculateRangeDefence(player)
+                : combatType == CombatType.MAGE ? MagicMaxHit.mageDefence(player) : MeleeMaxHit.calculateMeleeDefence(player, npc);
+        if (player.isPrintDefenceStats()) {
 
-            c.sendMessage("n->p Hit%: " + CombatFormula.getHitChance(effectiveAttack, effectiveDefence) + "%, " +
+            player.sendMessage("n->p Hit%: " + CombatFormula.getHitChance(effectiveAttack, effectiveDefence) + "%, " +
                     "Att level: " + attackLevel + ", " +
                     "Att bonus: " + attackBonus + ", " +
                     "Att roll: " + effectiveAttack + ", " +
@@ -70,16 +68,11 @@ public class NPCHitPlayer {
         NpcCombatDefinition definition = npc.getCombatDefinition();
 
         if (definition != null) {
-            switch (combatType) {
-                case SPECIAL:
-                case MELEE:
-                    return definition.getAttackBonus(NpcBonus.ATTACK_BONUS);
-                case RANGE:
-                    return definition.getAttackBonus(NpcBonus.RANGE_BONUS);
-                case MAGE:
-                case DRAGON_FIRE:
-                    return definition.getAttackBonus(NpcBonus.MAGIC_BONUS);
-            }
+            return switch (combatType) {
+                case SPECIAL, MELEE -> definition.getAttackBonus(NpcBonus.ATTACK_BONUS);
+                case RANGE -> definition.getAttackBonus(NpcBonus.RANGE_BONUS);
+                case MAGE, DRAGON_FIRE -> definition.getAttackBonus(NpcBonus.MAGIC_BONUS);
+            };
         }
         return 0;
     }
@@ -88,16 +81,11 @@ public class NPCHitPlayer {
         NpcCombatDefinition definition = npc.getCombatDefinition();
 
         if (definition != null) {
-            switch (combatType) {
-                case MELEE:
-                case SPECIAL:
-                    return definition.getLevel(NpcCombatSkill.ATTACK);
-                case RANGE:
-                    return definition.getLevel(NpcCombatSkill.RANGE);
-                case DRAGON_FIRE:
-                case MAGE:
-                    return definition.getLevel(NpcCombatSkill.MAGIC);
-            }
+            return switch (combatType) {
+                case MELEE, SPECIAL -> definition.getLevel(NpcCombatSkill.ATTACK);
+                case RANGE -> definition.getLevel(NpcCombatSkill.RANGE);
+                case DRAGON_FIRE, MAGE -> definition.getLevel(NpcCombatSkill.MAGIC);
+            };
         }
         return 0;
     }
@@ -106,25 +94,25 @@ public class NPCHitPlayer {
         return attackLevel + attackBonus;
     }
 
-    public static CombatHit applyAutoAttackDamage(NPC npc, Player c, NPCAutoAttack npcAutoAttack) {
-        NPCCombatAttack npcCombatAttack = new NPCCombatAttack(npc, c);
+    public static CombatHit applyAutoAttackDamage(NPC npc, Player player, NPCAutoAttack npcAutoAttack) {
+        NPCCombatAttack npcCombatAttack = new NPCCombatAttack(npc, player);
 
-        if (npc.isDead() || c.respawnTimer > 0 || !npcAutoAttack.isAttackDamagesPlayer()) {
+        if (npc.isDead() || player.respawnTimer > 0 || !npcAutoAttack.isAttackDamagesPlayer()) {
             return CombatHit.miss();
         }
 
-        if (c.playerAttackingIndex <= 0 && c.npcAttackingIndex <= 0) {
-            if (c.autoRet == 1) {
-                c.npcAttackingIndex = npc.getIndex();
-                c.combatFollowing = true;
+        if (player.playerAttackingIndex <= 0 && player.npcAttackingIndex <= 0) {
+            if (player.autoRet == 1) {
+                player.npcAttackingIndex = npc.getIndex();
+                player.combatFollowing = true;
             }
         }
 
-        if (c.getItems().isWearingItem(12931) || c.getItems().isWearingItem(13197)
-                || c.getItems().isWearingItem(13199) && !(npc.getNpcId() == 319)) {
+        if (player.getItems().isWearingItem(12931) || player.getItems().isWearingItem(13197)
+                || player.getItems().isWearingItem(13199) && !(npc.getNpcId() == 319)) {
             DamageEffect venom = new SerpentineHelmEffect();
-            if (venom.isExecutable(c)) {
-                venom.execute(c, npc, new Damage(6));
+            if (venom.isExecutable(player)) {
+                venom.execute(player, npc, new Damage(6));
             }
         }
 
@@ -135,20 +123,12 @@ public class NPCHitPlayer {
 
         double accuracyRoll = 0;
         try {
-            switch (npcAutoAttack.getCombatType()) {
-                case MELEE:
-                    accuracyRoll = MeleeCombatFormula.get().getAccuracy(npc, c, autoAttackAccuracyBonus, 1.0);
-                    break;
-                case RANGE:
-                    accuracyRoll = RangeCombatFormula.STANDARD.getAccuracy(npc, c, autoAttackAccuracyBonus, 1.0);
-                    break;
-                case SPECIAL:
-                case MAGE:
-                    accuracyRoll = MagicCombatFormula.STANDARD.getAccuracy(npc, c, autoAttackAccuracyBonus, 1.0);
-                    break;
-                default:
-                    throw new UnexpectedException("NPC Auto attack accuracy roll not specified for " + npcAutoAttack.getCombatType());
-            }
+            accuracyRoll = switch (npcAutoAttack.getCombatType()) {
+                case MELEE -> MeleeCombatFormula.get().getAccuracy(npc, player, autoAttackAccuracyBonus, 1.0);
+                case RANGE -> RangeCombatFormula.STANDARD.getAccuracy(npc, player, autoAttackAccuracyBonus, 1.0);
+                case SPECIAL, MAGE -> MagicCombatFormula.STANDARD.getAccuracy(npc, player, autoAttackAccuracyBonus, 1.0);
+                default -> throw new UnexpectedException("NPC Auto attack accuracy roll not specified for " + npcAutoAttack.getCombatType());
+            };
         } catch (UnexpectedException e) {
             e.printStackTrace(System.err);
         }
@@ -156,21 +136,21 @@ public class NPCHitPlayer {
         double damageModifier = 1.0 + autoAttackMaxHitBonus;
         int secondDamage = -1;
 
-        if (npcAutoAttack.getCombatType() == CombatType.MELEE && c.protectingMelee()
-                || npcAutoAttack.getCombatType() == CombatType.MAGE && c.protectingMagic()
-                || npcAutoAttack.getCombatType() == CombatType.RANGE && c.protectingRange() ) {
+        if (npcAutoAttack.getCombatType() == CombatType.MELEE && player.protectingMelee()
+                || npcAutoAttack.getCombatType() == CombatType.MAGE && player.protectingMagic()
+                || npcAutoAttack.getCombatType() == CombatType.RANGE && player.protectingRange() ) {
             Preconditions.checkState(autoAttackPrayerPercentage <= 1, "autoAttackPrayercentage out of bounds!");
             damageModifier = autoAttackPrayerPercentage;
         }
 
         if (npcAutoAttack.getEndGraphic() != null) {
-            c.startGraphic(npcAutoAttack.getEndGraphic());
+            player.startGraphic(npcAutoAttack.getEndGraphic());
         }
 
         int maxHit = (int) (npcAutoAttack.getMaxHit() * damageModifier);
         int damage = maxHit > 0 ? Misc.random(maxHit) : 0;
 
-        if (c.isPrintDefenceStats()) {
+        if (player.isPrintDefenceStats()) {
             String hitPercentage = String.format("%.2f", accuracyRoll * 100);
 
             int npcAttackLevel = 0;
@@ -190,7 +170,7 @@ public class NPCHitPlayer {
                 npcDefBonus = definition.getDefenceBonus(bonus);
             }
 
-            c.sendMessage("n->p Hit%: " + hitPercentage + "%, " +
+            player.sendMessage("n->p Hit%: " + hitPercentage + "%, " +
                     "Skill Level: " + npcAttackLevel + ", " +
                     "Attack Bonus: " + npcAttackBonus + ", " +
                     npcAutoAttack.getCombatType());
@@ -201,51 +181,51 @@ public class NPCHitPlayer {
             damage = 0;
         }
 
-        if (c.getHealth().getCurrentHealth() - damage < 0) {
-            damage = c.getHealth().getCurrentHealth();
+        if (player.getHealth().getCurrentHealth() - damage < 0) {
+            damage = player.getHealth().getCurrentHealth();
         }
 
-        if (c.playerEquipment[Player.playerHat] == 22326 && c.playerEquipment[Player.playerChest] == 22327 && c.playerEquipment[Player.playerLegs] == 22328) {
+        if (player.playerEquipment[Player.playerHat] == 22326 && player.playerEquipment[Player.playerChest] == 22327 && player.playerEquipment[Player.playerLegs] == 22328) {
             damage *= .75;
         }
 
-        if (damage > 0 && c.getCombatItems().elyProc()) {
+        if (damage > 0 && player.getCombatItems().elyProc()) {
             damage *= .75;
         }
 
         if (npcAutoAttack.getCombatType() == CombatType.MELEE) {
-            if (Server.getEventHandler().isRunning(c, "staff_of_the_dead")) {
+            if (Server.getEventHandler().isRunning(player, "staff_of_the_dead")) {
                 Special special = Specials.STAFF_OF_THE_DEAD.getSpecial();
                 Damage d = new Damage(damage);
-                special.hit(c, npc, d);
+                special.hit(player, npc, d);
                 damage = d.getAmount();
             }
         }
 
         if (npcAutoAttack.getPoisonDamage() > 0 && Misc.random(10) == 1) {
-            c.getHealth().proposeStatus(HealthStatus.POISON, npcAutoAttack.getPoisonDamage(), Optional.of(npc));
+            player.getHealth().proposeStatus(HealthStatus.POISON, npcAutoAttack.getPoisonDamage(), Optional.of(npc));
         }
 
-        c.logoutDelay = System.currentTimeMillis();
+        player.logoutDelay = System.currentTimeMillis();
 
         if (npcAutoAttack.getModifyDamage() != null) {
-            damage = npcAutoAttack.getModifyDamage().apply(new NPCAutoAttackDamage(npc, c, damage));
+            damage = npcAutoAttack.getModifyDamage().apply(new NPCAutoAttackDamage(npc, player, damage));
         }
 
         if (damage > -1) {
-            c.appendDamage(npc, damage, damage > 0 ? Hitmark.HIT : Hitmark.MISS);
-            c.addDamageTaken(npc, damage);
+            player.appendDamage(npc, damage, damage > 0 ? Hitmark.HIT : Hitmark.MISS);
+            player.addDamageTaken(npc, damage);
         }
 
         if (damage > 0) {
-            MeleeExtras.appendVengeanceNPC(c, damage + (Math.max(secondDamage, 0)), npc);
-            MeleeExtras.applyRecoilNPC(c, damage + (Math.max(secondDamage, 0)), npc);
+            MeleeExtras.appendVengeanceNPC(player, damage, npc);
+            MeleeExtras.applyRecoilNPC(player, damage, npc);
         }
 
-        int rol = c.getHealth().getCurrentHealth() - damage;
+        int rol = player.getHealth().getCurrentHealth() - damage;
 
-        if (rol > 0 && rol < c.getHealth().getMaximumHealth() / 10) {
-            Server.npcHandler.ringOfLife(c);
+        if (rol > 0 && rol < player.getHealth().getMaximumHealth() / 10) {
+            Server.npcHandler.ringOfLife(player);
         }
 
         return new CombatHit(successfulHit, damage);
@@ -262,70 +242,69 @@ public class NPCHitPlayer {
             if (npc.getNpcId() >= 1739 && npc.getNpcId() <= 1742 || npc.getNpcId() == 7413) {
                 return;
             }
-            Player c = PlayerHandler.players[npc.oldIndex];
+            Player player = PlayerHandler.players[npc.oldIndex];
 
             if (context.multiAttacks(npc)) {
                 context.multiAttackDamage(npc);
                 return;
             }
 
-            if (c.getZulrahEvent().isTransforming()) {
+            if (player.getZulrahEvent().isTransforming()) {
                 return;
             }
-            if (c.isAutoRetaliate()) {
-                c.attackEntity(npc);
+            if (player.isAutoRetaliate()) {
+                player.attackEntity(npc);
             }
 
-            if (c.attackTimer <= 3) {
+            if (player.attackTimer <= 3) {
                 if (!NPCHandler.isFightCaveNpc(npc) || npc.getNpcId() != 319) {
-                    c.startAnimation(MeleeData.getBlockEmote(c));
+                    player.startAnimation(MeleeData.getBlockEmote(player));
                 }
             }
-            if (c.getItems().isWearingItem(12931) || c.getItems().isWearingItem(13197)
-                    || c.getItems().isWearingItem(13199) && !(npc.getNpcId() == 319)) {
+            if (player.getItems().isWearingItem(12931) || player.getItems().isWearingItem(13197)
+                    || player.getItems().isWearingItem(13199) && !(npc.getNpcId() == 319)) {
                 DamageEffect venom = new SerpentineHelmEffect();
-                if (venom.isExecutable(c)) {
-                    venom.execute(c, npc, new Damage(6));
+                if (venom.isExecutable(player)) {
+                    venom.execute(player, npc, new Damage(6));
                 }
             }
             npc.totalAttacks++;
             boolean protectionIgnored = context.prayerProtectionIgnored(npc);
-            if (c.respawnTimer <= 0) {
+            if (player.respawnTimer <= 0) {
                 int damage = 0;
                 int secondDamage = -1;
 
-                /**
-                 * Handles all the different damage approaches npcs are dealing
+                /*
+                  Handles all the different damage approaches npcs are dealing
                  */
                 if (npc.getAttackType() != null) {
-                    if (npc.getNpcId() >= 7931 && npc.getNpcId() <= 7940 && c.getItems().isWearingItem(21816)) {
-                        c.braceletEtherCount -= 1;
-                        damage = 0;
+                    if (npc.getNpcId() >= 7931 && npc.getNpcId() <= 7940 && player.getItems().isWearingItem(21816)) {
+                        player.braceletEtherCount -= 1;
                         return;
                     }
                     switch (npc.getAttackType()) {
 
-                        /**
-                         * Handles npcs who are dealing melee based attacks
+                        /*
+                          Handles npcs who are dealing melee based attacks
                          */
                         case MELEE:
-                            damage = Misc.random(context.getMaxHit(c, npc));
+                            damage = Misc.random(context.getMaxHit(player, npc));
                             switch (npc.getNpcId()) {
                                 case 6374:
-                                    secondDamage = Misc.random(context.getMaxHit(c, npc));
+                                    secondDamage = Misc.random(context.getMaxHit(player, npc));
                                     break;
                                 case 423:
-                                    if (!c.getItems().isWearingItem(Items.FACEMASK) && !c.getItems().isWearingAnyItem(c.SLAYER_HELMETS) && !c.getItems().isWearingAnyItem(c.IMBUED_SLAYER_HELMETS)
-                                            && !c.getItems().isWearingAnyItem(c.BLACK_MASKS)) {
-                                        c.sendMessage("@red@Your stats are reduced since you do not have a face mask or slayer helm.");
+                                    if (!player.getItems().isWearingItem(Items.FACEMASK) && !player.getItems().isWearingAnyItem(player.SLAYER_HELMETS) && !player.getItems().isWearingAnyItem(player.IMBUED_SLAYER_HELMETS)
+                                            && !player.getItems().isWearingAnyItem(player.BLACK_MASKS)) {
+                                        player.sendMessage("@red@Your stats are reduced since you do not have a face mask or slayer helm.");
                                         int[] toDecrease = { 0, 1, 2, 4, 6 };
                                         for (int tD : toDecrease) {
-                                            c.playerLevel[tD] -= c.playerLevel[tD];
-                                            if (c.playerLevel[tD] < 0) {
-                                                c.playerLevel[tD] = 1;
+                                            player.playerLevel[tD] -= player.playerLevel[tD];
+                                            if (player.playerLevel[tD] < 0) {
+                                                player.playerLevel[tD] = 1;
                                             }
-                                            c.getPA().refreshSkill(tD);
-                                            c.getPA().setSkillLevel(tD, c.playerLevel[tD], c.playerXP[tD]);
+                                            player.getPA().refreshSkill(tD);
+                                            player.getPA().setSkillLevel(tD, player.playerLevel[tD], player.playerXP[tD]);
                                         }
                                     }
                                     break;
@@ -340,61 +319,61 @@ public class NPCHitPlayer {
                                 case 7938:
                                 case 7939:
                                 case 7940:
-                                    if (damage > 0 && c.getCombatItems().elyProc()) {
+                                    if (damage > 0 && player.getCombatItems().elyProc()) {
                                         damage *= .75;
                                     }
 
-                                    if (c.playerEquipment[Player.playerHat] == 22326 && c.playerEquipment[Player.playerChest] == 22327 && c.playerEquipment[Player.playerLegs] == 22328) {
+                                    if (player.playerEquipment[Player.playerHat] == 22326 && player.playerEquipment[Player.playerChest] == 22327 && player.playerEquipment[Player.playerLegs] == 22328) {
                                         damage *= .75;
                                     }
 
                                     break;
                                 case 3116:
-                                    c.playerLevel[5] -= 1;
-                                    if (c.playerLevel[5] < 0) {
-                                        c.playerLevel[5] = 0;
+                                    player.playerLevel[5] -= 1;
+                                    if (player.playerLevel[5] < 0) {
+                                        player.playerLevel[5] = 0;
                                     }
-                                    c.getPA().refreshSkill(Player.playerPrayer);
+                                    player.getPA().refreshSkill(Player.playerPrayer);
                                     break;
                             }
 
-                            double accuracyRoll = MeleeCombatFormula.get().getAccuracy(npc, c);
+                            double accuracyRoll = MeleeCombatFormula.get().getAccuracy(npc, player);
                             boolean isAccurate = accuracyRoll >= HitDispatcher.rand.nextDouble();
-                            /**
-                             * Calculate defence
+                            /*
+                              Calculate defence
                              */
                             if (!isAccurate) {
                                 damage = 0;
                             }
 
                             if (npc.getNpcId() == 5869) {
-                                damage = !c.protectingMelee() ? 30 : 0;
-                                c.playerLevel[5] -= c.protectingMelee() && !c.getItems().isWearingItem(12821) ? 30
-                                        : c.protectingMelee() && c.getItems().isWearingItem(12821) ? 15 : 0;
-                                if (c.playerLevel[5] < 0) {
-                                    c.playerLevel[5] = 0;
+                                damage = !player.protectingMelee() ? 30 : 0;
+                                player.playerLevel[5] -= player.protectingMelee() && !player.getItems().isWearingItem(12821) ? 30
+                                        : player.protectingMelee() && player.getItems().isWearingItem(12821) ? 15 : 0;
+                                if (player.playerLevel[5] < 0) {
+                                    player.playerLevel[5] = 0;
                                 }
                             }
 
 
-                            /**
-                             * Zulrah
+                            /*
+                              Zulrah
                              */
-                            if (npc.getNpcId() == 2043 && c.getZulrahEvent().getNpc() != null
-                                    && c.getZulrahEvent().getNpc().equals(npc)) {
+                            if (npc.getNpcId() == 2043 && player.getZulrahEvent().getNpc() != null
+                                    && player.getZulrahEvent().getNpc().equals(npc)) {
                                 Boundary boundary = new Boundary(npc.targetedLocation.getX(),
                                         npc.targetedLocation.getY(), npc.targetedLocation.getX(),
                                         npc.targetedLocation.getY());
-                                if (!Boundary.isIn(c, boundary)) {
+                                if (!Boundary.isIn(player, boundary)) {
                                     return;
                                 }
                                 damage = 20 + Misc.random(25);
                             }
 
-                            /**
-                             * Protection prayer
+                            /*
+                              Protection prayer
                              */
-                            if (c.protectingMelee() && !protectionIgnored) {
+                            if (player.protectingMelee() && !protectionIgnored) {
                                 if (npc.getNpcId() == 5890)
                                     damage /= 3;
                                 else if (npc.getNpcId() == 963 || npc.getNpcId() == 965 || npc.getNpcId() == 8349
@@ -410,82 +389,81 @@ public class NPCHitPlayer {
                                 } else {
                                     damage = 0;
                                 }
-                            } else if (c.protectingMelee() && protectionIgnored) {
+                            } else if (player.protectingMelee() && protectionIgnored) {
                                 damage /= 2;
                             }
-                            if (c.playerEquipment[Player.playerCape] == 10556 ) { //attacker icon
+                            if (player.playerEquipment[Player.playerCape] == 10556 ) { //attacker icon
                                 damage /= 0.5;
                             }
-                            if (c.protectingRange() && !protectionIgnored) {
+                            if (player.protectingRange() && !protectionIgnored) {
                                 if (npc.getNpcId() == 7554)
                                     damage /= 2;
                             }
-                            /**
-                             * Specials and defenders
+                            /*
+                              Specials and defenders
                              */
-                            if (Server.getEventHandler().isRunning(c, "staff_of_the_dead")) {
+                            if (Server.getEventHandler().isRunning(player, "staff_of_the_dead")) {
                                 Special special = Specials.STAFF_OF_THE_DEAD.getSpecial();
                                 Damage d = new Damage(damage);
-                                special.hit(c, npc, d);
+                                special.hit(player, npc, d);
                                 damage = d.getAmount();
                             }
 
-                            if (damage > 0 && c.getCombatItems().elyProc()) {
+                            if (damage > 0 && player.getCombatItems().elyProc()) {
                                 damage *= .75;
                             }
 
-                            if (c.playerEquipment[Player.playerChest] == 22327 && c.playerEquipment[Player.playerHat] == 22326 && c.playerEquipment[Player.playerLegs] == 22328) {
+                            if (player.playerEquipment[Player.playerChest] == 22327 && player.playerEquipment[Player.playerHat] == 22326 && player.playerEquipment[Player.playerLegs] == 22328) {
                                 damage *= .75;
                             }
-                            if (c.getHealth().getCurrentHealth() - damage < 0) {
-                                damage = c.getHealth().getCurrentHealth();
+                            if (player.getHealth().getCurrentHealth() - damage < 0) {
+                                damage = player.getHealth().getCurrentHealth();
                             }
                             break;
 
-                        /**
-                         * Handles npcs who are dealing range based attacks
+                        /*
+                          Handles npcs who are dealing range based attacks
                          */
                         case RANGE:
-                            damage = Misc.random(context.getMaxHit(c, npc));
+                            damage = Misc.random(context.getMaxHit(player, npc));
 
-                            if (damage > 0 && c.getCombatItems().elyProc()) {
+                            if (damage > 0 && player.getCombatItems().elyProc()) {
                                 damage *= .75;
                             }
-                            if (c.playerEquipment[Player.playerHat] == 22326 && c.playerEquipment[Player.playerChest] == 22327 && c.playerEquipment[Player.playerLegs] == 22328) {
+                            if (player.playerEquipment[Player.playerHat] == 22326 && player.playerEquipment[Player.playerChest] == 22327 && player.playerEquipment[Player.playerLegs] == 22328) {
                                 damage *= .75;
                             }
 
 
-                            switch (npc.getNpcId()) {
-                                case 6377:
-                                    secondDamage = Misc.random(context.getMaxHit(c, npc));
-                                    break;
-                            }
+                            secondDamage = switch (npc.getNpcId()) {
+                                case 6377 -> Misc.random(context.getMaxHit(player, npc));
+                                default -> secondDamage;
+                            };
 
 
-                            accuracyRoll = RangeCombatFormula.STANDARD.getAccuracy(npc, c);
+                            accuracyRoll = RangeCombatFormula.STANDARD.getAccuracy(npc, player);
                             isAccurate = accuracyRoll >= HitDispatcher.rand.nextDouble();
 
-                            /**
-                             * Range defence
+                            /*
+                              Range defence
                              */
                             if (!isAccurate) {
                                 damage = 0;
                             }
 
                             if (npc.getNpcId() == 5867) {
-                                damage = !c.protectingRange() ? 30 : 0;
-                                c.playerLevel[5] -= c.protectingMelee() && !c.getItems().isWearingItem(12821) ? 30
-                                        : c.protectingMelee() && c.getItems().isWearingItem(12821) ? 15 : 0;
-                                if (c.playerLevel[5] < 0) {
-                                    c.playerLevel[5] = 0;
+                                damage = !player.protectingRange() ? 30 : 0;
+                                player.playerLevel[5] -= player.protectingMelee() && !player.getItems().isWearingItem(12821) ? 30
+                                        : player.protectingMelee() && player.getItems().isWearingItem(12821) ? 15 : 0;
+                                if (player.playerLevel[5] < 0) {
+                                    player.playerLevel[5] = 0;
                                 }
                             }
-                            /**
-                             * Protection prayer
+                            /*
+                              Protection prayer
                              */
 
-                            if (c.protectingRange() && !protectionIgnored) {
+                            if (player.protectingRange() && !protectionIgnored) {
                                 if (npc.getNpcId() == 963 || npc.getNpcId() == 965 || npc.getNpcId() == 8349
                                         || npc.getNpcId() == 8133 || npc.getNpcId() == 6342 || npc.getNpcId() == 2054
                                         || npc.getNpcId() == 7554 || npc.getNpcId() == 239 || npc.getNpcId() == 319
@@ -502,50 +480,50 @@ public class NPCHitPlayer {
                                 else {
                                     damage = 0;
                                 }
-                                if (c.getHealth().getCurrentHealth() - damage < 0) {
-                                    damage = c.getHealth().getCurrentHealth();
+                                if (player.getHealth().getCurrentHealth() - damage < 0) {
+                                    damage = player.getHealth().getCurrentHealth();
                                 }
-                            } else if (c.protectingRange() && protectionIgnored) {
+                            } else if (player.protectingRange() && protectionIgnored) {
                                 damage /= 2;
                             }
                             if (npc.getNpcId() == 2042 || npc.getNpcId() == 2044) {
-                                c.getHealth().proposeStatus(HealthStatus.VENOM, 6, Optional.of(npc));
+                                player.getHealth().proposeStatus(HealthStatus.VENOM, 6, Optional.of(npc));
                             }
                             if (npc.endGfx > 0 || npc.getNpcId() == 3127) {
-                                c.gfx100(npc.endGfx);
+                                player.gfx100(npc.endGfx);
                             }
                             if (npc.endGfx > 0 || npc.getNpcId() == 7700) {
-                                c.gfx100(npc.endGfx);
+                                player.gfx100(npc.endGfx);
                             }
                             break;
 
-                        /**
-                         * Handles npcs who are dealing mage based attacks
+                        /*
+                          Handles npcs who are dealing mage based attacks
                          */
                         case MAGE:
-                            damage = Misc.random(context.getMaxHit(c, npc));
+                            damage = Misc.random(context.getMaxHit(player, npc));
                             boolean magicFailed = false;
 
-                            if (damage > 0 && c.getCombatItems().elyProc()) {
+                            if (damage > 0 && player.getCombatItems().elyProc()) {
                                 damage *= .75;
                             }
-                            if (c.playerEquipment[Player.playerHat] == 22326 && c.playerEquipment[Player.playerChest] == 22327 && c.playerEquipment[Player.playerLegs] == 22328) {
+                            if (player.playerEquipment[Player.playerHat] == 22326 && player.playerEquipment[Player.playerChest] == 22327 && player.playerEquipment[Player.playerLegs] == 22328) {
                                 damage *= .75;
                             }
 
-                            /**
-                             * Attacks
+                            /*
+                              Attacks
                              */
                             switch (npc.getNpcId()) {
                                 case 6373:
                                 case 6375:
                                 case 6376:
                                 case 6378:
-                                    secondDamage = Misc.random(context.getMaxHit(c, npc));
+                                    secondDamage = Misc.random(context.getMaxHit(player, npc));
                                     break;
 
                                 case 6371: // Karamel
-                                    c.freezeTimer = 4;
+                                    player.freezeTimer = 4;
                                     break;
 
                                 case 2205:
@@ -553,7 +531,7 @@ public class NPCHitPlayer {
                                     break;
 
                                 case 6609:
-                                    c.sendMessage("Callisto's fury sends an almighty shockwave through you.");
+                                    player.sendMessage("Callisto's fury sends an almighty shockwave through you.");
                                     break;
 
                                 case 8781:
@@ -563,10 +541,10 @@ public class NPCHitPlayer {
                                     break;
                             }
 
-                            accuracyRoll = MagicCombatFormula.STANDARD.getAccuracy(npc, c);
+                            accuracyRoll = MagicCombatFormula.STANDARD.getAccuracy(npc, player);
                             isAccurate = accuracyRoll >= HitDispatcher.rand.nextDouble();
-                            /**
-                             * Magic defence
+                            /*
+                              Magic defence
                              */
                             if (!isAccurate) {
                                 damage = 0;
@@ -577,18 +555,18 @@ public class NPCHitPlayer {
                             }
 
                             if (npc.getNpcId() == 5868) {
-                                damage = !c.protectingMagic() ? 30 : 0;
-                                c.playerLevel[5] -= c.protectingMagic() && !c.getItems().isWearingItem(12821) ? 30
-                                        : c.protectingMagic() && c.getItems().isWearingItem(12821) ? 15 : 0;
-                                if (c.playerLevel[5] < 0) {
-                                    c.playerLevel[5] = 0;
+                                damage = !player.protectingMagic() ? 30 : 0;
+                                player.playerLevel[5] -= player.protectingMagic() && !player.getItems().isWearingItem(12821) ? 30
+                                        : player.protectingMagic() && player.getItems().isWearingItem(12821) ? 15 : 0;
+                                if (player.playerLevel[5] < 0) {
+                                    player.playerLevel[5] = 0;
                                 }
                             }
 
-                            /**
-                             * Protection prayer
+                            /*
+                              Protection prayer
                              */
-                            if (c.protectingMagic() && !protectionIgnored) {
+                            if (player.protectingMagic() && !protectionIgnored) {
 
                                 switch (npc.getNpcId()) {
                                     case 494:
@@ -635,144 +613,144 @@ public class NPCHitPlayer {
 
                                 }
 
-                            } else if (c.protectingMagic() && protectionIgnored) {
+                            } else if (player.protectingMagic() && protectionIgnored) {
                                 damage /= 2;
                             }
-                            if (c.getHealth().getCurrentHealth() - damage < 0) {
-                                damage = c.getHealth().getCurrentHealth();
+                            if (player.getHealth().getCurrentHealth() - damage < 0) {
+                                damage = player.getHealth().getCurrentHealth();
                             }
                             if (npc.endGfx > 0 && (!magicFailed || NPCHandler.isFightCaveNpc(npc))) {
-                                c.gfx100(npc.endGfx);
+                                player.gfx100(npc.endGfx);
                             } else {
-                                c.gfx100(85);
+                                player.gfx100(85);
                             }
-                            MeleeExtras.appendVengeanceNPC(c, damage + (secondDamage > 0 ? secondDamage : 0), npc);
+                            MeleeExtras.appendVengeanceNPC(player, damage + (secondDamage > 0 ? secondDamage : 0), npc);
                             break;
 
-                        /**
-                         * Handles npcs who are dealing dragon fire based attacks
+                        /*
+                          Handles npcs who are dealing dragon fire based attacks
                          */
                         case DRAGON_FIRE:
 
                             boolean isProtected =
 
-                                    /**
-                                     * Anti-dragon shield
+                                    /*
+                                      Anti-dragon shield
                                      */
-                                    c.getItems().isWearingItem(1540) ||
-                                    /**
-                                     * Ancient wyvern shields
+                                    player.getItems().isWearingItem(1540) ||
+                                    /*
+                                      Ancient wyvern shields
                                      */
-                                    c.getItems().isWearingItem(Items.ANCIENT_WYVERN_SHIELD) ||
-                                    c.getItems().isWearingItem(22002) ||
-                                    c.getItems().isWearingItem(22003) ||
-                                    /**
-                                     * Dragonfire shields
+                                    player.getItems().isWearingItem(Items.ANCIENT_WYVERN_SHIELD) ||
+                                    player.getItems().isWearingItem(22002) ||
+                                    player.getItems().isWearingItem(22003) ||
+                                    /*
+                                      Dragonfire shields
                                      */
-                                    c.getItems().isWearingItem(11283) ||
-                                    c.getItems().isWearingItem(11284) ||
-                                    /**
-                                     * Magic prayer
+                                    player.getItems().isWearingItem(11283) ||
+                                    player.getItems().isWearingItem(11284) ||
+                                    /*
+                                      Magic prayer
                                      */
-                                    c.protectingMagic() ||
-                                    /**
-                                     * Anti-fire potion
+                                    player.protectingMagic() ||
+                                    /*
+                                      Anti-fire potion
                                      */
-                                    (System.currentTimeMillis() - c.lastAntifirePotion) < c.antifireDelay ||
-                                            /**
-                                             * Elemental Shield
+                                    (System.currentTimeMillis() - player.lastAntifirePotion) < player.antifireDelay ||
+                                            /*
+                                              Elemental Shield
                                              */
-                                    (npc.getNpcId() == 465 && c.getItems().isWearingItem(2890));
+                                    (npc.getNpcId() == 465 && player.getItems().isWearingItem(2890));
 
 
                                 if (!isProtected) {
                                     damage = Misc.random(50);
-                                    c.sendMessage(npc.getNpcId() == 465 ? "You are badly burnt by the cold breeze!" : "You are badly burnt by the dragon fire!");
+                                    player.sendMessage(npc.getNpcId() == 465 ? "You are badly burnt by the cold breeze!" : "You are badly burnt by the dragon fire!");
                                 }
 
-                            /**
-                             * Attacks
+                            /*
+                              Attacks
                              */
                             switch (npc.endGfx) {
                                 case 429:
-                                    c.getHealth().proposeStatus(HealthStatus.POISON, 6, Optional.of(npc));
+                                    player.getHealth().proposeStatus(HealthStatus.POISON, 6, Optional.of(npc));
                                     break;
 
                                 case 163:
-                                    c.freezeTimer = 15;
-                                    c.sendMessage("You have been frozen to the ground.");
+                                    player.freezeTimer = 15;
+                                    player.sendMessage("You have been frozen to the ground.");
                                     break;
 
                                 case 428:
-                                    c.freezeTimer = 10;
+                                    player.freezeTimer = 10;
                                     break;
 
                                 case 431:
-                                    c.lastSpear = System.currentTimeMillis();
+                                    player.lastSpear = System.currentTimeMillis();
                                     break;
                             }
-                            if (c.getHealth().getCurrentHealth() - damage < 0)
-                                damage = c.getHealth().getCurrentHealth();
-                            c.gfx100(npc.endGfx);
+                            if (player.getHealth().getCurrentHealth() - damage < 0)
+                                damage = player.getHealth().getCurrentHealth();
+                            player.gfx100(npc.endGfx);
 
-                            MeleeExtras.appendVengeanceNPC(c, damage + 0, npc);
+                            MeleeExtras.appendVengeanceNPC(player, damage + 0, npc);
                             break;
 
-                        /**
-                         * Handles npcs who are dealing special attacks
+                        /*
+                          Handles npcs who are dealing special attacks
                          */
                         case SPECIAL:
-                            damage = Misc.random(context.getMaxHit(c, npc));
+                            damage = Misc.random(context.getMaxHit(player, npc));
 
-                            /**
-                             * Attacks
+                            /*
+                              Attacks
                              */
                             switch (npc.getNpcId()) {
                                 case 3129:
-                                    int prayerReduction = c.playerLevel[5] / 2;
+                                    int prayerReduction = player.playerLevel[5] / 2;
                                     if (prayerReduction < 1) {
                                         break;
                                     }
-                                    c.playerLevel[5] -= prayerReduction;
-                                    if (c.playerLevel[5] < 0) {
-                                        c.playerLevel[5] = 0;
+                                    player.playerLevel[5] -= prayerReduction;
+                                    if (player.playerLevel[5] < 0) {
+                                        player.playerLevel[5] = 0;
                                     }
-                                    c.getPA().refreshSkill(5);
-                                    c.sendMessage("K'ril Tsutsaroth slams through your protection prayer, leaving you feeling drained.");
+                                    player.getPA().refreshSkill(5);
+                                    player.sendMessage("K'ril Tsutsaroth slams through your protection prayer, leaving you feeling drained.");
                                     break;
                                 case 1046:
                                 case 1049:
-                                    prayerReduction = c.playerLevel[5] / 10;
+                                    prayerReduction = player.playerLevel[5] / 10;
                                     if (prayerReduction < 1) {
                                         break;
                                     }
-                                    c.playerLevel[5] -= prayerReduction;
-                                    if (c.playerLevel[5] < 0) {
-                                        c.playerLevel[5] = 0;
+                                    player.playerLevel[5] -= prayerReduction;
+                                    if (player.playerLevel[5] < 0) {
+                                        player.playerLevel[5] = 0;
                                     }
-                                    c.getPA().refreshSkill(5);
-                                    c.sendMessage("Your prayer has been drained drastically.");
+                                    player.getPA().refreshSkill(5);
+                                    player.sendMessage("Your prayer has been drained drastically.");
                                     break;
                                 case 6609:
                                     damage = 3;
-                                    c.gfx0(80);
-                                    c.lastSpear = System.currentTimeMillis();
-                                    c.getPA().getSpeared(npc.absX, npc.absY, 3);
-                                    c.sendMessage("Callisto's roar sends your backwards.");
+                                    player.gfx0(80);
+                                    player.lastSpear = System.currentTimeMillis();
+                                    player.getPA().getSpeared(npc.absX, npc.absY, 3);
+                                    player.sendMessage("Callisto's roar sends your backwards.");
                                     break;
                                 case 6610:
-                                    if (c.protectingMagic()) {
+                                    if (player.protectingMagic()) {
                                         damage *= .7;
                                     }
-                                    secondDamage = Misc.random(context.getMaxHit(c, npc));
+                                    secondDamage = Misc.random(context.getMaxHit(player, npc));
                                     if (secondDamage > 0) {
-                                        c.gfx0(80);
+                                        player.gfx0(80);
                                     }
                                     break;
 
                                 case 465:
-                                    c.freezeTimer = 15;
-                                    c.sendMessage("You have been frozen.");
+                                    player.freezeTimer = 15;
+                                    player.sendMessage("You have been frozen.");
                                     break;
 
                                 case 8781:
@@ -780,7 +758,7 @@ public class NPCHitPlayer {
                                 case 7144:
                                 case 7145:
                                 case 7146:
-                                    if (context.gorillaBoulder.stream().noneMatch(p -> p[0] == c.absX && p[1] == c.absY)) {
+                                    if (context.gorillaBoulder.stream().noneMatch(p -> p[0] == player.absX && p[1] == player.absY)) {
                                         return;
                                     }
                                     break;
@@ -788,10 +766,10 @@ public class NPCHitPlayer {
                                 case 5890:
                                     if (damage > 0 && Misc.random(2) == 0) {
                                         if (npc.getHealth().getStatus() == HealthStatus.POISON) {
-                                            c.getHealth().proposeStatus(HealthStatus.POISON, 15, Optional.of(npc));
+                                            player.getHealth().proposeStatus(HealthStatus.POISON, 15, Optional.of(npc));
                                         }
                                     }
-                                    if (context.gorillaBoulder.stream().noneMatch(p -> p[0] == c.absX && p[1] == c.absY)) {
+                                    if (context.gorillaBoulder.stream().noneMatch(p -> p[0] == player.absX && p[1] == player.absY)) {
                                         return;
                                     }
                                     break;
@@ -800,7 +778,7 @@ public class NPCHitPlayer {
                     }
 
                     if (npc.getNpcId() == 320) {
-                        int distanceFromTarget = c.distanceToPoint(npc.getX(), npc.getY());
+                        int distanceFromTarget = player.distanceToPoint(npc.getX(), npc.getY());
 
                         if (distanceFromTarget <= 1) {
                             NPC corp = NPCHandler.getNpc(319);
@@ -812,7 +790,7 @@ public class NPCHitPlayer {
                         }
                     }
                     if (npc.getNpcId() == 6617 || npc.getNpcId() == 6616 || npc.getNpcId() == 6615) {
-                        int distanceFromTarget = c.distanceToPoint(npc.getX(), npc.getY());
+                        int distanceFromTarget = player.distanceToPoint(npc.getX(), npc.getY());
 
                         List<NPC> healer = Arrays.asList(NPCHandler.npcs);
 
@@ -827,44 +805,44 @@ public class NPCHitPlayer {
                         }
                     }
                     if (npc.endGfx > 0) {
-                        c.gfx100(npc.endGfx);
+                        player.gfx100(npc.endGfx);
                     }
                     int poisonDamage = context.getPoisonDamage(npc);
                     if (poisonDamage > 0 && Misc.random(10) == 1) {
-                        c.getHealth().proposeStatus(HealthStatus.POISON, poisonDamage, Optional.of(npc));
+                        player.getHealth().proposeStatus(HealthStatus.POISON, poisonDamage, Optional.of(npc));
                     }
-                    if (c.getHealth().getCurrentHealth() - damage < 0
-                            || secondDamage > -1 && c.getHealth().getCurrentHealth() - secondDamage < 0) {
-                        damage = c.getHealth().getCurrentHealth();
+                    if (player.getHealth().getCurrentHealth() - damage < 0
+                            || secondDamage > -1 && player.getHealth().getCurrentHealth() - secondDamage < 0) {
+                        damage = player.getHealth().getCurrentHealth();
                         if (secondDamage > -1) {
                             secondDamage = 0;
                         }
                     }
-                    context.handleSpecialEffects(c, npc, damage);
-                    c.logoutDelay = System.currentTimeMillis();
+                    context.handleSpecialEffects(player, npc, damage);
+                    player.logoutDelay = System.currentTimeMillis();
                     if (damage > -1) {
-                        c.appendDamage(npc, damage, damage > 0 ? Hitmark.HIT : Hitmark.MISS);
-                        c.addDamageTaken(npc, damage);
+                        player.appendDamage(npc, damage, damage > 0 ? Hitmark.HIT : Hitmark.MISS);
+                        player.addDamageTaken(npc, damage);
                     }
                     if (secondDamage > -1) {
-                        c.appendDamage(npc, secondDamage, secondDamage > 0 ? Hitmark.HIT : Hitmark.MISS);
-                        c.addDamageTaken(npc, secondDamage);
+                        player.appendDamage(npc, secondDamage, secondDamage > 0 ? Hitmark.HIT : Hitmark.MISS);
+                        player.addDamageTaken(npc, secondDamage);
                     }
                     if (damage > 0 || secondDamage > 0) {
-                        MeleeExtras.appendVengeanceNPC(c, damage + (Math.max(secondDamage, 0)), npc);
-                        MeleeExtras.applyRecoilNPC(c, damage + (Math.max(secondDamage, 0)), npc);
+                        MeleeExtras.appendVengeanceNPC(player, damage + (Math.max(secondDamage, 0)), npc);
+                        MeleeExtras.applyRecoilNPC(player, damage + (Math.max(secondDamage, 0)), npc);
                     }
-                    int rol = c.getHealth().getCurrentHealth();
-                    if (rol > 0 && rol < c.getHealth().getMaximumHealth() / 10) {
-                        context.ringOfLife(c);
+                    int rol = player.getHealth().getCurrentHealth();
+                    if (rol > 0 && rol < player.getHealth().getMaximumHealth() / 10) {
+                        context.ringOfLife(player);
                     }
                     switch (npc.getNpcId()) {
                         // Abyssal sire
                         case 5890:
                             int health = npc.getHealth().getCurrentHealth();
-                            c.sireHits++;
+                            player.sireHits++;
                             int randomAmount = Misc.random(5);
-                            switch (c.sireHits) {
+                            switch (player.sireHits) {
                                 case 10:
                                 case 20:
                                 case 30:
@@ -877,7 +855,7 @@ public class NPCHitPlayer {
                                     break;
 
                                 case 45:
-                                    c.sireHits = 0;
+                                    player.sireHits = 0;
                                     break;
 
                             }
@@ -900,14 +878,14 @@ public class NPCHitPlayer {
                             break;
                         case 6607:
                             if (Misc.random(12) == 4) {
-                                c.setTeleportToX(3236);
-                                c.setTeleportToY(3620);
+                                player.setTeleportToX(3236);
+                                player.setTeleportToY(3620);
                             }
                             npc.setAttackType(CombatType.MAGE);
 
                             break;
-                        /**
-                         * Hunllef
+                        /*
+                          Hunllef
                          */
                         case 9021: //melee
                         case 9022: //range
@@ -915,13 +893,13 @@ public class NPCHitPlayer {
                             if (damage >= 100) {
                             }
                             if (damage == 0) {
-                                if (c.totalMissedHunllefHits >= 6) {
-                                    c.totalMissedHunllefHits = 0;
+                                if (player.totalMissedHunllefHits >= 6) {
+                                    player.totalMissedHunllefHits = 0;
                                 }
-                                c.totalMissedHunllefHits++;
+                                player.totalMissedHunllefHits++;
                             }
-                            if (c.totalMissedHunllefHits == 6) {
-                                c.totalMissedHunllefHits = 0;
+                            if (player.totalMissedHunllefHits == 6) {
+                                player.totalMissedHunllefHits = 0;
 
                                 switch (npc.getAttackType()) {
                                     case MELEE:
@@ -966,13 +944,13 @@ public class NPCHitPlayer {
                             if (damage >= 50) {
                             }
                             if (damage == 0) {
-                                if (c.totalMissedGorillaHits >= 6) {
-                                    c.totalMissedGorillaHits = 0;
+                                if (player.totalMissedGorillaHits >= 6) {
+                                    player.totalMissedGorillaHits = 0;
                                 }
-                                c.totalMissedGorillaHits++;
+                                player.totalMissedGorillaHits++;
                             }
-                            if (c.totalMissedGorillaHits == 6) {
-                                c.totalMissedGorillaHits = 0;
+                            if (player.totalMissedGorillaHits == 6) {
+                                player.totalMissedGorillaHits = 0;
 
                                 switch (npc.getAttackType()) {
                                     case MELEE:
@@ -1033,7 +1011,7 @@ public class NPCHitPlayer {
                                 }
                                 break;
                             }
-                            c.setUpdateRequired(true);
+                            player.setUpdateRequired(true);
                     }
                 }
             }
