@@ -3,15 +3,21 @@ package io.xeros.net.login.captcha;
 import com.github.cage.Cage;
 import io.xeros.Configuration;
 import io.xeros.util.Captcha;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class CaptchaRequirement {
 
+    @Getter
     private final String captcha;
+    @Getter
     private final byte[] image;
     private final long time;
+    @Getter
+    @Setter
     private int attempts;
 
     public CaptchaRequirement() throws IOException {
@@ -39,22 +45,8 @@ public class CaptchaRequirement {
         attempts++;
     }
 
-    public void setAttempts(int attempts) {
-        this.attempts = attempts;
-    }
-
     public boolean expired() {
         return System.currentTimeMillis() - time > TimeUnit.MINUTES.toMillis(5);
     }
-    public int getAttempts() {
-        return attempts;
-    }
 
-    public byte[] getImage() {
-        return image;
-    }
-
-    public String getCaptcha() {
-        return captcha;
-    }
 }

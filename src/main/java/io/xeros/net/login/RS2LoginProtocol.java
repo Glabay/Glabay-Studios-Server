@@ -6,7 +6,6 @@ import java.security.SecureRandom;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 
 import com.google.common.hash.Hashing;
 import io.netty.buffer.ByteBuf;
@@ -54,7 +53,7 @@ public class RS2LoginProtocol extends ByteToMessageDecoder {
 	private static final BigInteger RSA_EXPONENT = new BigInteger("57766613234288292074537212257607470729646631617010134443056794283895417125425551485447510738355094014679079704210093293482457744109390227331193664015558018855984670635316544204147703177358156614235718608836349724714295434200079732563994422062926282344625359040224314349662029531040894284495752158812148861473");
 
 	private static final Pattern[] INVALID_USERNAMES_PATTERNS = {
-			Pattern.compile("(?:[Ii][lL]){2}|(?:[lL][Ii]){2}|(?:[lL]){4}|(?:[iI]){4}|(?:[Ii][lL][lL]){2}|(?:[Ii][lL][Ii]){2}"), // ...
+			Pattern.compile("(?:[Ii][lL]){2}|(?:[lL][Ii]){2}|[lL]{4}|[iI]{4}|(?:[Ii][lL][lL]){2}|(?:[Ii][lL][Ii]){2}"), // ...
 	};
 
 	private static final int POW_REQUEST_OPCODE = 19;
@@ -183,8 +182,8 @@ public class RS2LoginProtocol extends ByteToMessageDecoder {
 					}
 				}
 
-				/**
-				 * Read the magic id.
+				/*
+				  Read the magic id.
 				 */
 				if (loginPacketSize <= buffer.capacity()) {
 					int magic = buffer.readByte() & 0xff;
@@ -197,8 +196,8 @@ public class RS2LoginProtocol extends ByteToMessageDecoder {
 					}
 					int lowMem = buffer.readByte() & 0xff;
 
-					/**
-					 * Pass the CRC keys.
+					/*
+					  Pass the CRC keys.
 					 */
 					for (int i = 0; i < 9; i++) {
 						buffer.readInt();
@@ -355,7 +354,7 @@ public class RS2LoginProtocol extends ByteToMessageDecoder {
 			return;
 		}
 		randomUnknownValue = random.nextInt(5000);
-		this.seed = generateSeed(10);
+		this.seed = generateSeed();
 
 		// Send information to the client
 		int initialAllocation = Byte.BYTES + Short.BYTES; // To send our response w/ bytes to read
@@ -449,7 +448,7 @@ public class RS2LoginProtocol extends ByteToMessageDecoder {
 
 			Punishments punishments = Server.getPunishments();
 
-			if (player.getMacAddress() == null || player.getMacAddress().length() == 0) {
+			if (player.getMacAddress() == null || player.getMacAddress().isEmpty()) {
 				Discord.writeServerSyncMessage(String.format("Player has logged in without a mac address, possibly using modified client or spoofing mac, loginName=%s, displayName=%s",
 						player.getLoginName(), player.getDisplayName()));
 				player.setMacAddress(player.getIpAddress());
@@ -681,31 +680,22 @@ public class RS2LoginProtocol extends ByteToMessageDecoder {
 
 	/**
 	 * Generates a random seed for 'proof of work'
-	 * @param n The number of random characters to generate
-	 *          within our seed
+	 *
 	 * @return A newly created seed
 	 */
-	private static String generateSeed(int n) {
+	private static String generateSeed() {
 
 		// chose a Character random from this String
-		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-				+ "0123456789"
-				+ "abcdefghijklmnopqrstuvxyz";
+		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvxyz";
 
 		// create StringBuffer size of AlphaNumericString
-		StringBuilder sb = new StringBuilder(n);
+		StringBuilder sb = new StringBuilder(10);
 
-		for (int i = 0; i < n; i++) {
-
-			// generate a random number between
-			// 0 to AlphaNumericString variable length
-			int index
-					= (int) (AlphaNumericString.length()
-					* Math.random());
-
+		for (int i = 0; i < 10; i++) {
+			// generate a random number between 0 to AlphaNumericString variable length
+			int index = (int) (AlphaNumericString.length() * Math.random());
 			// add Character one by one in end of sb
-			sb.append(AlphaNumericString
-					.charAt(index));
+			sb.append(AlphaNumericString.charAt(index));
 		}
 
 		return sb.toString();
@@ -732,13 +722,13 @@ public class RS2LoginProtocol extends ByteToMessageDecoder {
 	}
 
 	private String getStateString() {
-		switch (state) {
-			case 1: return "POW Request";
-			case 2: return "POW Check";
-			case 3: return "Logging in";
-			case 0: return "Connected";
-			default: return "Unknown " + state;
-		}
+        return switch (state) {
+            case 1 -> "POW Request";
+            case 2 -> "POW Check";
+            case 3 -> "Logging in";
+            case 0 -> "Connected";
+            default -> "Unknown " + state;
+        };
 	}
 
 	public static long getHandshakeRequests() {

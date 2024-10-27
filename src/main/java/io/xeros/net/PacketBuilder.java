@@ -17,8 +17,8 @@ public class PacketBuilder {
 	 */
 	public static final int[] BIT_MASK_OUT = new int[32];
 
-	/**
-	 * Creates the bit mask array.
+	/*
+	  Creates the bit mask array.
 	 */
 	static {
 		for (int i = 0; i < BIT_MASK_OUT.length; i++)

@@ -1,11 +1,13 @@
 package io.xeros.net.outgoing.messages;
 
 import io.xeros.net.outgoing.PacketMessage;
+import lombok.Getter;
 
 /**
  * @author Jason MacKeigan
  * @date Nov 15, 2014, 3:14:01 AM
  */
+@Getter
 public class ComponentVisibility implements PacketMessage<ComponentVisibility> {
 
 	private final int state;
@@ -17,15 +19,7 @@ public class ComponentVisibility implements PacketMessage<ComponentVisibility> {
 		this.componentId = componentId;
 	}
 
-	public int getState() {
-		return state;
-	}
-
-	public int getComponentId() {
-		return componentId;
-	}
-
-	@Override
+    @Override
 	public boolean matches(ComponentVisibility message) {
 		return message.componentId == componentId;
 	}

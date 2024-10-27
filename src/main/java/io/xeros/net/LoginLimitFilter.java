@@ -11,7 +11,7 @@ import io.xeros.util.logging.global.LoginRequestLog;
 public class LoginLimitFilter extends ChannelInboundHandlerAdapter {
 
     @Override
-    public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
+    public void channelRegistered(ChannelHandlerContext ctx) {
         ChannelHandler.incrementActiveConnections();
         String ipAddress = RS2LoginProtocol.getIP(ctx);
         if (LoginRequestLimit.timedOutInvalidLoginRequest(ipAddress)) {

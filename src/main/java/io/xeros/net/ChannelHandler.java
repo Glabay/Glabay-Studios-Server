@@ -7,6 +7,7 @@ import io.xeros.Server;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.util.logging.player.ConnectionLog;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,22 +45,22 @@ public class ChannelHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object e) throws Exception {
+    public void channelRead(@NotNull ChannelHandlerContext ctx, @NotNull Object e) {
         try {
             if (e instanceof Player) {
                 session.setClient((Player) e);
                 PlayerHandler.addLoginQueue(session.getClient());
-            } else if (e instanceof Packet) {
-                if (session == null) {
+            }
+            else if (e instanceof Packet) {
+                if (session == null)
                     return;
-                }
 
-                Player client = session.getClient();
+                var client = session.getClient();
                 if (client != null) {
                     if (client.getPacketsReceived() >= Configuration.MAX_PACKETS_PROCESSED_PER_CYCLE) {
                         int attempted = client.attemptedPackets.incrementAndGet();
                         if (attempted > Configuration.KICK_PLAYER_AFTER_PACKETS_PER_CYCLE) {
-                            logger.info("Disconnecting user: " + client + " for sending " + attempted + " packets.");
+                            logger.info("Disconnecting user: {} for sending {} packets.", client, attempted);
                             client.getSession().disconnect();
                         }
                         return;
@@ -84,14 +85,14 @@ public class ChannelHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    public void channelActive(@NotNull ChannelHandlerContext ctx) {
         if (session == null) {
             session = new Session(ctx.channel());
         }
     }
 
     @Override
-    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+    public void channelInactive(@NotNull ChannelHandlerContext ctx) {
         try {
             if (session != null) {
                 Player player = session.getClient();
@@ -106,7 +107,7 @@ public class ChannelHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
+    public void channelUnregistered(ChannelHandlerContext ctx) {
         activeConnections.decrementAndGet();
     }
 }

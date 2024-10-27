@@ -1,5 +1,10 @@
 package io.xeros.net.login;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum LoginReturnCode {
     SUCCESS(2),
     INVALID_USERNAME_OR_PASSWORD(3),
@@ -17,16 +22,8 @@ public enum LoginReturnCode {
     FORCE_RETRY_LOGIN(21),
     ERROR_OCCURRED_ON_PLAYER_LOAD(26),
     CAPTCHA_REQUIRED(27),
-    CAPTCHA_INCORRECT(28),
+    CAPTCHA_INCORRECT(28)
     ;
 
     private final int code;
-
-    LoginReturnCode(int code) {
-        this.code = code;
-    }
-
-    public int getCode() {
-        return code;
-    }
 }

@@ -43,11 +43,11 @@ public class RS2Decoder extends ByteToMessageDecoder {
 			}
 		}
 		if (size == -1) {
-			if (buffer.readableBytes() >= 1) {
+			if (buffer.readableBytes() >= 1)
 				size = buffer.readByte() & 0xFF;
-			} else {
+			else
 				return;
-			}
+
 		}
 		if (buffer.readableBytes() >= size) {
 			final byte[] data = new byte[size];
@@ -58,12 +58,10 @@ public class RS2Decoder extends ByteToMessageDecoder {
 				if (!Configuration.DISABLE_PACKET_LOG)
 					Server.getLogging().batchWrite(new IncomingPacketLog(ctx.channel(), opcode, size));
 				list.add(new Packet(opcode, Packet.Type.FIXED, payload));
-				return;
 			} finally {
 				opcode = -1;
 				size = -1;
 			}
 		}
-		return;
 	}
 }

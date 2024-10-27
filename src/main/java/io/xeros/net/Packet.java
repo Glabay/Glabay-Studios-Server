@@ -1,6 +1,7 @@
 package io.xeros.net;
 
 import io.netty.buffer.ByteBuf;
+import lombok.Getter;
 
 /**
  * Represents a single packet.
@@ -8,17 +9,15 @@ import io.netty.buffer.ByteBuf;
  * @author Graham Edgecombe
  * 
  */
+@Getter
 public class Packet {
 
 	public static boolean isPriorityPacket(int opcode) {
-		switch(opcode) {
-			case 41: // Equip items packet
-			case 209: // Special Attack packet
-				return true;
-
-			default:
-				return false;
-		}
+        return switch (opcode) { // Equip items packet
+            case 41, 209 -> // Special Attack packet
+                true;
+            default -> false;
+        };
 	}
 
 	/**
@@ -28,17 +27,14 @@ public class Packet {
 	 * 
 	 */
 	public enum Type {
-
 		/**
 		 * A fixed size packet where the size never changes.
 		 */
 		FIXED,
-
 		/**
 		 * A variable packet where the size is described by a byte.
 		 */
 		VARIABLE,
-
 		/**
 		 * A variable packet where the size is described by a word.
 		 */
@@ -48,17 +44,29 @@ public class Packet {
 
 	/**
 	 * The opcode.
-	 */
+     * -- GETTER --
+     *  Gets the opcode.
+     *
+
+     */
 	private final int opcode;
 
 	/**
 	 * The type.
-	 */
+     * -- GETTER --
+     *  Gets the type.
+     *
+
+     */
 	private final Type type;
 
 	/**
 	 * The payload.
-	 */
+     * -- GETTER --
+     *  Gets the payload.
+     *
+
+     */
 	private final ByteBuf payload;
 
 	/**
@@ -83,34 +91,7 @@ public class Packet {
 		return opcode == -1;
 	}
 
-	/**
-	 * Gets the opcode.
-	 * 
-	 * @return The opcode.
-	 */
-	public int getOpcode() {
-		return opcode;
-	}
-
-	/**
-	 * Gets the type.
-	 * 
-	 * @return The type.
-	 */
-	public Type getType() {
-		return type;
-	}
-
-	/**
-	 * Gets the payload.
-	 * 
-	 * @return The payload.
-	 */
-	public ByteBuf getPayload() {
-		return payload;
-	}
-
-	/**
+    /**
 	 * Gets the length.
 	 * 
 	 * @return The length.

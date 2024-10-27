@@ -24,9 +24,9 @@ public class LoginThrottler {
             return;
         add(username(username));
         add(ipAddress);
-        if (macAddress != null && !macAddress.equals(ipAddress) && macAddress.length() > 0)
+        if (macAddress != null && !macAddress.equals(ipAddress) && !macAddress.isEmpty())
             add(macAddress);
-        if (uuid != null && uuid.length() > 0)
+        if (uuid != null && !uuid.isEmpty())
             add(uuid);
     }
 
@@ -53,9 +53,9 @@ public class LoginThrottler {
             return true;
         if (successfulLogins.containsKey(username)) {
             var successfulLogin = successfulLogins.get(username);
-            if (!successfulLogin.getIp().equals(ipAddress)
-                    || !successfulLogin.getMac().equals(macAddress)
-                    || !successfulLogin.getUuid().equals(uuid)) {
+            if (!successfulLogin.ip().equals(ipAddress)
+                    || !successfulLogin.mac().equals(macAddress)
+                    || !successfulLogin.uuid().equals(uuid)) {
                 if (Configuration.DISABLE_NEW_MAC) {
                     return false;
                 }
@@ -65,12 +65,11 @@ public class LoginThrottler {
             return false;
         if (isTimedOut(ipAddress) || denyLoginAttempt(ipAddress))
             return false;
-        if (macAddress != null && !macAddress.equals(ipAddress) && macAddress.length() > 0)
+        if (macAddress != null && !macAddress.equals(ipAddress) && !macAddress.isEmpty())
             if (isTimedOut(macAddress) || denyLoginAttempt(macAddress))
                 return false;
-        if (uuid != null && uuid.length() > 0)
-            if (isTimedOut(uuid) || denyLoginAttempt(uuid))
-                return false;
+        if (uuid != null && !uuid.isEmpty())
+            return !isTimedOut(uuid) && !denyLoginAttempt(uuid);
         return true;
     }
 
@@ -88,7 +87,7 @@ public class LoginThrottler {
     }
 
     private static boolean isTimedOut(String address) {
-        if (address == null || address.length() == 0)
+        if (address == null || address.isEmpty())
             return false;
         if (timeouts.containsKey(address)) {
             long time = timeouts.get(address);

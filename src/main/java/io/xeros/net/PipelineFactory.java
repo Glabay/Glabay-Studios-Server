@@ -11,7 +11,7 @@ import io.xeros.net.login.RS2LoginProtocol;
 public class PipelineFactory extends ChannelInitializer<SocketChannel> {
 
 	@Override
-	protected void initChannel(SocketChannel socketChannel) throws Exception {
+	protected void initChannel(SocketChannel socketChannel) {
 		ChannelPipeline pipeline = socketChannel.pipeline();
 		pipeline.addLast("filter", new LoginLimitFilter());
 		pipeline.addLast("channel_traffic", new ChannelTrafficShapingHandler(0, 1024 * 5, 1000));
