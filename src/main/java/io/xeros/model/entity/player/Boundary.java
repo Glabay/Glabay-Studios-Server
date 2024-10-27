@@ -501,6 +501,8 @@ public class Boundary {
 	public static final Boundary[] DUEL_ARENA = {new Boundary(3332, 3244, 3359, 3259), new Boundary(3364, 3244, 3389, 3259)};
 	public static final Boundary EMPTY = new Boundary(0, 0, 0, 0);
 
+	public static final Boundary ARAXXOR_ARENA = new Boundary(3619, 9798, 3648, 9831);
+
 	/*
 	 * Minigame Lobbys
 	 */
