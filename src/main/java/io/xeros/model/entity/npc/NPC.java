@@ -1038,44 +1038,33 @@ public class NPC extends Entity {
 
 	@Override
 	public void appendDamage(Entity entity, int damage, Hitmark hitmark) {
-		if (entity != null && entity.isPlayer()) {
-
-			Player player = (Player) entity;
-
+		if (entity instanceof Player player) {
 			damage = modifyDamage(player, damage);
-
-			if (!canBeDamaged(player)) {
+			if (!canBeDamaged(player))
 				damage = 0;
-			}
-
-			if (damage > 0 && hitmark == Hitmark.MISS) {
+			if (damage > 0 && hitmark == Hitmark.MISS)
 				hitmark = Hitmark.HIT;
-			}
-
 			addDamageTaken(player, damage);
-
-			if (player.getRaidsInstance() != null && Boundary.isIn(player, Boundary.FULL_RAIDS)) {
+			if (player.getRaidsInstance() != null && Boundary.isIn(player, Boundary.FULL_RAIDS))
 				Raids.damage(player, damage);
-			}
 		}
-
 		if (damage < 0) {
 			damage = 0;
 			hitmark = Hitmark.MISS;
 		}
-		if (getHealth().getCurrentHealth() - damage < 0) {
+		if (getHealth().getCurrentHealth() - damage < 0)
 			damage = getHealth().getCurrentHealth();
-		}
+
 		if (getNpcId() != Npcs.UNDEAD_COMBAT_DUMMY) {
 			getHealth().reduce(damage);
-			if (getHealth().getCurrentHealth() <= 0) {
+			if (getHealth().getCurrentHealth() <= 0)
 				setDead(true);
-			}
 		}
 		if (!hitUpdateRequired) {
 			hitUpdateRequired = true;
 			updateHitMark(new HitMark(hitmark,damage,0));
-        } else if (!hitUpdateRequired2) {
+        }
+		else if (!hitUpdateRequired2) {
 			hitUpdateRequired2 = true;
 			updateHitMark(new HitMark(hitmark,damage,0));
         }
