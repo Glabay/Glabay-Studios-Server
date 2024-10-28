@@ -11491,11 +11491,11 @@ public final class Npcs
 	public static final int ARAXYTE_13667 = 13667;
 	public static final int ARAXXOR = 13668;
 	public static final int ARAXXOR_13669 = 13669;
-	public static final int EGG_13670 = 13670;
+	public static final int MIRRORBACK_ARAXYTE_EGG = 13670;
 	public static final int MIRRORBACK_ARAXYTE = 13671;
-	public static final int EGG_13672 = 13672;
+	public static final int RUPTURA_ARAXYTE_EGG = 13672;
 	public static final int RUPTURA_ARAXYTE = 13673;
-	public static final int EGG_13674 = 13674;
+	public static final int ACIDIC_ARAXYTE_EGG = 13674;
 	public static final int ACIDIC_ARAXYTE = 13675;
 	public static final int WEAVE = 13677;
 	public static final int ARANCINI = 13678;
