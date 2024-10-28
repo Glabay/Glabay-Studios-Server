@@ -26066,6 +26066,7 @@ public final class Objects {
     public static final int WEB_TUNNEL_54158 = 54158;
     public static final int WEB_TUNNEL_54159 = 54159;
     public static final int WEB_TUNNEL_54160 = 54160;
+    public static final int WEB_TUNNEL_ARAXXOR = 54161;
     public static final int WEB_TUNNEL_54162 = 54162;
     public static final int WEB_TUNNEL_54163 = 54163;
     public static final int WEB_SACK_54221 = 54221;
