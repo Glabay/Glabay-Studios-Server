@@ -365,7 +365,7 @@ public class Player extends Entity {
     private final Trade trade = new Trade(this);
     private final ShopAssistant shopAssistant = new ShopAssistant(this);
     @Getter
-    private final PlayerAssistant playerAssistant = new PlayerAssistant(this);
+    public final PlayerAssistant playerAssistant = new PlayerAssistant(this);
     @Getter
     private final CombatItems combatItems = new CombatItems(this);
     private final ActionHandler actionHandler = new ActionHandler(this);
@@ -1089,7 +1089,7 @@ public class Player extends Entity {
     private int migrationVersion;
     @Setter
     @Getter
-    private DialogueBuilder dialogueBuilder = null;
+    public DialogueBuilder dialogueBuilder = null;
     private long aggressionTimer = System.currentTimeMillis();
     @Setter
     @Getter

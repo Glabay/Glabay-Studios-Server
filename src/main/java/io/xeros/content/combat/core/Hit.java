@@ -7,7 +7,7 @@ import io.xeros.model.entity.Entity;
 
 public class Hit {
     final Entity attacker, target;
-    final int damage, delay;
+    public int damage, delay;
 
     public Hit(Entity attacker, Entity target, int damage, int delay) {
         this.attacker = attacker;

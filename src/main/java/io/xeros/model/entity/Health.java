@@ -42,7 +42,7 @@ public final class Health {
      */
 	@Setter
     @Getter
-    private int maximumHealth;
+    public int maximumHealth;
 
 	/**
 	 * The status of the health

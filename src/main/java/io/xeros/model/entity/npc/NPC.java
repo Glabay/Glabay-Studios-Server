@@ -57,7 +57,7 @@ public class NPC extends Entity {
 
     @Getter
     @Setter
-    private int npcId;
+    public int npcId;
 	public int summonedBy;
 	public int absX, absY;
 	public int heightLevel;

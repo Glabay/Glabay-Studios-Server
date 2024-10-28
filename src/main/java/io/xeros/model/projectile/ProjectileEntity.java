@@ -10,7 +10,7 @@ import lombok.val;
 public class ProjectileEntity {
 
     private final Position start, target, offset;
-    private final int creatorSize, startDistanceOffset, lockon, projectileId, delay, speed, startHeight, endHeight, slope, stepMultiplier;
+    public final int creatorSize, startDistanceOffset, lockon, projectileId, delay, speed, startHeight, endHeight, slope, stepMultiplier;
     public static final float TICK = 600F, CLIENT_CYCLE = 20F, CYCLES_PER_TICK = TICK / CLIENT_CYCLE;
     public ProjectileEntity(Position start, Position end, int lockon,
                             int projectileId, int speed, int delay, int startHeight, int endHeight,
@@ -34,6 +34,10 @@ public class ProjectileEntity {
 
     public ProjectileEntity(Position source, Position victim, int lockon, int projectileId, int startDuration, int travelTime, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier) {
         this(source, victim, lockon, projectileId, travelTime, startDuration, startHeight, endHeight, curve, creatorSize, 64, stepMultiplier);
+    }
+
+    public ProjectileEntity(Entity source, Entity victim, int projectileId, int startDuration, int travelTime, int startHeight, int endHeight, int curve) {
+        this(source.getCenterPosition(), victim.getCenterPosition(), victim.getProjectileLockonIndex(), projectileId, travelTime, startDuration, startHeight, endHeight, curve, source.getEntitySize(), 64, 10);
     }
 
     public ProjectileEntity(Entity source, Entity victim, int projectileId, int startDuration, int travelTime, int startHeight, int endHeight, int curve, int creatorSize, int stepMultiplier, boolean lockToTarget) {

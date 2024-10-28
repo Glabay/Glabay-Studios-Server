@@ -63,7 +63,7 @@ public abstract class Entity {
 
     @Setter
     @Getter
-    private InstancedArea instance;
+    public InstancedArea instance;
     @Setter
     @Getter
     private Raids raidsInstance;
@@ -86,7 +86,7 @@ public abstract class Entity {
     @Getter
     private boolean updateRequired = true;
     @Getter
-    private Animation animation;
+    public Animation animation;
     @Getter
     private boolean gfxUpdateRequired;
 

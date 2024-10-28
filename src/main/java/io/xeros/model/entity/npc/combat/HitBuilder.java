@@ -26,7 +26,7 @@ public class HitBuilder {
     final Entity attacker, defender;
     final CombatType combatType;
     Hitmark hitmark;
-    int damage, delay;
+    public int damage, delay;
     boolean accurate, checkNegatedDamage, immune;
     @Nonnull
     private Consumer<HitBuilder> delayedExecutionConsumer;
