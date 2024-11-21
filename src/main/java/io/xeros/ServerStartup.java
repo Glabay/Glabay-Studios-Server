@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 
-import static com.varlamore.ConstantsKt.REV;
+import static com.ConstantsKt.REV;
 
 /**
  * Stuff to do on startup.

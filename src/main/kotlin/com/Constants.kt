@@ -1,6 +1,6 @@
-package com.varlamore
+package com
 
-import com.varlamore.custom.PackSpritesCustom
+import com.custom.PackSpritesCustom
 import dev.openrune.cache.tools.tasks.CacheTask
 import dev.openrune.cache.tools.tasks.impl.PackMaps
 import dev.openrune.cache.tools.tasks.impl.PackModels

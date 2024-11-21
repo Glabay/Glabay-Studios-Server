@@ -1,4 +1,4 @@
-package com.varlamore
+package com
 
 import dev.openrune.cache.tools.Builder
 import dev.openrune.cache.tools.tasks.TaskType

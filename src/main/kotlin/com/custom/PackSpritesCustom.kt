@@ -1,4 +1,4 @@
-package com.varlamore.custom
+package com.custom
 
 import com.displee.cache.CacheLibrary
 import dev.openrune.cache.tools.tasks.CacheTask
