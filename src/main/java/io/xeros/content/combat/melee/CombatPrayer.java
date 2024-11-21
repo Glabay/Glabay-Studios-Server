@@ -190,7 +190,7 @@ public class CombatPrayer {
 
 	public static boolean isOverheadPrayer(int id) {
 		List<Integer> overheads = Arrays.asList(16, 17, 18, 21, 22, 23);
-		return overheads.stream().anyMatch(i -> id == i.intValue());
+		return overheads.stream().anyMatch(i -> id == i);
 	}
 	
 	public static int[] getTurnOff(int id) {
