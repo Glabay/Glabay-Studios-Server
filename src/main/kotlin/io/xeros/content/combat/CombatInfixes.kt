@@ -35,7 +35,7 @@ infix fun Hit.withVenom(dmg: Int) : Hit = run { this.damage = dmg; this.hitType 
 infix fun Entity.seq(sequence: Int) = run { this.animation = Animation(sequence) }
 infix fun Entity.anim(animation: Int) = run { this.animation = Animation(animation) }
 
-infix fun Pair<Player, Projectile>.at(target: Entity) = this.first.asPlayer().getPlayerAssistant().sendProjectile(this.second)
+infix fun Pair<Player, Projectile>.at(target: Entity) = this.first.playerAssistant.sendProjectile(this.second)
 
 infix fun Position.offset(pair: Pair<Int, Int>) : Position = this.translate(pair.first, pair.second)
 

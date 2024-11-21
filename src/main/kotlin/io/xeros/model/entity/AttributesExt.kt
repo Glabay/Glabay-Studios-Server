@@ -1,6 +1,5 @@
 package io.xeros.model.entity
 
-import com.google.gson.internal.LinkedTreeMap
 import io.xeros.model.entity.player.Player
 import java.lang.ref.WeakReference
 import kotlin.properties.ReadWriteProperty
@@ -68,7 +67,7 @@ inline fun <reified E : Entity, reified T : Any?> attribute(
         private fun getPersistentAttributes(thisRef: E) = if (thisRef !is Player)
             error("Persistent attributes are only supported for Player entities (key=$key, ref=$thisRef)")
         else
-            thisRef.attributes
+            thisRef.finalAttributes
     }
 }
 

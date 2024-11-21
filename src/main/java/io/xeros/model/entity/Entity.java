@@ -114,6 +114,7 @@ public abstract class Entity {
      */
     @Getter
     private final Attributes attributes = new Attributes();
+    public transient Map<Object, Object> finalAttributes = new HashMap<>();
     public transient Map<Object, Object> temporaryAttributes = new HashMap<>();
 
     /**
