@@ -121,7 +121,7 @@ tasks.withType<Copy> {
 
 tasks.withType<KotlinCompile>().all {
     kotlinOptions {
-        languageVersion = "1.9"
+        languageVersion = "2.1"
         jvmTarget = "21"
         freeCompilerArgs = listOf(
             "-Xallow-any-scripts-in-source-roots",
