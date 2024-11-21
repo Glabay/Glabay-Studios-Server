@@ -114,6 +114,7 @@ public abstract class Entity {
      */
     @Getter
     private final Attributes attributes = new Attributes();
+    public transient Map<Object, Object> temporaryAttributes = new HashMap<>();
 
     /**
      * Sends some information to the Stream regarding a possible new hit on the
@@ -657,5 +658,6 @@ public abstract class Entity {
     public int getBonus(Bonus bonus) {
         return 0;
     }
+
 
 }
