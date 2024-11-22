@@ -37,8 +37,12 @@ import io.xeros.util.logging.player.ClickObjectLog;
  */
 public class ClickObject implements PacketType {
 
-    public static final int FIRST_CLICK = 132, SECOND_CLICK = 252, THIRD_CLICK = 70, FOURTH_CLICK = 228,
-            FOURTH_CLICK_2 = 234; // Already option 4 but not sure if it's used so just adding another one
+    public static final int
+        FIRST_CLICK = 132,
+        SECOND_CLICK = 252,
+        THIRD_CLICK = 70,
+        FOURTH_CLICK = 228,
+        FOURTH_CLICK_2 = 234; // Already option 4 but not sure if it's used so just adding another one
 
     public static WorldObject getObject(Player player, int objectId, int objectX, int objectY) {
         Optional<WorldObject> worldObject = player.getRegionProvider().get(objectX, objectY)
@@ -48,10 +52,10 @@ public class ClickObject implements PacketType {
 
     private static void walkTo(Player player, int option) {
         WorldObject object = getObject(player, player.objectId, player.objectX, player.objectY);
-        if (player.objectId == 60005) {
-            player.getTeleportInterface().onObjectClick(option);
-        }
-        if (object != null) {
+        if (player.objectId == 60005) player.getTeleportInterface().onObjectClick(option);
+        if (object == null)
+            player.stopMovement();
+        else {
             Position size = object.getObjectSize();
             Server.getLogging().write(new ClickObjectLog(player, object, option));
             if (object.getId() == 31561) { // Rev agility shortcut
@@ -62,7 +66,8 @@ public class ClickObject implements PacketType {
                         container.stop();
                     }
                 });
-            } else if (object.getId() == 17068) {
+            }
+            else if (object.getId() == 17068) {
                 PathFinder.getPathFinder().findRoute(player, object.getX(), object.getY(), true, 1, 1);
                 player.setTickable((container, plr) -> {
                     if (plr.distance(object.getPosition()) < 8.5) {
@@ -70,7 +75,8 @@ public class ClickObject implements PacketType {
                         container.stop();
                     }
                 });
-            } else if (object.getId() == TobConstants.TREASURE_ROOM_ENTRANCE_OBJECT_ID) {
+            }
+            else if (object.getId() == TobConstants.TREASURE_ROOM_ENTRANCE_OBJECT_ID) {
                 PathFinder.getPathFinder().findRoute(player, object.getX(), object.getY(), true, 1, 1);
                 player.setTickable((container, plr) -> {
                     if (plr.distance(object.getPosition()) < 2.5) {
@@ -78,11 +84,18 @@ public class ClickObject implements PacketType {
                         container.stop();
                     }
                 });
-            } else {
-                player.setTickable(new WalkToTickable(player, object.getPosition(), size.getX(), size.getY(), player1 -> finishObjectClick(player1, option, object)));
             }
-        } else {
-            player.stopMovement();
+            else {
+                var event = new WalkToTickable(
+                    player,
+                    object.getPosition(),
+                    size.getX(),
+                    size.getY(),
+                    player1 -> finishObjectClick(player1, option, object));
+
+                player.setTickable(event);
+            }
+
         }
     }
 
@@ -98,18 +111,12 @@ public class ClickObject implements PacketType {
         c.getPA().stopSkilling();
 
 
-        if (c.isForceMovementActive()) {
-            return;
-        }
-        if (c.getLootingBag().isWithdrawInterfaceOpen() || c.getLootingBag().isDepositInterfaceOpen() || c.viewingRunePouch) {
-            return;
-        }
-        if (c.isFping()) {
-            /**
-             * Cannot do action while fping
-             */
-            return;
-        }
+        if (c.isForceMovementActive()) return;
+        if (c.getLootingBag().isWithdrawInterfaceOpen() || c.getLootingBag().isDepositInterfaceOpen() || c.viewingRunePouch) return;
+        /*
+          Cannot do action while fping
+         */
+        if (c.isFping()) return;
         if (c.getBankPin().requiresUnlock()) {
             c.getBankPin().open(2);
             return;
@@ -118,9 +125,7 @@ public class ClickObject implements PacketType {
             c.sendMessage("Please finish what you're doing.");
             return;
         }
-        if (c.teleTimer > 0) {
-            return;
-        }
+        if (c.teleTimer > 0) return;
         c.xInterfaceId = -1;
 
 
@@ -164,37 +169,17 @@ public class ClickObject implements PacketType {
     private static void finishObjectClick(Player c, int option, WorldObject worldObject) {
         var def = CacheManager.INSTANCE.getObject(worldObject.id);
         c.facePosition(worldObject.face, def.getSizeX(), def.getSizeY(), c.objectX, c.objectY);
-
         if (Math.abs(c.getX() - c.objectX) > 25 || Math.abs(c.getY() - c.objectY) > 25) {
             c.resetWalkingQueue();
             return;
         }
-
         if (Misc.isInDuelSession(c)) return;
-
-        if (c.getInstance() != null && c.getInstance().handleClickObject(c, worldObject, option)) {
-            return;
-        }
-
-        if (c.getTobContainer().handleClickObject(worldObject, option)) {
-            return;
-        }
-
-        if (LarrensKey.clickObject(c, worldObject)) {
-            return;
-        }
-
-        if (TourneyManager.handleObjects(c, worldObject, option)) {
-            return;
-        }
-
-        if (c.getQuesting().handleObjectClick(worldObject, option)) {
-            return;
-        }
-
-        if (OurianaAltar.clickObject(c, worldObject)) {
-            return;
-        }
+        if (c.getInstance() != null && c.getInstance().handleClickObject(c, worldObject, option)) return;
+        if (c.getTobContainer().handleClickObject(worldObject, option)) return;
+        if (LarrensKey.clickObject(c, worldObject)) return;
+        if (TourneyManager.handleObjects(c, worldObject, option)) return;
+        if (c.getQuesting().handleObjectClick(worldObject, option)) return;
+        if (OurianaAltar.clickObject(c, worldObject)) return;
 
         switch (option) {
             case 1:
@@ -203,51 +188,41 @@ public class ClickObject implements PacketType {
                     return;
                 }
 
-                if (Cooking.clickRange(c, c.objectId)) {
-                    return;
-                }
+                if (Cooking.clickRange(c, c.objectId)) return;
 
-                if (Cannon.clickObject(c, c.objectId, new Position(c.objectX, c.objectY, c.getHeight()), 1)) {
-                    return;
-                }
-                if (OurianaBanker.clickObject(c, c.objectId, option)) {
-                    return;
-                }
-                if (Hespori.clickObject(c, c.objectId)) {
-                    return;
-                }
+                if (Cannon.clickObject(c, c.objectId, new Position(c.objectX, c.objectY, c.getHeight()), 1)) return;
+                if (OurianaBanker.clickObject(c, c.objectId, option)) return;
+                if (Hespori.clickObject(c, c.objectId)) return;
 
                 if (c.objectId == 9357) {
-                    if (Boundary.isIn(c, Boundary.FIGHT_CAVE)) {
-                        c.getFightCave().leaveGame();
-                    }
+                    if (Boundary.isIn(c, Boundary.FIGHT_CAVE)) c.getFightCave().leaveGame();
                     return;
                 }
 
-				if (c.debugMessage) {
-					c.sendMessage("Object Option One: " + c.objectId + " objectX: " + c.objectX + " objectY: " + c.objectY + " type: " + worldObject.type + " cliptype: " + def.getClipType() * 65536);
-				}
+				if (c.debugMessage)
+                    c.sendMessage("Object Option One: %d objectX: %d objectY: %d type: %d cliptype: %d"
+                        .formatted(c.objectId, c.objectX, c.objectY, worldObject.type, def.getClipType() * 65536));
 				c.getFarming().handleObjectClick(c.objectId, c.objectX, c.objectY, 1);
 				switch (c.objectId) {
                     case 881: {
-                        /**
-                         * Varrock sewers replacement object
+                        /*
+                          Varrock sewers replacement object
                          */
                         worldObject.replace(882);
                         return;
                     }
 
                     case 882: {
-                        /**
-                         * Enter Varrock Sewers
+                        /*
+                          Enter Varrock Sewers
                          */
                         c.getPA().movePlayer(3237, 9858, 0);
                         return;
                     }
 
                     case 32534: {
-                        /**
-                         * Bryophyta boss gate
+                        /*
+                          Bryophyta boss gate
                          */
                         c.start(new DialogueBuilder(c).statement("Warning! You're about to enter an instanced area, anything left on",
                                 "the ground when you leave will be lost. Would you like to continue?").
@@ -255,8 +230,8 @@ public class ClickObject implements PacketType {
                                 option("Are you sure you wish to open it?",
                                         new DialogueOption("Yes, let's go!", player -> {
                                             if (!player.getItems().playerHasItem(Bryophyta.KEY, 1)) {
-                                                /**
-                                                 * Requires mossy key.
+                                                /*
+                                                  Requires mossy key.
                                                  */
                                                 player.sendMessage("It's locked!");
                                                 player.getPA().closeAllWindows();
@@ -273,28 +248,21 @@ public class ClickObject implements PacketType {
                     }
 
                     case 11806: {
-                        /**
-                         * Exit varrock sewers
+                        /*
+                          Exit varrock sewers
                          */
                         c.getPA().movePlayer(3236, 3458, 0);
                         return;
                     }
                     case 34733:
-                        if (c.getItems().playerHasItem(23184)) {
-                            StrangeCasketDialogue.open(c);
-                        } else {
-                            c.sendMessage("You need a mimic casket to use this.");
-                        }
+                        if (c.getItems().playerHasItem(23184)) StrangeCasketDialogue.open(c);
+                        else c.sendMessage("You need a mimic casket to use this.");
                         break;
                     case 16683: // ladder in edge general store up
-                        if (c.objectX == 3083 && c.objectY == 3513) {
-                            c.climbLadderTo(new Position(3083, 3512, 1));
-                        }
+                        if (c.objectX == 3083 && c.objectY == 3513) c.climbLadderTo(new Position(3083, 3512, 1));
                         break;
                     case 16679: // ladder in edge general store down
-                        if (c.objectX == 3083 && c.objectY == 3513) {
-                            c.climbLadderTo(new Position(3083, 3512, 0));
-                        }
+                        if (c.objectX == 3083 && c.objectY == 3513) c.climbLadderTo(new Position(3083, 3512, 0));
                         break;
                     case 33222:
                         if (!HesporiSpawner.isSpawned()) {
@@ -328,14 +296,14 @@ public class ClickObject implements PacketType {
 							c.sendMessage("The gate is locked shut.");
 							return;
 						}
-						/**
-						 * Obor boss gate
+						/*
+						  Obor boss gate
 						 */
 						c.start(new DialogueBuilder(c).option("Enter Obor's Lair?",
 										new DialogueOption("Yes.", player -> {
 											if (locked) {
-												/**
-												 * Requires mossy key.
+												/*
+												  Requires mossy key.
 												 */
 												c.sendMessage("The gate is locked shut.");
 												player.getPA().closeAllWindows();
@@ -444,9 +412,7 @@ public class ClickObject implements PacketType {
                     case 36694:
                     case 36695:
                     case 30283:
-                        if (c.getInferno() != null) {
-                            c.getInferno().leaveGame();
-                        }
+                        if (c.getInferno() != null) c.getInferno().leaveGame();
                         break;
                     case 25016:
                     case 25017:
@@ -459,11 +425,8 @@ public class ClickObject implements PacketType {
                             c.sendMessage("You need an Agility level of 34 to pass this.");
                             return;
                         }
-                        if (c.absY == 9566) {
-                            AgilityHandler.delayEmote(c, "CRAWL", 2655, 9573, 0, 2);
-                        } else {
-                            AgilityHandler.delayEmote(c, "CRAWL", 2655, 9566, 0, 2);
-                        }
+                        if (c.absY == 9566) AgilityHandler.delayEmote(c, "CRAWL", 2655, 9573, 0, 2);
+                        else AgilityHandler.delayEmote(c, "CRAWL", 2655, 9566, 0, 2);
                         break;
                     case 31556:
                     case 36201:
@@ -559,50 +522,36 @@ public class ClickObject implements PacketType {
                             c.sendMessage("You need an Agility level of 34 to pass this.");
                             return;
                         }
-                        if (c.absX == 1648) {
-                            AgilityHandler.delayEmote(c, "CRAWL", 1646, 10000, 0, 2);
-                        } else if (c.absX == 1716) {
-                            AgilityHandler.delayEmote(c, "CRAWL", 1706, 10078, 0, 2);
-                        } else if (c.absX == 1706) {
-                            AgilityHandler.delayEmote(c, "CRAWL", 1716, 10056, 0, 2);
-                        } else if (c.absX == 1646) {
-                            AgilityHandler.delayEmote(c, "CRAWL", 1648, 10009, 0, 2);
-                        }
+                        if (c.absX == 1648) AgilityHandler.delayEmote(c, "CRAWL", 1646, 10000, 0, 2);
+                        else if (c.absX == 1716) AgilityHandler.delayEmote(c, "CRAWL", 1706, 10078, 0, 2);
+                        else if (c.absX == 1706) AgilityHandler.delayEmote(c, "CRAWL", 1716, 10056, 0, 2);
+                        else if (c.absX == 1646) AgilityHandler.delayEmote(c, "CRAWL", 1648, 10009, 0, 2);
                         break;
                     case 30175:// Stronghold short
                         if (c.playerLevel[16] < 72) {
                             c.sendMessage("You need an Agility level of 72 to pass this.");
                             return;
                         }
-                        if (c.absX == 2429) {
-                            AgilityHandler.delayEmote(c, "CRAWL", 2435, 9806, 0, 2);
-                        } else if (c.absX == 2435) {
-                            AgilityHandler.delayEmote(c, "CRAWL", 2429, 9806, 0, 2);
-                        }
+                        if (c.absX == 2429) AgilityHandler.delayEmote(c, "CRAWL", 2435, 9806, 0, 2);
+                        else if (c.absX == 2435) AgilityHandler.delayEmote(c, "CRAWL", 2429, 9806, 0, 2);
                         break;
 
                     case 32153:// rune and addy dragons
-                        if (c.absX == 1573) {// rune
-                            c.getPA().movePlayer(1575, 5074, 0);
-                        } else if (c.absX == 1562) {// addy
-                            c.getPA().movePlayer(1560, 5075, 0);
-                        }
+                        // rune
+                        if (c.absX == 1573) c.getPA().movePlayer(1575, 5074, 0);
+                        else // addy
+                            if (c.absX == 1562) c.getPA().movePlayer(1560, 5075, 0);
                     case 23566:// rune and addy dragons
-                        if (c.absY == 9963) {// rune
-                            c.getPA().movePlayer(3120, 9970, 0);
-                        } else if (c.absY == 9970) {// addy
-                            c.getPA().movePlayer(3120, 9963, 0);
-                        }
+                        // rune
+                        if (c.absY == 9963) c.getPA().movePlayer(3120, 9970, 0);
+                        else // addy
+                            if (c.absY == 9970) c.getPA().movePlayer(3120, 9963, 0);
                         break;
                     case 535:// Smoke Devil Entrance
-                        if (c.absX == 2379) {
-                            AgilityHandler.delayEmote(c, "CRAWL", 2376, 9452, 0, 2);
-                        }
+                        if (c.absX == 2379) AgilityHandler.delayEmote(c, "CRAWL", 2376, 9452, 0, 2);
                         break;
                     case 536:// Smoke Devil Exit
-                        if (c.absX == 2376) {
-                            AgilityHandler.delayEmote(c, "CRAWL", 2379, 9452, 0, 2);
-                        }
+                        if (c.absX == 2376) AgilityHandler.delayEmote(c, "CRAWL", 2379, 9452, 0, 2);
                         break;
                     /*
                      * case 17385://taveryly exit AgilityHandler.delayEmote(c, "CLIMB_UP", 1662,
@@ -912,11 +861,8 @@ public class ClickObject implements PacketType {
                             c.objectYOffset = 2;
                         break;
                     case 4420:
-                        if (c.getX() >= 2383 && c.getX() <= 2385) {
-                            c.objectYOffset = 1;
-                        } else {
-                            c.objectYOffset = -2;
-                        }
+                        if (c.getX() >= 2383 && c.getX() <= 2385) c.objectYOffset = 1;
+                        else c.objectYOffset = -2;
                         break;
                     case 6552:
                     case 409:
@@ -1104,19 +1050,11 @@ public class ClickObject implements PacketType {
                 c.getActions().firstClickObject(c.objectId, c.objectX, c.objectY);
                 break;
             case 2:
-                if (c.debugMessage) {
-                    c.sendMessage("Object Option Two: " + c.objectId + "  ObjectX: " + c.objectX + "  objectY: " + c.objectY
-                            + " Xoff: " + (c.getX() - c.objectX) + " Yoff: " + (c.getY() - c.objectY));
-                }
-                if (c.objectId == 12309) {
-                    c.getShops().openShop(14);
-                }
-                if (Cannon.clickObject(c, c.objectId, new Position(c.objectX, c.objectY, c.getHeight()), 2)) {
-                    return;
-                }
-                if (OurianaBanker.clickObject(c, c.objectId, option)) {
-                    return;
-                }
+                if (c.debugMessage) c.sendMessage("Object Option Two: %d  ObjectX: %d  objectY: %d Xoff: %d Yoff: %d"
+                    .formatted(c.objectId, c.objectX, c.objectY, c.getX() - c.objectX, c.getY() - c.objectY));
+                if (c.objectId == 12309) c.getShops().openShop(14);
+                if (Cannon.clickObject(c, c.objectId, new Position(c.objectX, c.objectY, c.getHeight()), 2)) return;
+                if (OurianaBanker.clickObject(c, c.objectId, option)) return;
 
                 c.getFarming().handleObjectClick(c.objectId, c.objectX, c.objectY, 2);
                 switch (c.objectId) {
@@ -1184,13 +1122,9 @@ public class ClickObject implements PacketType {
                 c.getActions().secondClickObject(c.objectId, c.objectX, c.objectY);
                 break;
             case 3:
-                if (c.debugMessage) {
-                    c.sendMessage("Object Option Three: " + c.objectId + "  ObjectX: " + c.objectX + "  objectY: "
-                            + c.objectY + " Xoff: " + (c.getX() - c.objectX) + " Yoff: " + (c.getY() - c.objectY));
-                }
-                if (Cannon.clickObject(c, c.objectId, new Position(c.objectX, c.objectY, c.getHeight()), 3)) {
-                    return;
-                }
+                if (c.debugMessage) c.sendMessage("Object Option Three: %d  ObjectX: %d  objectY: %d Xoff: %d Yoff: %d"
+                    .formatted(c.objectId, c.objectX, c.objectY, c.getX() - c.objectX, c.getY() - c.objectY));
+                if (Cannon.clickObject(c, c.objectId, new Position(c.objectX, c.objectY, c.getHeight()), 3)) return;
                 c.getFarming().handleObjectClick(c.objectId, c.objectX, c.objectY, 3);
                 switch (c.objectId) {
 
@@ -1217,10 +1151,8 @@ public class ClickObject implements PacketType {
                 c.getActions().thirdClickObject(c.objectId, c.objectX, c.objectY);
                 break;
             case 4:
-                if (c.debugMessage) {
-                    c.sendMessage("Object Option Four: " + c.objectId + "  ObjectX: " + c.objectX + "  objectY: "
-                            + c.objectY + " Xoff: " + (c.getX() - c.objectX) + " Yoff: " + (c.getY() - c.objectY));
-                }
+                if (c.debugMessage) c.sendMessage("Object Option Four: %d  ObjectX: %d  objectY: %d Xoff: %d Yoff: %d"
+                    .formatted(c.objectId, c.objectX, c.objectY, c.getX() - c.objectX, c.getY() - c.objectY));
                 switch (c.objectId) {
 
                     default:
