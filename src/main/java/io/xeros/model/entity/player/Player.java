@@ -3876,7 +3876,7 @@ public class Player extends Entity {
             else {
                 appearanceUpdateBlockCache.writeByte(0);
             }
-            if (CacheManager.INSTANCE.getItem(playerEquipment[playerChest]).getAppearanceOverride1() != arms) {
+            if (CacheManager.INSTANCE.getItemOrDefault(playerEquipment[playerChest]).getAppearanceOverride1() != arms) {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[3]);
             }
             else {
@@ -3889,7 +3889,7 @@ public class Player extends Entity {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[5]);
             }
 
-            if (CacheManager.INSTANCE.getItem(playerEquipment[playerHat]).getAppearanceOverride1() != hair) {
+            if (CacheManager.INSTANCE.getItemOrDefault(playerEquipment[playerHat]).getAppearanceOverride1() != hair) {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[1]);
             }
             else {
@@ -3908,7 +3908,7 @@ public class Player extends Entity {
                 appearanceUpdateBlockCache.writeUShort(256 + playerAppearance[6]);
             }
 
-            ItemType headEquipType = CacheManager.INSTANCE.getItem(playerEquipment[playerHat]);
+            ItemType headEquipType = CacheManager.INSTANCE.getItemOrDefault(playerEquipment[playerHat]);
             if (playerAppearance[0] != 0 || shouldHideBeard(headEquipType.getAppearanceOverride1()) && shouldHideBeard(headEquipType.getAppearanceOverride2())) {
                 appearanceUpdateBlockCache.writeByte(0);
             }
