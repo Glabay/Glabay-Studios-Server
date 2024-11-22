@@ -57,7 +57,11 @@ public class ClickObject implements PacketType {
             player.stopMovement();
         else {
             Position size = object.getObjectSize();
+
             Server.getLogging().write(new ClickObjectLog(player, object, option));
+
+            PathFinder.getPathFinder().findRoute(player, object.getX(), object.getY(), true, 1, 1);
+
             if (object.getId() == 31561) { // Rev agility shortcut
                 player.setTickable((container, plr) -> {
                     if (plr.distance(object.getPosition()) < 2.5) {
@@ -66,8 +70,7 @@ public class ClickObject implements PacketType {
                     }
                 });
             }
-            else if (object.getId() == 17068) {
-                PathFinder.getPathFinder().findRoute(player, object.getX(), object.getY(), true, 1, 1);
+            else if (object.getId() == 17068)
                 player.setTickable((container, plr) -> {
                     if (plr.distance(object.getPosition()) < 8.5) {
                         finishObjectClick(plr, option, object);
@@ -76,7 +79,6 @@ public class ClickObject implements PacketType {
                 });
 
             else if (object.getId() == TobConstants.TREASURE_ROOM_ENTRANCE_OBJECT_ID) {
-                PathFinder.getPathFinder().findRoute(player, object.getX(), object.getY(), true, 1, 1);
                 player.setTickable((container, plr) -> {
                     if (plr.distance(object.getPosition()) < 2.5) {
                         finishObjectClick(plr, option, object);
