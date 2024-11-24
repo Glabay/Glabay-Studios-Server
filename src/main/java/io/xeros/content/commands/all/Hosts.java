@@ -25,9 +25,9 @@ public class Hosts extends Command {
 				}
 			}
 		}
-		if (sb.length() > 0) {
+		if (!sb.isEmpty()) {
 			String result = "@blu@Available hosts@bla@: " + sb.substring(0, sb.length() - 2);
-			String[] wrappedLines = WordUtils.wrap(result, 80).split(System.getProperty("line.separator"));
+			String[] wrappedLines = WordUtils.wrap(result, 80).split(System.lineSeparator());
 			for (String line : wrappedLines) {
 				c.sendMessage(line);
 			}

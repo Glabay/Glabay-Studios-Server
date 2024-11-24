@@ -46,7 +46,7 @@ public class Commands extends Command {
 
 		List<String> lines = Lists.newArrayList();
 		for (String header : commandMap.keySet()) {
-			if (lines.size() > 0)
+			if (!lines.isEmpty())
 				lines.add("");
 			lines.add("<col=017291>~ " + Misc.formatPlayerName(header) + " Commands ~");
 
@@ -80,12 +80,6 @@ public class Commands extends Command {
 				}
 			}
 		}
-
-		//if (lines.size() > 100) {
-			//c.sendMessage("Too many commands do ::commands 2");
-			//lines = lines.stream().limit(100).collect(Collectors.toList());
-		//}
-
 		c.getPA().openQuestInterfaceNew("Commands", lines);
 	}
 

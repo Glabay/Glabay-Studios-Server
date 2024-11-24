@@ -212,6 +212,8 @@ public class Player extends Entity {
     public static final int playerFletching = 9;
     public static final int playerFishing = 10;
     public static final int playerFiremaking = 11;
+    public static final int playerCrafting = 12;
+    public static final int playerSmithing = 13;
     public static final int playerMining = 14;
     public static final int playerHerblore = 15;
     public static final int playerAgility = 16;
@@ -223,8 +225,6 @@ public class Player extends Entity {
     public static final int maxNPCListSize = Configuration.MAX_NPCS_IN_LOCAL_LIST;
     private static final Logger logger = LoggerFactory.getLogger(Player.class);
     private static final Stream appearanceUpdateBlockCache;
-    public static int playerCrafting = 12;
-    public static int playerSmithing = 13;
     public static boolean[] canUseReducingSpell = {true, true, true, true, true, true};
 
     static {
@@ -1329,9 +1329,6 @@ public class Player extends Entity {
     @Setter
     @Getter
     private long lastDragonfireShieldAttack;
-    @Setter
-    @Getter
-    private boolean receivedVoteStreakRefund; // TODO DELETE ME AFTER September 29th 2021
     /**
      * The amount of time before we are out of combat.
      */
@@ -2201,7 +2198,6 @@ public class Player extends Entity {
             getRights().remove(Right.HC_IRONMAN);
             start(new TutorialDialogue(this, false));
             mode = Mode.forType(ModeType.STANDARD);
-            receivedVoteStreakRefund = true;
             setMigrationVersion(PlayerMigrationRepository.getLatestVersion());
         }
         else {
@@ -2209,16 +2205,6 @@ public class Player extends Entity {
                 mode = Mode.forType(ModeType.STANDARD);
             }
             Server.clanManager.joinOnLogin(this);
-        }
-
-        if (!receivedVoteStreakRefund) {
-            receivedVoteStreakRefund = true;
-            VoteUser user = VotePanelManager.getUser(this);
-            if (user != null && user.getDayStreak() < 4) {
-                user.setDayStreak(4);
-                sendMessage("<clan=6> @dre@You've received a 4 Vote Panel streak, thanks for being patient!");
-                VotePanelManager.saveToJSON();
-            }
         }
 
         getPA().sendFrame36(172, autoRet);

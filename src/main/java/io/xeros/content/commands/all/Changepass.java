@@ -21,8 +21,9 @@ public class Changepass extends Command {
 
 	public static void sendChangePasswordDialogue(Player player) {
 		new DialogueBuilder(player).setNpcId(Npcs.XEROS_WIZARD)
-				.npc("Hello, " + player.getDisplayName() + ".", "I will help you change your password.",
-						"@dre@Use any keyboard character except uppercase letters!", "Enter your password now.")
+				.npc("Hello, %s.".formatted(player.getDisplayName()),
+					"I will help you change your password.",
+					"Enter your password now.")
 				.exit(plr -> plr.getPA().sendEnterString("Enter your new password", Changepass::enteredPassword))
 				.send();
 	}

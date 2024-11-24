@@ -45,20 +45,20 @@ public class DonationRewards {
 
     public void openInterface() {
         var rewards = DonationReward.getRewardList();
-        int lastItemPrice = rewards.get(5).getPrice();
+        int lastItemPrice = rewards.get(5).price();
 
 
         for (int index = 0; index < PRICE_TEXTS.length; index++) {
-            player.getPA().sendString("$" + rewards.get(index).getPrice(), PRICE_TEXTS[index]);
+            player.getPA().sendString("$" + rewards.get(index).price(), PRICE_TEXTS[index]);
         }
 
         player.getPA().sendString(AMOUNT_DONATED_TEXT_ID, "$" + amountDonatedThisWeek + " / $" + lastItemPrice);
         player.getPA().sendString(TIME_UNTIL_RESET_ID, "Week ends in: " + getSundayReset().getTimeUntilReset());
-        player.getItems().sendItemContainer(ITEM_CONTAINER_ID, rewards.stream().map(DonationReward::getItem).collect(Collectors.toList()));
+        player.getItems().sendItemContainer(ITEM_CONTAINER_ID, rewards.stream().map(DonationReward::item).collect(Collectors.toList()));
 
         // Container that sends the item prices to the client
         player.getItems().sendItemContainer(PRICING_ITEM_CONTAINER_ID, DonationReward.getRewardList().stream().map(reward ->
-                new GameItem(reward.getItem().id(), reward.getPrice())).collect(Collectors.toList()));
+                new GameItem(reward.item().id(), reward.price())).collect(Collectors.toList()));
 
         player.getPA().sendConfig(DONATOR_REWARDS_CURRENT_PROGRESS, amountDonatedThisWeek);
         player.getPA().showInterface(INTERFACE_ID);
@@ -68,12 +68,12 @@ public class DonationRewards {
         if (amount > 0) {
             var gainedItem = false;
             for (var reward : DonationReward.getRewardList()) {
-                if (reward.getPrice() > amountDonatedThisWeek && reward.getPrice() <= amountDonatedThisWeek + amount) {
-                    player.getInventory().addAnywhere(new ImmutableItem(reward.getItem().id(), reward.getItem().amount()));
-                    player.sendMessage(TEXT_COLOUR + "You have received x" + reward.getItem().amount() + " " + ItemDef.forId(reward.getItem().id()).getName() + " from donation rewards!");
+                if (reward.price() > amountDonatedThisWeek && reward.price() <= amountDonatedThisWeek + amount) {
+                    player.getInventory().addAnywhere(new ImmutableItem(reward.item().id(), reward.item().amount()));
+                    player.sendMessage(TEXT_COLOUR + "You have received x" + reward.item().amount() + " " + ItemDef.forId(reward.item().id()).getName() + " from donation rewards!");
                     gainedItem = true;
 
-                    if (reward.getPrice() == DonationReward.getRewardList().get(5).getPrice())
+                    if (reward.price() == DonationReward.getRewardList().get(5).price())
                         player.sendMessage(TEXT_COLOUR + "You have completed the donation reward track for this week, thanks for donating!");
                 }
             }

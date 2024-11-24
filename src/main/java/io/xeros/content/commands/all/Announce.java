@@ -15,15 +15,9 @@ public class Announce extends Command {
 
 	@Override
 	public void execute(Player player, String commandName, String input) {
-		if (player.announce == false) {
-			player.announce = true;
-			player.sendMessage("@blu@Global rare announcements are now @red@enabled.");
-			return;
-		} else {
-			player.announce = false;
-			player.sendMessage("@blu@Global rare announcements are now @gre@disabled.");
-			return;
-		}
+		player.announce = !player.announce;
+		player.sendMessage("@blu@Global rare announcements are now %s"
+			.formatted(player.announce ? "@gre@enabled." : "@red@disabled."));
 	}
 	@Override
 	public Optional<String> getDescription() {

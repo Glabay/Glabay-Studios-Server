@@ -11,11 +11,13 @@ import io.xeros.model.entity.player.PlayerHandler;
 public class Staff extends Command {
     @Override
     public void execute(Player player, String commandName, String input) {
-        List<Player> staff = PlayerHandler.getPlayers().stream().filter(player2 -> player2 != null && player2.getRights().hasStaffPosition())
-                .collect(Collectors.toList());
-        if (staff.isEmpty()) {
+        List<Player> staff = PlayerHandler.getPlayers()
+            .stream()
+            .filter(player2 -> player2 != null && player2.getRights().hasStaffPosition())
+            .toList();
+        if (staff.isEmpty())
             player.sendMessage("No staff online.");
-        } else {
+        else {
             player.getPA().openQuestInterface("Staff Online", staff.stream()
                     .map(Player::getDisplayNameFormatted)
                     .collect(Collectors.toList()));

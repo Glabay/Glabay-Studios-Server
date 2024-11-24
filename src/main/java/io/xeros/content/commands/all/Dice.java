@@ -26,7 +26,7 @@ public class Dice extends Command {
 			return;
 		}
 		c.getPA().spellTeleport(3111, 3506, 0, false);
-		c.sendMessage("@red@[WARNING] Recording can help if a scam occurs, use ::grules for rules.");
+		c.sendMessage("@red@[WARNING] Recording can help if a scam occurs.");
 
 	}
 
