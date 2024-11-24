@@ -18,7 +18,7 @@ import io.xeros.content.bosses.hespori.Hespori;
 import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.firemake.Firemaking;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.cycleevent.Event;
 import io.xeros.model.entity.player.Boundary;

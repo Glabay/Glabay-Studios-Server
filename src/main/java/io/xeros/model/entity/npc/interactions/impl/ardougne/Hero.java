@@ -7,7 +7,7 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.HERO;
+import static io.xeros.model.definition.Npcs.HERO;
 
 /**
  * @author Zeighe | Glabay-Studios

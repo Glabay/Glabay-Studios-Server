@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueExpression;
 import io.xeros.content.dialogue.DialogueOption;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Right;

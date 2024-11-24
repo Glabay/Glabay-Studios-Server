@@ -1,4 +1,4 @@
-package io.xeros.model;
+package io.xeros.model.definition;
 
 /**
  * @author Zei | Glabay-Studios

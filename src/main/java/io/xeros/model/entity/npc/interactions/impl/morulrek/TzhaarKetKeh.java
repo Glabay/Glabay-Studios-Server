@@ -6,9 +6,9 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 import io.xeros.util.Misc;
 
-import static io.xeros.model.Items.FIRE_CAPE;
-import static io.xeros.model.Items.TZREK_JAD;
-import static io.xeros.model.Npcs.TZAHAARKETKEH;
+import static io.xeros.model.definition.Items.FIRE_CAPE;
+import static io.xeros.model.definition.Items.TZREK_JAD;
+import static io.xeros.model.definition.Npcs.TZAHAARKETKEH;
 
 /**
  * @author Glabay | Glabay-Studios

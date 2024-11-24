@@ -2,7 +2,6 @@ package io.xeros.content.itemskeptondeath.modifiers;
 
 import io.xeros.content.itemskeptondeath.DeathItemModifier;
 import io.xeros.content.trails.TreasureTrails;
-import io.xeros.model.Items;
 import io.xeros.model.entity.npc.pets.PetHandler;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;

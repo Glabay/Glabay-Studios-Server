@@ -25,7 +25,7 @@ import io.xeros.content.item.lootable.impl.TheatreOfBloodChest;
 import io.xeros.content.trails.TreasureTrailsRewardItem;
 import io.xeros.content.trails.TreasureTrailsRewards;
 import io.xeros.content.trails.RewardLevel;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.definitions.NpcDef;
 import io.xeros.model.entity.npc.pets.PetHandler;

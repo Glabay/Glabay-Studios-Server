@@ -4,9 +4,9 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.*;
-import static io.xeros.model.Npcs.GRACE;
-import static io.xeros.model.Shops.GRACE_SHOP;
+import static io.xeros.model.definition.Dialogues.*;
+import static io.xeros.model.definition.Npcs.GRACE;
+import static io.xeros.model.definition.Shops.GRACE_SHOP;
 
 /**
  * @author Zei | Glabay-Studios

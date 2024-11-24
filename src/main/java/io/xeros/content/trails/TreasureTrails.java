@@ -4,7 +4,7 @@ import java.util.List;
 
 import io.xeros.content.achievement.AchievementType;
 import io.xeros.content.achievement.Achievements;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.pets.PetHandler;
 import io.xeros.model.entity.player.Player;

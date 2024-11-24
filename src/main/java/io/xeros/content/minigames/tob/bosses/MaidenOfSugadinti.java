@@ -12,7 +12,7 @@ import io.xeros.content.minigames.tob.instance.TobInstance;
 import io.xeros.model.Animation;
 import io.xeros.model.CombatType;
 import io.xeros.model.Direction;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.ProjectileBaseBuilder;
 import io.xeros.model.StillGraphic;
 import io.xeros.model.cycleevent.CycleEvent;

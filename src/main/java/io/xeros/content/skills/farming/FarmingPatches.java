@@ -1,7 +1,7 @@
 package io.xeros.content.skills.farming;
 
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Position;
 
 public enum FarmingPatches {

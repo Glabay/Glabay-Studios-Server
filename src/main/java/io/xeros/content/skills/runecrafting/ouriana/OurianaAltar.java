@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.runecrafting.Runecrafting;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Position;

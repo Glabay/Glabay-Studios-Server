@@ -2,20 +2,16 @@ package io.xeros.content.bosses.grotesqueguardians;
 
 import com.google.common.collect.Lists;
 import io.xeros.Server;
-import io.xeros.content.bosses.mimic.ThirdAgeRanger;
 import io.xeros.content.combat.Hitmark;
 import io.xeros.model.*;
-import io.xeros.model.collisionmap.PathChecker;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.definitions.NpcDef;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.HealthStatus;
 import io.xeros.model.entity.npc.NPC;
-import io.xeros.model.entity.npc.NPCClipping;
-import io.xeros.model.entity.npc.NPCHandler;
-import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.ClientGameTimer;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Position;
@@ -25,9 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class GrotesqueGuardianNpc extends NPC {

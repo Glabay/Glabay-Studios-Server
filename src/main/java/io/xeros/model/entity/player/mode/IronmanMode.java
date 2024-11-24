@@ -2,7 +2,7 @@ package io.xeros.model.entity.player.mode;
 
 import io.xeros.content.fireofexchange.FireOfExchangeBurnPrice;
 import io.xeros.content.minigames.pest_control.PestControlRewards;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Player;
 import io.xeros.util.Misc;

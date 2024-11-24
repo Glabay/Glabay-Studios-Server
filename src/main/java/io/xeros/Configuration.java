@@ -1,6 +1,6 @@
 package io.xeros;
 
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.player.Position;
 import io.xeros.util.Misc;
 

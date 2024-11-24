@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.ZUL_ARETH_DIALOGUE;
-import static io.xeros.model.Npcs.ZULARETH;
+import static io.xeros.model.definition.Dialogues.ZUL_ARETH_DIALOGUE;
+import static io.xeros.model.definition.Npcs.ZULARETH;
 
 /**
  * @author Zei | Glabay-Studios

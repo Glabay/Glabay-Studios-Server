@@ -1,5 +1,6 @@
 package io.xeros.model;
 
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import lombok.Getter;
 import lombok.Setter;

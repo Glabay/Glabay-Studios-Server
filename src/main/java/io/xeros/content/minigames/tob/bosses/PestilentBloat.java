@@ -12,7 +12,7 @@ import io.xeros.content.minigames.tob.instance.TobInstance;
 import io.xeros.model.Animation;
 import io.xeros.model.Direction;
 import io.xeros.model.Graphic;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.definitions.AnimationLength;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.Position;

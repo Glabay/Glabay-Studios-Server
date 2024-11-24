@@ -4,7 +4,7 @@ import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueOption;
 import io.xeros.content.skills.Skill;
 import io.xeros.model.Graphic;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Player;
 import io.xeros.net.packets.ItemOnItem;

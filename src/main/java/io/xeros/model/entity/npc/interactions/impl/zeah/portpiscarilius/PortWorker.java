@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.PORT_WORKER_DIALOGUE;
-import static io.xeros.model.Npcs.PORT_WORKER;
+import static io.xeros.model.definition.Dialogues.PORT_WORKER_DIALOGUE;
+import static io.xeros.model.definition.Npcs.PORT_WORKER;
 
 /**
  * @author Zei | Glabay-Studios

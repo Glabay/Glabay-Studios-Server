@@ -6,8 +6,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.SAILOR_3936_DIALOGUE;
-import static io.xeros.model.Npcs.SAILOR_3936;
+import static io.xeros.model.definition.Dialogues.SAILOR_3936_DIALOGUE;
+import static io.xeros.model.definition.Npcs.SAILOR_3936;
 
 /**
  * @author Zei | Glabay-Studios

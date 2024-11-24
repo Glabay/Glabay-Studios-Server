@@ -1,7 +1,7 @@
 package io.xeros.content;
 
 import io.xeros.content.questing.Quest;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import org.apache.commons.lang3.text.WordUtils;
 

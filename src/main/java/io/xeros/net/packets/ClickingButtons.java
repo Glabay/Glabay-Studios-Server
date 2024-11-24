@@ -38,7 +38,7 @@ import io.xeros.content.tournaments.TourneyManager;
 import io.xeros.content.tradingpost.Listing;
 import io.xeros.content.tutorial.TutorialDialogue;
 import io.xeros.content.vote_panel.VotePanelInterface;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.pets.PetHandler;

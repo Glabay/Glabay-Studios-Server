@@ -2,14 +2,13 @@ package io.xeros.model.entity.npc.interactions.impl.global;
 
 import io.xeros.content.achievement_diary.impl.LumbridgeDraynorDiaryEntry;
 import io.xeros.content.skills.thieving.Thieving;
-import io.xeros.content.tradingpost.Listing;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.*;
-import static io.xeros.model.Shops.MASTER_FARMER_SHOP;
+import static io.xeros.model.definition.Npcs.*;
+import static io.xeros.model.definition.Shops.MASTER_FARMER_SHOP;
 
 /**
  * @author Zei | Glabay-Studios

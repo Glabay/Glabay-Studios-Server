@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.xeros.content.item.lootable.LootRarity;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.items.GameItem;
 
 public class HesporiChestItems {

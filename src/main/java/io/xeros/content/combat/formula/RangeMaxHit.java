@@ -7,7 +7,7 @@ import io.xeros.Configuration;
 import io.xeros.content.combat.range.RangeData;
 import io.xeros.model.Bonus;
 import io.xeros.model.CombatType;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.NpcStats;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;

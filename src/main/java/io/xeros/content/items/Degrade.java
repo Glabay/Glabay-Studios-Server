@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.base.Preconditions;
 import io.xeros.content.achievement_diary.impl.WesternDiaryEntry;
 import io.xeros.model.CombatType;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;

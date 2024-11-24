@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.xeros.content.minigames.tob.TobConstants;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.definitions.NpcDef;
 import io.xeros.model.entity.player.Player;
-import io.xeros.util.Misc;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
 public class NPCDeathTracker {

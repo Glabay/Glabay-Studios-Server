@@ -1,10 +1,7 @@
 package io.xeros.content.bosses.sarachnis;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
-import io.xeros.content.skills.runecrafting.ouriana.ZamorakGuardian;
-import io.xeros.model.CombatType;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.HealthStatus;
 import io.xeros.model.entity.npc.NPC;

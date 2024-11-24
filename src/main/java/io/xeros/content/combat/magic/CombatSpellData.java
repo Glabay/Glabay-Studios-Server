@@ -1,8 +1,7 @@
 package io.xeros.content.combat.magic;
 
 import com.google.common.collect.Lists;
-import io.xeros.content.combat.formula.rework.MagicCombatFormula;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 
 import java.util.List;

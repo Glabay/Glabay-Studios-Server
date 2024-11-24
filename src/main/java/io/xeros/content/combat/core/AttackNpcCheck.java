@@ -15,13 +15,12 @@ import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.slayer.Slayer;
 import io.xeros.content.skills.slayer.SlayerMaster;
 import io.xeros.content.skills.slayer.Task;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.pets.PetHandler;
 import io.xeros.model.entity.player.Boundary;
-import io.xeros.model.entity.player.PathFinder;
 import io.xeros.model.entity.player.Player;
 
 public class AttackNpcCheck {

@@ -123,6 +123,7 @@ import io.xeros.model.cycleevent.Event;
 import io.xeros.model.cycleevent.impl.MinigamePlayersEvent;
 import io.xeros.model.cycleevent.impl.RunEnergyEvent;
 import io.xeros.model.cycleevent.impl.SkillRestorationEvent;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.EntityReference;

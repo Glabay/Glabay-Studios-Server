@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.OZIACH;
-import static io.xeros.model.Shops.OZIACH_SHOP;
+import static io.xeros.model.definition.Npcs.OZIACH;
+import static io.xeros.model.definition.Shops.OZIACH_SHOP;
 
 /**
  * @author Zei | Glabay-Studios

@@ -8,7 +8,7 @@ import io.xeros.content.bosses.zulrah.Zulrah;
 import io.xeros.content.minigames.inferno.InfernoWaveData;
 import io.xeros.content.minigames.warriors_guild.AnimatedArmour;
 import io.xeros.model.CombatType;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.util.Misc;

@@ -1,7 +1,7 @@
 package io.xeros.model.world.objects.actions.handlers.skilling.farming;
 
 import io.xeros.content.achievement_diary.impl.FaladorDiaryEntry;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;

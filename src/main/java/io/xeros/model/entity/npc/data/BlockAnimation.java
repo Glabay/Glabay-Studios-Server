@@ -3,8 +3,8 @@ package io.xeros.model.entity.npc.data;
 import io.xeros.content.bosses.Skotizo;
 import io.xeros.content.bosses.hespori.Hespori;
 import io.xeros.content.minigames.inferno.InfernoWaveData;
-import io.xeros.model.Items;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Items;
+import io.xeros.model.definition.Npcs;
 
 public class BlockAnimation {
 

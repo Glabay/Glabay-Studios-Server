@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.LOWE;
-import static io.xeros.model.Shops.RANGE_SHOP;
+import static io.xeros.model.definition.Npcs.LOWE;
+import static io.xeros.model.definition.Shops.RANGE_SHOP;
 
 /**
  * @author Glabay | Glabay-Studios

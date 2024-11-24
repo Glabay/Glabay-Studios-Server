@@ -2,7 +2,7 @@ package io.xeros.content.fireofexchange;
 
 import com.google.common.base.Preconditions;
 import io.xeros.content.bosspoints.JarsToPoints;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.ItemAssistant;
 import io.xeros.model.shops.ShopItem;

@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.*;
-import static io.xeros.model.Shops.SIGMUND_THE_MERCHANT_SHOP;
+import static io.xeros.model.definition.Npcs.*;
+import static io.xeros.model.definition.Shops.SIGMUND_THE_MERCHANT_SHOP;
 
 /**
  * @author Zei | Glabay-Studios

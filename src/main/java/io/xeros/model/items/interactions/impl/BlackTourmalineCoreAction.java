@@ -3,7 +3,7 @@ package io.xeros.model.items.interactions.impl;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.interactions.WorldItemAction;
 
-import static io.xeros.model.Items.BLACK_TOURMALINE_CORE;
+import static io.xeros.model.definition.Items.BLACK_TOURMALINE_CORE;
 
 /**
  * @author Glabay | Glabay-Studios

@@ -4,7 +4,7 @@ import io.xeros.Server;
 import io.xeros.content.bosses.hespori.Hespori;
 import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.item.lootable.impl.LarransChest;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPC;

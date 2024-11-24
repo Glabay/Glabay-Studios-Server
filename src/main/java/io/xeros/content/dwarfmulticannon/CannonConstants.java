@@ -2,7 +2,7 @@ package io.xeros.content.dwarfmulticannon;
 
 import io.xeros.content.minigames.tob.TobConstants;
 import io.xeros.model.Animation;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Boundary;
 
 import static io.xeros.model.entity.player.Boundary.ABYSSAL_SIRE;

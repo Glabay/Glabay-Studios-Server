@@ -3,12 +3,10 @@ package io.xeros.content.bosses.mimic;
 import io.xeros.content.instances.InstanceConfiguration;
 import io.xeros.content.instances.InstanceConfigurationBuilder;
 import io.xeros.content.instances.InstancedArea;
-import io.xeros.content.minigames.tob.TobConstants;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
-import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.entity.player.Position;
 
 public class MimicInstance extends InstancedArea {

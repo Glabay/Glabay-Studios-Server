@@ -5,9 +5,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Items.BANDAGES;
-import static io.xeros.model.Npcs.SIGMUND_THE_MERCHANT;
-import static io.xeros.model.Npcs.SURGEON_GENERAL_TAFANI;
+import static io.xeros.model.definition.Items.BANDAGES;
+import static io.xeros.model.definition.Npcs.SURGEON_GENERAL_TAFANI;
 
 /**
  * @author Zei | Glabay-Studios

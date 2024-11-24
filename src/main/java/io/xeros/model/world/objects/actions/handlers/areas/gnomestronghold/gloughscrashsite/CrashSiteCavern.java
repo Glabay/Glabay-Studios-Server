@@ -5,7 +5,7 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
-import static io.xeros.model.Objects.CAVERN_ENTRANCE_28686;
+import static io.xeros.model.definition.Objects.CAVERN_ENTRANCE_28686;
 
 /**
  * @author Zei | Glabay-Studios

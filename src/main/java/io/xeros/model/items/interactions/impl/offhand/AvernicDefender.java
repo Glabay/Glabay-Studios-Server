@@ -3,7 +3,7 @@ package io.xeros.model.items.interactions.impl.offhand;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.interactions.WorldItemAction;
 
-import static io.xeros.model.Items.AVERNIC_DEFENDER_HILT;
+import static io.xeros.model.definition.Items.AVERNIC_DEFENDER_HILT;
 
 /**
  * @author Zei | Glabay-Studios

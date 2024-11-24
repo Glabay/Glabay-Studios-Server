@@ -4,7 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.WISE_OLD_MAN_4306;
+import static io.xeros.model.definition.Npcs.WISE_OLD_MAN_4306;
 
 /**
  * @author Glabay | Glabay-Studios

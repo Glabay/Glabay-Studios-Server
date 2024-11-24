@@ -28,6 +28,8 @@ import io.xeros.model.collisionmap.PathChecker;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;
+import io.xeros.model.definition.Items;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.definitions.AnimationLength;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.definitions.ItemStats;

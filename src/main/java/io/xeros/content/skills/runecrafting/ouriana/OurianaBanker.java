@@ -1,11 +1,8 @@
 package io.xeros.content.skills.runecrafting.ouriana;
 
-import java.util.function.Consumer;
-
 import io.xeros.content.PlayerEmotes;
 import io.xeros.content.dialogue.DialogueBuilder;
-import io.xeros.model.Items;
-import io.xeros.model.collisionmap.WorldObject;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;

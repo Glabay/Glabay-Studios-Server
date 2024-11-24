@@ -4,7 +4,6 @@ import io.xeros.content.bosses.wildypursuit.FragmentOfSeren;
 import io.xeros.content.bosses.wildypursuit.TheUnbearable;
 import io.xeros.content.itemskeptondeath.DeathItemModifier;
 import io.xeros.content.minigames.bounty_hunter.BountyHunterEmblem;
-import io.xeros.model.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;
 

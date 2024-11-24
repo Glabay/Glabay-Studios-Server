@@ -5,7 +5,7 @@ import java.util.Optional;
 import io.xeros.content.combat.Damage;
 import io.xeros.content.combat.effects.damageeffect.DamageBoostingEffect;
 import io.xeros.content.combat.range.RangeData;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.HealthStatus;
 import io.xeros.model.entity.npc.NPC;

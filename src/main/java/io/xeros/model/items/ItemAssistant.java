@@ -19,7 +19,7 @@ import io.xeros.content.lootbag.LootingBagItem;
 import io.xeros.content.skills.Skill;
 import io.xeros.content.skills.agility.AgilityHandler;
 import io.xeros.model.Bonus;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.SkillLevel;
 import io.xeros.model.SlottedItem;
 import io.xeros.model.definitions.ItemDef;

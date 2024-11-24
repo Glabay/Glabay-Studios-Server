@@ -4,7 +4,7 @@ import io.xeros.Server;
 import io.xeros.content.skills.herblore.HerbloreDecantCleanUnfNpc;
 import io.xeros.content.skills.hunter.impling.Impling;
 import io.xeros.content.skills.runecrafting.ouriana.OurianaBanker;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;
 import io.xeros.util.Misc;

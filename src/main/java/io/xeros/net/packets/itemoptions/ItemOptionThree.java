@@ -18,7 +18,7 @@ import io.xeros.content.items.TomeOfFire;
 import io.xeros.content.items.pouch.RunePouch;
 import io.xeros.content.skills.crafting.BryophytaStaff;
 import io.xeros.content.teleportation.TeleportTablets;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.net.packets.PacketType;
 import io.xeros.model.entity.player.Player;

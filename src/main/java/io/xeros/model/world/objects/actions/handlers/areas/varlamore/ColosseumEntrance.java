@@ -4,7 +4,7 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
-import static io.xeros.model.Objects.COLOSSEUM_ENTRANCE;
+import static io.xeros.model.definition.Objects.COLOSSEUM_ENTRANCE;
 
 /**
  * @author Glabay | Glabay-Studios

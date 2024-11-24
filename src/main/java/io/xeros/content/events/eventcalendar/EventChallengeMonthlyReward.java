@@ -1,7 +1,7 @@
 package io.xeros.content.events.eventcalendar;
 
 import io.xeros.Server;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.sql.DatabaseManager;
 import io.xeros.sql.eventcalendar.queries.GetMonthlyCalendarParticipants;

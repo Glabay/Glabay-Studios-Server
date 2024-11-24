@@ -1,6 +1,6 @@
 package io.xeros.util;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.Arrays;

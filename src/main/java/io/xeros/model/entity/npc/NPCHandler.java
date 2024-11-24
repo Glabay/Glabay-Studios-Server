@@ -40,6 +40,7 @@ import io.xeros.model.collisionmap.PathChecker;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.definitions.NpcDef;
 import io.xeros.model.definitions.NpcStats;
 import io.xeros.model.entity.npc.actions.LoadSpell;

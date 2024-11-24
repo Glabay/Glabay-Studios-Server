@@ -10,7 +10,7 @@ import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueExpression;
 import io.xeros.content.questing.Quest;
 import io.xeros.content.skills.Skill;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.SkillLevel;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.entity.npc.NPC;

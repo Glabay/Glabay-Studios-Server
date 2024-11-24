@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import io.xeros.Server;
 import io.xeros.content.combat.Hitmark;
 import io.xeros.model.Direction;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.ProjectileBaseBuilder;
 import io.xeros.model.StillGraphic;
 import io.xeros.model.collisionmap.PathChecker;
@@ -17,7 +17,6 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCDumbPathFinder;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.player.Player;
-import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.entity.player.Position;
 import io.xeros.util.Misc;
 

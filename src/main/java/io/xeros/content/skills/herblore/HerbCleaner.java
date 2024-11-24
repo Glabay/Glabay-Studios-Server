@@ -2,7 +2,7 @@ package io.xeros.content.skills.herblore;
 
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueOption;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.SlottedItem;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Player;

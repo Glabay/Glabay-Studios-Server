@@ -9,7 +9,7 @@ import io.xeros.content.combat.death.NPCDeath;
 import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.item.lootable.LootRarity;
 import io.xeros.content.item.lootable.Lootable;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;
 import io.xeros.util.Misc;

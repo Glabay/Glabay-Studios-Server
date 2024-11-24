@@ -1,7 +1,7 @@
 package io.xeros.content.bosses.obor;
 
 import io.xeros.content.instances.*;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.cycleevent.*;
 import io.xeros.model.entity.npc.NPC;

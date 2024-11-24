@@ -4,7 +4,7 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
-import static io.xeros.model.Objects.ROPE_BRIDGE_21311;
+import static io.xeros.model.definition.Objects.ROPE_BRIDGE_21311;
 
 /**
  * @author Zei | Glabay-Studios

@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.TZHAAR_MEJ_JAL_DIALOGUE;
-import static io.xeros.model.Npcs.TZHAARMEJJAL;
+import static io.xeros.model.definition.Dialogues.TZHAAR_MEJ_JAL_DIALOGUE;
+import static io.xeros.model.definition.Npcs.TZHAARMEJJAL;
 
 /**
  * @author Zeighe | Glabay-Studios

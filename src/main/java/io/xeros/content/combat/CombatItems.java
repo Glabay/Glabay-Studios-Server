@@ -9,7 +9,7 @@ import io.xeros.content.combat.weapon.CombatStyle;
 import io.xeros.content.items.OrnamentedItem;
 import io.xeros.model.CombatType;
 import io.xeros.model.Graphic;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.HealthStatus;

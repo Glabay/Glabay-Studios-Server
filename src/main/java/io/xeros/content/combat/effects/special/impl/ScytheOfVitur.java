@@ -4,7 +4,7 @@ import io.xeros.Server;
 import io.xeros.content.combat.effects.special.SpecialEffect;
 import io.xeros.model.Direction;
 import io.xeros.model.Graphic;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.StillGraphic;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.Player;

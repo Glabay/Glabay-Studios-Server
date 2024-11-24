@@ -2,7 +2,7 @@ package io.xeros.content.combat.magic;
 
 import io.xeros.Configuration;
 import io.xeros.content.skills.crafting.BryophytaStaff;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;

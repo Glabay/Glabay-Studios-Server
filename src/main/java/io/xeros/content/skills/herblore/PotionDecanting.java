@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.xeros.Server;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;
 

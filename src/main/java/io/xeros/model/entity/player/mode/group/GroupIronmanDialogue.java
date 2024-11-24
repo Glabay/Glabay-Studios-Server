@@ -2,7 +2,7 @@ package io.xeros.model.entity.player.mode.group;
 
 import io.xeros.content.dialogue.*;
 import io.xeros.content.fireofexchange.FireOfExchangeBurnPrice;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.SlottedItem;
 import io.xeros.model.entity.player.*;
 import io.xeros.model.entity.player.mode.ModeRevertType;

@@ -4,9 +4,9 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.INFORMATION_CLERK_DIALOGUE_2;
-import static io.xeros.model.Dialogues.INFORMATION_CLERK_DIALOGUE_3;
-import static io.xeros.model.Npcs.INFORMATION_CLERK;
+import static io.xeros.model.definition.Dialogues.INFORMATION_CLERK_DIALOGUE_2;
+import static io.xeros.model.definition.Dialogues.INFORMATION_CLERK_DIALOGUE_3;
+import static io.xeros.model.definition.Npcs.INFORMATION_CLERK;
 
 /**
  * @author Zei | Glabay-Studios

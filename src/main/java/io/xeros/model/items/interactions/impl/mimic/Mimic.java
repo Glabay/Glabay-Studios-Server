@@ -4,7 +4,7 @@ import io.xeros.content.bosses.mimic.MimicCasket;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.interactions.WorldItemAction;
 
-import static io.xeros.model.Items.MIMIC;
+import static io.xeros.model.definition.Items.MIMIC;
 
 /**
  * @author Zei | Glabay-Studios

@@ -3,7 +3,7 @@ package io.xeros.model.collisionmap;
 import io.xeros.content.skills.hunter.impling.Impling;
 import io.xeros.content.skills.hunter.trap.impl.BirdSnare;
 import io.xeros.content.skills.hunter.trap.impl.BoxTrap;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Position;

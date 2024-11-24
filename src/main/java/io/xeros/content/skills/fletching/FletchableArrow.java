@@ -1,6 +1,6 @@
 package io.xeros.content.skills.fletching;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 
 public enum FletchableArrow {
 	BRONZE(39, 882, 1, 1.3),

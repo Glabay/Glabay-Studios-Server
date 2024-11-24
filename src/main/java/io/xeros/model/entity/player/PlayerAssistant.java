@@ -46,6 +46,7 @@ import io.xeros.model.*;
 import io.xeros.model.collisionmap.PathChecker;
 import io.xeros.model.cycleevent.CycleEventHandler;
 import io.xeros.model.cycleevent.impl.WheatPortalEvent;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;

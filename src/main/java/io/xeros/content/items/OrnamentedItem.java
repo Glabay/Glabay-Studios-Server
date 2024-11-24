@@ -1,7 +1,7 @@
 package io.xeros.content.items;
 
 import io.xeros.annotate.PostInit;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Player;
 

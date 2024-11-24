@@ -8,7 +8,7 @@ import io.xeros.content.items.PvpWeapons;
 import io.xeros.content.skills.Skill;
 import io.xeros.model.Bonus;
 import io.xeros.model.CombatType;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemStats;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;

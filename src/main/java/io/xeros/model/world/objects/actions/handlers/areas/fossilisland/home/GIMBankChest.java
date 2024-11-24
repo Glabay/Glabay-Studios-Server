@@ -8,7 +8,7 @@ import io.xeros.model.world.objects.actions.WorldObjectAction;
 
 import java.util.Optional;
 
-import static io.xeros.model.Objects.*;
+import static io.xeros.model.definition.Objects.*;
 
 /**
  * @author Zei | Glabay-Studios

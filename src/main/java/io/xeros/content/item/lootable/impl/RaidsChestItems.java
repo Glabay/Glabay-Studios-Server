@@ -7,7 +7,7 @@ import java.util.Map;
 
 import io.xeros.content.item.lootable.LootRarity;
 import io.xeros.content.minigames.raids.Raids;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.items.GameItem;
 import io.xeros.model.items.GameItemVariableAmount;
 import io.xeros.util.Misc;

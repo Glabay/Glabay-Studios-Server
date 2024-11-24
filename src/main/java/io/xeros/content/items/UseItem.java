@@ -33,7 +33,7 @@ import io.xeros.content.skills.slayer.SlayerUnlock;
 import io.xeros.content.trails.MasterClue;
 import io.xeros.content.wogw.Wogw;
 import io.xeros.model.Animation;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Boundary;

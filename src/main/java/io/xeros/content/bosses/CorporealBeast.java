@@ -1,6 +1,6 @@
 package io.xeros.content.bosses;
 
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.NPCSpawning;

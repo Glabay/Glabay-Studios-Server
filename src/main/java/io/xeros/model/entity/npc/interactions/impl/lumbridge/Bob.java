@@ -1,12 +1,11 @@
 package io.xeros.model.entity.npc.interactions.impl.lumbridge;
 
-import io.xeros.content.dialogue.impl.IronmanNpcDialogue;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.*;
-import static io.xeros.model.Shops.BOB_BRILLIANT_AXES_SHOP;
+import static io.xeros.model.definition.Npcs.*;
+import static io.xeros.model.definition.Shops.BOB_BRILLIANT_AXES_SHOP;
 
 /**
  * @author Zei | Glabay-Studios

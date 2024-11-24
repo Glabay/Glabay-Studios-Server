@@ -11,14 +11,13 @@ import io.xeros.content.items.PvpWeapons;
 import io.xeros.content.skills.Skill;
 import io.xeros.model.Bonus;
 import io.xeros.model.CombatType;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.SpellBook;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.pets.PetHandler;
 import io.xeros.model.entity.npc.stats.NpcCombatDefinition;
 import io.xeros.model.entity.npc.stats.NpcCombatSkill;
-import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.util.Misc;
 

@@ -5,7 +5,7 @@ import io.xeros.content.bosses.wildypursuit.FragmentOfSeren;
 import io.xeros.content.bosses.wildypursuit.TheUnbearable;
 import io.xeros.content.skills.hunter.trap.impl.BirdSnare;
 import io.xeros.content.skills.hunter.trap.impl.BoxTrap;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.npc.NPC;
 
 public class RespawnTime {

@@ -7,7 +7,7 @@ import io.xeros.content.DiceHandler;
 import io.xeros.content.items.RottenPotato;
 import io.xeros.content.lootbag.LootingBag;
 import io.xeros.content.skills.runecrafting.Pouches;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
 import io.xeros.model.multiplayersession.MultiplayerSessionType;

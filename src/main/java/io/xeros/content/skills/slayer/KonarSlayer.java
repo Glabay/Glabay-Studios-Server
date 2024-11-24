@@ -1,8 +1,5 @@
 package io.xeros.content.skills.slayer;
 
-import io.xeros.content.dialogue.DialogueBuilder;
-import io.xeros.model.AmountInput;
-import io.xeros.model.Npcs;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.util.Misc;

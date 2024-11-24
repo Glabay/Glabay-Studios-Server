@@ -32,7 +32,7 @@ import io.xeros.content.combat.npc.NPCCombatAttack;
 import io.xeros.content.combat.specials.Special;
 import io.xeros.content.combat.specials.Specials;
 import io.xeros.model.CombatType;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.HealthStatus;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;

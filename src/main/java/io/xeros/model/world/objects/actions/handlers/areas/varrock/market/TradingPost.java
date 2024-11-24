@@ -5,8 +5,8 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
-import static io.xeros.model.Objects.GRAND_EXCHANGE_BOOTH;
-import static io.xeros.model.Objects.GRAND_EXCHANGE_BOOTH_10061;
+import static io.xeros.model.definition.Objects.GRAND_EXCHANGE_BOOTH;
+import static io.xeros.model.definition.Objects.GRAND_EXCHANGE_BOOTH_10061;
 
 /**
  * @author Glabay | Glabay-Studios

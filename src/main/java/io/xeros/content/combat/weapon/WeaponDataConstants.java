@@ -1,6 +1,6 @@
 package io.xeros.content.combat.weapon;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 
 public class WeaponDataConstants {
 

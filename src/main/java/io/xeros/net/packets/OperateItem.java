@@ -9,7 +9,7 @@ import io.xeros.content.combat.effects.damageeffect.impl.DragonfireShieldEffect;
 import io.xeros.content.combat.magic.SanguinestiStaff;
 import io.xeros.content.items.Degrade;
 import io.xeros.content.skills.crafting.BryophytaStaff;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;

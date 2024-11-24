@@ -2,8 +2,7 @@ package io.xeros.content.trails;
 
 import java.util.*;
 
-import com.google.common.collect.Lists;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.items.GameItem;
 import io.xeros.util.Misc;
 
