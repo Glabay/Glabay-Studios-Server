@@ -178,14 +178,14 @@ tasks {
         group = "Service"
         description = "Update Cache to the defined revision"
         classpath = sourceSets.main.get().runtimeClasspath
-        mainClass.set("com.varlamore.UpdateCacheKt")
+        mainClass.set("com.UpdateCacheKt")
     }
 
     register<JavaExec>("Build Cache") {
         group = "Service"
         description = "Pack all custom Files into the cache"
         classpath = sourceSets.main.get().runtimeClasspath
-        mainClass.set("com.varlamore.BuildCacheKt")
+        mainClass.set("com.BuildCacheKt")
     }
 
 }
