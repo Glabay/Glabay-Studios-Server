@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.stream.Collectors;
 
 import io.xeros.Server;
 import io.xeros.model.entity.player.Player;
@@ -29,7 +28,6 @@ public class Punishments {
      * -- GETTER --
      *  The list of punishments
      *
-     * @return the punishments
 
      */
 	@Getter
@@ -104,8 +102,8 @@ public class Punishments {
 		List<Punishment> punishments = this.punishments.get(punishmentType);
 
 		for (Punishment punishment : punishments) {
-			stream.writeQWord(punishment.getDuration());
-			for (String information : punishment.getData()) {
+			stream.writeQWord(punishment.duration());
+			for (String information : punishment.data()) {
 				stream.writeString(information);
 			}
 		}
@@ -151,7 +149,7 @@ public class Punishments {
 		int occurances = 0;
 
 		for (Punishment punishment : punishments.get(type)) {
-			outer: for (String data : punishment.getData()) {
+			outer: for (String data : punishment.data()) {
 				for (String info : information) {
 					if (data.equalsIgnoreCase(info)) {
 						occurances++;
@@ -182,9 +180,9 @@ public class Punishments {
 	 * @param punishment the punishment to be removed
 	 */
 	public boolean remove(Punishment punishment) {
-		List<Punishment> punishments = this.punishments.get(punishment.getType());
+		List<Punishment> punishments = this.punishments.get(punishment.type());
 		if (punishments == null) return false;
-		var matches = punishments.stream().filter(p -> Arrays.stream(p.getData()).anyMatch(punishment::contains)).toList();
+		var matches = punishments.stream().filter(p -> Arrays.stream(p.data()).anyMatch(punishment::contains)).toList();
 		if (matches.isEmpty()) return false;
         toRemove.addAll(matches);
 		return true;
@@ -208,9 +206,9 @@ public class Punishments {
 
 	public void forceQueueUpdate() {
 		toAdd.forEach(punishment -> {
-			List<Punishment> punishments = this.punishments.getOrDefault(punishment.getType(), new ArrayList<>());
+			List<Punishment> punishments = this.punishments.getOrDefault(punishment.type(), new ArrayList<>());
 			punishments.add(punishment);
-			this.punishments.put(punishment.getType(), punishments);
+			this.punishments.put(punishment.type(), punishments);
 		});
 	}
 
@@ -236,10 +234,8 @@ public class Punishments {
 			return true;
 		if (addresses.getMac() != null && contains(PunishmentType.NET_MUTE, addresses.getMac()))
 			return true;
-		if (addresses.getUUID() != null && contains(PunishmentType.NET_MUTE, addresses.getUUID()))
-			return true;
-		return false;
-	}
+        return addresses.getUUID() != null && contains(PunishmentType.NET_MUTE, addresses.getUUID());
+    }
 
     /**
 	 * The punishments to be added

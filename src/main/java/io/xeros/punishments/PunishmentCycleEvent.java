@@ -24,29 +24,23 @@ public class PunishmentCycleEvent extends Event<Punishments> {
 
 		if (!add.isEmpty()) {
 			add.forEach(punishment -> {
-				List<Punishment> list = punishments.get(punishment.getType());
+				List<Punishment> list = punishments.get(punishment.type());
 				list.add(punishment);
-				if (!typesUpdated.contains(punishment.getType())) {
-					typesUpdated.add(punishment.getType());
-				}
+				if (!typesUpdated.contains(punishment.type())) typesUpdated.add(punishment.type());
 			});
 			add.clear();
 		}
 
 		if (!remove.isEmpty()) {
 			remove.forEach(punishment -> {
-				List<Punishment> list = punishments.get(punishment.getType());
+				List<Punishment> list = punishments.get(punishment.type());
 				list.remove(punishment);
-				if (!typesUpdated.contains(punishment.getType())) {
-					typesUpdated.add(punishment.getType());
-				}
+				if (!typesUpdated.contains(punishment.type())) typesUpdated.add(punishment.type());
 			});
 			remove.clear();
 		}
 
-		if (!typesUpdated.isEmpty()) {
-			typesUpdated.forEach(type -> Server.getPunishments().write(type));
-		}
+		if (!typesUpdated.isEmpty()) typesUpdated.forEach(type -> Server.getPunishments().write(type));
 	}
 
 	@Override
@@ -55,12 +49,8 @@ public class PunishmentCycleEvent extends Event<Punishments> {
 			List<Punishment> punishments = entry.getValue();
 
 			for (Punishment punishment : punishments) {
-				if (punishment.getDuration() == 0 || punishment.getDuration() == Long.MAX_VALUE) {
-					continue;
-				}
-				if (System.currentTimeMillis() > punishment.getDuration()) {
-					Server.getPunishments().remove(punishment);
-                }
+				if (punishment.duration() == 0 || punishment.duration() == Long.MAX_VALUE) continue;
+				if (System.currentTimeMillis() > punishment.duration()) Server.getPunishments().remove(punishment);
 			}
 		}
 	}
