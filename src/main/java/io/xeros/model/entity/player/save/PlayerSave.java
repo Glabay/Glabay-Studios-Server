@@ -273,8 +273,6 @@ public class PlayerSave {
                             p.setMode(mode);
                         } else if (token.equals("character-title-updated")) {
                             p.getTitles().setCurrentTitle(token2);
-                        } else if (token.equals("receivedVoteStreakRefund")) {
-                            p.setReceivedVoteStreakRefund(Boolean.parseBoolean(token2));
                         } else if (token.equals("experience-counter")) {
                             p.setExperienceCounter(Long.parseLong(token2));
                         } else if (token.equals("connected-from")) {
@@ -1110,11 +1108,11 @@ public class PlayerSave {
         if (p.getLoginName() == null || PlayerHandler.players[p.getIndex()] == null) {
             return false;
         }
-        if (!p.isBot())
-            logger.debug("Saving game for {}", p);
+        if (p.isBot()) return false;
+        logger.debug("Saving game for {}", p);
         Misc.createDirectory(getSaveDirectory());
         int tbTime = (int) (p.teleBlockStartMillis - System.currentTimeMillis() + p.teleBlockLength);
-        if (tbTime > 300000 || tbTime < 0) {
+        if (tbTime > 300_000 || tbTime < 0) {
             tbTime = 0;
         }
         try {
@@ -1233,9 +1231,6 @@ public class PlayerSave {
             characterfile.write("experience-counter = " + p.getExperienceCounter());
             characterfile.newLine();
             characterfile.write("character-title-updated = " + p.getTitles().getCurrentTitle());
-            characterfile.newLine();
-
-            characterfile.write("receivedVoteStreakRefund = " + p.isReceivedVoteStreakRefund());
             characterfile.newLine();
 
             // EventCalendar
@@ -2332,7 +2327,8 @@ public class PlayerSave {
             characterfile.newLine();
             characterfile.newLine();
             characterfile.close();
-        } catch (Exception ioexception) {
+        }
+        catch (Exception ioexception) {
             logger.error("Error while saving player {}", p, ioexception);
             ioexception.printStackTrace(System.err);
             return false;

@@ -15,7 +15,7 @@ public class Checkanima extends Command {
 
 	@Override
 	public void execute(Player c, String commandName, String input) {
-		c.sendMessage("" + Hespori.activeAnimaBonus());
+		c.sendMessage(Hespori.activeAnimaBonus());
 	}
 
 

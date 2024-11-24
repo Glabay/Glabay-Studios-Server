@@ -35,14 +35,11 @@ import lombok.Getter;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.misc.Unsafe;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.VarHandle;
-import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -150,11 +147,10 @@ public class Server {
 
     public static void loadData() throws Exception {
         Preconditions.checkState(!loaded, "Already loaded data once.");
-        logger.info("Server state: " + configuration.getServerState());
+        logger.info("Server state: {}", configuration.getServerState());
         loadAttributes();
         databaseManager = new DatabaseManager(getConfiguration().getServerState().isSqlEnabled());
-        embeddedDatabase = new EmbeddedDatabase(getConfiguration().getServerState().name().toLowerCase() + "_main",
-                null, getConfiguration().getEmbeddedPassword());
+        embeddedDatabase = new EmbeddedDatabase(getConfiguration().getServerState().name().toLowerCase() + "_main", null, getConfiguration().getEmbeddedPassword());
 
         if (configuration.isLocalDatabaseEnabled()) {
             DatabaseCredentials localDatabase = configuration.getLocalDatabase();
@@ -194,11 +190,6 @@ public class Server {
                 if (configuration == null) {
                     setConfiguration(loadConfiguration());
                 }
-
-                // Set log level for debug mode
-                ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger)LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
-                root.setLevel(isDebug() || isTest() ? ch.qos.logback.classic.Level.ALL : ch.qos.logback.classic.Level.INFO);
-
                 loadData();
                 Discord.writeServerSyncMessage("Server is now online.");
 

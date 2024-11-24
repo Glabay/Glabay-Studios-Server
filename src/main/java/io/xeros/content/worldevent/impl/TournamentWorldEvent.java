@@ -3,7 +3,6 @@ package io.xeros.content.worldevent.impl;
 import java.util.List;
 
 import io.xeros.content.commands.Command;
-import io.xeros.content.commands.all.Outlast;
 import io.xeros.content.tournaments.TourneyManager;
 import io.xeros.content.worldevent.WorldEvent;
 import io.xeros.model.entity.player.Player;
@@ -46,7 +45,7 @@ public class TournamentWorldEvent implements WorldEvent {
 
     @Override
     public Class<? extends Command> getTeleportCommand() {
-        return Outlast.class;
+        return null;
     }
 
     @Override

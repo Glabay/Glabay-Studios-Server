@@ -3,6 +3,9 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.kotlin.jvm) apply true
     alias(libs.plugins.kotlin.serialization)
+//    id("org.springframework.boot") version "3.0.0"
+//    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+//    kotlin("plugin.spring") version "1.9.23"
     idea
     application
 }
@@ -82,7 +85,7 @@ dependencies {
     implementation("org.apache.commons:commons-lang3:3.14.0")
     implementation("net.java.dev.jna:jna:5.14.0")
     implementation("com.mchange:mchange-commons-java:0.3.0")
-    implementation("io.netty:netty-all:4.1.107.Final")
+    implementation("io.netty:netty-all:4.1.85.Final")
     implementation("com.github.oshi:oshi-core:6.5.0")
     implementation("net.java.dev.jna:jna-platform:5.14.0")
     implementation("org.yaml:snakeyaml:2.2")
@@ -97,6 +100,10 @@ dependencies {
 
     implementation("com.github.jsurfer:jsurfer-gson:1.6.3")
     implementation("com.github.jsurfer:jsurfer-jackson:1.6.3")
+
+    implementation("org.slf4j:slf4j-api:2.0.9")
+    implementation("ch.qos.logback:logback-classic:1.4.12")
+
     constraints {
         implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
     }
@@ -105,6 +112,7 @@ dependencies {
     implementation("com.displee:rs-cache-library:7.1.3")
 }
 configurations.all {
+    exclude(group = "io.netty", module = "netty-transport-native-epoll")
     exclude(group = "org.slf4j", module = "slf4j-simple")
     exclude(group = "org.slf4j", module = "slf4j-nop")
     exclude(group = "org.slf4j", module = "slf4j-log4j12")
@@ -121,6 +129,7 @@ tasks.withType<Copy> {
 
 tasks.withType<KotlinCompile>().all {
     kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
         languageVersion = "2.1"
         jvmTarget = "21"
         freeCompilerArgs = listOf(
