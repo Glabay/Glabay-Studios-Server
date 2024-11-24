@@ -145,6 +145,7 @@ import io.xeros.model.entity.player.save.PlayerSave;
 import io.xeros.model.items.*;
 import io.xeros.model.items.bank.Bank;
 import io.xeros.model.items.bank.BankPin;
+import io.xeros.model.items.interactions.impl.offhand.TomeOfFire;
 import io.xeros.model.lobby.LobbyManager;
 import io.xeros.model.lobby.LobbyType;
 import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
