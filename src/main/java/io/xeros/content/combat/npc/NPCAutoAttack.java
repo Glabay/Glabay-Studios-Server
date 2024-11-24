@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 import io.xeros.model.Animation;
 import io.xeros.model.CombatType;
 import io.xeros.model.Graphic;
-import io.xeros.model.ProjectileBase;
+import io.xeros.model.projectile.ProjectileBase;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;

@@ -4,7 +4,7 @@ import io.xeros.content.combat.npc.NPCAutoAttackBuilder;
 import io.xeros.model.Animation;
 import io.xeros.model.CombatType;
 import io.xeros.model.Graphic;
-import io.xeros.model.ProjectileBaseBuilder;
+import io.xeros.model.projectile.ProjectileBaseBuilder;
 
 public class RangedShootArrow extends NPCAutoAttackBuilder {
 

@@ -4,6 +4,8 @@ import io.xeros.content.combat.npc.NPCAutoAttack;
 import io.xeros.content.combat.npc.NPCAutoAttackBuilder;
 import io.xeros.content.combat.npc.NPCCombatAttack;
 import io.xeros.model.*;
+import io.xeros.model.projectile.ProjectileBase;
+import io.xeros.model.projectile.ProjectileBaseBuilder;
 
 import java.util.function.Function;
 

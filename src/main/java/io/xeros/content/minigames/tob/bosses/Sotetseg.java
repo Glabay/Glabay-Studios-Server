@@ -8,7 +8,7 @@ import io.xeros.content.minigames.tob.TobBoss;
 import io.xeros.model.Animation;
 import io.xeros.model.CombatType;
 import io.xeros.model.definition.Npcs;
-import io.xeros.model.ProjectileBaseBuilder;
+import io.xeros.model.projectile.ProjectileBaseBuilder;
 import io.xeros.model.entity.player.Position;
 
 public class Sotetseg extends TobBoss {

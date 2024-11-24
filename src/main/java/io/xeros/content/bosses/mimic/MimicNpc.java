@@ -5,7 +5,7 @@ import io.xeros.Server;
 import io.xeros.content.combat.Hitmark;
 import io.xeros.model.Direction;
 import io.xeros.model.definition.Npcs;
-import io.xeros.model.ProjectileBaseBuilder;
+import io.xeros.model.projectile.ProjectileBaseBuilder;
 import io.xeros.model.StillGraphic;
 import io.xeros.model.collisionmap.PathChecker;
 import io.xeros.model.cycleevent.CycleEvent;

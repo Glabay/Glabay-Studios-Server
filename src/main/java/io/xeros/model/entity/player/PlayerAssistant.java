@@ -65,6 +65,7 @@ import io.xeros.model.multiplayersession.MultiplayerSessionStage;
 import io.xeros.model.multiplayersession.MultiplayerSessionType;
 import io.xeros.model.multiplayersession.duel.DuelSession;
 import io.xeros.model.multiplayersession.duel.DuelSessionRules;
+import io.xeros.model.projectile.Projectile;
 import io.xeros.model.projectile.ProjectileEntity;
 import io.xeros.model.shops.ShopAssistant;
 import io.xeros.model.world.Clan;

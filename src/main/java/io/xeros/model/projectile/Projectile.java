@@ -1,4 +1,4 @@
-package io.xeros.model;
+package io.xeros.model.projectile;
 
 import io.xeros.Server;
 import io.xeros.content.instances.InstancedArea;

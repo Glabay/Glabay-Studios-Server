@@ -43,6 +43,7 @@ import io.xeros.model.items.ItemAssistant;
 import io.xeros.model.multiplayersession.MultiplayerSessionType;
 import io.xeros.model.multiplayersession.duel.DuelSession;
 import io.xeros.model.multiplayersession.duel.DuelSessionRules;
+import io.xeros.model.projectile.Projectile;
 import io.xeros.model.projectile.ProjectileEntity;
 import io.xeros.util.Misc;
 import org.jetbrains.annotations.NotNull;

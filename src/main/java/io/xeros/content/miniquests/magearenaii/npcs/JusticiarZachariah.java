@@ -15,6 +15,7 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.entity.player.Position;
 import io.xeros.model.items.GameItem;
+import io.xeros.model.projectile.ProjectileBaseBuilder;
 import io.xeros.util.Misc;
 
 public class JusticiarZachariah extends NPC {

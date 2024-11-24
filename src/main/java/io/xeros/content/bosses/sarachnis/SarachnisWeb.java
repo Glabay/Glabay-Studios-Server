@@ -11,6 +11,8 @@ import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.ClientGameTimer;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Position;
+import io.xeros.model.projectile.ProjectileBase;
+import io.xeros.model.projectile.ProjectileBaseBuilder;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.util.Misc;
 
