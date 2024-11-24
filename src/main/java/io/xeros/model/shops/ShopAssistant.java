@@ -10,7 +10,7 @@ import io.xeros.content.fireofexchange.FireOfExchangeBurnPrice;
 import io.xeros.content.lootbag.LootingBag;
 import io.xeros.content.questing.hftd.HftdQuest;
 import io.xeros.content.wogw.Wogwitems;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.definitions.ShopDef;
 import io.xeros.model.entity.player.Boundary;

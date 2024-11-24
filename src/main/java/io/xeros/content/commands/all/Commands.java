@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.google.common.collect.Lists;
 import io.xeros.content.commands.Command;
@@ -38,11 +37,11 @@ public class Commands extends Command {
 
 		for (Command command : allCommands) {
 			CommandPackage commandPackage = CommandManager.getPackage(command);
-			if (!commandMap.containsKey(commandPackage.getPackagePath())) {
-				commandMap.put(commandPackage.getPackagePath(), Lists.newArrayList());
+			if (!commandMap.containsKey(commandPackage.packagePath())) {
+				commandMap.put(commandPackage.packagePath(), Lists.newArrayList());
 			}
 
-			commandMap.get(commandPackage.getPackagePath()).add(command);
+			commandMap.get(commandPackage.packagePath()).add(command);
 		}
 
 		List<String> lines = Lists.newArrayList();

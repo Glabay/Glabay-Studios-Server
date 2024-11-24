@@ -4,8 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.HATIUS_COSAINTUS;
-import static io.xeros.model.Npcs.SIR_REBRAL;
+import static io.xeros.model.definition.Npcs.SIR_REBRAL;
 
 /**
  * @author Zei | Glabay-Studios

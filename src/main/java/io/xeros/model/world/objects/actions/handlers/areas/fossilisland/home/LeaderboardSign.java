@@ -5,8 +5,8 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
-import static io.xeros.model.Objects.NOTICE_BOARD_31846;
-import static io.xeros.model.Objects.SCOREBOARD_29064;
+import static io.xeros.model.definition.Objects.NOTICE_BOARD_31846;
+import static io.xeros.model.definition.Objects.SCOREBOARD_29064;
 
 /**
  * @author Zei | Glabay-Studios

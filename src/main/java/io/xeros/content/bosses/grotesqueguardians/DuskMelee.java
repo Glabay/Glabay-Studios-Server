@@ -1,14 +1,11 @@
 package io.xeros.content.bosses.grotesqueguardians;
 
-import io.xeros.content.bosses.mimic.MimicNpc;
 import io.xeros.content.combat.npc.NPCAutoAttack;
 import io.xeros.content.combat.npc.NPCAutoAttackBuilder;
 import io.xeros.content.combat.npc.NPCCombatAttack;
 import io.xeros.model.Animation;
-import io.xeros.model.CombatType;
-import io.xeros.model.Npcs;
+import io.xeros.model.entity.CombatType;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class DuskMelee implements Function<GrotesqueGuardianNpc, NPCAutoAttack> {

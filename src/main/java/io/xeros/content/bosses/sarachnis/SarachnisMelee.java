@@ -7,7 +7,7 @@ import io.xeros.content.combat.npc.NPCAutoAttackBuilder;
 import io.xeros.content.combat.npc.NPCCombatAttack;
 import io.xeros.content.combat.npc.NPCCombatAttackHit;
 import io.xeros.model.Animation;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.player.Player;
 
 import java.util.function.Consumer;

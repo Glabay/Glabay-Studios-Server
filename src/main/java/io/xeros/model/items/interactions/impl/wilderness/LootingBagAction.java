@@ -3,9 +3,9 @@ package io.xeros.model.items.interactions.impl.wilderness;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.interactions.WorldItemAction;
 
-import static io.xeros.model.Dialogues.LOOTING_BAG_OPTIONS_DIALOGUE_ID;
-import static io.xeros.model.Items.LOOTING_BAG;
-import static io.xeros.model.Items.LOOTING_BAG_OPEN;
+import static io.xeros.model.definition.Dialogues.LOOTING_BAG_OPTIONS_DIALOGUE_ID;
+import static io.xeros.model.definition.Items.LOOTING_BAG;
+import static io.xeros.model.definition.Items.LOOTING_BAG_OPEN;
 
 /**
  * @author Glabay | Glabay-Studios

@@ -8,11 +8,9 @@ import com.google.common.collect.Lists;
 import io.xeros.content.questing.LearningTheRopes.LearningTheRopesQuest;
 import io.xeros.content.questing.hftd.HftdQuest;
 import io.xeros.content.questing.MonkeyMadness.MonkeyMadnessQuest;
-import io.xeros.model.Items;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;
-import io.xeros.model.items.GameItem;
 
 public class Questing {
 

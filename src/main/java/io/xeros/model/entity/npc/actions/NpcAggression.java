@@ -13,7 +13,7 @@ import io.xeros.content.bosses.hydra.HydraStage;
 import io.xeros.content.bosses.wildypursuit.FragmentOfSeren;
 import io.xeros.content.bosses.zulrah.Zulrah;
 import io.xeros.content.questing.hftd.DagannothMother;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.player.Boundary;

@@ -3,10 +3,12 @@ package io.xeros.content.bosses.bryophyta;
 import com.google.common.collect.Lists;
 import io.xeros.content.combat.npc.NPCAutoAttackBuilder;
 import io.xeros.model.*;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.Position;
+import io.xeros.model.projectile.ProjectileBaseBuilder;
 import io.xeros.util.Misc;
 
 import java.util.Arrays;

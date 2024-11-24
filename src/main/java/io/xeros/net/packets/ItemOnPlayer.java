@@ -9,8 +9,8 @@ import io.xeros.model.entity.player.Right;
 import io.xeros.model.items.ItemAssistant;
 import io.xeros.util.Misc;
 
-import static io.xeros.model.Items.ROTTEN_POTATO;
-import static io.xeros.model.Items.WRENCH;
+import static io.xeros.model.definition.Items.ROTTEN_POTATO;
+import static io.xeros.model.definition.Items.WRENCH;
 
 public class ItemOnPlayer implements PacketType {
 

@@ -2,12 +2,10 @@ package io.xeros.content.combat.specials.impl;
 
 import io.xeros.content.combat.Damage;
 import io.xeros.content.combat.Hitmark;
-import io.xeros.content.combat.formula.MeleeMaxHit;
 import io.xeros.content.combat.formula.rework.MeleeCombatFormula;
-import io.xeros.content.combat.melee.CombatPrayer;
 import io.xeros.content.combat.specials.Special;
 import io.xeros.content.skills.Skill;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerAssistant;

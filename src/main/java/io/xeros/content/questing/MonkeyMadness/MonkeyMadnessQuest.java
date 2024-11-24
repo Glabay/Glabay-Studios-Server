@@ -1,24 +1,19 @@
 package io.xeros.content.questing.MonkeyMadness;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import io.xeros.content.achievement.AchievementType;
-import io.xeros.content.achievement.Achievements;
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueExpression;
 import io.xeros.content.dialogue.DialogueOption;
 import io.xeros.content.questing.Quest;
-import io.xeros.content.questing.hftd.DagannothMother;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.SkillLevel;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.mode.ModeType;
-import io.xeros.model.items.ImmutableItem;
 
 public class MonkeyMadnessQuest extends Quest {
 

@@ -3,9 +3,9 @@ package io.xeros.model.items.interactions.impl.prayer;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.interactions.WorldItemAction;
 
-import static io.xeros.model.Dialogues.DEXTEROUS_PRAYER_SCROLL_DIALOGUE;
-import static io.xeros.model.Items.DEXTEROUS_PRAYER_SCROLL;
-import static io.xeros.model.Npcs.BROTHER_JERED;
+import static io.xeros.model.definition.Dialogues.DEXTEROUS_PRAYER_SCROLL_DIALOGUE;
+import static io.xeros.model.definition.Items.DEXTEROUS_PRAYER_SCROLL;
+import static io.xeros.model.definition.Npcs.BROTHER_JERED;
 
 /**
  * @author Zei | Glabay-Studios

@@ -1,6 +1,6 @@
 package io.xeros.content.bosses.mimic;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 
 public class StrangeCasketDialogue {

@@ -10,7 +10,7 @@ import io.xeros.content.achievement.Achievements;
 import io.xeros.content.achievement_diary.impl.FaladorDiaryEntry;
 import io.xeros.content.skills.Skill;
 import io.xeros.model.Animation;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;

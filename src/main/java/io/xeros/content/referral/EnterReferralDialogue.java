@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import io.xeros.Server;
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueOption;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;
 import org.slf4j.Logger;

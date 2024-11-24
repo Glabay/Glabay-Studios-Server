@@ -6,7 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import io.xeros.content.achievement_diary.DifficultyAchievementDiary;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;

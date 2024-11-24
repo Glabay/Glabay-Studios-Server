@@ -1,7 +1,5 @@
 package io.xeros.content.skills.fletching;
 
-import io.xeros.model.Items;
-
 public enum FletchableUnfinishedBolt {
 	BRONZE(9375, 877, 9, 1),
 	IRON(9377, 9140, 39, 2),

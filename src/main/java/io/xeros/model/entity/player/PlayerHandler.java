@@ -9,7 +9,7 @@ import com.google.common.base.Preconditions;
 import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.instances.InstancedArea;
-import io.xeros.model.Projectile;
+import io.xeros.model.projectile.Projectile;
 import io.xeros.model.SoundType;
 import io.xeros.model.StillGraphic;
 import io.xeros.model.entity.Entity;

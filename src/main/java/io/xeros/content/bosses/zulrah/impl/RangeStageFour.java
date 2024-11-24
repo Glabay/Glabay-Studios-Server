@@ -8,7 +8,7 @@ import io.xeros.content.bosses.zulrah.SpawnDangerousEntity;
 import io.xeros.content.bosses.zulrah.Zulrah;
 import io.xeros.content.bosses.zulrah.ZulrahLocation;
 import io.xeros.content.bosses.zulrah.ZulrahStage;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;
 import io.xeros.model.entity.player.Player;

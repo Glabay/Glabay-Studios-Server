@@ -5,7 +5,7 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.mode.group.GroupIronmanDialogue;
 
-import static io.xeros.model.Npcs.*;
+import static io.xeros.model.definition.Npcs.*;
 
 /**
  * @author Zei | Glabay-Studios

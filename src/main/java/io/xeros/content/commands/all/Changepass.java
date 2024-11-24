@@ -5,7 +5,7 @@ import java.util.Optional;
 import io.xeros.content.commands.Command;
 import io.xeros.content.compromised.CompromisedPlayerSave;
 import io.xeros.content.dialogue.DialogueBuilder;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.player.Player;
 import io.xeros.util.Misc;
 

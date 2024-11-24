@@ -16,8 +16,8 @@ import io.xeros.content.combat.effects.damageeffect.impl.bolts.SapphireBoltSpeci
 import io.xeros.content.combat.effects.damageeffect.impl.bolts.TopazBoltSpecial;
 import io.xeros.content.combat.weapon.RangedWeaponType;
 import io.xeros.content.skills.herblore.PoisonedWeapon;
-import io.xeros.model.Bonus;
-import io.xeros.model.Items;
+import io.xeros.model.entity.Bonus;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.definitions.ItemStats;
 import io.xeros.model.entity.Entity;

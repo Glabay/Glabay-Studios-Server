@@ -5,9 +5,9 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Items.CANDLE;
-import static io.xeros.model.Items.COINS;
-import static io.xeros.model.Npcs.*;
+import static io.xeros.model.definition.Items.CANDLE;
+import static io.xeros.model.definition.Items.COINS;
+import static io.xeros.model.definition.Npcs.*;
 
 /**
  * @author Zei | Glabay-Studios

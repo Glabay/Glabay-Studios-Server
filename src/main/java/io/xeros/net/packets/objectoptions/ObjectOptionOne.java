@@ -41,7 +41,7 @@ import io.xeros.content.skills.woodcutting.Woodcutting;
 import io.xeros.content.tournaments.ViewingOrb;
 import io.xeros.content.tradingpost.Listing;
 import io.xeros.content.wilderness.SpiderWeb;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.collisionmap.doors.DoorDefinition;
 import io.xeros.model.collisionmap.doors.DoorHandler;
 import io.xeros.model.cycleevent.CycleEvent;

@@ -23,7 +23,7 @@ import io.xeros.content.events.eventcalendar.EventCalendar;
 import io.xeros.content.vote_panel.VotePanelManager;
 import io.xeros.content.vote_panel.VoteUser;
 import io.xeros.content.wogw.Wogw;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.ClientGameTimer;
 import io.xeros.model.entity.player.Player;

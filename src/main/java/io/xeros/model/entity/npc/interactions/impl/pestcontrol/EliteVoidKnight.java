@@ -4,9 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.ELITE_VOID_KNIGHT_DIALOGUE;
-import static io.xeros.model.Npcs.ELITE_VOID_KNIGHT;
-import static io.xeros.model.Npcs.NURMOF;
+import static io.xeros.model.definition.Dialogues.ELITE_VOID_KNIGHT_DIALOGUE;
+import static io.xeros.model.definition.Npcs.ELITE_VOID_KNIGHT;
 
 /**
  * @author Glabay | Glabay-Studios

@@ -2,7 +2,7 @@ package io.xeros.content.itemskeptondeath.modifiers;
 
 import io.xeros.content.combat.range.RangeData;
 import io.xeros.content.itemskeptondeath.DeathItemModifier;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;
 

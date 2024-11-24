@@ -1,6 +1,6 @@
 package io.xeros.content.skills.herblore;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.items.GameItem;
 

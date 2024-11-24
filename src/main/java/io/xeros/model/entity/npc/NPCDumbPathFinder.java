@@ -2,7 +2,7 @@ package io.xeros.model.entity.npc;
 
 import com.google.common.base.Preconditions;
 import io.xeros.model.Direction;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.collisionmap.PathChecker;
 import io.xeros.model.collisionmap.Tile;
 import io.xeros.model.collisionmap.TileControl;

@@ -3,7 +3,7 @@ package io.xeros.content.skills.smithing;
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.types.MakeItemDialogue;
 import io.xeros.content.skills.Skill;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.SkillLevel;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.ImmutableItem;

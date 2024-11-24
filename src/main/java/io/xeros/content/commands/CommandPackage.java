@@ -2,36 +2,21 @@ package io.xeros.content.commands;
 
 import io.xeros.model.entity.player.Right;
 
-public class CommandPackage {
-    private final String packagePath;
-    private final Right right;
+import java.util.Objects;
 
-    public CommandPackage(final String packagePath, final Right right) {
-        this.packagePath = packagePath;
-        this.right = right;
-    }
-
-    public String getPackagePath() {
-        return this.packagePath;
-    }
-
-    public Right getRight() {
-        return this.right;
-    }
+public record CommandPackage(String packagePath, Right right) {
 
     @Override
     public boolean equals(final Object o) {
         if (o == this) return true;
-        if (!(o instanceof CommandPackage)) return false;
-        final CommandPackage other = (CommandPackage) o;
-        if (!other.canEqual((Object) this)) return false;
-        final Object this$packagePath = this.getPackagePath();
-        final Object other$packagePath = other.getPackagePath();
-        if (this$packagePath == null ? other$packagePath != null : !this$packagePath.equals(other$packagePath)) return false;
-        final Object this$right = this.getRight();
-        final Object other$right = other.getRight();
-        if (this$right == null ? other$right != null : !this$right.equals(other$right)) return false;
-        return true;
+        if (!(o instanceof CommandPackage other)) return false;
+        if (!other.canEqual(this)) return false;
+        final Object this$packagePath = this.packagePath();
+        final Object other$packagePath = other.packagePath();
+        if (!Objects.equals(this$packagePath, other$packagePath)) return false;
+        final Object this$right = this.right();
+        final Object other$right = other.right();
+        return Objects.equals(this$right, other$right);
     }
 
     protected boolean canEqual(final Object other) {
@@ -42,15 +27,15 @@ public class CommandPackage {
     public int hashCode() {
         final int PRIME = 59;
         int result = 1;
-        final Object $packagePath = this.getPackagePath();
+        final Object $packagePath = this.packagePath();
         result = result * PRIME + ($packagePath == null ? 43 : $packagePath.hashCode());
-        final Object $right = this.getRight();
+        final Object $right = this.right();
         result = result * PRIME + ($right == null ? 43 : $right.hashCode());
         return result;
     }
 
     @Override
     public String toString() {
-        return "CommandPackage(packagePath=" + this.getPackagePath() + ", right=" + this.getRight() + ")";
+        return "CommandPackage(packagePath=" + this.packagePath() + ", right=" + this.right() + ")";
     }
 }

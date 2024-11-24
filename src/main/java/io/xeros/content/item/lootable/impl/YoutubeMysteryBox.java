@@ -2,7 +2,7 @@ package io.xeros.content.item.lootable.impl;
 
 import io.xeros.content.item.lootable.LootRarity;
 import io.xeros.content.item.lootable.MysteryBoxLootable;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.GameItem;
 

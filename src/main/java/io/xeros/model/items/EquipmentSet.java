@@ -3,7 +3,7 @@ package io.xeros.model.items;
 import java.util.Arrays;
 import java.util.Optional;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 
 /**

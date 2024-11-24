@@ -1,6 +1,7 @@
 package io.xeros.model;
 
 import com.google.common.collect.Lists;
+import io.xeros.model.definition.Items;
 
 import java.util.ArrayList;
 import java.util.Arrays;

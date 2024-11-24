@@ -1,11 +1,11 @@
 package io.xeros.model.items.interactions.impl.sarachnis;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.interactions.WorldItemAction;
 
-import static io.xeros.model.Items.GIANT_EGG_SACFULL;
-import static io.xeros.model.Items.RED_SPIDERS_EGGS_NOTED;
+import static io.xeros.model.definition.Items.GIANT_EGG_SACFULL;
+import static io.xeros.model.definition.Items.RED_SPIDERS_EGGS_NOTED;
 
 /**
  * @author Glabay | Glabay-Studios

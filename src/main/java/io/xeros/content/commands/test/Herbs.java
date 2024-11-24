@@ -4,7 +4,7 @@ import io.xeros.content.commands.Command;
 import io.xeros.content.skills.herblore.Herb;
 import io.xeros.content.skills.herblore.PotionData;
 import io.xeros.content.skills.herblore.PotionDecanting;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 
 import java.util.Arrays;

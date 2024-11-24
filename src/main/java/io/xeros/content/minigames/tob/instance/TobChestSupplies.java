@@ -1,6 +1,6 @@
 package io.xeros.content.minigames.tob.instance;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 
 public enum TobChestSupplies {
     STAM(Items.STAMINA_POTION4, 1),

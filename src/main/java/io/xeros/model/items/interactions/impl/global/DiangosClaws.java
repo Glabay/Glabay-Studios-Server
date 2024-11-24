@@ -3,7 +3,7 @@ package io.xeros.model.items.interactions.impl.global;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.interactions.WorldItemAction;
 
-import static io.xeros.model.Items.DIANGOS_CLAWS;
+import static io.xeros.model.definition.Items.DIANGOS_CLAWS;
 
 /**
  * @author Zei | Glabay-Studios

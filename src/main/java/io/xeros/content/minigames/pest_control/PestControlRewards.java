@@ -6,7 +6,7 @@ import java.util.List;
 
 import io.xeros.content.achievement_diary.impl.WesternDiaryEntry;
 import io.xeros.content.skills.Skill;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.mode.ModeType;

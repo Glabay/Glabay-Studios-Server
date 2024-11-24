@@ -5,8 +5,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.*;
-import static io.xeros.model.Npcs.MAZCHNA;
+import static io.xeros.model.definition.Dialogues.*;
+import static io.xeros.model.definition.Npcs.MAZCHNA;
 
 /**
  * @author Zei | Glabay-Studios

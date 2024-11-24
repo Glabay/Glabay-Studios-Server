@@ -6,7 +6,7 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import io.xeros.content.item.lootable.ItemLootable;
 import io.xeros.content.item.lootable.LootRarity;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.items.GameItem;
 import io.xeros.model.items.GameItemVariableAmount;
 

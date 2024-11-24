@@ -30,7 +30,7 @@ import io.xeros.content.vote_panel.VotePanelManager;
 import io.xeros.content.wogw.Wogw;
 import io.xeros.content.worldevent.WorldEventContainer;
 import io.xeros.definitions.WorldItemSpawns;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.collisionmap.Region;
 import io.xeros.model.collisionmap.doors.DoorDefinition;
 import io.xeros.model.cycleevent.impl.BonusApplianceEvent;

@@ -19,7 +19,7 @@ import io.xeros.content.minigames.inferno.InfernoWaveData;
 import io.xeros.content.minigames.rfd.DisposeTypes;
 import io.xeros.model.Animation;
 import io.xeros.model.Direction;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;

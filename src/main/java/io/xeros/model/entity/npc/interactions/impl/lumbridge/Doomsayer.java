@@ -1,14 +1,13 @@
 package io.xeros.model.entity.npc.interactions.impl.lumbridge;
 
 import io.xeros.Configuration;
-import io.xeros.content.referral.EnterReferralDialogue;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.DOOMSAYER_DIALOGUE;
-import static io.xeros.model.Npcs.*;
-import static io.xeros.model.Shops.DOOMSAYER_SHOP;
+import static io.xeros.model.definition.Dialogues.DOOMSAYER_DIALOGUE;
+import static io.xeros.model.definition.Npcs.*;
+import static io.xeros.model.definition.Shops.DOOMSAYER_SHOP;
 
 /**
  * @author Zei | Glabay-Studios

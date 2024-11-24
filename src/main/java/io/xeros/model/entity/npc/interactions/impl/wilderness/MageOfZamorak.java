@@ -9,8 +9,8 @@ import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.MAGE_OF_ZAMORAK_DIALOGUE;
-import static io.xeros.model.Npcs.MAGE_OF_ZAMORAK;
+import static io.xeros.model.definition.Dialogues.MAGE_OF_ZAMORAK_DIALOGUE;
+import static io.xeros.model.definition.Npcs.MAGE_OF_ZAMORAK;
 
 /**
  * @author Glabay | Glabay-Studios

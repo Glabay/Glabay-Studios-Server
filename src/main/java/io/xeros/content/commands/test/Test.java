@@ -20,7 +20,7 @@ import io.xeros.content.skills.Skill;
 import io.xeros.content.vote_panel.VotePanelManager;
 import io.xeros.content.wildwarning.WildWarning;
 import io.xeros.content.wogw.Wogw;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;

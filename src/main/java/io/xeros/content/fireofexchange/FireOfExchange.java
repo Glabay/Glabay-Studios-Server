@@ -7,7 +7,7 @@ import io.xeros.content.achievement.Achievements;
 import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.leaderboards.LeaderboardType;
 import io.xeros.content.leaderboards.LeaderboardUtils;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerHandler;
 import io.xeros.model.entity.player.Right;

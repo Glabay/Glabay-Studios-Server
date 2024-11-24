@@ -8,14 +8,13 @@ import io.xeros.Configuration;
 import io.xeros.Server;
 
 import io.xeros.content.tournaments.TourneyManager;
-import io.xeros.model.CombatType;
-import io.xeros.model.Items;
+import io.xeros.model.entity.CombatType;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.*;
 import io.xeros.model.multiplayersession.MultiplayerSessionType;
 import io.xeros.model.multiplayersession.duel.DuelSession;
 import io.xeros.model.multiplayersession.duel.DuelSessionRules;
-import org.apache.commons.lang3.StringUtils;
 
 public class AttackPlayerCheck {
     

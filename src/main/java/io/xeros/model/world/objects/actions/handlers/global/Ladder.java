@@ -6,7 +6,7 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;
 import io.xeros.model.world.objects.actions.WorldObjectAction;
 
-import static io.xeros.model.Objects.*;
+import static io.xeros.model.definition.Objects.*;
 
 /**
  * @author Skryllz | Glabay-Studios

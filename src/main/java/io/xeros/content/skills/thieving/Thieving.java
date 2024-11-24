@@ -18,7 +18,7 @@ import io.xeros.content.achievement_diary.impl.VarrockDiaryEntry;
 import io.xeros.content.achievement_diary.impl.WesternDiaryEntry;
 import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.skills.Skill;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Boundary;

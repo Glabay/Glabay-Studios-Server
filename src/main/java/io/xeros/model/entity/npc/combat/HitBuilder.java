@@ -7,7 +7,7 @@ import io.xeros.content.combat.formula.rework.MeleeCombatFormula;
 import io.xeros.content.combat.formula.rework.RangeCombatFormula;
 import io.xeros.content.combat.melee.CombatPrayer;
 import io.xeros.model.Animation;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.Graphic;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;

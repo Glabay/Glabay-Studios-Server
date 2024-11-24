@@ -2,7 +2,7 @@ package io.xeros.content.bosses.bryophyta;
 
 import io.xeros.Server;
 import io.xeros.content.instances.*;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.*;

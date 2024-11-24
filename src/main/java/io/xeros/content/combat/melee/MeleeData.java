@@ -5,15 +5,14 @@ import io.xeros.content.combat.WeaponAnimation;
 import io.xeros.content.combat.magic.CombatSpellData;
 import io.xeros.content.combat.weapon.AttackStyle;
 import io.xeros.content.combat.weapon.CombatStyle;
-import io.xeros.model.CombatType;
-import io.xeros.model.Items;
+import io.xeros.model.entity.CombatType;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.ItemAssistant;
-import it.unimi.dsi.fastutil.ints.*;
 
 import java.util.Objects;
 
-import static io.xeros.model.Items.*;
+import static io.xeros.model.definition.Items.*;
 
 public class MeleeData { //TODO change this to load from json or txt
     public static boolean usingSytheOfVitur(Player player) {

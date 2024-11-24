@@ -19,7 +19,7 @@ import io.xeros.content.bosses.zulrah.impl.SpawnZulrahStageZero;
 import io.xeros.content.commands.owner.Object;
 import io.xeros.content.instances.InstancedArea;
 import io.xeros.content.instances.impl.LegacySoloPlayerInstance;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;

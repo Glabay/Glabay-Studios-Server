@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.NURMOF;
-import static io.xeros.model.Shops.NURMOF_SHOP;
+import static io.xeros.model.definition.Npcs.NURMOF;
+import static io.xeros.model.definition.Shops.NURMOF_SHOP;
 
 /**
  * @author Glabay | Glabay-Studios

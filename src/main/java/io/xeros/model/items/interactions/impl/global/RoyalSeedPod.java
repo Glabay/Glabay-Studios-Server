@@ -5,7 +5,7 @@ import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.interactions.WorldItemAction;
 
 import static io.xeros.Configuration.GRAND_TREE_X;
-import static io.xeros.model.Items.ROYAL_SEED_POD;
+import static io.xeros.model.definition.Items.ROYAL_SEED_POD;
 
 /**
  * @author Zei | Glabay-Studios

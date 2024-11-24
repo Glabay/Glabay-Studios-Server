@@ -1,15 +1,14 @@
 package io.xeros.model.entity.npc.interactions.impl.alkharid;
 
 import io.xeros.content.achievement_diary.impl.DesertDiaryEntry;
-import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.skills.agility.AgilityHandler;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.RUG_MERCHANT_DIALOGUE;
-import static io.xeros.model.Dialogues.RUG_MERCHANT_DIALOGUE_2;
-import static io.xeros.model.Npcs.*;
+import static io.xeros.model.definition.Dialogues.RUG_MERCHANT_DIALOGUE;
+import static io.xeros.model.definition.Dialogues.RUG_MERCHANT_DIALOGUE_2;
+import static io.xeros.model.definition.Npcs.*;
 
 /**
  * @author Zei | Glabay-Studios

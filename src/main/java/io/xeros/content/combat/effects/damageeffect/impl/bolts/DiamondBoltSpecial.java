@@ -3,7 +3,7 @@ package io.xeros.content.combat.effects.damageeffect.impl.bolts;
 import io.xeros.content.combat.Damage;
 import io.xeros.content.combat.effects.damageeffect.DamageBoostingEffect;
 import io.xeros.content.combat.range.RangeData;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;

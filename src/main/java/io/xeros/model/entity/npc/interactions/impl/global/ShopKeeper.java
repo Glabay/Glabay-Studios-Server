@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.SHOP_KEEPER;
-import static io.xeros.model.Shops.GENERAL_SHOP_2;
+import static io.xeros.model.definition.Npcs.SHOP_KEEPER;
+import static io.xeros.model.definition.Shops.GENERAL_SHOP_2;
 
 /**
  * @author Glabay | Glabay-Studios

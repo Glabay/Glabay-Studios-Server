@@ -1,6 +1,6 @@
 package io.xeros.model.multiplayersession.flowerpoker;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.lock.CompleteLock;
 

@@ -12,7 +12,7 @@ import io.xeros.model.world.objects.actions.WorldObjectAction;
 
 import java.util.Objects;
 
-import static io.xeros.model.Objects.CAVE_42594;
+import static io.xeros.model.definition.Objects.CAVE_42594;
 
 /**
  * @author Glabay | Glabay-Studios

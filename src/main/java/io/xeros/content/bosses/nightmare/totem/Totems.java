@@ -7,7 +7,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import io.xeros.content.bosses.nightmare.Nightmare;
 import io.xeros.content.bosses.nightmare.NightmareConstants;
-import io.xeros.model.ProjectileBaseBuilder;
+import io.xeros.model.projectile.ProjectileBaseBuilder;
 
 public class Totems {
 

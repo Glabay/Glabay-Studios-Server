@@ -19,7 +19,7 @@ import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.events.monsterhunt.MonsterHunt;
 import io.xeros.content.minigames.warriors_guild.AnimatedArmour;
 import io.xeros.content.skills.Skill;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.definitions.NpcDef;
 import io.xeros.model.entity.npc.NPC;

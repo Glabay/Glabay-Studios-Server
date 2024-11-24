@@ -3,10 +3,9 @@ package io.xeros.content.bosses.zulrah.impl;
 import io.xeros.content.bosses.zulrah.Zulrah;
 import io.xeros.content.bosses.zulrah.ZulrahLocation;
 import io.xeros.content.bosses.zulrah.ZulrahStage;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.entity.npc.NPC;
-import io.xeros.model.entity.npc.NPCHandler;
 import io.xeros.model.entity.npc.NPCSpawning;
 import io.xeros.model.entity.player.Player;
 

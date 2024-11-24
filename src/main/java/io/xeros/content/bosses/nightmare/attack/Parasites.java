@@ -6,7 +6,7 @@ import com.google.common.collect.Lists;
 import io.xeros.content.bosses.nightmare.Nightmare;
 import io.xeros.content.bosses.nightmare.NightmareAttack;
 import io.xeros.content.combat.Hitmark;
-import io.xeros.model.ProjectileBaseBuilder;
+import io.xeros.model.projectile.ProjectileBaseBuilder;
 import io.xeros.model.cycleevent.CycleEvent;
 import io.xeros.model.cycleevent.CycleEventContainer;
 import io.xeros.model.cycleevent.CycleEventHandler;

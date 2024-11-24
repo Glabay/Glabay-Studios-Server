@@ -1,11 +1,10 @@
 package io.xeros.model.entity.npc.combat.scripts;
 
 import io.xeros.Server;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.combat.CommonCombatMethod;
-import io.xeros.model.entity.npc.combat.HitBuilder;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.projectile.ProjectileEntity;
 

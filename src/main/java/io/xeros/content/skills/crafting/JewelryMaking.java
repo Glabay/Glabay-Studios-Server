@@ -1,6 +1,5 @@
 package io.xeros.content.skills.crafting;
 
-import io.xeros.model.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.ItemAssistant;
 

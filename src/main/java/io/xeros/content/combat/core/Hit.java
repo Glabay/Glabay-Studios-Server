@@ -2,7 +2,7 @@ package io.xeros.content.combat.core;
 
 import io.xeros.content.combat.Damage;
 import io.xeros.content.combat.Hitmark;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 
 public class Hit {

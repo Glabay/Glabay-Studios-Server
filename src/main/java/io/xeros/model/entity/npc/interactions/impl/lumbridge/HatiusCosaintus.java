@@ -4,8 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.HATIUS_COSAINTUS;
-import static io.xeros.model.Npcs.TOBY;
+import static io.xeros.model.definition.Npcs.HATIUS_COSAINTUS;
 
 /**
  * @author Zei | Glabay-Studios

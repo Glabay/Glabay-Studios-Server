@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.ZEAH_SOLDIER_DIALOGUE;
-import static io.xeros.model.Npcs.*;
+import static io.xeros.model.definition.Dialogues.ZEAH_SOLDIER_DIALOGUE;
+import static io.xeros.model.definition.Npcs.*;
 
 /**
  * @author Zei | Glabay-Studios

@@ -1,6 +1,6 @@
 package io.xeros;
 
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.player.Position;
 import io.xeros.util.Misc;
 
@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class Configuration {
 
 	public static final int CLIENT_VERSION = 230;
-	public static String SERVER_NAME = "RSPS-CodeWithMe";
+	public static String SERVER_NAME = "OldSchool Boneyard";
 	public static final int PORT_DEFAULT = 52777;
 	public static final int PORT_TEST = 43595;
 

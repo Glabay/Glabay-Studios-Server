@@ -4,8 +4,8 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.DIANGO_DIALOGUE;
-import static io.xeros.model.Npcs.DIANGO;
+import static io.xeros.model.definition.Dialogues.DIANGO_DIALOGUE;
+import static io.xeros.model.definition.Npcs.DIANGO;
 
 /**
  * @author Glabay | Glabay-Studios

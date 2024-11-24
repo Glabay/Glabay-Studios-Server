@@ -5,7 +5,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.MAC;
+import static io.xeros.model.definition.Npcs.MAC;
 
 /**
  * @author Zei | Glabay-Studios

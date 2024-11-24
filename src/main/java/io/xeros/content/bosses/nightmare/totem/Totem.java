@@ -1,7 +1,7 @@
 package io.xeros.content.bosses.nightmare.totem;
 
 import io.xeros.content.instances.InstancedArea;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.definitions.NpcStats;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;

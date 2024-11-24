@@ -1,11 +1,10 @@
 package io.xeros.content.dialogue.impl;
 
 import java.util.Arrays;
-import java.util.Optional;
 
 import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueOption;
-import io.xeros.model.Npcs;
+import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.player.Player;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

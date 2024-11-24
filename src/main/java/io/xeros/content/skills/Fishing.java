@@ -19,7 +19,7 @@ import io.xeros.util.Misc;
 
 import java.util.Objects;
 
-import static io.xeros.model.Items.*;
+import static io.xeros.model.definition.Items.*;
 
 /**
  * Class Fishing Handles: Fishing

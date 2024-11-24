@@ -2,9 +2,8 @@ package io.xeros.content.combat.formula;
 
 import com.google.common.base.Preconditions;
 import io.xeros.Configuration;
-import io.xeros.content.skills.Skill;
-import io.xeros.model.Bonus;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.Bonus;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;

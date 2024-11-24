@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import io.xeros.content.fireofexchange.FireOfExchangeBurnPrice;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.save.PlayerSaveEntry;
 import io.xeros.util.Misc;

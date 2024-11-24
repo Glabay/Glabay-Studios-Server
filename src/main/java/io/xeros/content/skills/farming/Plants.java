@@ -3,7 +3,7 @@ package io.xeros.content.skills.farming;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 
 public enum Plants {
 

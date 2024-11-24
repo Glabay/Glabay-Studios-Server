@@ -7,7 +7,7 @@ import io.xeros.model.entity.player.Player;
 
 import java.util.concurrent.TimeUnit;
 
-import static io.xeros.model.Npcs.HANS;
+import static io.xeros.model.definition.Npcs.HANS;
 
 /**
  * @author Zei | Glabay-Studios

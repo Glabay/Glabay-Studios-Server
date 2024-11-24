@@ -7,7 +7,7 @@ import java.util.Objects;
 import io.xeros.Server;
 import io.xeros.content.itemskeptondeath.ItemsKeptOnDeathInterface;
 import io.xeros.content.tournaments.TourneyManager;
-import io.xeros.model.Bonus;
+import io.xeros.model.entity.Bonus;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;

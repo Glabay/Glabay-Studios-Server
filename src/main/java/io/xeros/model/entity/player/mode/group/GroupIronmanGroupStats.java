@@ -1,6 +1,6 @@
 package io.xeros.model.entity.player.mode.group;
 
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.util.Misc;
 import org.apache.commons.collections4.ListUtils;

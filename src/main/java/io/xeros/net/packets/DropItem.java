@@ -8,7 +8,7 @@ import io.xeros.content.combat.magic.SanguinestiStaff;
 import io.xeros.content.items.ItemCombinations;
 import io.xeros.content.miniquests.magearenaii.MageArenaII;
 import io.xeros.content.tournaments.TourneyManager;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.npc.pets.PetHandler;
 import io.xeros.model.entity.player.*;

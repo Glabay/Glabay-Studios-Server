@@ -4,9 +4,9 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Dialogues.KRYSTILIA_2_DIALOGUE;
-import static io.xeros.model.Dialogues.KRYSTILIA_DIALOGUE;
-import static io.xeros.model.Npcs.KRYSTILIA;
+import static io.xeros.model.definition.Dialogues.KRYSTILIA_2_DIALOGUE;
+import static io.xeros.model.definition.Dialogues.KRYSTILIA_DIALOGUE;
+import static io.xeros.model.definition.Npcs.KRYSTILIA;
 
 /**
  * @author Zei | Glabay-Studios

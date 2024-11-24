@@ -2,7 +2,7 @@ package io.xeros.content.wilderness;
 
 import io.xeros.Server;
 import io.xeros.content.combat.weapon.WeaponData;
-import io.xeros.model.Bonus;
+import io.xeros.model.entity.Bonus;
 import io.xeros.model.collisionmap.WorldObject;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.world.objects.GlobalObject;

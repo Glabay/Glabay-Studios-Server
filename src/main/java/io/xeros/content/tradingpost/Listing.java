@@ -12,7 +12,7 @@ import com.google.common.base.Preconditions;
 import io.xeros.Configuration;
 import io.xeros.Server;
 import io.xeros.content.cheatprevention.CheatEngineBlock;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerAssistant;

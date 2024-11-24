@@ -20,7 +20,7 @@ import io.xeros.content.minigames.pk_arena.Lowpkarena;
 import io.xeros.content.minigames.raids.Raids;
 
 import io.xeros.content.tournaments.TourneyManager;
-import io.xeros.model.Items;
+import io.xeros.model.definition.Items;
 import io.xeros.model.collisionmap.doors.Location;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPCHandler;

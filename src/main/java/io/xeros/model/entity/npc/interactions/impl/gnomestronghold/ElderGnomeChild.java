@@ -4,8 +4,7 @@ import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.interactions.NpcOptionAction;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.model.Npcs.ELDER_GNOME_CHILD;
-import static io.xeros.model.Npcs.TOBY;
+import static io.xeros.model.definition.Npcs.ELDER_GNOME_CHILD;
 
 /**
  * @author Zei | Glabay-Studios

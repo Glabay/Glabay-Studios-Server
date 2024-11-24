@@ -4,7 +4,7 @@ import io.xeros.content.combat.core.Hit
 import io.xeros.content.combat.melee.CombatPrayer
 import io.xeros.model.Animation
 import io.xeros.model.Direction
-import io.xeros.model.Projectile
+import io.xeros.model.projectile.Projectile
 import io.xeros.model.entity.Entity
 import io.xeros.model.entity.npc.NPC
 import io.xeros.model.entity.player.Player
