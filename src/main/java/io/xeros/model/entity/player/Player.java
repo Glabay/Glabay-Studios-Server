@@ -4941,4 +4941,11 @@ public class Player extends Entity {
         return this.getItems().getBonus(bonus);
     }
 
+    public void setPosition(Position position) {
+        teleportToX = position.getX();
+        teleportToY = position.getY();
+        heightLevel = position.getHeight();
+    }
+
+
 }
