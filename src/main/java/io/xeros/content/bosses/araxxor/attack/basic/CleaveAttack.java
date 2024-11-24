@@ -3,7 +3,7 @@ package io.xeros.content.bosses.araxxor.attack.basic;
 import io.xeros.Server;
 import io.xeros.content.bosses.araxxor.Araxxor;
 import io.xeros.content.bosses.araxxor.attack.Attack;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.npc.combat.HitBuilder;
 import io.xeros.model.entity.player.Player;
 

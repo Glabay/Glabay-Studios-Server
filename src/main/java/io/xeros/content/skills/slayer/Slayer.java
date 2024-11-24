@@ -21,7 +21,7 @@ import io.xeros.content.dialogue.DialogueBuilder;
 import io.xeros.content.dialogue.DialogueExpression;
 import io.xeros.content.events.eventcalendar.EventChallenge;
 import io.xeros.content.skills.Skill;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.definition.Items;
 import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.npc.NPC;

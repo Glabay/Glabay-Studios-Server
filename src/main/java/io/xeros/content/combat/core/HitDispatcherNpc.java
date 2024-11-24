@@ -11,7 +11,7 @@ import io.xeros.content.combat.weapon.WeaponInterface;
 import io.xeros.content.items.PvpWeapons;
 import io.xeros.content.questing.hftd.DagannothMother;
 import io.xeros.content.skills.mining.Pickaxe;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.definition.Items;
 import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.Entity;

@@ -7,7 +7,7 @@ import java.util.Set;
 import io.xeros.content.combat.melee.MeleeExtras;
 import io.xeros.content.combat.weapon.CombatStyle;
 import io.xeros.content.items.OrnamentedItem;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.Graphic;
 import io.xeros.model.definition.Items;
 import io.xeros.model.definitions.ItemDef;

@@ -8,7 +8,7 @@ import io.xeros.content.combat.effects.damageeffect.impl.amuletofthedamned.impl.
 import io.xeros.content.combat.magic.CombatSpellData;
 import io.xeros.content.combat.melee.CombatPrayer;
 import io.xeros.content.skills.Skill;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.ClientGameTimer;
 import io.xeros.model.entity.player.Player;

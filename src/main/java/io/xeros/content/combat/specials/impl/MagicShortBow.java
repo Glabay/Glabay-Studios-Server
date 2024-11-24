@@ -4,7 +4,7 @@ import io.xeros.content.combat.Damage;
 import io.xeros.content.combat.core.HitDispatcher;
 import io.xeros.content.combat.range.RangeData;
 import io.xeros.content.combat.specials.Special;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.Player;

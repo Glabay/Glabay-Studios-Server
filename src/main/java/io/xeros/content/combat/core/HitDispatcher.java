@@ -27,7 +27,7 @@ import io.xeros.content.combat.weapon.RangedWeaponType;
 import io.xeros.content.minigames.pest_control.PestControl;
 import io.xeros.content.skills.Skill;
 import io.xeros.content.tournaments.TourneyManager;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.Graphic;
 import io.xeros.model.definition.Items;
 import io.xeros.model.definition.Npcs;

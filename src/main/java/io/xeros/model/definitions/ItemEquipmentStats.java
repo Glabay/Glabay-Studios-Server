@@ -1,6 +1,6 @@
 package io.xeros.model.definitions;
 
-import io.xeros.model.Bonus;
+import io.xeros.model.entity.Bonus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

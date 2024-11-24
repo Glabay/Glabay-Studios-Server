@@ -2,7 +2,7 @@ package io.xeros.model.entity.npc.combat;
 
 import io.xeros.content.combat.core.HitExecutor;
 import io.xeros.content.commands.owner.Npc;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCHandler;

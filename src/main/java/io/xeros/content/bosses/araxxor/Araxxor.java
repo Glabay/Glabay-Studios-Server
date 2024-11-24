@@ -4,7 +4,7 @@ import io.xeros.content.bosses.araxxor.attack.basic.CleaveAttack;
 import io.xeros.content.bosses.araxxor.attack.basic.MagicAttack;
 import io.xeros.content.bosses.araxxor.attack.basic.MeleeAttack;
 import io.xeros.content.bosses.araxxor.attack.basic.RangedAttack;
-import io.xeros.model.Bonus;
+import io.xeros.model.entity.Bonus;
 import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;

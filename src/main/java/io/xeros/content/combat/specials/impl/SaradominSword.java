@@ -5,7 +5,7 @@ import io.xeros.content.combat.Hitmark;
 import io.xeros.content.combat.formula.MagicMaxHit;
 import io.xeros.content.combat.specials.Special;
 import io.xeros.content.skills.Skill;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.entity.player.PlayerAssistant;

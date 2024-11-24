@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 import io.xeros.model.Animation;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.Graphic;
 import io.xeros.model.projectile.ProjectileBase;
 import io.xeros.model.entity.npc.NPC;

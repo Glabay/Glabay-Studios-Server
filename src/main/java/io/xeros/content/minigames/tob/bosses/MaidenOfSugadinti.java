@@ -10,7 +10,7 @@ import io.xeros.content.instances.InstancedArea;
 import io.xeros.content.minigames.tob.TobBoss;
 import io.xeros.content.minigames.tob.instance.TobInstance;
 import io.xeros.model.Animation;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.Direction;
 import io.xeros.model.definition.Npcs;
 import io.xeros.model.projectile.ProjectileBaseBuilder;

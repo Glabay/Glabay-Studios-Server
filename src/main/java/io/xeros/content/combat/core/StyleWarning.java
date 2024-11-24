@@ -1,7 +1,7 @@
 package io.xeros.content.combat.core;
 
 import io.xeros.content.combat.weapon.CombatStyle;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.definition.Npcs;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.npc.NPC;

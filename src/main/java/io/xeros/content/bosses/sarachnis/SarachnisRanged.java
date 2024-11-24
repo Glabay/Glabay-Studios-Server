@@ -7,6 +7,7 @@ import io.xeros.content.combat.npc.NPCAutoAttackBuilder;
 import io.xeros.content.combat.npc.NPCCombatAttack;
 import io.xeros.content.combat.npc.NPCCombatAttackHit;
 import io.xeros.model.*;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.player.Boundary;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.projectile.ProjectileBase;

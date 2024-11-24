@@ -33,6 +33,7 @@ import io.xeros.model.definition.Npcs;
 import io.xeros.model.definitions.AnimationLength;
 import io.xeros.model.definitions.ItemDef;
 import io.xeros.model.definitions.ItemStats;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.EntityReference;
 import io.xeros.model.entity.npc.NPC;

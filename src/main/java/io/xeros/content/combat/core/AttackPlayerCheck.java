@@ -8,7 +8,7 @@ import io.xeros.Configuration;
 import io.xeros.Server;
 
 import io.xeros.content.tournaments.TourneyManager;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.definition.Items;
 import io.xeros.model.entity.Entity;
 import io.xeros.model.entity.player.*;

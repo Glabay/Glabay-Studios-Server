@@ -4,7 +4,7 @@ import java.util.Optional;
 
 import io.xeros.content.combat.specials.Special;
 import io.xeros.content.combat.weapon.RangedWeaponType;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.Entity;
 import lombok.Getter;
 

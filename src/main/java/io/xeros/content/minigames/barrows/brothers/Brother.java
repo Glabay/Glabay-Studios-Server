@@ -3,7 +3,6 @@ package io.xeros.content.minigames.barrows.brothers;
 import java.util.ArrayList;
 
 import io.xeros.content.minigames.barrows.RewardItem;
-import io.xeros.model.CombatType;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.npc.NPCSpawning;
 import io.xeros.model.entity.player.Boundary;

@@ -3,7 +3,7 @@ package io.xeros.content.bosses.grotesqueguardians;
 import io.xeros.content.combat.npc.NPCAutoAttack;
 import io.xeros.content.combat.npc.NPCAutoAttackBuilder;
 import io.xeros.model.Animation;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.projectile.ProjectileBase;
 import io.xeros.model.projectile.ProjectileBaseBuilder;
 

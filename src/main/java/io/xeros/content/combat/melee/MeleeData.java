@@ -5,7 +5,7 @@ import io.xeros.content.combat.WeaponAnimation;
 import io.xeros.content.combat.magic.CombatSpellData;
 import io.xeros.content.combat.weapon.AttackStyle;
 import io.xeros.content.combat.weapon.CombatStyle;
-import io.xeros.model.CombatType;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.definition.Items;
 import io.xeros.model.entity.player.Player;
 import io.xeros.model.items.ItemAssistant;

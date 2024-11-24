@@ -6,6 +6,7 @@ import io.xeros.content.combat.Hitmark;
 import io.xeros.content.combat.npc.NPCAutoAttackBuilder;
 import io.xeros.model.*;
 import io.xeros.model.cycleevent.*;
+import io.xeros.model.entity.CombatType;
 import io.xeros.model.entity.npc.NPC;
 import io.xeros.model.entity.player.*;
 import io.xeros.util.Misc;
