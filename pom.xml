@@ -19,6 +19,10 @@
         <developer>
             <id>0</id>
             <name>Mike Glabay</name>
+            <roles>
+                <role>Lead Developer</role>
+                <role>Full-Time</role>
+            </roles>
             <url>https://github.com/Glabay</url>
             <email>GlabayStudios@outlook.com</email>
             <organization>Glabay-Studios</organization>
@@ -28,7 +32,38 @@
         <developer>
             <id>1</id>
             <name>Thomas Greenwood</name>
+            <roles>
+                <role>Developer</role>
+                <role>Full-Time</role>
+            </roles>
             <url>https://github.com/Zeighe</url>
+            <email>GlabayStudios@outlook.com</email>
+            <organization>Glabay-Studios</organization>
+            <organizationUrl>http://glabaystudios.xyz</organizationUrl>
+        </developer>
+
+        <developer>
+            <id>2</id>
+            <name>Zach Hobbs</name>
+            <roles>
+                <role>Developer</role>
+                <role>Project-Manager</role>
+                <role>Part-Time</role>
+            </roles>
+            <url>https://github.com/ZachHobbs</url>
+            <email>GlabayStudios@outlook.com</email>
+            <organization>Glabay-Studios</organization>
+            <organizationUrl>http://glabaystudios.xyz</organizationUrl>
+        </developer>
+
+        <developer>
+            <id>3</id>
+            <name>Juice</name>
+            <roles>
+                <role>Junior Developer</role>
+                <role>Part-Time</role>
+            </roles>
+            <url>https://github.com/cypher112</url>
             <email>GlabayStudios@outlook.com</email>
             <organization>Glabay-Studios</organization>
             <organizationUrl>http://glabaystudios.xyz</organizationUrl>
@@ -36,10 +71,10 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/username/BoneyardNexus.git</connection>
-        <developerConnection>scm:git:ssh://github.com:username/BoneyardNexus.git</developerConnection>
+        <connection>scm:git:git://github.com/Glabay/Glabay-Studios-Server.git</connection>
+        <developerConnection>scm:git:ssh://github.com:username/Glabay-Studios-Server.git</developerConnection>
         <tag>HEAD</tag>
-        <url>http://github.com/username/BoneyardNexus</url>
+        <url>http://github.com/Glabay/Glabay-Studios-Server</url>
     </scm>
 
 
