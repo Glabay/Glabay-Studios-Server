@@ -35,6 +35,7 @@ class TeleportInterface(private val player: Player) {
         player.pa.showInterface(24511)
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun openTab(tab: TeleportTab? = null) {
         val displayTab = tab ?: currentTab
 
@@ -51,6 +52,7 @@ class TeleportInterface(private val player: Player) {
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     private fun getTeleportsForTab(teleportTab: TeleportTab) : List<TeleportEntry> = when (teleportTab) {
         TeleportTab.CITIES -> Cities.entries
         TeleportTab.TRAINING -> Training.entries
@@ -129,6 +131,7 @@ class TeleportInterface(private val player: Player) {
         }
     }
 
+    @OptIn(ExperimentalStdlibApi::class)
     fun onButton(buttonID: Int) {
         when (buttonID) {
             24515 -> player.pa.closeAllWindows()
