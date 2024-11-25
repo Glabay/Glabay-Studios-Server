@@ -7,6 +7,42 @@
     <artifactId>Boneyard</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>0</id>
+            <name>Mike Glabay</name>
+            <url>https://github.com/Glabay</url>
+            <email>GlabayStudios@outlook.com</email>
+            <organization>Glabay-Studios</organization>
+            <organizationUrl>http://glabaystudios.xyz</organizationUrl>
+        </developer>
+
+        <developer>
+            <id>1</id>
+            <name>Thomas Greenwood</name>
+            <url>https://github.com/Zeighe</url>
+            <email>GlabayStudios@outlook.com</email>
+            <organization>Glabay-Studios</organization>
+            <organizationUrl>http://glabaystudios.xyz</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git://github.com/username/BoneyardNexus.git</connection>
+        <developerConnection>scm:git:ssh://github.com:username/BoneyardNexus.git</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://github.com/username/BoneyardNexus</url>
+    </scm>
+
+
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
