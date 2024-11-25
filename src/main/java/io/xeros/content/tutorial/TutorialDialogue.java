@@ -120,7 +120,8 @@ public class TutorialDialogue extends DialogueBuilder {
 
         setNpcId(TUTORIAL_NPC);
         if (!Server.isTest()) {
-            npc(new Position(3090, 3492), "Welcome to " + Configuration.SERVER_NAME + "!", "Here is our home area!", "Don't forgot to join our ::discord.");
+            npc(new Position(1468, 2933), "Welcome to Boneyard!");
+            npc("Thank you for taking some time and checking us out.");
             npc(new Position(3108, 3495), "Here you can find all the shops needed", "when you first start out! You can buy combat gear,", "foods and pots, or show off your fashion skills!");
             npc(new Position(3095, 3504), "Receive your daily login rewards here!");
             npc(new Position(3094, 3504), "Here is the vote chest.", "After voting for all sites 10 times you get a @blu@vote key@bla@!", "Check out '@red@::chestrewards@bla@' to see what you can get!");
@@ -133,17 +134,17 @@ public class TutorialDialogue extends DialogueBuilder {
             npc(new Position(3088, 3487), "Finally, change your character style here!", "And don't forget you can use the teleport platform", "at home to open the Teleport Menu!");
         }
         if (!repeat) {
-            npc("One last thing, be sure to @blu@set an account pin with ::pin@bla@!", "@blu@You will gain one hour of bonus xp scrolls!",
-                    "You only have to enter it when you login", "on a different computer.");
-            npc("You've made it through!", "You have the option to play as an <col=" + Right.IRONMAN + "><img=12></img>Iron Man</col>, <col=" + Right.GROUP_IRONMAN + "><img=27></img>GIM</col>",
-                    "<col=" + Right.ULTIMATE_IRONMAN + "><img=13></img>Ultimate Iron Man</col>, <col=" + Right.HC_IRONMAN
-                            + "><img=9></img>Hardcore Iron Man</col>, or neither.", "Choose from the following interface.");
+            npc(new Position(1389, 2929), "One last thing, be sure to @blu@set an account pin with ::pin@bla@!",
+                "@blu@You will gain one hour of bonus xp scrolls!",
+                    "You only have to enter it when you login", "on a different computer."
+            );
+            npc("You've made it through!",
+                "You have the option to play as an <col=%s><img=12></img>Iron Man</col>, <col=%s><img=27></img>GIM</col>"
+                    .formatted(Right.IRONMAN, Right.GROUP_IRONMAN),
+                "<col=%s><img=13></img>Ultimate Iron Man</col>, <col=%s><img=9></img>Hardcore Iron Man</col>, or neither."
+                    .formatted(Right.ULTIMATE_IRONMAN, Right.HC_IRONMAN), "Choose from the following interface.");
             exit(p -> p.getModeSelection().openInterface());
         }
-
-        // Then "Please decide what experience rate you would like to have."
-        // Then option ["Fast Xp Rates", "5x", "1x"]
-        // You have chosen X xp rates, good luck!
     }
 
     @Override
@@ -156,42 +157,4 @@ public class TutorialDialogue extends DialogueBuilder {
         npc(text).action(player -> player.moveTo(teleport));
     }
 
-    /*
-    case 647:
-			String modetype = c.getMode().getType().toString();
-			if (c.getMode().getType().equals(ModeType.REGULAR)) {
-				sendNpcChat("Please decide what experience rates you would like to have.");
-				c.nextChat = 2647;
-			} else if (c.getMode().getType().equals(ModeType.OSRS)) {
-				sendNpcChat("You have chosen the OSRS mode, with x1 experience rates.");
-			} else if (c.getMode().getType().equals(ModeType.ROGUE)) {
-				sendNpcChat("You have chosen the 5x mode, with x5 experience rates.");
-			} else {
-				sendNpcChat("You have chosen the mode " + modetype.replace("_", " ") + ".",
-						"Take this set of armor to help you on your way.");
-				c.nextChat = -1;
-				c.getTutorial().proceed();
-			}
-
-			break;
-
-			case 3647:
-			sendNpcChat("You have chosen fast xp rates, good luck!");
-			c.getTutorial().proceed();
-
-			break;
-		case 4647:
-			c.setMode(Mode.forType(ModeType.OSRS));
-			c.getRights().setPrimary(Right.OSRS);
-			sendNpcChat("You have chosen @red@Extreme Rates @bla@,good luck!");
-			c.getTutorial().proceed();
-
-			break;
-		case 5647:
-			c.setMode(Mode.forType(ModeType.ROGUE));
-			c.getRights().setPrimary(Right.ROGUE);
-			sendNpcChat("You have chosen @red@5x Rates @bla@,good luck!");
-			c.getTutorial().proceed();
-			break;
-     */
 }
