@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 public class Configuration {
 
 	public static final int CLIENT_VERSION = 230;
-	public static String SERVER_NAME = "OldSchool Boneyard";
+	public static String SERVER_NAME = "Boneyard";
 	public static final int PORT_DEFAULT = 52777;
 	public static final int PORT_TEST = 43595;
 
