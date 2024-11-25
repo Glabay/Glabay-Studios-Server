@@ -3,12 +3,9 @@ package com.custom
 import com.displee.cache.CacheLibrary
 import dev.openrune.cache.tools.tasks.CacheTask
 import dev.openrune.cache.util.getFiles
-import dev.openrune.cache.util.progress
 import io.xeros.util.ProgressbarUtils
-import mu.KotlinLogging
 import java.io.File
 
-private val logger = KotlinLogging.logger {}
 
 val getIdxForFile = mapOf(
     "media.dat" to 0,
