@@ -10,14 +10,14 @@ import java.util.concurrent.TimeUnit;
 public class Configuration {
 
 	public static final int CLIENT_VERSION = 230;
-	public static String SERVER_NAME = "OldSchool Boneyard";
+	public static String SERVER_NAME = "Boneyard";
 	public static final int PORT_DEFAULT = 52777;
 	public static final int PORT_TEST = 43595;
 
 	public static final String PACKAGE = "io.xeros";
 	public static final String DATA_FOLDER = "etc";
 
-	public static final String WEBSITE = "https://www.xeros.io/";
+	public static final String WEBSITE = "https://github.com/Glabay/Glabay-Studios-Server";
 	public static final String FORUM_TOPIC_URL = "https://www.xeros.io/index.php?/topic/";
 	public static final String VOTE_LINK = "https://vote.xeros.io/";
 	public static final String HISCORES_LINK = "https://hiscores.xeros.io/";
@@ -280,15 +280,15 @@ public class Configuration {
 	/**
 	 * The starting location of your server.
 	 */
-	public static final int START_LOCATION_X = 3223;
-	public static final int START_LOCATION_Y = 3218;
+	public static final int START_LOCATION_X = 1468;
+	public static final int START_LOCATION_Y = 2933;
 	public static final Position START_POSITION = new Position(START_LOCATION_X, START_LOCATION_Y);
 
 	/**
 	 * The re-spawn point of when someone dies.
 	 */
-	public static final int RESPAWN_X = 3222;
-	public static final int RESPAWN_Y = 3222;
+	public static final int RESPAWN_X = 1389;
+	public static final int RESPAWN_Y = 2933;
 	public static final int RESPAWN_Z = 0;
 
 	/**

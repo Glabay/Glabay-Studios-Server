@@ -3,7 +3,6 @@ package com
 import dev.openrune.cache.tools.Builder
 import dev.openrune.cache.tools.tasks.TaskType
 import io.xeros.AssetLoader
-import org.jire.js5server.Js5Server
 
 object RunJs5 {
 

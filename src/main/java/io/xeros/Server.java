@@ -29,12 +29,12 @@ import io.xeros.sql.DatabaseManager;
 import io.xeros.sql.EmbeddedDatabase;
 import io.xeros.util.*;
 import io.xeros.util.dateandtime.GameCalendar;
-import io.xeros.util.discord.Discord;
 import io.xeros.util.logging.GameLogging;
 import lombok.Getter;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xyz.glabaystudios.Discord;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -191,7 +191,7 @@ public class Server {
                     setConfiguration(loadConfiguration());
                 }
                 loadData();
-                Discord.writeServerSyncMessage("Server is now online.");
+                Discord.getDiscordBot().init();
 
                 if (isDebug()) {
                     Configuration.DISABLE_NEW_ACCOUNT_CAPTCHA = true;
