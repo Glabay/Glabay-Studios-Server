@@ -1,7 +1,7 @@
 package dev.glabay.discord.service;
 
-import dev.glabay.discord.dto.DiscordNewUserRequestDto;
-import dev.glabay.discord.dto.DiscordUserDto;
+import dev.glabay.dto.DiscordNewUserRequestDto;
+import dev.glabay.dto.DiscordUserDto;
 
 import java.util.Optional;
 
@@ -13,5 +13,6 @@ import java.util.Optional;
  */
 public interface DiscordUserService {
     Optional<DiscordUserDto> getDiscordUserDtoByDiscordUserId(Long discordUserId);
+    Optional<DiscordUserDto> getDiscordUserDtoByUsername(String username);
     Optional<DiscordUserDto> createDiscordUser(DiscordNewUserRequestDto request);
 }
