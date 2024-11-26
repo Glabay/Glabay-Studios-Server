@@ -53,14 +53,14 @@ public class DiscordUserServiceImpl implements DiscordUserService {
     }
 
     @Override
-    public Optional<DiscordUserDto> createDiscordUser(DiscordNewUserRequestDto request) {
-        var existingUser = discordUserRepository.findByDiscordUserId(request.discordUserId());
+    public Optional<DiscordUserDto> createDiscordUser(Long discordId) {
+        var existingUser = discordUserRepository.findByDiscordUserId(discordId);
         if (existingUser.isPresent())
             return Optional.empty();
 
         var newUser = new DiscordUser();
-            newUser.setUserId(request.userId());
-            newUser.setDiscordUserId(request.discordUserId());
+            newUser.setUserId(newUser.getId());
+            newUser.setDiscordUserId(discordId);
             newUser.setCreatedAt(LocalDateTime.now());
             newUser.setUpdatedAt(LocalDateTime.now());
 

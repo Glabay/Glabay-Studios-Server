@@ -14,5 +14,5 @@ import java.util.Optional;
 public interface DiscordUserService {
     Optional<DiscordUserDto> getDiscordUserDtoByDiscordUserId(Long discordUserId);
     Optional<DiscordUserDto> getDiscordUserDtoByUsername(String username);
-    Optional<DiscordUserDto> createDiscordUser(DiscordNewUserRequestDto request);
+    Optional<DiscordUserDto> createDiscordUser(Long discordId);
 }

@@ -1,9 +1,11 @@
 package dev.glabay;
 
+import dev.glabay.listener.FormModalListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
@@ -67,7 +69,8 @@ public class Discord {
         api.updateCommands().addCommands(getCommandList()).queue();
         logger.info("Registering Event Listeners...");
         api.addEventListener(
-            new SlashCommandListener()
+            new SlashCommandListener(),
+            new FormModalListener()
         );
         logger.info("Successfully initialized Discord Bot");
     }
@@ -78,9 +81,19 @@ public class Discord {
      * @return List of CommandData objects each representing a command with its associated options.
      */
     private List<CommandData> getCommandList() {
-        var commands = new ArrayList<CommandData>();
 
-        return commands;
+        /* USER ROLE COMMANDS */
+
+        // Registration Command
+        var registerCmd = Commands.slash("register", "Register your account and generate a Profile.");
+
+        /* ADMIN COMMANDS */
+
+        return new ArrayList<>(
+            List.of(
+                registerCmd
+            )
+        );
     }
 
     /**

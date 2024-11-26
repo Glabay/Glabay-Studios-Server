@@ -29,9 +29,9 @@ public class DiscordUserController {
             .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/")
-    public ResponseEntity<DiscordUserDto> createDiscordUser(@RequestBody DiscordNewUserRequestDto request) {
-        var discordUserDto = discordUserService.createDiscordUser(request);
+    @PostMapping("/{discordUserId}")
+    public ResponseEntity<DiscordUserDto> createDiscordUser(@PathVariable Long discordUserId) {
+        var discordUserDto = discordUserService.createDiscordUser(discordUserId);
 
         return discordUserDto.map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT).build());

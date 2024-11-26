@@ -1,7 +1,6 @@
 package dev.glabay.rest;
 
 import dev.glabay.client.HttpClient;
-import dev.glabay.dto.DiscordUserDto;
 import org.springframework.http.MediaType;
 
 /**
@@ -41,5 +40,6 @@ public class DiscordClient extends HttpClient {
     }
 
 
-    // TODO: Create a way to POST a DTO to a UserController, DiscordController, and ProfileController
+    // TODO: Create a way to POST a DTO to DiscordController, and ProfileController
+
 }

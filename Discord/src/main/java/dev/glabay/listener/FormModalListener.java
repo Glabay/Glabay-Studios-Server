@@ -1,5 +1,6 @@
 package dev.glabay.listener;
 
+import dev.glabay.handler.impl.RegistrationForm;
 import net.dv8tion.jda.api.events.interaction.ModalInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -16,6 +17,7 @@ public class FormModalListener extends ListenerAdapter {
     public void onModalInteraction(@NotNull ModalInteractionEvent event) {
         var formId = event.getModalId();
 
+        if (formId.equals("Boneyard_Registration")) new RegistrationForm().handleFormSubmission(event);
 
     }
 }
