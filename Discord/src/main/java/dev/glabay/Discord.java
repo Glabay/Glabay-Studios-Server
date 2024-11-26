@@ -1,4 +1,4 @@
-package xyz.glabaystudios;
+package dev.glabay;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -8,8 +8,8 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.glabaystudios.listener.SlashCommandListener;
-import xyz.glabaystudios.util.ShutdownHook;
+import dev.glabay.listener.SlashCommandListener;
+import dev.glabay.util.ShutdownHook;
 
 import java.util.ArrayList;
 import java.util.List;

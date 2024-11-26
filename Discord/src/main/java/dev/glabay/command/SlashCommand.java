@@ -1,4 +1,4 @@
-package xyz.glabaystudios.command;
+package dev.glabay.command;
 
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 

@@ -1,4 +1,4 @@
-package xyz.glabaystudios;
+package dev.glabay;
 
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;

@@ -34,7 +34,7 @@ import lombok.Getter;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.glabaystudios.Discord;
+import dev.glabay.Discord;
 
 import java.io.File;
 import java.io.FileOutputStream;

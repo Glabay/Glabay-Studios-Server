@@ -1,7 +1,7 @@
-package xyz.glabaystudios.util;
+package dev.glabay.util;
 
 
-import xyz.glabaystudios.Discord;
+import dev.glabay.Discord;
 
 /**
  * @author Glabay | Glabay-Studios
