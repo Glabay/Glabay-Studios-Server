@@ -6,6 +6,7 @@
     <groupId>io.xeros</groupId>
     <artifactId>Boneyard</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
     <licenses>
         <license>
@@ -69,6 +70,9 @@
             <organizationUrl>http://glabaystudios.xyz</organizationUrl>
         </developer>
     </developers>
+    <modules>
+        <module>http-shared</module>
+    </modules>
 
     <scm>
         <connection>scm:git:git://github.com/Glabay/Glabay-Studios-Server.git</connection>
