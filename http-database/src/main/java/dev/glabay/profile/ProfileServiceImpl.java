@@ -49,6 +49,7 @@ public class ProfileServiceImpl implements ProfileService {
     private ProfileDto convertToDto(Profile profile) {
         return new ProfileDto(
             profile.getProfileId(),
+            profile.getUserId(),
             profile.getUsername(),
             profile.getDisplayName(),
             profile.getJoined(),
