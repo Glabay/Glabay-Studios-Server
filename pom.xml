@@ -77,6 +77,7 @@
         <module>http-client</module>
         <module>http-database</module>
         <module>http-shared</module>
+        <module>game-network-js5</module>
     </modules>
 
     <scm>
