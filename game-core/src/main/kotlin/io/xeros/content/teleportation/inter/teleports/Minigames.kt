@@ -7,7 +7,7 @@ import java.util.*
 enum class Minigames (
     override val position: Position,
     override val isDangerous: Boolean = false,
-    override val spriteID: Int = -1,
+    override val spriteID: Int = 2280,
     override val description: String = "",
     override val price: Int = -1,
     override val onTeleport: (Player) -> Unit = {}
