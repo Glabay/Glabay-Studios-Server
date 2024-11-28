@@ -14,6 +14,7 @@ public interface ProfileService {
    ProfileDto findById(Long id);
    ProfileDto findByProfileId(Long profileId);
    ProfileDto findByUsername(String username);
-    Collection<ProfileDto> findAll();
+   ProfileDto createProfile(String username, Long userId);
+   Collection<ProfileDto> findAll();
 
 }

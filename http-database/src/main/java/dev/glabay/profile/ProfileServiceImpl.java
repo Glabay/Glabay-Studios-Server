@@ -4,6 +4,7 @@ import dev.glabay.dto.ProfileDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 /**
@@ -37,6 +38,19 @@ public class ProfileServiceImpl implements ProfileService {
         var profile = profileRepository.findByUsername(username)
             .orElseThrow(() -> new RuntimeException("Profile not found"));
         return convertToDto(profile);
+    }
+
+    @Override
+    public ProfileDto createProfile(String username, Long userId) {
+        var profile = new Profile();
+            profile.setUsername(username);
+            profile.setDisplayName(username);
+            profile.setProfileId(profile.getId());
+            profile.setUserId(userId);
+            profile.setCreatedAt(LocalDateTime.now());
+            profile.setUpdatedAt(profile.getCreatedAt());
+            profile.setJoined(profile.getCreatedAt());
+        return convertToDto(profileRepository.save(profile));
     }
 
     @Override
