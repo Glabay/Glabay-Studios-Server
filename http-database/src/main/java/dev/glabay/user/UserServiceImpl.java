@@ -26,12 +26,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<UserDto> createUser(UserDto userDto) {
-        var existingUser = userRepository.findByUserId(userDto.userId());
-        if (existingUser.isPresent())
-            return Optional.empty();
+    public Optional<UserDto> createUser() {
         var newUser = new User();
-            newUser.setUserId(userDto.userId());
+            newUser.setUserId(newUser.getId());
             newUser.setUpdatedAt(LocalDateTime.now());
             newUser.setCreatedAt(LocalDateTime.now());
 

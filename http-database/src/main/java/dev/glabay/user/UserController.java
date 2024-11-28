@@ -27,8 +27,8 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<UserDto> createUser(@RequestBody UserDto userDto) {
-        var user = userService.createUser(userDto);
+    public ResponseEntity<UserDto> createUser() {
+        var user = userService.createUser();
 
         return user.map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT).build());
