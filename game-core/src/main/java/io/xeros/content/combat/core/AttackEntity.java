@@ -462,7 +462,7 @@ public class AttackEntity {
                 CycleEventHandler.getSingleton().addEvent(attacker, new CycleEvent() {
                     @Override
                     public void execute(CycleEventContainer container) {
-                        if (container.getTotalTicks() == animationDelay -1) {
+                        if (container.getTotalTicks() == animationDelay) {
                             attacker.startAnimation(Animation.RESET_ANIMATION);
                             container.stop();
                         }
