@@ -15,9 +15,9 @@ import javax.annotation.Nonnull;
 public class VenenatisCombat extends CommonCombatMethod {
     @Override
     public boolean prepareAttack(Entity entity, Player target) {
-        if (isReachable()) {
+        if (isReachable())
             meleeAttack(entity, target);
-        } else {
+        else {
             if (Server.random.rollDie(3, 1)) rangeAttack(entity, target);
             else magicAttack(entity, target);
         }
