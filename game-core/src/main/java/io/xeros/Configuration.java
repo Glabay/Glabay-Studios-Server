@@ -287,8 +287,8 @@ public class Configuration {
 	/**
 	 * The re-spawn point of when someone dies.
 	 */
-	public static final int RESPAWN_X = 1389;
-	public static final int RESPAWN_Y = 2933;
+	public static final int RESPAWN_X = 1392;
+	public static final int RESPAWN_Y = 2927;
 	public static final int RESPAWN_Z = 0;
 
 	/**
