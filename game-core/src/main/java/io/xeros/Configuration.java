@@ -280,8 +280,8 @@ public class Configuration {
 	/**
 	 * The starting location of your server.
 	 */
-	public static final int START_LOCATION_X = 1468;
-	public static final int START_LOCATION_Y = 2933;
+	public static final int START_LOCATION_X = 1474;
+	public static final int START_LOCATION_Y = 2934;
 	public static final Position START_POSITION = new Position(START_LOCATION_X, START_LOCATION_Y);
 
 	/**
