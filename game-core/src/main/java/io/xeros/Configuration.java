@@ -300,8 +300,9 @@ public class Configuration {
 	/**
 	 * Glory locations.
 	 */
-	public static final int HOME_X = START_LOCATION_X;
-	public static final int HOME_Y = START_LOCATION_Y;
+	public static final int HOME_X = RESPAWN_X;
+	public static final int HOME_Y = RESPAWN_Y;
+	public static final Position HOME_POSITION = new Position(RESPAWN_X, RESPAWN_Y);
 
 	public static final int AL_KHARID_X = 3293;
 	public static final int AL_KHARID_Y = 3176;

@@ -6,7 +6,7 @@ import io.xeros.Server;
 import io.xeros.content.commands.Command;
 import io.xeros.model.entity.player.Player;
 
-import static io.xeros.Configuration.START_POSITION;
+import static io.xeros.Configuration.HOME_POSITION;
 
 /**
  * Teleport the player to home.
@@ -27,7 +27,7 @@ public class Home extends Command {
 			player.sendMessage("You can't use this command in the wilderness.");
 			return;
 		}
-		player.getPlayerAssistant().startTeleport(START_POSITION, "modern",  true);
+		player.getPlayerAssistant().startTeleport(HOME_POSITION, "modern",  true);
 	}
 
 	@Override
