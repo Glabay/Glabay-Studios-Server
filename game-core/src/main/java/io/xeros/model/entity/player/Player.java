@@ -1,6 +1,7 @@
 package io.xeros.model.entity.player;
 
 import com.google.common.collect.Lists;
+import dev.glabay.rsps.plugin.world.item.impl.offhand.TomeOfFire;
 import dev.openrune.cache.CacheManager;
 import dev.openrune.cache.filestore.definition.data.ItemType;
 import io.netty.buffer.Unpooled;
@@ -111,7 +112,6 @@ import io.xeros.content.trails.TreasureTrails;
 import io.xeros.content.tutorial.ModeSelection;
 import io.xeros.content.tutorial.TutorialDialogue;
 import io.xeros.content.vote_panel.VotePanelManager;
-import io.xeros.content.vote_panel.VoteUser;
 import io.xeros.content.wogw.WogwContributeInterface;
 import io.xeros.model.*;
 import io.xeros.model.collisionmap.RegionProvider;
@@ -145,7 +145,6 @@ import io.xeros.model.entity.player.save.PlayerSave;
 import io.xeros.model.items.*;
 import io.xeros.model.items.bank.Bank;
 import io.xeros.model.items.bank.BankPin;
-import io.xeros.model.items.interactions.impl.offhand.TomeOfFire;
 import io.xeros.model.lobby.LobbyManager;
 import io.xeros.model.lobby.LobbyType;
 import io.xeros.model.multiplayersession.MultiplayerSessionFinalizeType;
