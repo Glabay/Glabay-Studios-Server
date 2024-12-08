@@ -2,6 +2,7 @@ package io.xeros;
 
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import dev.glabay.rsps.plugin.world.loc.WorldObjectActionManager;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -20,7 +21,6 @@ import io.xeros.model.world.ItemHandler;
 import io.xeros.model.world.ShopHandler;
 import io.xeros.model.world.event.CyclicEventManager;
 import io.xeros.model.world.objects.GlobalObjects;
-import io.xeros.model.world.objects.actions.WorldObjectActionManager;
 import io.xeros.net.PipelineFactory;
 import io.xeros.punishments.Punishments;
 import io.xeros.sql.DatabaseCredentials;
