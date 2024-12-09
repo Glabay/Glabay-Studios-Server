@@ -48,49 +48,20 @@ public class RevenantCombat extends CommonCombatMethod {
     }
 
     private static int getAnimation(NPC entity) {
-        int animation = 0;
-        NPC npc = entity;
-        switch (npc.getNpcId()) {
-            case 7881:
-                animation = 169;
-                break;
-            case 7932:
-                animation = 1582;
-                break;
-            case 7940:
-            case 16003:
-                animation = 80;
-                break;
-            case 7936:
-                animation = 64;
-                break;
-            case 7935:
-                animation = 6581;
-                break;
-            case 7939:
-            case 16004:
-                animation = 6600;
-                break;
-            case 7937:
-            case 16001:
-                animation = 4320;
-                break;
-            case 7938:
-            case 16000:
-                animation = 2731;
-                break;
-            case 7934:
-            case 16002:
-                animation = 4652;
-                break;
-            case 7931:
-                animation = 6184;
-                break;
-            case 7933:
-                animation = 164;
-                break;
-        }
-        return animation;
+        return switch (entity.getNpcId()) {
+            case 7881 -> 169;
+            case 7932 -> 1582;
+            case 7940, 16003 -> 80;
+            case 7936 -> 64;
+            case 7935 -> 6581;
+            case 7939, 16004 -> 6600;
+            case 7937, 16001 -> 4320;
+            case 7938, 16000 -> 2731;
+            case 7934, 16002 -> 4652;
+            case 7931 -> 6184;
+            case 7933 -> 164;
+            default -> 0;
+        };
     }
 
     @Override

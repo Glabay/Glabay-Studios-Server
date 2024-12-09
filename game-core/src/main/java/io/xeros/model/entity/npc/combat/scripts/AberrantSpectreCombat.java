@@ -13,8 +13,8 @@ public class AberrantSpectreCombat extends CommonCombatMethod {
         var tileDist = entity.getCenterPosition().getManhattanDistance(target.getCenterPosition());
         int duration = 51 + -5 + (10 * tileDist);
         this.build(Server.random.inclusive(0,10), 1507, CombatType.MAGE).consume(builder -> {
-            ProjectileEntity projectile = new ProjectileEntity(entity, target, 336, 51, duration, 43, 31, 1, 10, true);
-            projectile.sendProjectile();
+            var projectile = new ProjectileEntity(entity, target, 336, 51, duration, 43, 31, 1, 10, true);
+                projectile.sendProjectile();
             int speed = projectile.getSpeed();
             builder.setDelay((int) (speed / 30D));
         }).execute();

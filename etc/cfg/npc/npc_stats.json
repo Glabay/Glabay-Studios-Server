@@ -38349,5 +38349,25 @@
   "7413": {
     "name": "Max dummy",
     "hitpoints": 50000
+  },
+  "13668": {
+    "name": "Araxxor",
+    "hitpoints": 1020,
+    "combatLevel": 890,
+    "slayerLevel": 92,
+    "attackSpeed": 6,
+    "attackLevel": 320,
+    "strengthLevel": 320,
+    "defenceLevel": 135,
+    "rangeLevel": 210,
+    "magicLevel": 190,
+    "stabDef": 160,
+    "slashDef": 75,
+    "crushDef": 15,
+    "magicDef": 237,
+    "rangeDef": 218,
+    "scripts": {
+      "combat": "Araxxor"
+    }
   }
 }
