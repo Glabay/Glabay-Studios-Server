@@ -280,15 +280,15 @@ public class Configuration {
 	/**
 	 * The starting location of your server.
 	 */
-	public static final int START_LOCATION_X = 1468;
-	public static final int START_LOCATION_Y = 2933;
+	public static final int START_LOCATION_X = 1474;
+	public static final int START_LOCATION_Y = 2934;
 	public static final Position START_POSITION = new Position(START_LOCATION_X, START_LOCATION_Y);
 
 	/**
 	 * The re-spawn point of when someone dies.
 	 */
-	public static final int RESPAWN_X = 1389;
-	public static final int RESPAWN_Y = 2933;
+	public static final int RESPAWN_X = 1392;
+	public static final int RESPAWN_Y = 2927;
 	public static final int RESPAWN_Z = 0;
 
 	/**
@@ -300,8 +300,9 @@ public class Configuration {
 	/**
 	 * Glory locations.
 	 */
-	public static final int HOME_X = START_LOCATION_X;
-	public static final int HOME_Y = START_LOCATION_Y;
+	public static final int HOME_X = RESPAWN_X;
+	public static final int HOME_Y = RESPAWN_Y;
+	public static final Position HOME_POSITION = new Position(RESPAWN_X, RESPAWN_Y);
 
 	public static final int AL_KHARID_X = 3293;
 	public static final int AL_KHARID_Y = 3176;
