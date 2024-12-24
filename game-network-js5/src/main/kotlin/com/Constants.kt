@@ -8,7 +8,7 @@ import dev.openrune.cache.tools.tasks.impl.defs.PackConfig
 import dev.openrune.cache.tools.tasks.impl.defs.PackMode
 import io.xeros.AssetLoader
 
-const val REV : Int = 227
+const val REV : Int = 226
 
 val tasks : Array<CacheTask> = arrayOf(
     PackSpritesCustom(AssetLoader.getFolder("raw-cache/sprites/")),

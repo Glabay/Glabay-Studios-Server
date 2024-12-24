@@ -52,8 +52,6 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 
-import static com.ConstantsKt.REV;
-
 /**
  * Stuff to do on startup.
  *
@@ -62,6 +60,8 @@ import static com.ConstantsKt.REV;
 public class ServerStartup {
 
     private static final Logger logger = LoggerFactory.getLogger(ServerStartup.class);
+
+    private static final Integer REV = 226;
 
     static void load() throws Exception {
         Reflection.getMethodsAnnotatedWith(Init.class).forEach(method -> {
