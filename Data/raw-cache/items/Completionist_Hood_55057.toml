@@ -1,0 +1,13 @@
+id=55057
+name="Completionist hood"
+examine="A cape worn by those who've overachieved."
+inventoryModel=65273
+zoom2d=760
+xan2d=11
+yan2d=0
+zan2d=0
+xOffset2d=0
+yOffset2d=0
+maleModel0=65292
+femaleModel0=65310
+interfaceOptions=[ "", "Wear", "", "", "Drop" ]

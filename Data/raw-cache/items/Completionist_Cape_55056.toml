@@ -1,0 +1,13 @@
+id=55056
+name="Completionist cape"
+examine="A cape worn by those who've overachieved."
+inventoryModel=65270
+zoom2d=1385
+xan2d=279
+yan2d=948
+zan2d=0
+xOffset2d=0
+yOffset2d=24
+maleModel0=65297
+femaleModel0=65316
+interfaceOptions=[ "", "Wear", "Teleports", "Features", "Drop" ]
